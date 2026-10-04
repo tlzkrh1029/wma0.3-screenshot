@@ -6,7 +6,7 @@
 /* Layout: app shell with three screens behind a sticky tab bar —
    screener (table or tiles), market signal board, and coin detail. */
 :root {
-  --bg: #f4f6f8; --surface: #ffffff; --sunken: #eef1f4; --fg: #141922; --muted: #5b6574; --faint: #8a93a1;
+  --bg: #f4f6f8; --surface: #ffffff; --sunken: #eef1f4; --fg: #141922; --muted: #5b6574; --faint: #737c8a;
   --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00;
   --zu2: #0f7b3b; --zu1: #86d39a; --zo1: #f0c11b; --zo2: #b4161b;
   --tint-u: #d4eedb; --mid: #eceae6; --tint-o: #f6ecc4;
@@ -37,7 +37,7 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); font-size: 14px; line-height: 1.5; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-sans); font-size: 14px; line-height: 1.5; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
 h2 { font-size: 16px; font-weight: 600; }
 button { font: inherit; color: inherit; }
@@ -48,7 +48,7 @@ input { font: inherit; color: inherit; }
 /* shell */
 .appbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
 .appbar-in { max-width: 1320px; margin: 0 auto; padding-inline: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; min-height: 52px; }
-.brand { font-weight: 700; font-size: 16px; letter-spacing: -.01em; white-space: nowrap; }
+.brand { font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
 .brand small { font-family: var(--font-mono); font-weight: 500; font-size: 11px; color: var(--muted); margin-left: 8px; }
 .tabs { display: flex; gap: 2px; flex-wrap: wrap; }
 .tabs a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: 14px; padding: 14px 12px 12px; border-bottom: 2px solid transparent; white-space: nowrap; }
@@ -86,7 +86,7 @@ button.zc[aria-pressed="true"] { border-color: var(--fg); background: var(--surf
 .count .v small { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 4px; }
 
 /* screener: table */
-.tbl-wrap { overflow-x: auto; }
+.tbl-wrap { overflow: auto; max-height: 76vh; }
 table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .scr th { position: sticky; top: 0; background: var(--surface); z-index: 1; font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
 .scr td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
@@ -94,7 +94,8 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .scr tbody tr:hover { background: var(--sunken); }
 .scr tbody tr:focus-visible { outline-offset: -2px; }
 .scr .rk { font-family: var(--font-mono); color: var(--muted); font-size: 12px; width: 44px; }
-.coin b { font-family: var(--font-mono); font-size: 13px; }
+.coin a { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--fg); text-decoration: none; }
+.coin a:hover { text-decoration: underline; }
 .coin span { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
 .coin .real { display: inline-block; font-size: 10px; font-weight: 700; color: var(--accent); margin-left: 6px; letter-spacing: .03em; }
 .ex { display: flex; gap: 3px; }
@@ -112,6 +113,12 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .strip-head div { display: grid; grid-template-columns: 7fr 5fr 8fr; gap: 3px; }
 .strip-head em { font-style: normal; }
 .warn { color: var(--warn-fg); font-size: 11.5px; }
+.more-btn { display: block; width: calc(100% - 24px); margin: 10px 12px 12px; border: 1px solid var(--line); background: var(--sunken); border-radius: 8px; padding: 8px; cursor: pointer; font-size: 13px; }
+.strip-key { display: none; font-family: var(--font-mono); font-size: 10px; color: var(--muted); padding-left: 36px; }
+.gen-tag { font-size: 11px; font-weight: 600; color: var(--warn-fg); background: var(--warn-bg); border-radius: 999px; padding: 1px 8px; }
+.pick { font-size: 13px; padding: 4px 0 0; }
+.pick a { color: var(--accent); }
+.navpos { font-family: var(--font-mono); font-size: 12px; color: var(--muted); align-self: center; }
 .empty-row td { text-align: center; color: var(--muted); padding: 28px; cursor: default; }
 
 /* screener: tiles */
@@ -122,7 +129,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .tgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 3px; }
 .tile { border: 0; border-radius: 5px; padding: 5px 4px 4px; text-align: left; cursor: pointer; display: grid; gap: 0; min-width: 0; }
 .tile b { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tile span { font-family: var(--font-mono); font-size: 10.5px; opacity: .85; }
+.tile span { font-family: var(--font-mono); font-size: 10.5px; }
 
 /* board */
 .cv { position: relative; min-width: 0; touch-action: pan-y; }
@@ -217,6 +224,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   .scr td.min-td, .scr td.max-td, .scr td.last-td { display: none; }
   .scr td.strip-td { grid-column: 1 / -1; }
   .sigcell, .strips { min-width: 0; }
+  .strip-key { display: block; }
 }
 @media (max-width: 520px) {
   .appbar-in, .wrap { padding-inline: 16px; }
@@ -238,7 +246,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 </header>
 
 <main class="wrap">
-  <div class="banner" id="banner">시안입니다. 종목 목록·시가총액 순위·거래소 상장 여부는 실제 데이터이고, 배수와 신호는 <b>BTC·ETH만 TradingView 실제 값</b>입니다. 나머지 종목의 배수와 신호는 화면 구성을 보여 드리기 위한 가상 데이터입니다.</div>
+  <div class="banner" id="banner">시안입니다. 종목 목록·시가총액 순위·거래소 상장 여부는 실제 데이터입니다. 배수·신호·상장일은 <b>BTC·ETH만 TradingView 실제 값</b>이고, 나머지 종목은 화면 구성을 보여 드리기 위한 가상 데이터입니다. 그래서 시장 신호판의 집계도 가상입니다.<span id="progress"></span></div>
   <div class="zones" aria-label="신호 구간">
     <span class="zc"><i style="background:var(--zu2)"></i>0.3 이하 · 강한 저평가</span>
     <span class="zc"><i style="background:var(--zu1)"></i>0.4 이하 · 저평가</span>
@@ -255,14 +263,14 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
         <div class="ctl"><span id="lb-v">보기</span><div class="seg" role="group" aria-labelledby="lb-v" id="viewSeg">
           <button type="button" data-v="table">표</button><button type="button" data-v="tiles">타일</button></div></div>
         <div class="ctl"><span id="lb-s">정렬</span><div class="seg" role="group" aria-labelledby="lb-s" id="sortSeg">
-          <button type="button" data-sort="signal">신호 강도</button><button type="button" data-sort="low">0.3에 가까운 순</button><button type="button" data-sort="high">2.4에 가까운 순</button><button type="button" data-sort="rank">시가총액 순위</button></div></div>
+          <button type="button" data-sort="signal">신호 강도</button><button type="button" data-sort="low">최저 배수 낮은 순</button><button type="button" data-sort="high">최고 배수 높은 순</button><button type="button" data-sort="rank">시가총액 순위</button></div></div>
         <div class="ctl"><span id="lb-t">티커</span><div class="seg" role="group" aria-labelledby="lb-t" id="tickSeg">
           <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
         <div class="ctl"><span id="lb-e">거래소</span><div class="seg" role="group" aria-labelledby="lb-e" id="exSeg">
           <button type="button" data-ex="U">업비트</button><button type="button" data-ex="B">빗썸</button><button type="button" data-ex="N">바이낸스</button></div></div>
       </div>
       <p class="hint" id="scrHint"></p>
-      <div class="panel" id="scrBody"><div class="progress" id="progress">가상 데이터를 계산하고 있습니다…</div></div>
+      <div class="panel" id="scrBody"></div>
     </div>
   </section>
 
@@ -275,17 +283,17 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
         <div class="ctl"><span id="lb-bo">줄 순서</span><div class="seg" role="group" aria-labelledby="lb-bo" id="bOrderSeg">
           <button type="button" data-bo="rank">시가총액 순위</button><button type="button" data-bo="listed">상장일</button><button type="button" data-bo="now">현재 신호</button></div></div>
         <div class="ctl"><span id="lb-bt">티커</span><div class="seg" role="group" aria-labelledby="lb-bt" id="bTickSeg">
-          <button type="button" data-btk="both">둘 다</button><button type="button" data-btk="cap">CAP</button><button type="button" data-btk="usd">USD</button></div></div>
+          <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
       </div>
       <div class="panel">
-        <div class="board-head"><h2>신호가 뜬 종목 수</h2><div class="bars-legend">
+        <div class="board-head"><h2>신호가 뜬 종목 수 <span class="gen-tag">가상 데이터 포함</span></h2><div class="bars-legend">
           <span><i style="background:var(--zu2)"></i>0.3 이하</span><span><i style="background:var(--zu1)"></i>0.4 이하</span>
           <span><i style="background:var(--zo1)"></i>2.2 이상</span><span><i style="background:var(--zo2)"></i>2.4 이상</span></div></div>
-        <div class="board-body"><p class="hint">주마다 어느 타임프레임 하나라도 기준에 들어간 종목 수입니다. 위로는 저평가, 아래로는 고평가 신호입니다.</p><div class="cv"><canvas id="breadth"></canvas></div></div>
+        <div class="board-body"><p class="hint">주마다 어느 타임프레임 하나라도 기준에 들어간 종목 수입니다. 위로는 저평가, 아래로는 고평가 신호이고, 종목마다 그 쪽의 가장 강한 단계 하나로 셉니다. 지금 상장된 종목만 셉니다(과거에 상장 폐지된 종목은 빠져 있습니다).</p><div class="cv"><canvas id="breadth" role="img" aria-label="주별 저평가·고평가 신호 종목 수 막대 차트"></canvas></div></div>
       </div>
       <div class="panel">
-        <div class="board-head"><h2>종목별 신호 바코드</h2><p class="hint" id="barcodeHint"></p></div>
-        <div class="board-body"><div class="cv"><canvas id="barcode"></canvas></div></div>
+        <div class="board-head"><h2>종목별 신호 바코드 <span class="gen-tag">가상 데이터 포함</span></h2><p class="hint" id="barcodeHint"></p></div>
+        <div class="board-body"><div class="cv"><canvas id="barcode" role="img" aria-label="종목별 주간 신호 바코드. 줄을 누르면 종목 상세가 열립니다."></canvas></div><div class="pick" id="barcodePick"></div></div>
       </div>
     </div>
   </section>
@@ -295,7 +303,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
     <div style="display:grid;gap:14px">
       <div class="dhead">
         <div class="dtitle" id="dTitle"></div>
-        <div class="navbtns"><button type="button" id="prevCoin">← 이전 종목</button><button type="button" id="nextCoin">다음 종목 →</button></div>
+        <div class="navbtns"><span class="navpos" id="navPos"></span><button type="button" id="prevCoin">← 이전 종목</button><button type="button" id="nextCoin">다음 종목 →</button></div>
       </div>
       <p class="hint" id="dNote"></p>
       <div class="panel controls" role="group" aria-label="보기 설정">
@@ -390,7 +398,9 @@ function showTip(ev, title, rows, extra) {
   let x = ev.clientX + pad, y = ev.clientY + pad;
   if (x + w > innerWidth - 8) x = ev.clientX - w - pad;
   if (y + h > innerHeight - 8) y = ev.clientY - h - pad;
-  tip.style.left = Math.max(8, Math.min(x, innerWidth - w - 8)) + 'px'; tip.style.top = Math.max(8, Math.min(y, innerHeight - h - 8)) + 'px';
+  const vw = document.documentElement.clientWidth;
+  if (x + w > vw - 8) x = ev.clientX - w - pad;
+  tip.style.left = Math.max(8, Math.min(x, vw - w - 8)) + 'px'; tip.style.top = Math.max(8, Math.min(y, innerHeight - h - 8)) + 'px';
 }
 function hideTip() { tip.style.display = 'none'; }
 function sigBox(items, title) {
@@ -499,7 +509,7 @@ function summarizeReal(coin) {
     const e = DATA.real[t.id];
     const cur = new Float32Array(TFS.length).fill(NaN); TFS.forEach((tf, j) => { if (e.cur[tf] != null) cur[j] = e.cur[tf]; });
     const has = new Uint8Array(S); for (let k = 0; k < S; k++) has[k] = TFS.some((tf) => e.m[tf]?.[k] != null) ? 1 : 0;
-    return { ...t, cur, u: Uint8Array.from(e.sig.u), o: Uint8Array.from(e.sig.o), has, suspect: e.suspect, listed: DATA.days.find((d, k) => has[k]) ?? null };
+    return { ...t, cur, u: Uint8Array.from(e.sig.u), o: Uint8Array.from(e.sig.o), has, suspect: e.suspect, listed: DATA.realFirst[t.id] ?? null };
   });
 }
 function summarizeGen(coin) {
@@ -523,26 +533,32 @@ function summarizeGen(coin) {
 
 // ---------- state & routing ----------
 const state = { screen: 'screener', coin: 'BTC', view: 'table', sort: 'signal', tk: 'both', ex: [], zf: [], q: '',
-  br: 'all', bo: 'rank', btk: 'both', method: 'lines', group: 'daily', range: 'all', fb: false };
-try { Object.assign(state, JSON.parse(localStorage.getItem('wma-screener') || '{}')); } catch (e) {}
+  br: 'all', bo: 'rank', method: 'lines', group: 'daily', range: 'all', fb: false };
+try { const saved = JSON.parse(localStorage.getItem('wma-screener') || '{}'); delete saved.btk; Object.assign(state, saved); } catch (e) {}
 function save() { try { const { screen, coin, ...rest } = state; localStorage.setItem('wma-screener', JSON.stringify(rest)); } catch (e) {} }
+let LIMIT = 100;             // screener rows rendered so far ("더 보기" adds more)
+const SCROLL = {};           // remembered scroll position per screen
+function findCoin(sym) { const u = String(sym || '').toUpperCase(); return COINS.find((c) => c.s.toUpperCase() === u) || null; }
 function route() {
-  const h = location.hash.slice(1);
+  if (state.screen) SCROLL[state.screen] = window.scrollY;
+  let h = location.hash.slice(1);
+  try { h = decodeURIComponent(h); } catch (e) {}
   if (h === 'board') state.screen = 'board';
-  else if (h.startsWith('coin-')) { state.screen = 'coin'; state.coin = h.slice(5); }
+  else if (h.startsWith('coin-')) { state.screen = 'coin'; const c = findCoin(h.slice(5)); state.coin = c ? c.s : null; state.coinQuery = h.slice(5); }
   else state.screen = 'screener';
   for (const s of ['screener', 'board', 'coin']) {
     document.getElementById('screen-' + s).hidden = state.screen !== s;
     document.getElementById('tab-' + s).setAttribute('aria-current', state.screen === s ? 'page' : 'false');
   }
-  document.getElementById('tab-coin').textContent = `종목 상세 · ${state.coin}`;
-  document.getElementById('tab-coin').href = '#coin-' + state.coin;
+  const shown = state.coin || state.lastCoin || 'BTC';
+  document.getElementById('tab-coin').textContent = `종목 상세 · ${shown}`;
+  document.getElementById('tab-coin').href = '#coin-' + encodeURIComponent(shown);
   hideTip();
+  if (state.screen === 'coin') { renderCoin(); window.scrollTo({ top: 0 }); return; }
   if (!READY) return;
   if (state.screen === 'screener') renderScreener();
   if (state.screen === 'board') renderBoard();
-  if (state.screen === 'coin') renderCoin();
-  window.scrollTo({ top: 0 });
+  window.scrollTo({ top: SCROLL[state.screen] || 0 });
 }
 
 // ---------- screener ----------
@@ -561,10 +577,14 @@ function coinStats(coin, tk) {
   let lastU2 = -1, lastO2 = -1;
   for (let k = S - 1; k >= 0 && (lastU2 < 0 || lastO2 < 0); k--) for (const t of ts) { if (lastU2 < 0 && t.u[k] === 2) lastU2 = k; if (lastO2 < 0 && t.o[k] === 2) lastO2 = k; }
   const top = hits.u2.length ? 'u2' : hits.o2.length ? 'o2' : hits.u1.length ? 'u1' : hits.o1.length ? 'o1' : (min ? 'n' : 'na');
+  const underTop = hits.u2.length ? 2 : hits.u1.length ? 1 : 0, overTop = hits.o2.length ? 2 : hits.o1.length ? 1 : 0;
   const suspect = ts.some((t) => t.suspect.length);
   const lastSusp = lastU2 >= 0 && ts.some((t) => t.suspect.some(([a, b]) => a <= DATA.days[lastU2] && b >= DATA.days[lastU2] - 6));
-  return { coin, min, max, hits, top, lastU2, lastO2, suspect, lastSusp, ts };
+  return { coin, min, max, hits, top, underTop, overTop, lastU2, lastO2, suspect, lastSusp, ts };
 }
+// Counts, filters and the board all use the same rule: each side (under / over) counts a coin once,
+// at its strongest level, so "0.4 이하" means 0.4 but not 0.3.
+function inZone(s, z) { return z === 'u2' ? s.underTop === 2 : z === 'u1' ? s.underTop === 1 : z === 'o2' ? s.overTop === 2 : z === 'o1' ? s.overTop === 1 : s.top === 'n'; }
 const TOP_RANK = { u2: 0, o2: 1, u1: 2, o1: 3, n: 4, na: 5 };
 function filteredStats() {
   const q = state.q.trim().toLowerCase();
@@ -572,7 +592,8 @@ function filteredStats() {
   const all = list;
   if (q) list = list.filter((s) => s.coin.s.toLowerCase().includes(q) || s.coin.n.toLowerCase().includes(q) || (s.coin.k || '').includes(q));
   if (state.ex.length) list = list.filter((s) => state.ex.every((x) => s.coin.x.includes(x)));
-  if (state.zf.length) list = list.filter((s) => state.zf.some((z) => (z === 'n' ? s.top === 'n' : s.hits[z].length)));
+  const scoped = list;
+  if (state.zf.length) list = list.filter((s) => state.zf.some((z) => inZone(s, z)));
   const by = {
     signal: (a, b) => TOP_RANK[a.top] - TOP_RANK[b.top] || (b.hits[a.top]?.length || 0) - (a.hits[a.top]?.length || 0) || a.coin.r - b.coin.r,
     low: (a, b) => (a.min ? a.min.m : 99) - (b.min ? b.min.m : 99),
@@ -580,7 +601,7 @@ function filteredStats() {
     rank: (a, b) => a.coin.r - b.coin.r,
   }[state.sort];
   list.sort(by);
-  return { list, all };
+  return { list, scoped, all };
 }
 let ORDER = []; // current screener order (for prev/next in detail)
 function stripGradient(cur) {
@@ -600,26 +621,27 @@ function stripIndexAt(ev, div) {
   for (let j = 0; j < 20; j++) { if (p < x + cell) return j; x += cell; if (j === 6 || j === 11) { if (p < x + gap) return null; x += gap; } }
   return 19;
 }
-function renderCounts(all) {
+function renderCounts(scoped) {
   const box = document.getElementById('counts'); box.replaceChildren();
-  const n = (z) => all.filter((s) => (z === 'n' ? s.top === 'n' : s.hits[z].length)).length;
-  const defs = [['u2', '0.3 이하'], ['u1', '0.4 이하'], ['o1', '2.2 이상'], ['o2', '2.4 이상'], ['n', '신호 없음']];
+  const n = (z) => scoped.filter((s) => inZone(s, z)).length;
+  const defs = [['u2', '0.3 이하'], ['u1', '0.4 이하 (0.3 제외)'], ['o1', '2.2 이상 (2.4 제외)'], ['o2', '2.4 이상'], ['n', '신호 없음']];
   for (const [z, label] of defs) {
     const b = el('button', 'count'); b.type = 'button'; b.setAttribute('aria-pressed', String(state.zf.includes(z)));
-    const k = el('span', 'k'); const i = el('i'); i.style.background = z === 'n' ? 'var(--mid)' : `var(--z${z})`; k.append(i, el('span', null, label + (z === 'n' ? '' : ' 신호')));
+    const k = el('span', 'k'); const i = el('i'); i.style.background = z === 'n' ? 'var(--mid)' : `var(--z${z})`; k.append(i, el('span', null, label));
     const v = el('span', 'v num', String(n(z))); v.append(el('small', null, '종'));
     b.append(k, v);
-    b.addEventListener('click', () => { state.zf = state.zf.includes(z) ? state.zf.filter((x) => x !== z) : [...state.zf, z]; save(); renderScreener(); });
+    b.addEventListener('click', () => { state.zf = state.zf.includes(z) ? state.zf.filter((x) => x !== z) : [...state.zf, z]; LIMIT = 100; save(); renderScreener(); });
     box.append(b);
   }
 }
 function renderScreener() {
+  hideTip();
   for (const [id, key, attr] of [['viewSeg', 'view', 'v'], ['sortSeg', 'sort', 'sort'], ['tickSeg', 'tk', 'tk']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
   document.querySelectorAll('#exSeg button').forEach((b) => b.setAttribute('aria-pressed', String(state.ex.includes(b.dataset.ex))));
   document.getElementById('q').value = state.q;
-  const { list, all } = filteredStats();
+  const { list, scoped, all } = filteredStats();
   ORDER = list.map((s) => s.coin.s);
-  renderCounts(all);
+  renderCounts(scoped);
   const filt = [state.q && `검색 "${state.q}"`, state.ex.length && `거래소 ${state.ex.map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join('·')} 모두 상장`, state.zf.length && '신호 필터'].filter(Boolean);
   document.getElementById('scrHint').textContent = `${list.length}종 표시 · 전체 ${all.length}종` + (filt.length ? ` · ${filt.join(', ')}` : '') + ' · 신호는 20개 타임프레임 중 하나라도 기준에 들어간 경우입니다. 줄을 누르면 종목 상세가 열립니다.';
   const body = document.getElementById('scrBody'); body.replaceChildren();
@@ -629,11 +651,12 @@ function renderScreener() {
     <th><div class="strip-head"><span></span><div><em>1D … 1W</em><em>8D … 3W</em><em>1M … 12M</em></div></div></th><th>마지막 0.3</th></tr></thead>`;
   const tb = el('tbody');
   if (!list.length) { const tr = el('tr', 'empty-row'); const td = el('td', null, '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.'); td.colSpan = 8; tr.append(td); tb.append(tr); }
-  for (const s of list) {
-    const tr = el('tr'); tr.tabIndex = 0; tr.dataset.sym = s.coin.s;
+  for (const s of list.slice(0, LIMIT)) {
+    const tr = el('tr'); tr.dataset.sym = s.coin.s;
     tr.append(el('td', 'rk', String(s.coin.r)));
-    const coin = el('td', 'coin coin-td'); const b = el('b', null, s.coin.s); if (s.coin.real) b.append(el('span', 'real', '실제'));
-    coin.append(b, el('span', null, s.coin.k ? `${s.coin.k} · ${s.coin.n}` : s.coin.n)); tr.append(coin);
+    const coin = el('td', 'coin coin-td'); const a = el('a', null, s.coin.s); a.href = '#coin-' + encodeURIComponent(s.coin.s);
+    coin.append(a); if (s.coin.real) coin.append(el('span', 'real', '실제'));
+    coin.append(el('span', null, s.coin.k ? `${s.coin.k} · ${s.coin.n}` : s.coin.n)); tr.append(coin);
     const ex = el('td', 'ex-td'); const exd = el('div', 'ex');
     for (const [x, l] of [['U', '업'], ['B', '빗'], ['N', '바']]) { const i = el('i', s.coin.x.includes(x) ? 'on' : '', l); i.title = { U: '업비트', B: '빗썸', N: '바이낸스' }[x] + (s.coin.x.includes(x) ? ' 상장' : ' 미상장'); exd.append(i); }
     ex.append(exd); tr.append(ex);
@@ -653,14 +676,16 @@ function renderScreener() {
     const st = el('td', 'strip-td'); const sw = el('div', 'strips');
     for (const t of s.ts) {
       const row = el('div', 'strip'); const bar = el('div'); bar.style.background = stripGradient(t.cur);
-      bar.addEventListener('pointermove', (ev) => {
+      const onStrip = (ev) => {
         const j = stripIndexAt(ev, bar); if (j == null) { hideTip(); return; }
         const m = t.cur[j];
         showTip(ev, `${t.id} · ${TFS[j]}`, [{ color: Number.isNaN(m) ? C.nodata : toCss(colorOf(m)), value: Number.isNaN(m) ? '–' : fmt(m), label: Number.isNaN(m) ? '데이터 없음' : '현재 배수', square: true }]);
-      });
+      };
+      bar.addEventListener('pointermove', onStrip); bar.addEventListener('pointerdown', onStrip);
       bar.addEventListener('pointerleave', hideTip);
       row.append(el('span', null, t.short), bar); sw.append(row);
     }
+    sw.append(el('div', 'strip-key', '칸: 1D…1W │ 8D…3W │ 1M…12M'));
     st.append(sw); tr.append(st);
     const last = el('td', 'mm last-td', s.lastU2 >= 0 ? dateStr(DATA.days[s.lastU2]) : '–');
     if (s.lastSusp) last.append(el('div', 'warn', '⚠ 의심 구간'));
@@ -668,14 +693,25 @@ function renderScreener() {
     tb.append(tr);
   }
   table.append(tb); wrap.append(table); body.append(wrap);
-  tb.addEventListener('click', (e) => { const tr = e.target.closest('tr[data-sym]'); if (tr) location.hash = 'coin-' + tr.dataset.sym; });
-  tb.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const tr = e.target.closest('tr[data-sym]'); if (tr) location.hash = 'coin-' + tr.dataset.sym; } });
+  if (list.length > LIMIT) {
+    const more = el('button', 'more-btn', `더 보기 · ${Math.min(100, list.length - LIMIT)}종 더 (${list.length - LIMIT}종 남음)`); more.type = 'button';
+    more.addEventListener('click', () => { LIMIT += 100; const y = window.scrollY; renderScreener(); window.scrollTo({ top: y }); });
+    body.append(more);
+  }
+  // mouse: a row click opens the coin; touch: a tap on the strips shows values instead
+  tb.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return;
+    if (LAST_PT === 'touch' && e.target.closest('.strip div')) return;
+    const tr = e.target.closest('tr[data-sym]'); if (tr) location.hash = 'coin-' + encodeURIComponent(tr.dataset.sym);
+  });
 }
 function renderTiles(body, list) {
-  const box = el('div', 'tiles');
+  const box = el('div', 'tiles'); const shown = [];
+  if (!list.length) { body.append(el('div', 'progress', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); ORDER = []; return; }
   const secs = [['u2', '0.3 이하 신호'], ['o2', '2.4 이상 신호'], ['u1', '0.4 이하 신호'], ['o1', '2.2 이상 신호'], ['n', '신호 없음'], ['na', '데이터 없음 (봉 200개 미만)']];
   for (const [z, label] of secs) {
     const items = list.filter((s) => s.top === z); if (!items.length) continue;
+    shown.push(...items.map((s) => s.coin.s));
     const sec = el('div', 'tsec'); const h = el('h3'); const i = el('i'); i.style.background = z === 'n' || z === 'na' ? 'var(--mid)' : `var(--z${z})`;
     h.append(i, document.createTextNode(label), el('span', null, `${items.length}종`)); sec.append(h);
     const grid = el('div', 'tgrid');
@@ -688,44 +724,57 @@ function renderTiles(body, list) {
       const t = el('button', 'tile'); t.type = 'button'; t.style.background = toCss(col); t.style.color = inkOn(col);
       t.append(el('b', null, s.coin.s), el('span', null, pick ? fmt(pick.m) : '–'));
       t.setAttribute('aria-label', `${s.coin.s} ${pick ? pick.label + ' ' + fmt(pick.m) : '데이터 없음'}`);
-      t.addEventListener('click', () => { location.hash = 'coin-' + s.coin.s; });
-      t.addEventListener('pointerenter', (ev) => showTip(ev, `${s.coin.r}위 · ${s.coin.s} ${s.coin.k || s.coin.n}`, [
+      t.addEventListener('click', () => { location.hash = 'coin-' + encodeURIComponent(s.coin.s); });
+      const tipFor = (ev) => showTip(ev.clientX != null ? ev : { clientX: t.getBoundingClientRect().right, clientY: t.getBoundingClientRect().bottom }, `${s.coin.r}위 · ${s.coin.s} ${s.coin.k || s.coin.n}`, [
         ...(s.min ? [{ color: toCss(colorOf(s.min.m)), value: fmt(s.min.m), label: '최저 · ' + s.min.label, square: true }] : []),
         ...(s.max ? [{ color: toCss(colorOf(s.max.m)), value: fmt(s.max.m), label: '최고 · ' + s.max.label, square: true }] : []),
-      ]));
-      t.addEventListener('pointerleave', hideTip);
+      ]);
+      t.addEventListener('pointerenter', tipFor); t.addEventListener('focus', tipFor);
+      t.addEventListener('pointerleave', hideTip); t.addEventListener('blur', hideTip);
       grid.append(t);
     }
     sec.append(grid); box.append(sec);
   }
+  ORDER = shown;
   body.append(box);
 }
 
 // ---------- market signal board ----------
+// Per coin and ticker setting: strongest under/over level and data presence for every weekly sample.
+const LV = new Map();
+function levels(sym, tk) {
+  const key = sym + '|' + tk; if (LV.has(key)) return LV.get(key);
+  const u = new Uint8Array(S), o = new Uint8Array(S), has = new Uint8Array(S);
+  for (const t of activeTickers(SUM.get(sym), tk)) for (let k = 0; k < S; k++) { if (t.u[k] > u[k]) u[k] = t.u[k]; if (t.o[k] > o[k]) o[k] = t.o[k]; if (t.has[k]) has[k] = 1; }
+  const v = { u, o, has }; LV.set(key, v); return v;
+}
 function boardRange() {
   const last = DATA.days[S - 1];
-  if (state.br === 'all') { const k = DATA.days.findIndex((d) => d >= Date.UTC(2013, 0, 1) / DAYMS); return Math.max(0, k); }
+  if (state.br === 'all') { let k = S - 1; for (const c of COINS) { const i = levels(c.s, state.tk).has.indexOf(1); if (i >= 0 && i < k) k = i; } return k; }
   return Math.max(0, DATA.days.findIndex((d) => d >= last - Math.round(Number(state.br) * 365.25)));
 }
-function coinLevels(sum, k, tk) {
-  let u = 0, o = 0, has = 0;
-  for (const t of activeTickers(sum, tk)) { if (t.u[k] > u) u = t.u[k]; if (t.o[k] > o) o = t.o[k]; if (t.has[k]) has = 1; }
-  return { u, o, has };
+function yearTicksFor(start, end, px) {
+  const ticks = yearTicksRaw(start, end); if (!px) return ticks;
+  // keep labels at least ~38px apart
+  const N = end - start + 1, out = []; let lastX = -Infinity;
+  for (const t of ticks) { const x = (t.i - start) / N * px; if (x - lastX >= 38) { out.push(t); lastX = x; } }
+  return out;
 }
-function yearTicksFor(start, end) {
+function yearTicksRaw(start, end) {
   const out = []; const y0 = new Date(DATA.days[start] * DAYMS).getUTCFullYear(), y1 = new Date(DATA.days[end] * DAYMS).getUTCFullYear();
   if (y1 - y0 >= 2) { for (let y = y0 + 1; y <= y1; y++) { const d = Date.UTC(y, 0, 1) / DAYMS; const i = DATA.days.findIndex((x) => x >= d); if (i > start) out.push({ i, label: String(y) }); } }
   else { const d0 = new Date(DATA.days[start] * DAYMS), q0 = Math.floor(d0.getUTCMonth() / 3) * 3; for (let k = 1; k < 12; k++) { const dt = Date.UTC(d0.getUTCFullYear(), q0 + k * 3, 1) / DAYMS; const i = DATA.days.findIndex((x) => x >= dt); if (i > start) out.push({ i, label: dateStr(dt).slice(0, 7) }); } }
   return out;
 }
 function renderBoard() {
-  for (const [id, key, attr] of [['bRangeSeg', 'br', 'br'], ['bOrderSeg', 'bo', 'bo'], ['bTickSeg', 'btk', 'btk']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
+  hideTip();
+  for (const [id, key, attr] of [['bRangeSeg', 'br', 'br'], ['bOrderSeg', 'bo', 'bo'], ['bTickSeg', 'tk', 'tk']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
   const start = boardRange(), end = S - 1, N = end - start + 1;
   // breadth
   const counts = [];
   for (let k = start; k <= end; k++) {
     const c = { u2: 0, u1: 0, o1: 0, o2: 0, has: 0 };
-    for (const coin of COINS) { const L = coinLevels(SUM.get(coin.s), k, state.btk); if (L.has) c.has++; if (L.u === 2) c.u2++; else if (L.u === 1) c.u1++; if (L.o === 2) c.o2++; else if (L.o === 1) c.o1++; }
+    for (const coin of COINS) { const L = levels(coin.s, state.tk); if (L.has[k]) c.has++; if (L.u[k] === 2) c.u2++; else if (L.u[k] === 1) c.u1++; if (L.o[k] === 2) c.o2++; else if (L.o[k] === 1) c.o1++; }
     counts.push(c);
   }
   const bc = document.getElementById('breadth'), W = bc.parentElement.clientWidth, H = 200, padL = 36, padR = 8, padT = 8, padB = 18;
@@ -747,8 +796,8 @@ function renderBoard() {
     ctx.fillStyle = C.zo2; ctx.fillRect(x, mid, 1, o2 * sc);
   }
   ctx.fillStyle = C.muted; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-  for (const t of yearTicksFor(start, end)) ctx.fillText(t.label, padL + (t.i - start) / N * plotW, H - 4);
-  bc.onpointermove = (ev) => {
+  for (const t of yearTicksFor(start, end, plotW)) ctx.fillText(t.label, padL + (t.i - start) / N * plotW, H - 4);
+  bc.onpointerdown = bc.onpointermove = (ev) => {
     const r = bc.getBoundingClientRect(), k = Math.floor((ev.clientX - r.left - padL) / plotW * N);
     if (k < 0 || k >= N) { hideTip(); return; }
     const c = counts[k];
@@ -760,38 +809,50 @@ function renderBoard() {
   bc.onpointerleave = hideTip;
 
   // barcode: one row per coin
-  let rows = COINS.map((c) => ({ coin: c, sum: SUM.get(c.s) }));
+  let rows = COINS.map((c) => ({ coin: c, sum: SUM.get(c.s), L: levels(c.s, state.tk) }));
   if (state.bo === 'listed') rows.sort((a, b) => Math.min(...a.sum.map((t) => t.listed ?? 1e9)) - Math.min(...b.sum.map((t) => t.listed ?? 1e9)));
-  if (state.bo === 'now') { const sc2 = (r) => { const L = coinLevels(r.sum, S - 1, state.btk); return L.u ? 10 - L.u : L.o ? 7 - L.o : L.has ? 6 : 9; }; rows.sort((a, b) => sc2(a) - sc2(b) || a.coin.r - b.coin.r); }
+  // current signal first: 0.3, 0.4, 2.4, 2.2, then no signal, then no data
+  if (state.bo === 'now') { const sc2 = (r) => { const k = S - 1; return r.L.u[k] ? 3 - r.L.u[k] : r.L.o[k] ? 5 - r.L.o[k] : r.L.has[k] ? 6 : 9; }; rows.sort((a, b) => sc2(a) - sc2(b) || a.coin.r - b.coin.r); }
   const rowH = 2, cv = document.getElementById('barcode'), BW = cv.parentElement.clientWidth, BH = rows.length * rowH + 22, bpadL = 36, bplotW = BW - bpadL - 8;
   const g = setupCanvas(cv, BW, BH);
   g.fillStyle = C.nodata; g.fillRect(bpadL, 0, bplotW, rows.length * rowH);
   const fadeMid = toCss(mix(rgb(C.mid), rgb(C.surface), 0.35));
+  // one rectangle per run of equal colour (cells wider than a pixel when the range is short)
+  const colOf = (u, o, has) => (!has ? null : u ? C['zu' + u] : o ? C['zo' + o] : fadeMid);
+  const cols = Math.min(bplotW, N);
   rows.forEach((r, ri) => {
-    const y = ri * rowH;
-    for (let px = 0; px < bplotW; px++) {
-      const k0 = start + Math.floor(px * N / bplotW), k1 = start + Math.max(Math.floor(px * N / bplotW), Math.ceil((px + 1) * N / bplotW) - 1);
+    const y = ri * rowH; let runCol = null, runX = 0;
+    const flush = (x) => { if (runCol) { g.fillStyle = runCol; g.fillRect(bpadL + runX, y, x - runX, rowH); } };
+    for (let c = 0; c < cols; c++) {
+      const x0 = Math.floor(c * bplotW / cols), x1 = Math.floor((c + 1) * bplotW / cols);
+      const k0 = start + Math.floor(c * N / cols), k1 = start + Math.max(Math.floor(c * N / cols), Math.ceil((c + 1) * N / cols) - 1);
       let u = 0, o = 0, has = 0;
-      for (let k = k0; k <= Math.min(k1, end); k++) { const L = coinLevels(r.sum, k, state.btk); u = Math.max(u, L.u); o = Math.max(o, L.o); has = has || L.has; }
-      if (!has) continue;
-      g.fillStyle = u ? C['zu' + u] : o ? C['zo' + o] : fadeMid;
-      g.fillRect(bpadL + px, y, 1, rowH);
+      for (let k = k0; k <= Math.min(k1, end); k++) { if (r.L.u[k] > u) u = r.L.u[k]; if (r.L.o[k] > o) o = r.L.o[k]; if (r.L.has[k]) has = 1; }
+      const col = colOf(u, o, has);
+      if (col !== runCol) { flush(x0); runCol = col; runX = x0; }
+      if (c === cols - 1) flush(x1);
     }
   });
   g.font = '10.5px "IBM Plex Mono", monospace'; g.fillStyle = C.muted; g.textAlign = 'right'; g.textBaseline = 'middle';
   if (state.bo === 'rank') for (const rk of [1, 100, 200, 300, 400, 500, 600]) if (rk <= rows.length) g.fillText(rk + '위', bpadL - 4, Math.max(6, (rk - 1) * rowH + 1));
   g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-  for (const t of yearTicksFor(start, end)) g.fillText(t.label, bpadL + (t.i - start) / N * bplotW, BH - 6);
+  for (const t of yearTicksFor(start, end, bplotW)) g.fillText(t.label, bpadL + (t.i - start) / N * bplotW, BH - 6);
   document.getElementById('barcodeHint').textContent = `${rows.length}종 · 한 줄 = 한 종목, 한 칸 = 한 주 · 회색은 신호 없음, 빈칸은 데이터 없음 · 줄을 누르면 종목 상세`;
   const at = (ev) => { const r = cv.getBoundingClientRect(); const ri = Math.floor((ev.clientY - r.top) / rowH), k = start + Math.floor((ev.clientX - r.left - bpadL) / bplotW * N); return ri >= 0 && ri < rows.length && k >= start && k <= end ? { row: rows[ri], k } : null; };
   cv.onpointermove = (ev) => {
     const a = at(ev); if (!a) { hideTip(); return; }
-    const L = coinLevels(a.row.sum, a.k, state.btk);
-    const items = []; if (L.u) items.push({ z: 'u' + L.u, text: ZONE_LABEL['u' + L.u] }); if (L.o) items.push({ z: 'o' + L.o, text: ZONE_LABEL['o' + L.o] });
-    showTip(ev, `${a.row.coin.r}위 · ${a.row.coin.s} ${a.row.coin.k || a.row.coin.n} · ${dateStr(DATA.days[a.k])}`, [], L.has ? sigBox(items, '이 주의 신호') : el('div', null, '데이터 없음'));
+    const L = a.row.L, u = L.u[a.k], o = L.o[a.k];
+    const items = []; if (u) items.push({ z: 'u' + u, text: ZONE_LABEL['u' + u] }); if (o) items.push({ z: 'o' + o, text: ZONE_LABEL['o' + o] });
+    showTip(ev, `${a.row.coin.r}위 · ${a.row.coin.s} ${a.row.coin.k || a.row.coin.n} · ${dateStr(DATA.days[a.k])}`, [], L.has[a.k] ? sigBox(items, '이 주의 신호') : el('div', null, '데이터 없음'));
+    if (ev.type === 'pointerdown' && ev.pointerType === 'touch') {
+      // rows are 2px tall: on touch, pick first and open from the link below
+      const pick = document.getElementById('barcodePick'); pick.replaceChildren(document.createTextNode(`선택한 줄: ${a.row.coin.r}위 ${a.row.coin.s} · `));
+      const link = el('a', null, '종목 상세 열기 →'); link.href = '#coin-' + encodeURIComponent(a.row.coin.s); pick.append(link);
+    }
   };
-  cv.onpointerleave = hideTip;
-  cv.onclick = (ev) => { const a = at(ev); if (a) location.hash = 'coin-' + a.row.coin.s; };
+  cv.onpointerdown = cv.onpointermove;
+  cv.onpointerleave = (ev) => { if (ev.pointerType !== 'touch') hideTip(); };
+  cv.onclick = (ev) => { if (LAST_PT === 'touch') return; const a = at(ev); if (a) location.hash = 'coin-' + encodeURIComponent(a.row.coin.s); };
 }
 
 // ---------- coin detail ----------
@@ -878,17 +939,27 @@ function currentZones(sym) {
   return out;
 }
 function renderCoin() {
-  const coin = COINS.find((c) => c.s === state.coin) || COINS[0]; state.coin = coin.s;
+  hideTip();
+  const coin = findCoin(state.coin);
+  if (!coin) {
+    const t = document.getElementById('dTitle'); t.replaceChildren(el('h1', null, '종목을 찾을 수 없습니다'), el('span', null, `"${state.coinQuery || ''}"는 목록에 없는 심볼입니다. 스크리너에서 종목을 골라 주세요.`));
+    for (const id of ['now', 'view', 'legend']) document.getElementById(id).replaceChildren();
+    document.getElementById('dNote').textContent = ''; document.getElementById('navPos').textContent = '';
+    document.getElementById('prevCoin').disabled = document.getElementById('nextCoin').disabled = true;
+    return;
+  }
+  state.coin = state.lastCoin = coin.s;
   D = detailFor(coin);
   const t = document.getElementById('dTitle'); t.replaceChildren();
   t.append(el('h1', null, coin.s), el('span', null, `${coin.k ? coin.k + ' · ' : ''}${coin.n} · 시가총액 ${coin.r}위 · ${['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join(' · ')}`));
   document.getElementById('dNote').textContent = coin.real ? 'TradingView 실제 값입니다. 티커가 6개로 늘어나면 아래 카드가 티커 수만큼 늘어납니다.' : '이 종목의 배수와 신호는 화면 확인용 가상 데이터입니다. 티커가 6개로 늘어나면 아래 카드가 티커 수만큼 늘어납니다.';
-  const idx = ORDER.indexOf(coin.s);
+  // prev/next follow the screener's current order; coins outside it fall back to market-cap order
+  const inOrder = ORDER.includes(coin.s), seq = inOrder ? ORDER : COINS.map((c) => c.s), idx = seq.indexOf(coin.s);
   const prev = document.getElementById('prevCoin'), next = document.getElementById('nextCoin');
-  prev.disabled = idx <= 0; next.disabled = idx < 0 || idx >= ORDER.length - 1;
-  prev.onclick = () => { if (idx > 0) location.hash = 'coin-' + ORDER[idx - 1]; };
-  next.onclick = () => { if (idx >= 0 && idx < ORDER.length - 1) location.hash = 'coin-' + ORDER[idx + 1]; };
-  prev.title = next.title = '스크리너의 현재 정렬·필터 순서를 따릅니다';
+  prev.disabled = idx <= 0; next.disabled = idx >= seq.length - 1;
+  prev.onclick = () => { if (idx > 0) location.hash = 'coin-' + encodeURIComponent(seq[idx - 1]); };
+  next.onclick = () => { if (idx < seq.length - 1) location.hash = 'coin-' + encodeURIComponent(seq[idx + 1]); };
+  document.getElementById('navPos').textContent = `${idx + 1} / ${seq.length} · ${inOrder ? '스크리너 순서' : '시가총액 순서'}`;
   for (const [id, key] of [['methodSeg', 'method'], ['groupSeg', 'group'], ['rangeSeg', 'range']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[key] === state[key])));
   document.getElementById('fbToggle').checked = state.fb;
   renderNow();
@@ -917,7 +988,7 @@ function renderNow() {
     row.append(sym, cur, cell('u2', '마지막 0.3 이하'), cell('o2', '마지막 2.4 이상')); box.append(row);
   }
 }
-function yearTicks(start, end) { return yearTicksFor(start, end); }
+function yearTicks(start, end, px) { return yearTicksFor(start, end, px); }
 function renderLines(view) {
   const tfs = tfsNow();
   if (state.group === 'all') {
@@ -960,7 +1031,7 @@ function renderLines(view) {
     paintSignalRow(ctx, cd.s.id, start, N, padL, plotW, yS, sigH);
     ctx.fillStyle = C.muted; ctx.textAlign = 'left'; ctx.fillText('신호', W - padR + 6, yS + sigH / 2);
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-    for (const t of yearTicks(start, end)) ctx.fillText(t.label, X(t.i), H - 4);
+    for (const t of yearTicks(start, end, plotW)) ctx.fillText(t.label, X(t.i), H - 4);
     hatchSuspect(ctx, cd.s.id, start, N, padL, plotW, padT, H - padT - padB);
     ctx.save(); ctx.beginPath(); ctx.rect(padL, padT - 2, plotW, H - padT - padB + 4); ctx.clip();
     tfs.forEach((tf, r) => {
@@ -1027,7 +1098,7 @@ function renderStrip(view) {
       hatchSuspect(ctx, bl.s.id, start, N, 0, W, 0, H);
       ctx.fillStyle = C.surface; for (const t of yearTicks(start, end)) ctx.fillRect(Math.round((t.i - start) * cw), 0, 1, H);
     }
-    for (const ax of [axisTop, axisBottom]) { ax.replaceChildren(); for (const t of yearTicks(start, end)) { const s = el('span', null, t.label); s.style.left = ((t.i - start) / N * 100) + '%'; ax.append(s); } }
+    for (const ax of [axisTop, axisBottom]) { ax.replaceChildren(); for (const t of yearTicks(start, end, W)) { const s = el('span', null, t.label); s.style.left = ((t.i - start) / N * 100) + '%'; ax.append(s); } }
   };
   draw();
   for (const bl of blocks) {
@@ -1044,24 +1115,32 @@ function renderStrip(view) {
 }
 
 // ---------- wiring ----------
+let LAST_PT = 'mouse';
+document.addEventListener('pointerdown', (e) => { LAST_PT = e.pointerType || 'mouse'; }, true);
 document.addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b) return;
   const d = b.dataset; let hit = true;
+  if (d.v || d.sort || d.tk || d.ex) LIMIT = 100;
   if (d.v) state.view = d.v; else if (d.sort) state.sort = d.sort; else if (d.tk) state.tk = d.tk;
   else if (d.ex) state.ex = state.ex.includes(d.ex) ? state.ex.filter((x) => x !== d.ex) : [...state.ex, d.ex];
-  else if (d.br) state.br = d.br; else if (d.bo) state.bo = d.bo; else if (d.btk) state.btk = d.btk;
+  else if (d.br) state.br = d.br; else if (d.bo) state.bo = d.bo;
   else if (d.method) state.method = d.method; else if (d.group) state.group = d.group; else if (d.range) state.range = d.range;
   else hit = false;
   if (!hit) return;
   save(); hideTip();
-  if (state.screen === 'screener') renderScreener(); else if (state.screen === 'board') renderBoard(); else renderCoin();
+  if (state.screen === 'coin') renderCoin();
+  else if (READY) (state.screen === 'screener' ? renderScreener : renderBoard)();
 });
-let qt; document.getElementById('q').addEventListener('input', (e) => { clearTimeout(qt); qt = setTimeout(() => { state.q = e.target.value; save(); renderScreener(); }, 150); });
+let qt; document.getElementById('q').addEventListener('input', (e) => { clearTimeout(qt); qt = setTimeout(() => { state.q = e.target.value; LIMIT = 100; save(); if (READY) renderScreener(); }, 150); });
 document.getElementById('fbToggle').addEventListener('change', (e) => { state.fb = e.target.checked; save(); renderCoin(); });
-document.addEventListener('pointerdown', (e) => { if (!e.target.closest('canvas, .strip div, .tile')) hideTip(); });
+document.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('canvas, .strip div, .tile')) return;
+  hideTip(); document.querySelectorAll('.hline').forEach((h) => { h.style.display = 'none'; });
+  if (state.screen === 'coin') redraw(); // clears a crosshair left by touch
+});
 addEventListener('scroll', hideTip, { passive: true });
 addEventListener('hashchange', route);
-let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (state.screen === 'board') renderBoard(); else if (state.screen === 'coin') redraw(); }, 150); });
+let rt, lastW = innerWidth; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (innerWidth === lastW) return; lastW = innerWidth; if (state.screen === 'board' && READY) renderBoard(); else if (state.screen === 'coin') redraw(); }, 150); });
 const rerender = () => { readColors(); if (!READY) return; if (state.screen === 'screener') renderScreener(); else if (state.screen === 'board') renderBoard(); else renderCoin(); };
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rerender);
 new MutationObserver(rerender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -1073,7 +1152,7 @@ let ci = 0;
 (function batch() {
   const t0 = performance.now();
   while (ci < COINS.length && performance.now() - t0 < 40) { const c = COINS[ci++]; SUM.set(c.s, c.real ? summarizeReal(c) : summarizeGen(c)); }
-  const p = document.getElementById('progress'); if (p) p.textContent = `가상 데이터를 계산하고 있습니다… ${ci} / ${COINS.length}`;
+  document.getElementById('progress').textContent = ci < COINS.length ? ` · 가상 데이터 계산 중 ${ci} / ${COINS.length}` : '';
   if (ci < COINS.length) { setTimeout(batch, 0); return; }
   READY = true; ORDER = filteredStats().list.map((s) => s.coin.s); route();
 })();

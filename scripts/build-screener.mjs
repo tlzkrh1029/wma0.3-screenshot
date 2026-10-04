@@ -30,8 +30,10 @@ const btc = [];
 let lastC = d1.c[0];
 for (let d = start; d <= end; d++) { if (byDay.has(d)) lastC = byDay.get(d); btc.push(Number(lastC.toPrecision(6))); }
 
+// first daily bar of each real ticker (its listing date on TradingView)
+const realFirst = Object.fromEntries(REAL.map((sym) => [sym, Math.floor(raw.series[sym]['1D'].t[0] / DAY)]));
 const coins = universe.coins.map((c) => ({ r: c.rank, s: c.sym, n: c.name, k: c.ko || null, x: c.ex, mc: Math.round(c.mcap) }));
-const data = JSON.stringify({ fetchedAt: tfc.fetchedAt, universeAt: universe.fetchedAt, days: tfc.days, tfs: tfc.tfs, real, btc: { start, c: btc }, coins });
+const data = JSON.stringify({ fetchedAt: tfc.fetchedAt, universeAt: universe.fetchedAt, days: tfc.days, tfs: tfc.tfs, real, realFirst, btc: { start, c: btc }, coins });
 const marker = '/*__DATA__*/null';
 if (!template.includes(marker)) throw new Error(`template is missing ${marker}`);
 await mkdir(path.dirname(out), { recursive: true });
