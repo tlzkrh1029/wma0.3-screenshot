@@ -66,7 +66,9 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
 .zc { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 7px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; background: var(--sunken); color: var(--fg); border: 1px solid var(--line); }
 .zc i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
 .zc.ref { border-style: dashed; color: var(--muted); }
-.zc b { font-family: var(--font-mono); font-weight: 600; }
+.zc b { font-family: var(--font-mono); font-weight: 600; overflow-wrap: anywhere; }
+.now-row .cur .zc, .shead .zc { white-space: normal; max-width: 100%; align-items: flex-start; }
+.now-row .cur .zc i, .shead .zc i { margin-top: 4px; }
 
 /* signals now */
 .now { padding: 4px 14px; }
@@ -120,7 +122,7 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
 .hline { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--fg); pointer-events: none; display: none; }
 .xaxis { position: relative; height: 16px; margin-left: 52px; margin-right: 62px; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); }
 .xaxis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
-.dense .slabels div, .dense .svalues div { font-size: 9.5px; }
+.dense .slabels div, .dense .svalues div { font-size: 9.5px; line-height: 1; }
 
 /* tooltip */
 .tip { position: fixed; z-index: 20; pointer-events: none; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 18px rgb(0 0 0 / .18); padding: 8px 10px; font-size: 12px; min-width: 160px; max-width: 280px; display: none; }
@@ -292,7 +294,7 @@ function visibleRange() {
     start = days.findIndex((d) => d >= from);
   } else {
     start = days.findIndex((d) => d >= last - 365);
-    for (const s of SYMS) for (const tf of tfsNow()) {
+    for (const s of SYMS) for (const tf of DATA.tfs) {
       const i = days.findIndex((_, k) => valAt(s.id, tf, k));
       if (i >= 0 && i < start) start = i;
     }
@@ -302,7 +304,7 @@ function visibleRange() {
 const dateStr = (d) => new Date(d * DAYMS).toISOString().slice(0, 10);
 // market-cap data that fails the implied-supply check (see notes)
 const suspectAt = (sym, day) => DATA.tickers[sym].suspect.some(([a, b]) => day >= a && day <= b);
-const suspectWeek = (sym, k) => { const d = DATA.days[k]; return suspectAt(sym, d) || suspectAt(sym, d - 6); };
+const suspectWeek = (sym, k) => { const d = DATA.days[k]; return DATA.tickers[sym].suspect.some(([a, b]) => a <= d && b >= d - 6); };
 
 // ---------- colors ----------
 function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
@@ -357,19 +359,38 @@ function sigAt(sym, k) {
   const g = DATA.tickers[sym].sig;
   return { u: g.u[k], uM: g.uM[k], o: g.o[k], oM: g.oM[k], uf: g.uf[k], ufM: g.ufM[k], of: g.of[k], ofM: g.ofM[k] };
 }
-function drawSignalBand(ctx, sym, k, x, w, y, h) {
-  const s = sigAt(sym, k);
-  const half = h / 2;
-  const paint = (lvl, ref, top, kind) => {
-    const L = lvl || (state.fb ? ref : 0);
-    if (!L) return;
-    ctx.globalAlpha = lvl ? 1 : 0.4;
-    ctx.fillStyle = zoneColor(kind + L);
-    ctx.fillRect(x, top, w, half);
-    ctx.globalAlpha = 1;
-  };
-  paint(s.u, s.uf, y, 'u');
-  paint(s.o, s.of, y + half, 'o');
+// Paint a signal row over [x0, x0+width) for samples start..start+N-1. Each pixel column takes
+// the strongest under and over level among the samples that fall in it, so a one-week 0.3 or
+// 2.4 never disappears; reference (fallback) levels are pre-mixed with the band background.
+function paintSignalRow(ctx, sym, start, N, x0, width, y, h) {
+  const g = DATA.tickers[sym].sig, half = h / 2;
+  const solid = (key) => C['z' + key];
+  const faded = (key) => toCss(mix(C.rgb['z' + key], rgb(C.sunken), 0.6));
+  const cols = Math.max(1, Math.round(width));
+  for (let px = 0; px < cols; px++) {
+    const k0 = start + Math.floor(px * N / cols), k1 = start + Math.max(Math.floor(px * N / cols), Math.ceil((px + 1) * N / cols) - 1);
+    let u = 0, o = 0, uf = 0, of = 0;
+    for (let k = k0; k <= Math.min(k1, start + N - 1); k++) { u = Math.max(u, g.u[k]); o = Math.max(o, g.o[k]); uf = Math.max(uf, g.uf[k]); of = Math.max(of, g.of[k]); }
+    const x = x0 + px;
+    if (u) { ctx.fillStyle = solid('u' + u); ctx.fillRect(x, y, 1, half); }
+    else if (state.fb && uf) { ctx.fillStyle = faded('u' + uf); ctx.fillRect(x, y, 1, half); }
+    if (o) { ctx.fillStyle = solid('o' + o); ctx.fillRect(x, y + half, 1, half); }
+    else if (state.fb && of) { ctx.fillStyle = faded('o' + of); ctx.fillRect(x, y + half, 1, half); }
+  }
+}
+// Hatch suspect-data weeks once per contiguous run.
+function hatchSuspect(ctx, sym, start, N, x0, width, y, h) {
+  if (!DATA.tickers[sym].suspect.length) return;
+  ctx.fillStyle = warnPattern(ctx);
+  let runStart = -1;
+  for (let k = 0; k <= N; k++) {
+    const on = k < N && suspectWeek(sym, start + k);
+    if (on && runStart < 0) runStart = k;
+    if (!on && runStart >= 0) {
+      const a = Math.floor(x0 + runStart / N * width), b = Math.ceil(x0 + k / N * width);
+      ctx.fillRect(a, y, Math.max(1, b - a), h); runStart = -1;
+    }
+  }
 }
 function signalTipRows(sym, k) {
   const s = sigAt(sym, k), out = [];
@@ -406,7 +427,8 @@ function showTip(ev, title, rows, sigRows, suspect) {
   const pad = 14, w = tip.offsetWidth, hgt = tip.offsetHeight;
   let x = ev.clientX + pad, y = ev.clientY + pad;
   if (x + w > innerWidth - 8) x = ev.clientX - w - pad;
-  if (y + hgt > innerHeight - 8) y = Math.max(8, ev.clientY - hgt - pad);
+  if (y + hgt > innerHeight - 8) y = ev.clientY - hgt - pad;
+  x = Math.max(8, Math.min(x, innerWidth - w - 8)); y = Math.max(8, Math.min(y, innerHeight - hgt - 8));
   tip.style.left = x + 'px'; tip.style.top = y + 'px';
 }
 function hideTip() { tip.style.display = 'none'; }
@@ -446,7 +468,12 @@ function renderNow() {
       if (z[k].length) { cur.append(zoneChip(k, z[k], false)); any = true; }
       if (z.ref[k].length) { cur.append(zoneChip(k, z.ref[k], true)); any = true; }
     }
-    if (!any) { const n = document.createElement('span'); n.className = 'none'; n.textContent = '신호 없음 · 20개 타임프레임 모두 0.4–2.2 사이'; cur.append(n); }
+    if (!any) {
+      const have = DATA.tfs.filter((tf) => curOf(s.id, tf)).length;
+      const n = document.createElement('span'); n.className = 'none';
+      n.textContent = `신호 없음 · 값이 있는 ${have}개 타임프레임 모두 0.4–2.2 사이` + (have < DATA.tfs.length ? ` · ${DATA.tfs.length - have}개는 데이터 없음` : '');
+      cur.append(n);
+    }
     const last = DATA.tickers[s.id].last, days = DATA.tickers[s.id].days;
     const lastCell = (key, label) => {
       const d = document.createElement('div'); d.className = 'lastsig';
@@ -547,30 +574,30 @@ function renderLines(view) {
       ctx.fillText(String(m), W - padR + 6, Y(m) + off);
     }
     // signal band (all 20 timeframes)
-    const yS = H - padB + 6, cw = (W - padL - padR) / Math.max(1, N - 1);
-    ctx.fillStyle = C.sunken; ctx.fillRect(padL, yS, W - padL - padR, sigH);
-    for (let k = start; k <= end; k++) drawSignalBand(ctx, cd.s.id, k, X(k) - cw / 2, Math.max(1, cw + 0.5), yS, sigH);
+    const yS = H - padB + 6, plotW = W - padL - padR;
+    ctx.fillStyle = C.sunken; ctx.fillRect(padL, yS, plotW, sigH);
+    paintSignalRow(ctx, cd.s.id, start, N, padL, plotW, yS, sigH);
     ctx.fillStyle = C.muted; ctx.textAlign = 'left'; ctx.fillText('신호', W - padR + 6, yS + sigH / 2);
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
     for (const t of yearTicks(start, end)) ctx.fillText(t.label, X(t.i), H - 4);
     // suspect market-cap data: hatch the plot background for those weeks
-    if (DATA.tickers[cd.s.id].suspect.length) {
-      ctx.fillStyle = warnPattern(ctx);
-      for (let k = start; k <= end; k++) if (suspectWeek(cd.s.id, k)) ctx.fillRect(X(k) - cw / 2, padT, Math.max(1, cw + 0.5), H - padT - padB);
-    }
+    hatchSuspect(ctx, cd.s.id, start, N, padL, plotW, padT, H - padT - padB);
     // series: short (light) first, long (dark) on top
     ctx.save(); ctx.beginPath(); ctx.rect(padL, padT - 2, W - padL - padR, H - padT - padB + 4); ctx.clip();
     tfs.forEach((tf, r) => {
       ctx.strokeStyle = rampColor(r, tfs.length); ctx.lineWidth = 1.6; ctx.lineJoin = 'round';
       ctx.setLineDash([]);
-      let pen = false, wasFb = null;
+      let pen = false, prev = null;
       const flush = () => { if (pen) ctx.stroke(); pen = false; };
       for (let k = start; k <= end; k++) {
         const v = valAt(cd.s.id, tf, k);
-        if (!v) { flush(); continue; }
-        if (wasFb !== null && v.fb !== wasFb) { flush(); }
+        if (!v) { flush(); prev = null; continue; }
+        if (pen && prev && v.fb !== prev.v.fb) {
+          // switch dash style but keep the segment from the previous point
+          flush(); ctx.beginPath(); ctx.setLineDash(v.fb ? [3, 3] : []); ctx.moveTo(X(prev.k), Y(prev.v.m)); pen = true;
+        }
         if (!pen) { ctx.beginPath(); ctx.setLineDash(v.fb ? [3, 3] : []); ctx.moveTo(X(k), Y(v.m)); pen = true; } else ctx.lineTo(X(k), Y(v.m));
-        wasFb = v.fb;
+        prev = { k, v };
       }
       flush();
     });
@@ -592,7 +619,7 @@ function renderLines(view) {
     };
     cd.cv.addEventListener('pointermove', onMove);
     cd.cv.addEventListener('pointerdown', onMove);
-    cd.cv.addEventListener('pointerleave', () => { hideTip(); drawCard(cd); });
+    cd.cv.addEventListener('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; hideTip(); drawCard(cd); });
   }
   return draw;
 }
@@ -640,7 +667,7 @@ function renderStrip(view) {
       tfs.forEach((tf, r) => {
         const y = r * (rowH + gap);
         if (cw >= 1) {
-          for (let k = 0; k < N; k++) { const v = valAt(bl.s.id, tf, start + k); ctx.fillStyle = v ? toCss(colorOf(v.m)) : pat; ctx.fillRect(Math.floor(k * cw), y, Math.ceil(cw) + 0.5, rowH); }
+          for (let k = 0; k < N; k++) { const v = valAt(bl.s.id, tf, start + k); ctx.fillStyle = v ? toCss(colorOf(v.m)) : pat; const a = Math.floor(k * cw); ctx.fillRect(a, y, Math.floor((k + 1) * cw) - a || 1, rowH); }
         } else {
           // several samples share a pixel: keep the one farthest from 1.0 so short spikes survive
           for (let x = 0; x < W; x++) {
@@ -653,18 +680,8 @@ function renderStrip(view) {
       });
       const yS = tfs.length * (rowH + gap) + 4;
       ctx.fillStyle = C.sunken; ctx.fillRect(0, yS, W, sigH);
-      if (cw >= 1) for (let k = 0; k < N; k++) drawSignalBand(ctx, bl.s.id, start + k, Math.floor(k * cw), Math.ceil(cw) + 0.5, yS, sigH);
-      else for (let x = 0; x < W; x++) {
-        // strongest signal among the samples sharing this pixel
-        const k0 = Math.floor(x / cw), k1 = Math.min(N - 1, Math.floor((x + 1) / cw));
-        let best = start + k0, score = -1;
-        for (let k = k0; k <= k1; k++) { const s = sigAt(bl.s.id, start + k); const sc = Math.max(s.u, s.o) * 2 + (state.fb ? Math.max(s.uf, s.of) : 0); if (sc > score) { score = sc; best = start + k; } }
-        drawSignalBand(ctx, bl.s.id, best, x, 1, yS, sigH);
-      }
-      if (DATA.tickers[bl.s.id].suspect.length) {
-        ctx.fillStyle = warnPattern(ctx);
-        for (let k = 0; k < N; k++) if (suspectWeek(bl.s.id, start + k)) ctx.fillRect(Math.floor(k * cw), 0, Math.max(1, Math.ceil(cw)), H);
-      }
+      paintSignalRow(ctx, bl.s.id, start, N, 0, W, yS, sigH);
+      hatchSuspect(ctx, bl.s.id, start, N, 0, W, 0, H);
       ctx.fillStyle = C.surface;
       for (const t of yearTicks(start, end)) ctx.fillRect(Math.round((t.i - start) * cw), 0, 1, H);
     }
@@ -685,7 +702,7 @@ function renderStrip(view) {
   for (const bl of blocks) {
     bl.cv.addEventListener('pointermove', (ev) => move(ev, bl));
     bl.cv.addEventListener('pointerdown', (ev) => move(ev, bl));
-    bl.cv.addEventListener('pointerleave', () => { hideTip(); for (const o of blocks) o.hl.style.display = 'none'; });
+    bl.cv.addEventListener('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; hideTip(); for (const o of blocks) o.hl.style.display = 'none'; });
   }
   return draw;
 }
@@ -718,6 +735,9 @@ document.addEventListener('click', (e) => {
   save(); render();
 });
 document.getElementById('fbToggle').addEventListener('change', (e) => { state.fb = e.target.checked; save(); render(); });
+// a tap outside the charts, or scrolling, closes a tooltip left open by touch
+document.addEventListener('pointerdown', (e) => { if (!e.target.closest('canvas')) hideTip(); });
+addEventListener('scroll', hideTip, { passive: true });
 let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => redraw(), 120); });
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
 new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
