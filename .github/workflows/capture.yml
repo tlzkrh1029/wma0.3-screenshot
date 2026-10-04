@@ -6,6 +6,9 @@ on:
       top_n:
         description: Number of top coins by market cap to capture
         default: '2'
+      extra_symbols:
+        description: Extra CRYPTOCAP tickers to capture, comma-separated
+        default: 'ARBI'
   push:
     branches: ['claude/**']
     paths:
@@ -37,6 +40,7 @@ jobs:
       - name: Capture screenshots
         env:
           TOP_N: ${{ inputs.top_n || '2' }}
+          EXTRA_SYMBOLS: ${{ github.event_name == 'workflow_dispatch' && inputs.extra_symbols || 'ARBI' }}
           TV_SESSIONID: ${{ secrets.TV_SESSIONID }}
           TV_SESSIONID_SIGN: ${{ secrets.TV_SESSIONID_SIGN }}
         run: npm run capture

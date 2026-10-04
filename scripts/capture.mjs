@@ -2,6 +2,7 @@
 //
 // Env:
 //   TOP_N      number of coins to capture (default 2)
+//   EXTRA_SYMBOLS  comma-separated CRYPTOCAP tickers to capture as well (e.g. ARBI)
 //   LAYOUT_ID  shared TradingView chart layout id (default Bf3gbmLa)
 //   OUT_DIR    output directory (default screenshots/<YYYY-MM-DD>)
 //   TV_SESSIONID, TV_SESSIONID_SIGN  TradingView login cookies (optional)
@@ -72,6 +73,8 @@ async function enlargeChart(page) {
     const open = /isActive/i.test(cls);
     console.log('watchlist button found, open =', open);
     if (open) await watchlist.click();
+    // Move the pointer off the button so its tooltip is not captured.
+    await page.mouse.move(0, 1_000);
   } else {
     console.log('watchlist button not found');
   }
@@ -92,8 +95,24 @@ async function enlargeChart(page) {
   await page.waitForTimeout(3_000);
 }
 
+// CoinGecko symbols do not always match TradingView's CRYPTOCAP tickers
+// (Arbitrum is ARB on CoinGecko but CRYPTOCAP:ARBI), so look them up.
+async function resolveTicker(symbol) {
+  const url = `https://symbol-search.tradingview.com/symbol_search/v3/?text=${encodeURIComponent(symbol)}&exchange=CRYPTOCAP&hl=0&lang=en&domain=production`;
+  try {
+    const res = await fetch(url, { headers: { origin: 'https://www.tradingview.com' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const caps = ((await res.json()).symbols || []).map((s) => s.symbol).filter((s) => !s.includes('.'));
+    if (caps.includes(symbol)) return symbol;
+    return caps.find((s) => s.startsWith(symbol)) || null;
+  } catch (err) {
+    console.error(`symbol search failed for ${symbol}: ${err.message}`);
+    return symbol;
+  }
+}
+
 async function capture(page, coin) {
-  const ticker = `CRYPTOCAP:${coin.symbol}`;
+  const ticker = `CRYPTOCAP:${coin.ticker}`;
   const url = `https://www.tradingview.com/chart/${LAYOUT_ID}/?symbol=${encodeURIComponent(ticker)}`;
   await page.goto(url, { waitUntil: 'load', timeout: 90_000 });
   await page.waitForSelector('canvas', { timeout: 60_000 });
@@ -101,13 +120,22 @@ async function capture(page, coin) {
   await page.waitForTimeout(15_000);
   await dismissPopups(page);
   await enlargeChart(page);
-  const file = path.join(OUT_DIR, `${String(coin.rank).padStart(2, '0')}_${coin.symbol}.png`);
+  const prefix = coin.rank ? String(coin.rank).padStart(2, '0') : 'extra';
+  const file = path.join(OUT_DIR, `${prefix}_${coin.ticker}.png`);
   await page.screenshot({ path: file });
   console.log(`saved ${file} (${ticker})`);
 }
 
-const coins = await topCoins(TOP_N);
-console.log('top coins:', coins.map((c) => `${c.rank}.${c.symbol}`).join(', '));
+const coins = [];
+for (const coin of await topCoins(TOP_N)) {
+  const ticker = await resolveTicker(coin.symbol);
+  if (ticker) coins.push({ ...coin, ticker });
+  else console.error(`no CRYPTOCAP ticker for ${coin.rank}.${coin.symbol}; skipped`);
+}
+for (const extra of (process.env.EXTRA_SYMBOLS || '').split(',').map((s) => s.trim().toUpperCase()).filter(Boolean)) {
+  if (!coins.some((c) => c.ticker === extra)) coins.push({ rank: null, symbol: extra, ticker: extra });
+}
+console.log('capturing:', coins.map((c) => `${c.rank ?? 'extra'}.${c.ticker}`).join(', '));
 await mkdir(OUT_DIR, { recursive: true });
 
 const browser = await chromium.launch();
