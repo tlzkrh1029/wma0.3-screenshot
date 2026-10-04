@@ -35,6 +35,13 @@ if (PILOT) page = page.replace('<title>WMA 시장 스크리너</title>', '<title
 await writeFile(out, page);
 console.log(`wrote ${out} (${Math.round(data.json.length / 1024)} KB of data, ${data.coins} coins)`);
 
+// how many stablecoins and security tokens build-universe left out
+function excludedCounts() {
+  if (!universe.excluded) return null;
+  const n = (kind) => universe.excluded.filter((e) => e.kind === kind).length;
+  return { stablecoin: n('stablecoin'), security: n('security') };
+}
+
 async function pilotData() {
   const raw = JSON.parse(await readFile(path.join('data', 'tv-daily.json'), 'utf8'));
   const tickers = JSON.parse(await readFile(path.join('data', 'tickers.json'), 'utf8'));
@@ -73,7 +80,7 @@ async function pilotData() {
     if (!u) throw new Error(`${c.sym} is in data/tickers.json but not in data/universe.json`);
     return { r: u.rank, s: c.sym, n: u.name, k: u.ko || null, x: u.ex, mc: Math.round(u.mcap), cap: c.cap, usd: c.usd, tv: c.tvName };
   }).sort((a, b) => a.r - b.r);
-  const json = JSON.stringify({ pilot: true, fetchedAt: raw.fetchedAt, universeAt: universe.fetchedAt, days, tfs: TFS,
+  const json = JSON.stringify({ pilot: true, fetchedAt: raw.fetchedAt, universeAt: universe.fetchedAt, excluded: excludedCounts(), days, tfs: TFS,
     axis: { start: first, n: last - first + 1 }, daily, coins });
   return { json, coins: coins.length };
 }
@@ -100,6 +107,6 @@ async function mockupData() {
   // first daily bar of each real ticker (its listing date on TradingView)
   const realFirst = Object.fromEntries(REAL.map((sym) => [sym, Math.floor(raw.series[sym]['1D'].t[0] / DAY)]));
   const coins = universe.coins.map((c) => ({ r: c.rank, s: c.sym, n: c.name, k: c.ko || null, x: c.ex, mc: Math.round(c.mcap) }));
-  const json = JSON.stringify({ fetchedAt: tfc.fetchedAt, universeAt: universe.fetchedAt, days: tfc.days, tfs: tfc.tfs, real, realFirst, btc: { start, c: btc }, coins });
+  const json = JSON.stringify({ fetchedAt: tfc.fetchedAt, universeAt: universe.fetchedAt, excluded: excludedCounts(), days: tfc.days, tfs: tfc.tfs, real, realFirst, btc: { start, c: btc }, coins });
   return { json, coins: coins.length };
 }

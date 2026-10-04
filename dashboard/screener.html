@@ -255,7 +255,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 </header>
 
 <main class="wrap">
-  <div class="banner" id="banner">시안입니다. 종목 목록·시가총액 순위·거래소 상장 여부는 실제 데이터입니다. 배수·신호·상장일은 <b>BTC·ETH만 TradingView 실제 값</b>이고, 나머지 종목은 화면 구성을 보여 드리기 위한 가상 데이터입니다. 그래서 시장 신호판의 집계도 가상입니다.<span id="progress"></span></div>
+  <div class="banner" id="banner">시안입니다. 종목 목록·시가총액 순위·거래소 상장 여부는 실제 데이터입니다. 배수·신호·상장일은 <b>BTC·ETH만 TradingView 실제 값</b>이고, 나머지 종목은 화면 구성을 보여 드리기 위한 가상 데이터입니다. 그래서 시장 신호판의 집계도 가상입니다.<span id="exclNote"></span><span id="progress"></span></div>
   <div class="zones" aria-label="신호 구간">
     <span class="zc"><i style="background:var(--zu2)"></i>0.3 이하 · 강한 저평가</span>
     <span class="zc"><i style="background:var(--zu1)"></i>0.4 이하 · 저평가</span>
@@ -496,19 +496,17 @@ function fbAt(ts, c, i) {
 function hashStr(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function rngFor(seed) { let a = seed; return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 const LOGBTC = DATA.btc ? Float64Array.from(DATA.btc.c, Math.log) : null;
-const STABLE = /^(USDT|USDC|DAI|FDUSD|TUSD|USDE|USDS|PYUSD|USD1|RLUSD|USDD|FRAX|EURC|BUSD|USDP|USDG|USDF|USD0|SUSDE|EURI|AEUR|XUSD|BFUSD|USDTB|USDA|FXUSD)$/;
 function dayIdxOf(y, m = 0, d = 1) { return Math.round(Date.UTC(y, m, d) / DAYMS) - DAY0; }
 function generate(coin) {
   const r = rngFor(hashStr(coin.s));
   const gauss = () => { let u = 0, v = 0; while (!u) u = r(); while (!v) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
   const span = coin.r <= 20 ? [2014, 2019] : coin.r <= 100 ? [2016, 2022] : coin.r <= 300 ? [2017, 2024] : [2019, 2025.7];
   const L = Math.max(0, Math.min(ND - 120, dayIdxOf(Math.floor(span[0])) + Math.floor(r() * (span[1] - span[0]) * 365)));
-  const stable = STABLE.test(coin.s);
   // market beta to BTC, a mild trend, and a mean-reverting (OU) idiosyncratic part
-  const beta = stable ? 0 : 0.8 + r() * 0.8, mu = stable ? 0 : -0.6 + r() * 0.7, vol = stable ? 0.02 : 0.45 + r() * 0.5;
-  const theta = 0.35 + r() * 1.0, pump = stable ? 0 : r() * 0.8, p0 = Math.log(0.01) + r() * Math.log(5000);
-  const g = stable ? 0.05 + r() * 0.2 : r() * 0.35, s0 = Math.log(1e6 + r() * 1e9);
-  const steps = []; const nSteps = stable ? 0 : Math.floor(r() * 4);
+  const beta = 0.8 + r() * 0.8, mu = -0.6 + r() * 0.7, vol = 0.45 + r() * 0.5;
+  const theta = 0.35 + r() * 1.0, pump = r() * 0.8, p0 = Math.log(0.01) + r() * Math.log(5000);
+  const g = r() * 0.35, s0 = Math.log(1e6 + r() * 1e9);
+  const steps = []; const nSteps = Math.floor(r() * 4);
   for (let k = 0; k < nSteps; k++) steps.push([L + Math.floor(r() * (ND - L)), 0.02 + r() * 0.08]);
   const price = new Float64Array(ND).fill(NaN), cap = new Float64Array(ND).fill(NaN);
   let rw = 0, sup = s0;
@@ -520,7 +518,7 @@ function generate(coin) {
     price[i] = Math.exp(lp); cap[i] = Math.exp(lp + sup + g * (i - L) / 365);
   }
   let suspect = [];
-  if (!stable && r() < 0.08) { const a = L + Math.floor(r() * Math.max(1, ND - L - 200)); suspect = [[DAY0 + a, DAY0 + a + 30 + Math.floor(r() * 150)]]; }
+  if (r() < 0.08) { const a = L + Math.floor(r() * Math.max(1, ND - L - 200)); suspect = [[DAY0 + a, DAY0 + a + 30 + Math.floor(r() * 150)]]; }
   return { L, price, cap, suspect };
 }
 
@@ -1403,10 +1401,12 @@ const rerender = () => { readColors(); if (!READY) return; if (state.screen === 
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rerender);
 new MutationObserver(rerender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 document.getElementById('asof').textContent = `TradingView ${new Date(DATA.fetchedAt).toISOString().slice(0, 10)} · 종목 ${COINS.length}`;
+// the universe leaves out stablecoins and security tokens; say how many
+if (DATA.excluded) document.getElementById('exclNote').textContent = ` 종목 목록에서는 스테이블코인 ${DATA.excluded.stablecoin}종과 증권형 토큰 ${DATA.excluded.security}종을 뺐습니다.`;
 if (PILOT) {
   // every coin here is real: say so once and drop the generated-data tags
-  const b = document.getElementById('banner'), p = document.getElementById('progress');
-  b.replaceChildren(document.createTextNode(`파일럿입니다. 시가총액 상위 ${COINS.length}종의 배수와 신호는 모두 TradingView 일봉(${new Date(DATA.fetchedAt).toISOString().slice(0, 10)} 수집)에서 계산한 실제 값이고, 가상 데이터는 없습니다. 오늘 봉은 수집 시점까지 진행된 값입니다.`), p);
+  const b = document.getElementById('banner'), p = document.getElementById('progress'), x = document.getElementById('exclNote');
+  b.replaceChildren(document.createTextNode(`파일럿입니다. 시가총액 상위 ${COINS.length}종의 배수와 신호는 모두 TradingView 일봉(${new Date(DATA.fetchedAt).toISOString().slice(0, 10)} 수집)에서 계산한 실제 값이고, 가상 데이터는 없습니다. 오늘 봉은 수집 시점까지 진행된 값입니다.`), x, p);
   b.classList.add('pilot');
   document.querySelectorAll('.gen-tag').forEach((t) => t.remove());
 }
