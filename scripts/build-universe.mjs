@@ -6,8 +6,9 @@
 //   market cap among those sharing it.
 // - Left out: members of the CoinGecko categories below (stablecoins, including gold/silver-backed and
 //   yield-bearing ones; tokenized stocks, ETFs, funds, treasuries, credit, real estate, pre-IPO shares),
-//   plus data/exclusions.json overrides:
-//   {"exclude": {"SYM": {"kind": "stablecoin" | "security", "reason": "..."}}, "keep": {"SYM": "reason"}}.
+//   plus data/exclusions.json overrides: {"ids": {"SYM": {"id": "coingecko-id", "reason": "..."}},
+//   "exclude": {"SYM": {"kind": "stablecoin" | "security", "reason": "..."}}, "keep": {"SYM": "reason"}}.
+//   "ids" fixes a symbol whose largest-market-cap CoinGecko coin is not the asset the exchanges list.
 //   Ranks are renumbered over the coins that remain.
 //
 // Usage: node scripts/build-universe.mjs   (in the sandbox: NODE_USE_ENV_PROXY=1)
@@ -53,10 +54,23 @@ for (let page = 1; page <= 12; page++) {
   markets.push(...await get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${page}`));
   await sleep(3000);
 }
+let overrides = { ids: {}, exclude: {}, keep: {} };
+try { overrides = { ...overrides, ...JSON.parse(await readFile('data/exclusions.json', 'utf8')) }; } catch {}
 const best = new Map();
 for (const c of markets) {
   const sym = c.symbol.toUpperCase();
-  if (listed.has(sym) && c.market_cap && (!best.has(sym) || c.market_cap > best.get(sym).market_cap)) best.set(sym, c);
+  if (overrides.ids[sym] || !listed.has(sym) || !c.market_cap) continue;
+  if (!best.has(sym) || c.market_cap > best.get(sym).market_cap) best.set(sym, c);
+}
+// symbols pinned to a CoinGecko id (looked up directly, so they need not be in the top 3000)
+const pinned = Object.entries(overrides.ids).filter(([sym]) => listed.has(sym));
+if (pinned.length) {
+  const rows = await get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${pinned.map(([, o]) => o.id).join(',')}`);
+  for (const [sym, o] of pinned) {
+    const c = rows.find((r) => r.id === o.id);
+    if (!c) throw new Error(`data/exclusions.json: CoinGecko id ${o.id} for ${sym} not found`);
+    if (c.market_cap) best.set(sym, { ...c, symbol: sym });
+  }
 }
 
 // category membership by CoinGecko id
@@ -75,9 +89,6 @@ for (const [kind, cats] of [['stablecoin', STABLE_CATS], ['security', SECURITY_C
     }
   }
 }
-let overrides = { exclude: {}, keep: {} };
-try { overrides = { ...overrides, ...JSON.parse(await readFile('data/exclusions.json', 'utf8')) }; } catch {}
-
 const exOf = (sym) => ['U', 'B', 'N'].filter((x) => (x === 'U' ? upbit.has(sym) : x === 'B' ? bithumb.has(sym) : binance.has(sym))).join('');
 const kept = [], excluded = [];
 for (const c of [...best.values()].sort((a, b) => b.market_cap - a.market_cap)) {
