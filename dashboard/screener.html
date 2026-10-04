@@ -57,6 +57,7 @@ input { font: inherit; color: inherit; }
 .wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 18px 48px; display: grid; gap: 14px; }
 .banner { font-size: 13px; padding: 9px 12px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-fg); }
 [hidden] { display: none !important; }
+#scrBody { min-width: 0; }
 .banner.pilot { background: var(--accent-soft); color: var(--fg); }
 .zones { display: flex; flex-wrap: wrap; gap: 6px; }
 .zc { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px 2px 7px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--sunken); color: var(--fg); border: 1px solid var(--line); white-space: nowrap; }
@@ -540,23 +541,25 @@ const SOF = new Int32Array(ND).fill(-1);
 //     side, at least 2, within a week), padded by a week;
 // (b) a calendar month whose implied supply swings more than 8% and mostly comes back;
 // (c) level errors that come and go over months (not for pegged coins): the level (median of 5-7 bars on
-//     each side, so a short glitch or the first and last days never set it) is more than 6% above the lowest
-//     level of both the year before and the year after, or more than 6% below the highest of both.
+//     each side, so a short glitch or the first and last days never set it) is more than 6% above the low
+//     level (10th percentile) of both the year before and the year after, or more than 6% below the high
+//     level (90th percentile) of both, and the level of one side comes back on the other side within the
+//     year, so a one-way step followed by a drift the other way is not flagged.
 // Ranges closer than 31 days are merged. Only days where both tickers have a bar count.
 const median = (a) => { const w = Float64Array.from(a).sort(); return w[w.length >> 1]; };
-// extreme of v over the 365 days before (dir 1) or after (dir -1) each index, excluding the index itself
-// and NaN entries
-function yearExtreme(day, v, dir, isMin) {
-  const n = day.length, out = new Float64Array(n).fill(NaN), dq = new Int32Array(n); let h = 0, t = 0;
-  for (let q = 0; q < n; q++) {
-    const i = dir > 0 ? q : n - 1 - q;
-    while (h < t && Math.abs(day[dq[h]] - day[i]) > 365) h++;
-    if (h < t) out[i] = v[dq[h]];
-    if (Number.isNaN(v[i])) continue;
-    while (h < t && (isMin ? v[i] <= v[dq[t - 1]] : v[i] >= v[dq[t - 1]])) t--;
-    dq[t++] = i;
+// 10th and 90th percentile of v over the 365 days before (dir 1) or after (dir -1) each index, excluding the
+// index itself and NaN entries
+function yearLevels(day, v, dir) {
+  const n = day.length, lo = new Float64Array(n).fill(NaN), hi = new Float64Array(n).fill(NaN), w = [];
+  const pos = (x) => { let a = 0, b = w.length; while (a < b) { const m = (a + b) >> 1; if (w[m] < x) a = m + 1; else b = m; } return a; };
+  const at = (q) => (dir > 0 ? q : n - 1 - q);
+  for (let q = 0, t = 0; q < n; q++) {
+    const i = at(q);
+    for (; t < q && Math.abs(day[at(t)] - day[i]) > 365; t++) { const x = v[at(t)]; if (!Number.isNaN(x)) w.splice(pos(x), 1); }
+    if (w.length) { lo[i] = w[Math.floor(0.1 * (w.length - 1))]; hi[i] = w[Math.ceil(0.9 * (w.length - 1))]; }
+    if (!Number.isNaN(v[i])) w.splice(pos(v[i]), 0, v[i]);
   }
-  return out;
+  return { lo, hi };
 }
 function suspectFrom(cap, price, L, okCap, okPrice) {
   const day = [], sup = [], px = [];
@@ -588,9 +591,19 @@ function suspectFrom(cap, price, L, okCap, okPrice) {
       const k = Math.min(7, i - a, b - 1 - i);
       if (k >= 5) lv[i] = median(sup.slice(i - k, i + k + 1));
     }
-    const loB = yearExtreme(day, lv, 1, true), loA = yearExtreme(day, lv, -1, true), hiB = yearExtreme(day, lv, 1, false), hiA = yearExtreme(day, lv, -1, false);
+    const B = yearLevels(day, lv, 1), A = yearLevels(day, lv, -1);
+    // the reference level of one side shows up again on the other side within the year (within half the
+    // excursion, at least 3%)
+    const back = (i, refB, refA) => {
+      const tol = Math.max(0.03, 0.5 * Math.min(Math.abs(Math.log(lv[i] / refB)), Math.abs(Math.log(lv[i] / refA))));
+      for (let j = i + 1; j < n && day[j] - day[i] <= 365; j++) if (Math.abs(Math.log(lv[j] / refB)) <= tol) return true;
+      for (let j = i - 1; j >= 0 && day[i] - day[j] <= 365; j--) if (Math.abs(Math.log(lv[j] / refA)) <= tol) return true;
+      return false;
+    };
     for (let i = 0; i < n; i++) {
-      if ((lv[i] > 1.06 * loB[i] && lv[i] > 1.06 * loA[i]) || (lv[i] < 0.94 * hiB[i] && lv[i] < 0.94 * hiA[i])) iv.push([day[i], day[i]]);
+      const up = lv[i] > 1.06 * B.lo[i] && lv[i] > 1.06 * A.lo[i] && back(i, B.lo[i], A.lo[i]);
+      const down = !up && lv[i] < 0.94 * B.hi[i] && lv[i] < 0.94 * A.hi[i] && back(i, B.hi[i], A.hi[i]);
+      if (up || down) iv.push([day[i], day[i]]);
     }
   }
   iv.sort((x, y) => x[0] - y[0]);
@@ -645,6 +658,10 @@ function analyze(series, L, { daily, detail, ok = null, bad = null }) {
   const dayU = detail ? new Uint8Array(ND) : null, dayO = detail ? new Uint8Array(ND) : null, dayUM = detail ? new Uint32Array(ND) : null, dayOM = detail ? new Uint32Array(ND) : null;
   const bump = (lv, mask, k, level, bit) => { if (!level) return; if (level > lv[k]) { lv[k] = level; mask[k] = bit; } else if (level === lv[k]) mask[k] |= bit; };
   if (L >= ND) return { cur, u, o, has, e, curSusp, sus, lastU2: -1, lastU2Susp: false };
+  // tfSeries expects forward-filled input: a bar's flag must be the flag of the day its close comes from
+  if (bad && ok) { bad = Float64Array.from(bad); for (let i = L + 1; i < ND; i++) if (!ok[i]) bad[i] = bad[i - 1]; }
+  // per week: bit 1 = a suspect hit, bit 2 = a hit that is not suspect; level-2 bits per side for weekly mode
+  const w2u = daily ? null : new Uint8Array(S), w2o = daily ? null : new Uint8Array(S), susM = detail ? new Uint32Array(S) : null;
   TFS.forEach((tf, j) => {
     const ts = tfSeries(series, L, tf, ok), bit = 1 << j;
     const tb = bad && tfSeries(bad, L, tf, ok);
@@ -662,9 +679,11 @@ function analyze(series, L, { daily, detail, ok = null, bad = null }) {
         const ul = underLevel(v), ol = overLevel(v);
         if (ul > u[k]) u[k] = ul; if (ol > o[k]) o[k] = ol;
         if (ul || ol) {
-          const sp = suspAt(i); if (sp) sus[k] = 1;
+          const sp = suspAt(i); sus[k] |= sp ? 1 : 2; if (sp && susM) susM[k] |= bit;
           if (d2u && ul === 2) d2u[i] |= sp ? 1 : 3;
           if (d2o && ol === 2) d2o[i] |= sp ? 1 : 3;
+          if (w2u && ul === 2) w2u[k] |= sp ? 1 : 3;
+          if (w2o && ol === 2) w2o[k] |= sp ? 1 : 3;
         }
         if (detail) {
           bump(e.sig.u, e.sig.uM, k, ul, bit); bump(e.sig.o, e.sig.oM, k, ol, bit); bump(e.sig.uf, e.sig.ufM, k, ul, bit); bump(e.sig.of, e.sig.ofM, k, ol, bit);
@@ -689,7 +708,8 @@ function analyze(series, L, { daily, detail, ok = null, bad = null }) {
   const lastHit = (d2) => { if (!d2) return -1; for (let i = ND - 1; i >= L; i--) if (d2[i]) return i; return -1; };
   const lastU2 = lastHit(d2u), lastO2 = lastHit(d2o);
   const lastU2Susp = lastU2 >= 0 && !(d2u[lastU2] & 2), lastO2Susp = lastO2 >= 0 && !(d2o[lastO2] & 2);
-  if (detail) { e.sig.sus = Array.from(sus); e.curSusp = Object.fromEntries(TFS.map((tf, j) => [tf, !!curSusp[j]])); }
+  // a week counts as suspect only when every hit that week is suspect; susM lists the suspect timeframes
+  if (detail) { e.sig.sus = Array.from(sus, (x) => (x === 1 ? 1 : 0)); e.sig.susM = Array.from(susM); e.curSusp = Object.fromEntries(TFS.map((tf, j) => [tf, !!curSusp[j]])); }
   if (detail) {
     const lastDay = (lv, mask, level) => { for (let i = ND - 1; i >= L; i--) if (lv[i] >= level) return { day: DAY0 + i, mask: lv[i] === level ? mask[i] : 0 }; return null; };
     const count = (lv, level) => { let n = 0; for (let i = L; i < ND; i++) if (lv[i] >= level) n++; return n; };
@@ -697,8 +717,8 @@ function analyze(series, L, { daily, detail, ok = null, bad = null }) {
       e.last = { u2: lastDay(dayU, dayUM, 2), o2: lastDay(dayO, dayOM, 2) }; e.days = { u2: count(dayU, 2), o2: count(dayO, 2) }; e.unit = '일';
       if (e.last.u2) e.last.u2.susp = lastU2Susp; if (e.last.o2) e.last.o2.susp = lastO2Susp;
     } else {
-      const lastOf = (lv, mask, level) => { for (let k = S - 1; k >= 0; k--) if (lv[k] >= level) return { day: DATA.days[k], mask: lv[k] === level ? mask[k] : 0, susp: !!sus[k] }; return null; };
-      e.last = { u2: lastOf(e.sig.u, e.sig.uM, 2), o2: lastOf(e.sig.o, e.sig.oM, 2) };
+      const lastOf = (lv, mask, level, w2) => { for (let k = S - 1; k >= 0; k--) if (lv[k] >= level) return { day: DATA.days[k], mask: lv[k] === level ? mask[k] : 0, susp: w2[k] === 1 }; return null; };
+      e.last = { u2: lastOf(e.sig.u, e.sig.uM, 2, w2u), o2: lastOf(e.sig.o, e.sig.oM, 2, w2o) };
       e.days = { u2: e.sig.u.filter((x) => x >= 2).length, o2: e.sig.o.filter((x) => x >= 2).length }; e.unit = '주';
     }
   }
@@ -906,7 +926,7 @@ function renderScreener() {
     sw.append(el('div', 'strip-key', '칸: 1D…1W │ 8D…3W │ 1M…12M'));
     st.append(sw); tr.append(st);
     const last = el('td', 'mm last-td', s.lastU2Day != null ? dateStr(s.lastU2Day) : '–');
-    if (s.lastSusp) last.append(el('div', 'warn', '⚠ 의심 구간'));
+    if (s.lastSusp) { const w = el('div', 'warn', '⚠ 의심 데이터'); w.title = '신호일이 시가총액 데이터 의심 구간에 있거나, 의심 구간이 WMA 200 가중치의 10% 이상을 차지합니다'; last.append(w); }
     tr.append(last);
     tb.append(tr);
   }
@@ -923,18 +943,25 @@ function renderScreener() {
     const tr = e.target.closest('tr[data-sym]'); if (tr) location.hash = 'coin-' + encodeURIComponent(tr.dataset.sym);
   });
 }
-function renderTiles(body, list) {
-  const box = el('div', 'tiles'); const shown = [];
-  if (!list.length) { body.append(el('div', 'progress', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); ORDER = []; return; }
+// Tile sections for the chosen side. Inside a section, tiles are ordered by the number they show (lowest
+// first on the under side, highest first on the over side) unless market-cap order was picked; ties keep
+// the chosen sort.
+function tileGroups(list) {
   const under = state.side !== 'over';
   const secs = under ? [['u2', '0.3 이하'], ['u1', '0.4 이하'], ['rest', '0.4 초과 (저평가 신호 없음)'], ['na', '데이터 없음 (봉 200개 미만)']]
                      : [['o2', '2.4 이상'], ['o1', '2.2 이상'], ['rest', '2.2 미만 (과열 신호 없음)'], ['na', '데이터 없음 (봉 200개 미만)']];
   const secOf = (s) => (s.top === 'na' ? 'na' : under ? (s.underTop === 2 ? 'u2' : s.underTop === 1 ? 'u1' : 'rest') : (s.overTop === 2 ? 'o2' : s.overTop === 1 ? 'o1' : 'rest'));
-  for (const [z, label] of secs) {
-    const items = list.filter((s) => secOf(s) === z); if (!items.length) continue;
-    // inside a section, order by the number the tile shows (lowest first on the under side, highest first
-    // on the over side) unless market-cap order was picked; ties keep the chosen sort
+  return secs.map(([z, label]) => {
+    const items = list.filter((s) => secOf(s) === z);
     if (state.sort !== 'rank') items.sort((a, b) => (under ? (a.min ? a.min.m : Infinity) - (b.min ? b.min.m : Infinity) : (b.max ? b.max.m : -Infinity) - (a.max ? a.max.m : -Infinity)) || 0);
+    return { z, label, items };
+  }).filter((g) => g.items.length);
+}
+function renderTiles(body, list) {
+  const box = el('div', 'tiles'); const shown = [];
+  if (!list.length) { body.append(el('div', 'progress', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); ORDER = []; return; }
+  const under = state.side !== 'over';
+  for (const { z, label, items } of tileGroups(list)) {
     shown.push(...items.map((s) => s.coin.s));
     const sec = el('div', 'tsec'); const h = el('h3'); const i = el('i'); i.style.background = z === 'rest' || z === 'na' ? 'var(--mid)' : `var(--z${z})`;
     h.append(i, document.createTextNode(label), el('span', null, `${items.length}종`)); sec.append(h);
@@ -1148,8 +1175,10 @@ function signalTipItems(sym, k) {
 }
 function tipExtra(sym, k) {
   const box = sigBox(signalTipItems(sym, k), '이 주의 신호 (20개 타임프레임)');
+  const sm = D.T[sym].sig.susM?.[k] || 0;
   const note = suspectWeek(sym, k) ? '⚠ 이 주는 시가총액 데이터가 의심되는 구간입니다'
-    : signalSuspectWeek(sym, k) ? '⚠ 이 주의 신호에는 의심 구간의 시가총액 데이터가 WMA 안에 섞여 있습니다' : null;
+    : signalSuspectWeek(sym, k) ? '⚠ 이 주의 신호는 모두 의심 구간의 시가총액 데이터가 WMA 안에 섞인 값에서 나왔습니다'
+    : sm ? `⚠ ${maskTfs(sm).join(', ')}의 WMA 안에는 의심 구간의 시가총액 데이터가 섞여 있습니다` : null;
   if (note) { const f = document.createDocumentFragment(); f.append(box, el('div', 'warn', note)); return f; }
   return box;
 }
@@ -1206,7 +1235,10 @@ function renderNow() {
     const cell = (key, label) => {
       const d = el('div', 'lastsig'); d.append(el('div', 'k', label)); const L = e.last[key];
       d.append(el('b', null, L ? dateStr(L.day) : '없음'), el('span', null, L ? `${maskTfs(L.mask).join(', ') || '여러 타임프레임'} · 이력 중 ${e.days[key].toLocaleString('en-US')}${e.unit}` : '이력 중 0' + e.unit));
-      if (L && (L.susp ?? e.suspect.some(([a, b]) => a <= L.day && b >= L.day - 6))) d.append(el('span', 'warn', '⚠ 데이터 의심 구간의 신호'));
+      if (L && (L.susp ?? e.suspect.some(([a, b]) => a <= L.day && b >= L.day - 6))) {
+        const inRange = e.suspect.some(([a, b]) => a <= L.day && b >= L.day);
+        d.append(el('span', 'warn', inRange ? '⚠ 데이터 의심 구간의 신호' : '⚠ 의심 데이터가 WMA에 섞인 신호'));
+      }
       return d;
     };
     row.append(sym, cur, cell('u2', '마지막 0.3 이하'), cell('o2', '마지막 2.4 이상')); box.append(row);
@@ -1387,6 +1419,7 @@ let ci = 0;
   while (ci < COINS.length && performance.now() - t0 < 40) { const c = COINS[ci++]; SUM.set(c.s, summarize(c)); }
   document.getElementById('progress').textContent = ci < COINS.length ? ` · ${PILOT ? '계산 중' : '가상 데이터 계산 중'} ${ci} / ${COINS.length}` : '';
   if (ci < COINS.length) { setTimeout(batch, 0); return; }
-  READY = true; ORDER = filteredStats().list.map((s) => s.coin.s); route();
+  // prev/next on a directly opened coin page follow the order the screener would show
+  READY = true; { const { list } = filteredStats(); ORDER = (state.view === 'tiles' ? tileGroups(list).flatMap((g) => g.items) : list).map((s) => s.coin.s); } route();
 })();
 </script>

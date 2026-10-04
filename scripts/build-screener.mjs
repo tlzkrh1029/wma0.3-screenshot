@@ -30,7 +30,9 @@ else data = await mockupData();
 const marker = '/*__DATA__*/null';
 if (!template.includes(marker)) throw new Error(`template is missing ${marker}`);
 await mkdir(path.dirname(out), { recursive: true });
-await writeFile(out, template.replace(marker, () => data.json));
+let page = template.replace(marker, () => data.json);
+if (PILOT) page = page.replace('<title>WMA 시장 스크리너</title>', '<title>WMA 스크리너 파일럿</title>');
+await writeFile(out, page);
 console.log(`wrote ${out} (${Math.round(data.json.length / 1024)} KB of data, ${data.coins} coins)`);
 
 async function pilotData() {
