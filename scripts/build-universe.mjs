@@ -2,8 +2,8 @@
 // market cap, without stablecoins and security tokens.
 //
 // - Listings: Upbit (all markets), Bithumb (KRW), Binance spot (USDT/FDUSD/USDC/BTC/TRY/EUR quotes).
-// - Market caps: CoinGecko /coins/markets (top 3000); a symbol takes the CoinGecko coin with the largest
-//   market cap among those sharing it.
+// - Market caps: CoinGecko /coins/markets (top 3000 by CoinGecko rank); a symbol takes the CoinGecko coin
+//   with the largest market cap among those sharing it.
 // - Left out: members of the CoinGecko categories below (stablecoins, including gold/silver-backed and
 //   yield-bearing ones; tokenized stocks, ETFs, funds, treasuries, credit, real estate, pre-IPO shares),
 //   plus data/exclusions.json overrides: {"ids": {"SYM": {"id": "coingecko-id", "reason": "..."}},
@@ -65,6 +65,19 @@ for (const c of markets) {
   const sym = c.symbol.toUpperCase();
   if (overrides.ids[sym] || aliases.has(sym) || !listed.has(sym) || !c.market_cap) continue;
   if (!best.has(sym) || c.market_cap > best.get(sym).market_cap) best.set(sym, c);
+}
+// The ranked pages shift while they are fetched (market caps move), so a coin can fall between two pages.
+// Listed symbols that found no coin are looked up directly, with the same top-3000 rule; CoinGecko leaves
+// wrapped and staked tokens (WBTC, WBETH, BNSOL) unranked, so they stay unmatched.
+const gaps = [...listed].filter((s) => !best.has(s) && !overrides.ids[s] && !aliases.has(s));
+for (let i = 0; i < gaps.length; i += 40) {
+  const batch = gaps.slice(i, i + 40).map((s) => encodeURIComponent(s.toLowerCase())).join(',');
+  for (const c of await get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&include_tokens=all&per_page=250&symbols=${batch}`)) {
+    const sym = c.symbol.toUpperCase();
+    if (!listed.has(sym) || !c.market_cap || !c.market_cap_rank || c.market_cap_rank > 3000) continue;
+    if (!best.has(sym) || c.market_cap > best.get(sym).market_cap) best.set(sym, c);
+  }
+  await sleep(3000);
 }
 // symbols pinned to a CoinGecko id (looked up directly, so they need not be in the top 3000)
 const symsOf = (sym) => [sym, ...(overrides.ids[sym]?.also || [])];
