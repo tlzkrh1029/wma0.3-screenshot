@@ -1,5 +1,5 @@
 {
- "resolvedAt": "2026-10-04T16:02:24.426Z",
+ "resolvedAt": "2026-10-04T18:31:49.362Z",
  "coins": [
   {
    "rank": 1,
@@ -31,20 +31,6 @@
   },
   {
    "rank": 3,
-   "sym": "USDT",
-   "name": "Tether",
-   "usd": "CRYPTO:USDTUSD",
-   "cap": "CRYPTOCAP:USDT",
-   "tvName": "Tether USDt",
-   "confidence": "high",
-   "alternatives": [
-    "XAUTUSD (Tether Gold)",
-    "EURTUSD (Tether EURt)",
-    "USDUTUSD (unstable tether)"
-   ]
-  },
-  {
-   "rank": 4,
    "sym": "BNB",
    "name": "BNB",
    "usd": "CRYPTO:BNBUSD",
@@ -58,7 +44,7 @@
    ]
   },
   {
-   "rank": 5,
+   "rank": 4,
    "sym": "XRP",
    "name": "XRP",
    "usd": "CRYPTO:XRPUSD",
@@ -72,19 +58,7 @@
    ]
   },
   {
-   "rank": 6,
-   "sym": "USDC",
-   "name": "USDC",
-   "usd": "CRYPTO:USDCUSD",
-   "cap": "CRYPTOCAP:USDC",
-   "tvName": "USDC",
-   "confidence": "high",
-   "alternatives": [
-    "SYRUPUSDCUSD (Syrup USDC)"
-   ]
-  },
-  {
-   "rank": 7,
+   "rank": 5,
    "sym": "SOL",
    "name": "Solana",
    "usd": "CRYPTO:SOLUSD",
@@ -98,7 +72,7 @@
    ]
   },
   {
-   "rank": 8,
+   "rank": 6,
    "sym": "TRX",
    "name": "TRON",
    "usd": "CRYPTO:TRXUSD",
@@ -112,7 +86,7 @@
    ]
   },
   {
-   "rank": 9,
+   "rank": 7,
    "sym": "ZEC",
    "name": "Zcash",
    "usd": "CRYPTO:ZECUSD",
@@ -122,7 +96,7 @@
    "alternatives": []
   },
   {
-   "rank": 10,
+   "rank": 8,
    "sym": "HYPE",
    "name": "Hyperliquid",
    "usd": "CRYPTO:HYPEHUSD",
@@ -136,7 +110,7 @@
    ]
   },
   {
-   "rank": 11,
+   "rank": 9,
    "sym": "DOGE",
    "name": "Dogecoin",
    "usd": "CRYPTO:DOGEUSD",
@@ -150,7 +124,7 @@
    ]
   },
   {
-   "rank": 12,
+   "rank": 10,
    "sym": "LINK",
    "name": "Chainlink",
    "usd": "CRYPTO:LINKUSD",
@@ -164,23 +138,7 @@
    ]
   },
   {
-   "rank": 13,
-   "sym": "USDS",
-   "name": "USDS",
-   "usd": "CRYPTO:USDS2USD",
-   "cap": "CRYPTOCAP:USDS2",
-   "tvName": "USDS",
-   "confidence": "high",
-   "usdFrom": "2024-10-12",
-   "note": "CRYPTO:USDS2USD bars before Sky USDS launched (2024-09-18) belong to an older coin and end with a spike on 2024-10-09..11",
-   "manual": true,
-   "alternatives": [
-    "USDSUIUSD (USDsui)",
-    "USDSMSUSD (Stable Mint United States Dollar)"
-   ]
-  },
-  {
-   "rank": 14,
+   "rank": 11,
    "sym": "ADA",
    "name": "Cardano",
    "usd": "CRYPTO:ADAUSD",
@@ -194,7 +152,7 @@
    ]
   },
   {
-   "rank": 15,
+   "rank": 12,
    "sym": "XLM",
    "name": "Stellar",
    "usd": "CRYPTO:XLMUSD",
@@ -206,7 +164,7 @@
    ]
   },
   {
-   "rank": 16,
+   "rank": 13,
    "sym": "NEAR",
    "name": "NEAR Protocol",
    "usd": "CRYPTO:NEARUSD",
@@ -220,7 +178,7 @@
    ]
   },
   {
-   "rank": 17,
+   "rank": 14,
    "sym": "BCH",
    "name": "Bitcoin Cash",
    "usd": "CRYPTO:BCHUSD",
@@ -234,7 +192,7 @@
    ]
   },
   {
-   "rank": 18,
+   "rank": 15,
    "sym": "UNI",
    "name": "Uniswap",
    "usd": "CRYPTO:UNIUSD",
@@ -248,7 +206,7 @@
    ]
   },
   {
-   "rank": 19,
+   "rank": 16,
    "sym": "LTC",
    "name": "Litecoin",
    "usd": "CRYPTO:LTCUSD",
@@ -258,21 +216,7 @@
    "alternatives": []
   },
   {
-   "rank": 20,
-   "sym": "USDE",
-   "name": "Ethena USDe",
-   "usd": "CRYPTO:USDEEUSD",
-   "cap": "CRYPTOCAP:USDEE",
-   "tvName": "Ethena USDe",
-   "confidence": "high",
-   "alternatives": [
-    "ENAUSD (Ethena)",
-    "SUSDEUSD (Ethena Staked USDe)",
-    "USDTBUSD (Ethena Labs (USDTb))"
-   ]
-  },
-  {
-   "rank": 21,
+   "rank": 17,
    "sym": "CC",
    "name": "Canton",
    "usd": "CRYPTO:CCCAUSD",
@@ -286,7 +230,7 @@
    ]
   },
   {
-   "rank": 22,
+   "rank": 18,
    "sym": "SUI",
    "name": "Sui",
    "usd": "CRYPTO:SUIUSD",
@@ -300,7 +244,7 @@
    ]
   },
   {
-   "rank": 23,
+   "rank": 19,
    "sym": "AVAX",
    "name": "Avalanche",
    "usd": "CRYPTO:AVAXUSD",
@@ -314,7 +258,7 @@
    ]
   },
   {
-   "rank": 24,
+   "rank": 20,
    "sym": "HBAR",
    "name": "Hedera",
    "usd": "CRYPTO:HBARUSD",
@@ -326,17 +270,7 @@
    ]
   },
   {
-   "rank": 25,
-   "sym": "USD1",
-   "name": "USD1",
-   "usd": "CRYPTO:USD1WUSD",
-   "cap": "CRYPTOCAP:USD1W",
-   "tvName": "World Liberty Financial USD",
-   "confidence": "check",
-   "alternatives": []
-  },
-  {
-   "rank": 26,
+   "rank": 21,
    "sym": "GRAM",
    "name": "Gram (prev. Toncoin)",
    "usd": "CRYPTO:GRAMUSD",
@@ -349,7 +283,7 @@
    ]
   },
   {
-   "rank": 27,
+   "rank": 22,
    "sym": "QNT",
    "name": "Quant",
    "usd": "CRYPTO:QNTUSD",
@@ -363,7 +297,7 @@
    ]
   },
   {
-   "rank": 28,
+   "rank": 23,
    "sym": "TAO",
    "name": "Bittensor",
    "usd": "CRYPTO:TAOBUSD",
@@ -377,7 +311,21 @@
    ]
   },
   {
-   "rank": 29,
+   "rank": 24,
+   "sym": "SHIB",
+   "name": "Shiba Inu",
+   "usd": "CRYPTO:SHIBUSD",
+   "cap": "CRYPTOCAP:SHIB",
+   "tvName": "Shiba Inu",
+   "confidence": "high",
+   "alternatives": [
+    "TREAT3USD (Shiba Inu TREAT)",
+    "GINUXUSD (Green Shiba Inu [New])",
+    "SHIB20SUSD (Shib2.0)"
+   ]
+  },
+  {
+   "rank": 25,
    "sym": "CRO",
    "name": "Cronos",
    "usd": "CRYPTO:CROUSD",
@@ -391,17 +339,73 @@
    ]
   },
   {
-   "rank": 30,
-   "sym": "SHIB",
-   "name": "Shiba Inu",
-   "usd": "CRYPTO:SHIBUSD",
-   "cap": "CRYPTOCAP:SHIB",
-   "tvName": "Shiba Inu",
+   "rank": 26,
+   "sym": "PUMP",
+   "name": "Pump.fun",
+   "usd": "CRYPTO:PUMPFUSD",
+   "cap": "CRYPTOCAP:PUMPF",
+   "tvName": "Pump.fun",
    "confidence": "high",
    "alternatives": [
-    "TREAT3USD (Shiba Inu TREAT)",
-    "GINUXUSD (Green Shiba Inu [New])",
-    "SHIB20SUSD (Shib2.0)"
+    "PUMPAIUSD (Pump AI)",
+    "PUMPCADEUSD (PUMPCADE)",
+    "PUMPBTC2USD (PumpBTC (Governance token))"
+   ]
+  },
+  {
+   "rank": 27,
+   "sym": "AAVE",
+   "name": "Aave",
+   "usd": "CRYPTO:AAVEUSD",
+   "cap": "CRYPTOCAP:AAVE",
+   "tvName": "Aave",
+   "confidence": "high",
+   "alternatives": [
+    "GHSTUSD (Aavegotchi)",
+    "AETHUSDTUSD (Aave Ethereum USDT)",
+    "AETHWETHUSD (Aave Ethereum WETH)"
+   ]
+  },
+  {
+   "rank": 28,
+   "sym": "ENA",
+   "name": "Ethena",
+   "usd": "CRYPTO:ENAUSD",
+   "cap": "CRYPTOCAP:ENA",
+   "tvName": "Ethena",
+   "confidence": "high",
+   "alternatives": [
+    "USDEEUSD (Ethena USDe)",
+    "SUSDEUSD (Ethena Staked USDe)",
+    "USDTBUSD (Ethena Labs (USDTb))"
+   ]
+  },
+  {
+   "rank": 29,
+   "sym": "ONDO",
+   "name": "Ondo",
+   "usd": "CRYPTO:ONDOUSD",
+   "cap": "CRYPTOCAP:ONDO",
+   "tvName": "Ondo",
+   "confidence": "high",
+   "alternatives": [
+    "ONDOAIUSD (Ondo DeFAI)",
+    "USDYOUSD (Ondo US Dollar Yield)",
+    "AMDONUSD (AMD Tokenized Stock (Ondo))"
+   ]
+  },
+  {
+   "rank": 30,
+   "sym": "SKY",
+   "name": "Sky",
+   "usd": "CRYPTO:SKY2USD",
+   "cap": "CRYPTOCAP:SKY2",
+   "tvName": "Sky",
+   "confidence": "high",
+   "alternatives": [
+    "SKYAI2USD (SKYAI)",
+    "SKYRIMUSD (Skyrim Finance)",
+    "COTSUSD (Children Of The Sky)"
    ]
   }
  ]
