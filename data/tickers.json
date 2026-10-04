@@ -171,6 +171,9 @@
    "cap": "CRYPTOCAP:USDS2",
    "tvName": "USDS",
    "confidence": "high",
+   "usdFrom": "2024-10-12",
+   "note": "CRYPTO:USDS2USD bars before Sky USDS launched (2024-09-18) belong to an older coin and end with a spike on 2024-10-09..11",
+   "manual": true,
    "alternatives": [
     "USDSUIUSD (USDsui)",
     "USDSMSUSD (Stable Mint United States Dollar)"

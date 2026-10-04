@@ -56,6 +56,7 @@ input { font: inherit; color: inherit; }
 .tabs a .num { font-size: 12px; }
 .wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 18px 48px; display: grid; gap: 14px; }
 .banner { font-size: 13px; padding: 9px 12px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-fg); }
+[hidden] { display: none !important; }
 .banner.pilot { background: var(--accent-soft); color: var(--fg); }
 .zones { display: flex; flex-wrap: wrap; gap: 6px; }
 .zc { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px 2px 7px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--sunken); color: var(--fg); border: 1px solid var(--line); white-space: nowrap; }
@@ -105,6 +106,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .ex i.on { background: var(--fg); color: var(--surface); border-color: var(--fg); }
 .sigcell { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; min-width: 170px; }
 .sigcell .more { font-size: 11.5px; color: var(--muted); }
+.sigcell .m-none { display: none; }
 .mm { font-family: var(--font-mono); font-size: 12.5px; white-space: nowrap; }
 .mm small { color: var(--muted); font-size: 11px; margin-left: 4px; }
 .strips { display: grid; gap: 3px; min-width: 260px; }
@@ -223,6 +225,10 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   .scr td.coin-td { grid-row: 1; grid-column: 2; }
   .scr td.ex-td { grid-row: 1; grid-column: 3; }
   .scr td.sig-td { grid-column: 1 / -1; }
+  .scr td.sig-td.sig-none { display: none; }
+  .scr tr.no-sig td.sig-td.u-side { display: block; }
+  .scr tr.no-sig .dash { display: none; }
+  .scr tr.no-sig .m-none { display: inline; }
   .scr td.min-td, .scr td.max-td, .scr td.last-td { display: none; }
   .scr td.strip-td { grid-column: 1 / -1; }
   .sigcell, .strips { min-width: 0; }
@@ -294,8 +300,8 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
       <div class="panel">
         <div class="board-head"><h2>신호가 뜬 종목 수 <span class="gen-tag">가상 데이터 포함</span></h2><div class="bars-legend">
           <span><i style="background:var(--zu2)"></i>0.3 이하</span><span><i style="background:var(--zu1)"></i>0.4 이하</span>
-          <span><i style="background:var(--zo1)"></i>2.2 이상</span><span><i style="background:var(--zo2)"></i>2.4 이상</span></div></div>
-        <div class="board-body"><p class="hint">주마다 어느 타임프레임 하나라도 기준에 들어간 종목 수입니다. 위로는 저평가, 아래로는 고평가 신호이고, 종목마다 그 쪽의 가장 강한 단계 하나로 셉니다. 지금 상장된 종목만 셉니다(과거에 상장 폐지된 종목은 빠져 있습니다).</p><div class="cv"><canvas id="breadth" role="img" aria-label="주별 저평가·고평가 신호 종목 수 막대 차트"></canvas></div></div>
+          <span><i style="background:var(--zo2)"></i>2.4 이상</span><span><i style="background:var(--zo1)"></i>2.2 이상</span></div></div>
+        <div class="board-body"><p class="hint">주마다 어느 타임프레임 하나라도 기준에 들어간 종목 수입니다. 위로는 저평가, 아래로는 과열 신호이고, 종목마다 그 쪽의 가장 강한 단계 하나로 셉니다. 지금 상장된 종목만 셉니다(과거에 상장 폐지된 종목은 빠져 있습니다).</p><div class="cv"><canvas id="breadth" role="img" aria-label="주별 저평가·과열 신호 종목 수 막대 차트"></canvas></div></div>
       </div>
       <div class="panel">
         <div class="board-head"><h2>종목별 신호 바코드 <span class="gen-tag">가상 데이터 포함</span></h2><p class="hint" id="barcodeHint"></p></div>
@@ -454,11 +460,15 @@ const SIDX = DATA.days.map((d) => d - DAY0); // sample day -> day index
 // per bar and, per bar b >= 199, V[b] = sum_{j=1..199} (200-j) * C[b-j], so the in-progress multiple on
 // day i is c / ((200c + V[b]) / 20100).
 function tfSeries(c, s0, tf, ok) {
-  const idx = BAR[tf], bi = new Int32Array(ND).fill(-1);
-  let nb = 0, prev = -1;
-  for (let i = s0; i < ND; i++) { if ((!ok || ok[i]) && idx[i] !== prev) { nb++; prev = idx[i]; } bi[i] = nb - 1; }
+  const idx = BAR[tf], base = idx[s0];
+  let bi = null, nb;
+  if (ok) { // bar numbers that skip buckets without a bar
+    bi = new Int32Array(ND).fill(-1); nb = 0; let prev = -1;
+    for (let i = s0; i < ND; i++) { if (ok[i] && idx[i] !== prev) { nb++; prev = idx[i]; } bi[i] = nb - 1; }
+  } else nb = idx[ND - 1] - base + 1;
   const Cb = new Float64Array(nb);
-  for (let i = s0; i < ND; i++) if (bi[i] >= 0) Cb[bi[i]] = c[i];
+  if (bi) { for (let i = s0; i < ND; i++) if (bi[i] >= 0) Cb[bi[i]] = c[i]; }
+  else for (let i = s0; i < ND; i++) Cb[idx[i] - base] = c[i];
   const V = new Float64Array(nb).fill(NaN);
   if (nb >= 200) {
     let A = 0, B = 0;
@@ -466,15 +476,16 @@ function tfSeries(c, s0, tf, ok) {
     V[199] = A;
     for (let e = 199; e < nb - 1; e++) { A = A + 199 * Cb[e] - B; B = B + Cb[e] - Cb[e - 199]; V[e + 1] = A; }
   }
-  return { bi, Cb, V };
+  return { bi, idx, base, Cb, V };
 }
+const barOf = (ts, i) => (ts.bi ? ts.bi[i] : ts.idx[i] - ts.base);
 function mAt(ts, c, i) {
-  const b = ts.bi[i];
+  const b = barOf(ts, i);
   if (b < 199 || Number.isNaN(ts.V[b])) return null;
   const x = c[i]; return x / ((200 * x + ts.V[b]) / 20100);
 }
 function fbAt(ts, c, i) {
-  const b = ts.bi[i], n = Math.min(200, b + 1);
+  const b = barOf(ts, i), n = Math.min(200, b + 1);
   if (b < 0 || n < 12) return null;
   let s = 0; for (let j = 1; j < n; j++) s += (n - j) * ts.Cb[b - j];
   const x = c[i]; return x / ((n * x + s) / (n * (n + 1) / 2));
@@ -523,35 +534,76 @@ function tickerIds(coin) {
 // sample index covering each day (sample k covers the days after sample k-1 up to sample k)
 const SOF = new Int32Array(ND).fill(-1);
 { let k = 0; for (let i = 0; i < ND; i++) { while (k < S && SIDX[k] < i) k++; SOF[i] = k < S ? k : -1; } }
-// Market-cap data check on implied supply (cap / price), which should only move slowly or in one-way steps
-// (unlocks, burns, minting). Flagged: (a) days more than 3% off the median of the surrounding 15 days, padded
-// by a week, and (b) months whose implied supply swings more than 8% and mostly comes back (a level error
-// that comes and goes). Ranges closer than 31 days are merged. Only days where both tickers have a bar count.
+// Market-cap data check on implied supply (cap / price). Real supply moves slowly or in one-way steps
+// (issuance, unlocks, burns); a stablecoin's supply also shrinks and grows. Flagged:
+// (a) spikes: a day more than 3% off the median of the bars around it (the same number of bars on each
+//     side, at least 2, within a week), padded by a week;
+// (b) a calendar month whose implied supply swings more than 8% and mostly comes back;
+// (c) level errors that come and go over months (not for pegged coins): the level (median of 5-7 bars on
+//     each side, so a short glitch or the first and last days never set it) is more than 6% above the lowest
+//     level of both the year before and the year after, or more than 6% below the highest of both.
+// Ranges closer than 31 days are merged. Only days where both tickers have a bar count.
+const median = (a) => { const w = Float64Array.from(a).sort(); return w[w.length >> 1]; };
+// extreme of v over the 365 days before (dir 1) or after (dir -1) each index, excluding the index itself
+// and NaN entries
+function yearExtreme(day, v, dir, isMin) {
+  const n = day.length, out = new Float64Array(n).fill(NaN), dq = new Int32Array(n); let h = 0, t = 0;
+  for (let q = 0; q < n; q++) {
+    const i = dir > 0 ? q : n - 1 - q;
+    while (h < t && Math.abs(day[dq[h]] - day[i]) > 365) h++;
+    if (h < t) out[i] = v[dq[h]];
+    if (Number.isNaN(v[i])) continue;
+    while (h < t && (isMin ? v[i] <= v[dq[t - 1]] : v[i] >= v[dq[t - 1]])) t--;
+    dq[t++] = i;
+  }
+  return out;
+}
 function suspectFrom(cap, price, L, okCap, okPrice) {
-  const day = [], sup = [];
+  const day = [], sup = [], px = [];
   for (let i = L; i < ND; i++) {
     if (!(price[i] > 0) || !(cap[i] > 0) || (okCap && !okCap[i]) || (okPrice && !okPrice[i])) continue;
-    day.push(DAY0 + i); sup.push(cap[i] / price[i]);
+    day.push(DAY0 + i); sup.push(cap[i] / price[i]); px.push(price[i]);
   }
-  const iv = [];
-  for (let i = 0, a = 0, b = 0; i < day.length; i++) {
+  const n = day.length, iv = [];
+  for (let i = 0, a = 0, b = 0; i < n; i++) {
     while (day[a] < day[i] - 7) a++;
-    while (b < day.length && day[b] <= day[i] + 7) b++;
-    if (b - a < 5) continue;
-    const w = sup.slice(a, b).sort((x, y) => x - y);
-    if (Math.abs(sup[i] / w[w.length >> 1] - 1) > 0.03) iv.push([day[i] - 7, day[i] + 7]);
+    while (b < n && day[b] <= day[i] + 7) b++;
+    const k = Math.min(i - a, b - 1 - i);
+    if (k >= 2 && Math.abs(sup[i] / median(sup.slice(i - k, i + k + 1)) - 1) > 0.03) iv.push([day[i] - 7, day[i] + 7]);
   }
   const months = new Map();
-  for (let i = 0; i < day.length; i++) {
+  for (let i = 0; i < n; i++) {
     const key = new Date(day[i] * DAYMS).toISOString().slice(0, 7), s = sup[i];
     const m = months.get(key); if (!m) { months.set(key, { lo: s, hi: s, first: s, last: s, d0: day[i], d1: day[i] }); continue; }
     m.lo = Math.min(m.lo, s); m.hi = Math.max(m.hi, s); m.last = s; m.d1 = day[i];
   }
   for (const m of months.values()) { const sw = (m.hi - m.lo) / m.hi; if (sw > 0.08 && Math.abs(m.last - m.first) / m.hi < 0.6 * sw) iv.push([m.d0, m.d1]); }
+  // pegged coins (stablecoins) move well under 0.5% a day; every other pilot coin moves 1.5% or more
+  const moves = []; for (let i = 1; i < n; i++) if (day[i] - day[i - 1] === 1) moves.push(Math.abs(Math.log(px[i] / px[i - 1])));
+  if (moves.length >= 30 && median(moves) >= 0.005) {
+    const lv = new Float64Array(n).fill(NaN);
+    for (let i = 0, a = 0, b = 0; i < n; i++) {
+      while (day[a] < day[i] - 10) a++;
+      while (b < n && day[b] <= day[i] + 10) b++;
+      const k = Math.min(7, i - a, b - 1 - i);
+      if (k >= 5) lv[i] = median(sup.slice(i - k, i + k + 1));
+    }
+    const loB = yearExtreme(day, lv, 1, true), loA = yearExtreme(day, lv, -1, true), hiB = yearExtreme(day, lv, 1, false), hiA = yearExtreme(day, lv, -1, false);
+    for (let i = 0; i < n; i++) {
+      if ((lv[i] > 1.06 * loB[i] && lv[i] > 1.06 * loA[i]) || (lv[i] < 0.94 * hiB[i] && lv[i] < 0.94 * hiA[i])) iv.push([day[i], day[i]]);
+    }
+  }
   iv.sort((x, y) => x[0] - y[0]);
   const out = [];
   for (const [a, b] of iv) { const r = out[out.length - 1]; if (r && a - r[1] <= 31) r[1] = Math.max(r[1], b); else out.push([a, b]); }
   return out;
+}
+// 1 on the days inside the ranges (day indices), for carrying the flag into WMA windows
+function badDays(ranges) {
+  if (!ranges.length) return null;
+  const a = new Float64Array(ND);
+  for (const [d0, d1] of ranges) for (let i = Math.max(0, d0 - DAY0); i <= Math.min(ND - 1, d1 - DAY0); i++) a[i] = 1;
+  return a;
 }
 const SERIES = new Map();
 function seriesFor(coin) {
@@ -572,6 +624,7 @@ function seriesFor(coin) {
   } else {
     const g = generate(coin); v = { cap: g.cap, price: g.price, okCap: null, okUsd: null, Lcap: g.L, Lusd: g.L, suspect: g.suspect };
   }
+  v.bad = badDays(v.suspect);
   if (PILOT) SERIES.set(coin.s, v); // generated series are cheap to rebuild; real ones are kept
   return v;
 }
@@ -580,15 +633,22 @@ function seriesFor(coin) {
 // values, timeframe masks and the exact last 0.3 / 2.4 days. ok marks the days with a bar: only those
 // count as signal days, and a sample day shows a value only if a bar is at most 3 days old (as the
 // timeframe board does), so longer gaps stay empty instead of drawing a flat line.
-function analyze(series, L, { daily, detail, ok = null }) {
+// bad (1 on flagged market-cap days) marks a signal as suspect when that day is flagged or flagged days
+// carry at least 10% of the weight in its WMA 200.
+const SUSPECT_SHARE = 0.1;
+function analyze(series, L, { daily, detail, ok = null, bad = null }) {
   const cur = new Float32Array(TFS.length).fill(NaN), u = new Uint8Array(S), o = new Uint8Array(S), has = new Uint8Array(S);
-  let lastU2 = -1; // exact last day index with a 0.3 signal (daily mode)
+  const curSusp = new Uint8Array(TFS.length), sus = new Uint8Array(S); // suspect current value / a suspect signal that week
+  // per day: bit 1 = some timeframe hit 0.3 (2.4), bit 2 = one of those hits is not suspect (daily mode)
+  const d2u = daily ? new Uint8Array(ND) : null, d2o = daily ? new Uint8Array(ND) : null;
   const e = detail ? { m: {}, fb: {}, cur: {}, curFb: {}, sig: { u: new Array(S).fill(0), uM: new Array(S).fill(0), o: new Array(S).fill(0), oM: new Array(S).fill(0), uf: new Array(S).fill(0), ufM: new Array(S).fill(0), of: new Array(S).fill(0), ofM: new Array(S).fill(0) } } : null;
   const dayU = detail ? new Uint8Array(ND) : null, dayO = detail ? new Uint8Array(ND) : null, dayUM = detail ? new Uint32Array(ND) : null, dayOM = detail ? new Uint32Array(ND) : null;
   const bump = (lv, mask, k, level, bit) => { if (!level) return; if (level > lv[k]) { lv[k] = level; mask[k] = bit; } else if (level === lv[k]) mask[k] |= bit; };
-  if (L >= ND) return { cur, u, o, has, e, lastU2 };
+  if (L >= ND) return { cur, u, o, has, e, curSusp, sus, lastU2: -1, lastU2Susp: false };
   TFS.forEach((tf, j) => {
     const ts = tfSeries(series, L, tf, ok), bit = 1 << j;
+    const tb = bad && tfSeries(bad, L, tf, ok);
+    const suspAt = (i) => { if (!tb) return false; if (bad[i]) return true; const b = barOf(tb, i); return b >= 199 && (200 * bad[i] + tb.V[b]) / 20100 >= SUSPECT_SHARE; };
     if (detail) e.m[tf] = new Array(S).fill(null);
     let fbArr = null, lastBar = -1;
     const visit = (i) => {
@@ -601,7 +661,11 @@ function analyze(series, L, { daily, detail, ok = null }) {
         if (!bar) return;
         const ul = underLevel(v), ol = overLevel(v);
         if (ul > u[k]) u[k] = ul; if (ol > o[k]) o[k] = ol;
-        if (ul === 2 && i > lastU2) lastU2 = i;
+        if (ul || ol) {
+          const sp = suspAt(i); if (sp) sus[k] = 1;
+          if (d2u && ul === 2) d2u[i] |= sp ? 1 : 3;
+          if (d2o && ol === 2) d2o[i] |= sp ? 1 : 3;
+        }
         if (detail) {
           bump(e.sig.u, e.sig.uM, k, ul, bit); bump(e.sig.o, e.sig.oM, k, ol, bit); bump(e.sig.uf, e.sig.ufM, k, ul, bit); bump(e.sig.of, e.sig.ofM, k, ol, bit);
           if (ul > dayU[i]) { dayU[i] = ul; dayUM[i] = bit; } else if (ul && ul === dayU[i]) dayUM[i] |= bit;
@@ -618,20 +682,27 @@ function analyze(series, L, { daily, detail, ok = null }) {
     else for (let k = 0; k < S; k++) if (SIDX[k] >= L) visit(SIDX[k]);
     // current values only if the ticker still has a recent bar
     let live = !ok; for (let i = ND - 1; i >= Math.max(L, ND - 4) && !live; i--) live = !!ok[i];
-    const m = live ? mAt(ts, series, ND - 1) : null; if (m != null) cur[j] = m;
+    const m = live ? mAt(ts, series, ND - 1) : null; if (m != null) { cur[j] = m; curSusp[j] = suspAt(ND - 1) ? 1 : 0; }
     if (detail) { if (fbArr) e.fb[tf] = fbArr; e.cur[tf] = m; if (m == null && live) e.curFb[tf] = fbAt(ts, series, ND - 1); }
   });
+  // exact last 0.3 / 2.4 day (daily mode); suspect when every hit that day is suspect
+  const lastHit = (d2) => { if (!d2) return -1; for (let i = ND - 1; i >= L; i--) if (d2[i]) return i; return -1; };
+  const lastU2 = lastHit(d2u), lastO2 = lastHit(d2o);
+  const lastU2Susp = lastU2 >= 0 && !(d2u[lastU2] & 2), lastO2Susp = lastO2 >= 0 && !(d2o[lastO2] & 2);
+  if (detail) { e.sig.sus = Array.from(sus); e.curSusp = Object.fromEntries(TFS.map((tf, j) => [tf, !!curSusp[j]])); }
   if (detail) {
     const lastDay = (lv, mask, level) => { for (let i = ND - 1; i >= L; i--) if (lv[i] >= level) return { day: DAY0 + i, mask: lv[i] === level ? mask[i] : 0 }; return null; };
     const count = (lv, level) => { let n = 0; for (let i = L; i < ND; i++) if (lv[i] >= level) n++; return n; };
-    if (daily) { e.last = { u2: lastDay(dayU, dayUM, 2), o2: lastDay(dayO, dayOM, 2) }; e.days = { u2: count(dayU, 2), o2: count(dayO, 2) }; e.unit = '일'; }
-    else {
-      const lastOf = (lv, mask, level) => { for (let k = S - 1; k >= 0; k--) if (lv[k] >= level) return { day: DATA.days[k], mask: lv[k] === level ? mask[k] : 0 }; return null; };
+    if (daily) {
+      e.last = { u2: lastDay(dayU, dayUM, 2), o2: lastDay(dayO, dayOM, 2) }; e.days = { u2: count(dayU, 2), o2: count(dayO, 2) }; e.unit = '일';
+      if (e.last.u2) e.last.u2.susp = lastU2Susp; if (e.last.o2) e.last.o2.susp = lastO2Susp;
+    } else {
+      const lastOf = (lv, mask, level) => { for (let k = S - 1; k >= 0; k--) if (lv[k] >= level) return { day: DATA.days[k], mask: lv[k] === level ? mask[k] : 0, susp: !!sus[k] }; return null; };
       e.last = { u2: lastOf(e.sig.u, e.sig.uM, 2), o2: lastOf(e.sig.o, e.sig.oM, 2) };
       e.days = { u2: e.sig.u.filter((x) => x >= 2).length, o2: e.sig.o.filter((x) => x >= 2).length }; e.unit = '주';
     }
   }
-  return { cur, u, o, has, e, lastU2: daily ? lastU2 : -1 };
+  return { cur, u, o, has, e, curSusp, sus, lastU2, lastU2Susp };
 }
 function summarizeReal(coin) {
   return tickerIds(coin).map((t) => {
@@ -646,8 +717,9 @@ function summarize(coin) {
   const sr = seriesFor(coin);
   return tickerIds(coin).map((t) => {
     const series = t.kind === 'cap' ? sr.cap : sr.price, L = t.kind === 'cap' ? sr.Lcap : sr.Lusd, ok = t.kind === 'cap' ? sr.okCap : sr.okUsd;
-    const a = analyze(series, L, { daily: PILOT, detail: false, ok });
-    return { ...t, cur: a.cur, u: a.u, o: a.o, has: a.has, lastU2Day: a.lastU2 >= 0 ? DAY0 + a.lastU2 : null, suspect: t.kind === 'cap' ? sr.suspect : [], listed: L < ND ? DAY0 + L : null };
+    const a = analyze(series, L, { daily: PILOT, detail: false, ok, bad: t.kind === 'cap' ? sr.bad : null });
+    return { ...t, cur: a.cur, curSusp: a.curSusp, u: a.u, o: a.o, has: a.has, lastU2Day: a.lastU2 >= 0 ? DAY0 + a.lastU2 : null, lastU2Susp: a.lastU2Susp,
+      suspect: t.kind === 'cap' ? sr.suspect : [], listed: L < ND ? DAY0 + L : null };
   });
 }
 
@@ -692,7 +764,7 @@ function coinStats(coin, tk) {
     const m = t.cur[j]; if (Number.isNaN(m)) return;
     if (!min || m < min.m) min = { m, label: `${t.short} ${tf}` };
     if (!max || m > max.m) max = { m, label: `${t.short} ${tf}` };
-    const z = zone(m); if (z !== 'n') hits[z].push({ m, label: `${t.short} ${tf}` });
+    const z = zone(m); if (z !== 'n') hits[z].push({ m, label: `${t.short} ${tf}`, sp: !!t.curSusp?.[j] });
   });
   let lastU2 = -1, lastO2 = -1;
   for (let k = S - 1; k >= 0 && (lastU2 < 0 || lastO2 < 0); k--) for (const t of ts) { if (lastU2 < 0 && t.u[k] === 2) lastU2 = k; if (lastO2 < 0 && t.o[k] === 2) lastO2 = k; }
@@ -700,13 +772,13 @@ function coinStats(coin, tk) {
   const underTop = hits.u2.length ? 2 : hits.u1.length ? 1 : 0, overTop = hits.o2.length ? 2 : hits.o1.length ? 1 : 0;
   // the latest week falls in a flagged market-cap range, so today's CAP values may be off
   const suspect = ts.some((t) => t.suspect.some(([, b]) => b >= DAY0 + ND - 7));
-  // the last 0.3 came from a ticker whose market-cap data is flagged that week
-  // date of the last 0.3: the exact day when every day was checked (pilot), else the week's sample day
+  // Date of the last 0.3: the exact day when every day was checked (pilot), else the week's sample day.
+  // It is suspect when every ticker that hit 0.3 that day did so on flagged market-cap data.
   let lastU2Day = lastU2 >= 0 ? DATA.days[lastU2] : null, lastSusp = false;
   if (PILOT && lastU2 >= 0) {
     const hit = ts.filter((t) => t.lastU2Day != null).sort((a, b) => b.lastU2Day - a.lastU2Day);
     lastU2Day = hit[0].lastU2Day;
-    lastSusp = hit.some((t) => t.lastU2Day === lastU2Day && t.suspect.some(([a, b]) => a <= lastU2Day && b >= lastU2Day));
+    lastSusp = hit.filter((t) => t.lastU2Day === lastU2Day).every((t) => t.lastU2Susp);
   } else {
     // the last 0.3 came from a ticker whose market-cap data is flagged that week
     lastSusp = lastU2 >= 0 && ts.some((t) => t.u[lastU2] === 2 && t.suspect.some(([a, b]) => a <= DATA.days[lastU2] && b >= DATA.days[lastU2] - 6));
@@ -798,20 +870,25 @@ function renderScreener() {
     ex.append(exd); tr.append(ex);
     // one column per side: strongest zone on that side, then how many other cells are in a zone there
     const sideCell = (zones) => {
-      const td = el('td', 'sig-td'); const sc = el('div', 'sigcell');
+      const td = el('td', 'sig-td ' + (zones[0] === 'u2' ? 'u-side' : 'o-side')); const sc = el('div', 'sigcell');
       const z = zones.find((x) => s.hits[x].length);
-      if (s.top === 'na') sc.append(el('span', 'more', '데이터 없음'));
-      else if (!z) sc.append(el('span', 'more', '–'));
+      if (s.top === 'na') { sc.append(el('span', 'more', '데이터 없음')); if (zones[0] === 'o2') td.classList.add('sig-none'); }
+      else if (!z) { td.classList.add('sig-none'); sc.append(el('span', 'more dash', '–'), el('span', 'more m-none', '신호 없음')); }
       else {
         const items = s.hits[z].slice().sort((a, b) => (z[0] === 'u' ? a.m - b.m : b.m - a.m));
         sc.append(zoneChip(z, `${items[0].label} ${fmt(items[0].m)}`));
+        // every hit on this side leans on flagged market-cap data
+        if (zones.every((x) => s.hits[x].every((h) => h.sp))) { const w = el('span', 'warn', '⚠ 의심 데이터'); w.title = '이 신호는 시가총액 데이터 의심 구간이 WMA에 섞인 값에서 나왔습니다'; sc.append(w); }
         const others = zones.reduce((n, x) => n + s.hits[x].length, 0) - 1;
         if (others > 0) sc.append(el('span', 'more', `외 ${others}칸`));
       }
       td.append(sc); return td;
     };
-    const uCell = sideCell(['u2', 'u1']);
-    tr.append(uCell, sideCell(['o2', 'o1']));
+    // phone cards have no column headers: an empty side is hidden there, and a coin with no signal on
+    // either side shows one "신호 없음" line
+    const uCell = sideCell(['u2', 'u1']), oCell = sideCell(['o2', 'o1']);
+    if (uCell.classList.contains('sig-none') && oCell.classList.contains('sig-none')) tr.classList.add('no-sig');
+    tr.append(uCell, oCell);
     const mm = (v) => { const td = el('td', 'mm'); if (v) { td.textContent = fmt(v.m); td.append(el('small', null, v.label)); } else td.textContent = '–'; return td; };
     const mn = mm(s.min); mn.classList.add('min-td'); tr.append(mn); const mx = mm(s.max); mx.classList.add('max-td'); tr.append(mx);
     const st = el('td', 'strip-td'); const sw = el('div', 'strips');
@@ -855,6 +932,9 @@ function renderTiles(body, list) {
   const secOf = (s) => (s.top === 'na' ? 'na' : under ? (s.underTop === 2 ? 'u2' : s.underTop === 1 ? 'u1' : 'rest') : (s.overTop === 2 ? 'o2' : s.overTop === 1 ? 'o1' : 'rest'));
   for (const [z, label] of secs) {
     const items = list.filter((s) => secOf(s) === z); if (!items.length) continue;
+    // inside a section, order by the number the tile shows (lowest first on the under side, highest first
+    // on the over side) unless market-cap order was picked; ties keep the chosen sort
+    if (state.sort !== 'rank') items.sort((a, b) => (under ? (a.min ? a.min.m : Infinity) - (b.min ? b.min.m : Infinity) : (b.max ? b.max.m : -Infinity) - (a.max ? a.max.m : -Infinity)) || 0);
     shown.push(...items.map((s) => s.coin.s));
     const sec = el('div', 'tsec'); const h = el('h3'); const i = el('i'); i.style.background = z === 'rest' || z === 'na' ? 'var(--mid)' : `var(--z${z})`;
     h.append(i, document.createTextNode(label), el('span', null, `${items.length}종`)); sec.append(h);
@@ -926,7 +1006,7 @@ function renderBoard() {
   ctx.strokeStyle = C.line; ctx.beginPath(); ctx.moveTo(padL, Math.round(mid) + 0.5); ctx.lineTo(W - padR, Math.round(mid) + 0.5); ctx.stroke();
   ctx.font = '10.5px "IBM Plex Mono", monospace'; ctx.fillStyle = C.muted; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
   ctx.fillText(String(maxUp), padL - 6, padT + 6); ctx.fillText('0', padL - 6, mid); ctx.fillText(String(maxDn), padL - 6, H - padB - 4);
-  ctx.textAlign = 'left'; ctx.fillText('저평가 신호 ↑', padL + 4, padT + 6); ctx.fillText('고평가 신호 ↓', padL + 4, H - padB - 4);
+  ctx.textAlign = 'left'; ctx.fillText('저평가 신호 ↑', padL + 4, padT + 6); ctx.fillText('과열 신호 ↓', padL + 4, H - padB - 4);
   for (let px = 0; px < plotW; px++) {
     const k0 = Math.floor(px * N / plotW), k1 = Math.max(k0, Math.ceil((px + 1) * N / plotW) - 1);
     let u2 = 0, u1 = 0, o1 = 0, o2 = 0;
@@ -945,7 +1025,7 @@ function renderBoard() {
     const c = counts[k];
     showTip(ev, `${dateStr(DATA.days[start + k])} 주`, [
       { color: C.zu2, value: String(c.u2), label: '0.3 이하', square: true }, { color: C.zu1, value: String(c.u1), label: '0.4 이하 (0.3 제외)', square: true },
-      { color: C.zo1, value: String(c.o1), label: '2.2 이상 (2.4 제외)', square: true }, { color: C.zo2, value: String(c.o2), label: '2.4 이상', square: true },
+      { color: C.zo2, value: String(c.o2), label: '2.4 이상', square: true }, { color: C.zo1, value: String(c.o1), label: '2.2 이상 (2.4 제외)', square: true },
       { color: C.line, value: String(c.has), label: '값이 있는 종목', square: true }]);
   };
   bc.onpointerleave = hideTip;
@@ -1015,7 +1095,7 @@ function detailFor(coin) {
     const sr = seriesFor(coin);
     for (const t of syms) {
       const series = t.kind === 'cap' ? sr.cap : sr.price, L = t.kind === 'cap' ? sr.Lcap : sr.Lusd, ok = t.kind === 'cap' ? sr.okCap : sr.okUsd;
-      const { e } = analyze(series, L, { daily: PILOT, detail: true, ok });
+      const { e } = analyze(series, L, { daily: PILOT, detail: true, ok, bad: t.kind === 'cap' ? sr.bad : null });
       T[t.id] = { ...(e || { m: {}, fb: {}, cur: {}, curFb: {}, sig: { u: [], uM: [], o: [], oM: [], uf: [], ufM: [], of: [], ofM: [] }, last: {}, days: {}, unit: '일' }), suspect: t.kind === 'cap' ? sr.suspect : [] };
     }
   }
@@ -1047,10 +1127,18 @@ function paintSignalRow(ctx, sym, start, N, x0, width, y, h) {
     if (o) { ctx.fillStyle = C['zo' + o]; ctx.fillRect(x, y + half, 1, half); } else if (state.fb && of) { ctx.fillStyle = faded('o' + of); ctx.fillRect(x, y + half, 1, half); }
   }
 }
-function hatchSuspect(ctx, sym, start, N, x0, width, y, h) {
-  if (!D.T[sym].suspect.length) return;
+// a week whose signal leans on flagged market-cap data inside its WMA window (the data that week may be fine)
+const signalSuspectWeek = (sym, k) => !!D.T[sym].sig.sus?.[k];
+function hatchWeeks(ctx, on, start, N, x0, width, y, h) {
   ctx.fillStyle = warnPattern(ctx); let rs = -1;
-  for (let k = 0; k <= N; k++) { const on = k < N && suspectWeek(sym, start + k); if (on && rs < 0) rs = k; if (!on && rs >= 0) { const a = Math.floor(x0 + rs / N * width), b = Math.ceil(x0 + k / N * width); ctx.fillRect(a, y, Math.max(1, b - a), h); rs = -1; } }
+  for (let k = 0; k <= N; k++) { const v = k < N && on(start + k); if (v && rs < 0) rs = k; if (!v && rs >= 0) { const a = Math.floor(x0 + rs / N * width), b = Math.ceil(x0 + k / N * width); ctx.fillRect(a, y, Math.max(1, b - a), h); rs = -1; } }
+}
+function hatchSuspect(ctx, sym, start, N, x0, width, y, h) {
+  if (D.T[sym].suspect.length) hatchWeeks(ctx, (k) => suspectWeek(sym, k), start, N, x0, width, y, h);
+}
+// hatch the signal band where a signal leans on flagged data but the week itself is not flagged
+function hatchSignalSuspect(ctx, sym, start, N, x0, width, y, h) {
+  if (D.T[sym].sig.sus?.some(Boolean)) hatchWeeks(ctx, (k) => signalSuspectWeek(sym, k) && !suspectWeek(sym, k), start, N, x0, width, y, h);
 }
 function signalTipItems(sym, k) {
   const s = D.T[sym].sig, out = [];
@@ -1060,7 +1148,9 @@ function signalTipItems(sym, k) {
 }
 function tipExtra(sym, k) {
   const box = sigBox(signalTipItems(sym, k), '이 주의 신호 (20개 타임프레임)');
-  if (suspectWeek(sym, k)) { const w = el('div', 'warn', '⚠ 이 주는 시가총액 데이터가 의심되는 구간입니다'); const f = document.createDocumentFragment(); f.append(box, w); return f; }
+  const note = suspectWeek(sym, k) ? '⚠ 이 주는 시가총액 데이터가 의심되는 구간입니다'
+    : signalSuspectWeek(sym, k) ? '⚠ 이 주의 신호에는 의심 구간의 시가총액 데이터가 WMA 안에 섞여 있습니다' : null;
+  if (note) { const f = document.createDocumentFragment(); f.append(box, el('div', 'warn', note)); return f; }
   return box;
 }
 function currentZones(sym) {
@@ -1109,12 +1199,14 @@ function renderNow() {
     const row = el('div', 'now-row'); const sym = el('div', 'sym'); sym.append(el('b', null, s.id), el('span', null, s.desc));
     const cur = el('div', 'cur'); const z = currentZones(s.id); let any = false;
     for (const k of ['u2', 'u1', 'o2', 'o1']) { if (z[k].length) { cur.append(zoneChip(k, z[k].map((x) => `${x.tf} ${fmt(x.m)}`).join(', '))); any = true; } if (z.ref[k].length) { cur.append(zoneChip(k, z.ref[k].map((x) => `${x.tf} ${fmt(x.m)}`).join(', '), true)); any = true; } }
+    const zoneTfs = ['u2', 'u1', 'o2', 'o1'].flatMap((k) => z[k].map((x) => x.tf)), cs = D.T[s.id].curSusp;
+    if (cs && zoneTfs.length && zoneTfs.every((tf) => cs[tf])) cur.append(el('span', 'warn', '⚠ 지금 신호는 시가총액 데이터 의심 구간의 영향을 받습니다'));
     if (!any) { const have = TFS.filter((tf) => curOf(s.id, tf)).length; cur.append(el('span', 'none', `신호 없음 · 값이 있는 ${have}개 타임프레임 모두 0.4–2.2 사이` + (have < TFS.length ? ` · ${TFS.length - have}개는 데이터 없음` : ''))); }
     const e = D.T[s.id];
     const cell = (key, label) => {
       const d = el('div', 'lastsig'); d.append(el('div', 'k', label)); const L = e.last[key];
       d.append(el('b', null, L ? dateStr(L.day) : '없음'), el('span', null, L ? `${maskTfs(L.mask).join(', ') || '여러 타임프레임'} · 이력 중 ${e.days[key].toLocaleString('en-US')}${e.unit}` : '이력 중 0' + e.unit));
-      if (L && e.suspect.some(([a, b]) => a <= L.day && b >= L.day - 6)) d.append(el('span', 'warn', '⚠ 데이터 의심 구간의 신호'));
+      if (L && (L.susp ?? e.suspect.some(([a, b]) => a <= L.day && b >= L.day - 6))) d.append(el('span', 'warn', '⚠ 데이터 의심 구간의 신호'));
       return d;
     };
     row.append(sym, cur, cell('u2', '마지막 0.3 이하'), cell('o2', '마지막 2.4 이상')); box.append(row);
@@ -1161,6 +1253,7 @@ function renderLines(view) {
     }
     const yS = H - padB + 6; ctx.fillStyle = C.sunken; ctx.fillRect(padL, yS, plotW, sigH);
     paintSignalRow(ctx, cd.s.id, start, N, padL, plotW, yS, sigH);
+    hatchSignalSuspect(ctx, cd.s.id, start, N, padL, plotW, yS, sigH);
     ctx.fillStyle = C.muted; ctx.textAlign = 'left'; ctx.fillText('신호', W - padR + 6, yS + sigH / 2);
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
     for (const t of yearTicks(start, end, plotW)) ctx.fillText(t.label, X(t.i), H - 4);
@@ -1228,6 +1321,7 @@ function renderStrip(view) {
       const yS = tfs.length * (rowH + gap) + 4; ctx.fillStyle = C.sunken; ctx.fillRect(0, yS, W, sigH);
       paintSignalRow(ctx, bl.s.id, start, N, 0, W, yS, sigH);
       hatchSuspect(ctx, bl.s.id, start, N, 0, W, 0, H);
+      hatchSignalSuspect(ctx, bl.s.id, start, N, 0, W, yS, sigH);
       ctx.fillStyle = C.surface; for (const t of yearTicks(start, end)) ctx.fillRect(Math.round((t.i - start) * cw), 0, 1, H);
     }
     for (const ax of [axisTop, axisBottom]) { ax.replaceChildren(); for (const t of yearTicks(start, end, W)) { const s = el('span', null, t.label); s.style.left = ((t.i - start) / N * 100) + '%'; ax.append(s); } }

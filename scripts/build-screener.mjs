@@ -41,15 +41,23 @@ async function pilotData() {
   const missing = ids.filter((id) => !raw.series[id]?.['1D']?.t?.length);
   if (missing.length) throw new Error(`data/tv-daily.json has no daily bars for: ${missing.join(', ')}`);
 
+  // usdFrom / capFrom in tickers.json drop bars before that day (an older coin's history under the same ticker)
+  const from = new Map(tickers.coins.flatMap((c) => [[c.usd, c.usdFrom], [c.cap, c.capFrom]]).filter(([, f]) => f)
+    .map(([id, f]) => [id, Date.parse(`${f}T00:00:00Z`) / 1000]));
+  const bars = (id) => {
+    const { t, c } = raw.series[id]['1D'], k = t.findIndex((x) => x >= (from.get(id) ?? -Infinity));
+    if (k < 0) throw new Error(`${id}: no daily bars on or after ${new Date(from.get(id) * 1000).toISOString().slice(0, 10)}`);
+    return { t: t.slice(k), c: c.slice(k) };
+  };
   // one shared day axis from the earliest first bar to the latest bar of any ticker
   const dayOf = (t) => Math.floor(t / DAY);
   let first = Infinity, last = -Infinity;
-  for (const id of ids) { const t = raw.series[id]['1D'].t; first = Math.min(first, dayOf(t[0])); last = Math.max(last, dayOf(t.at(-1))); }
+  for (const id of ids) { const { t } = bars(id); first = Math.min(first, dayOf(t[0])); last = Math.max(last, dayOf(t.at(-1))); }
   // Closes per calendar day from the ticker's first bar; days without a bar are null (TradingView has
   // no bar there, so the page keeps them out of the bar count).
   const daily = {};
   for (const id of ids) {
-    const { t, c } = raw.series[id]['1D'];
+    const { t, c } = bars(id);
     const s = dayOf(t[0]), arr = new Array(dayOf(t.at(-1)) - s + 1).fill(null);
     t.forEach((x, i) => { if (Number.isFinite(c[i])) arr[dayOf(x) - s] = c[i]; });
     if (arr[0] == null) throw new Error(`${id}: first daily close is missing`);

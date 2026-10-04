@@ -6,7 +6,9 @@
 // CRYPTOCAP ticker with the same CODE exists.
 //
 // Usage: node scripts/resolve-tickers.mjs [topN]   (default 30) -> data/tickers.json
-// Existing entries in data/tickers.json with "manual": true are kept as they are.
+// Existing entries in data/tickers.json with "manual": true are kept as they are. Such entries may add
+// "usdFrom" / "capFrom" (YYYY-MM-DD): bars before that day are dropped, e.g. history of an older coin
+// that TradingView kept under the same ticker.
 import { readFile, writeFile } from 'node:fs/promises';
 
 const TOP = Number(process.argv[2] || 30);
