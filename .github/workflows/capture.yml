@@ -12,7 +12,7 @@ on:
   push:
     branches: ['claude/**']
     paths:
-      - 'scripts/**'
+      - 'scripts/capture.mjs'
       - '.github/workflows/capture.yml'
 
 permissions:
