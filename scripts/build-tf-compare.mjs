@@ -81,11 +81,11 @@ for (const [sym, tfs] of Object.entries(raw.series)) {
     entry.m[tf] = sampleRows.map((i) => (i == null || i < 0 ? null : q(mAt(i))));
     const last = daily.t.length - 1;
     entry.cur[tf] = mAt(last);
-    // fallback only where the real WMA 200 is missing today
-    if (entry.cur[tf] == null) {
-      entry.fb[tf] = sampleRows.map((i) => (i == null || i < 0 ? null : q(fbAt(i))));
-      entry.curFb[tf] = fbAt(last);
+    // fallback history wherever the real WMA 200 is missing (early history, short timeframes)
+    if (entry.m[tf].some((v, j) => v == null && sampleRows[j] != null && sampleRows[j] >= 0)) {
+      entry.fb[tf] = sampleRows.map((i, j) => (entry.m[tf][j] != null || i == null || i < 0 ? null : q(fbAt(i))));
     }
+    if (entry.cur[tf] == null) entry.curFb[tf] = fbAt(last);
   }
   tickers[sym] = entry;
 }

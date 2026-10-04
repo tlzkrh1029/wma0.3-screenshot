@@ -9,7 +9,7 @@
   --bg: #f4f6f8; --surface: #ffffff; --sunken: #eef1f4; --fg: #141922; --muted: #5b6574; --faint: #8a93a1;
   --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00;
   /* diverging multiple scale: blue = under WMA, red = over, gray = 1.0 */
-  --u3: #104281; --u2: #2a78d6; --u1: #b7d3f6; --mid: #eceae6; --o1: #f5c6c2; --o2: #d63e3d; --o3: #8e1d1c;
+  --u3: #104281; --u2: #2468c4; --u1: #b7d3f6; --mid: #eceae6; --o1: #f5c6c2; --o2: #d63e3d; --o3: #8e1d1c;
   --on-strong: #ffffff;
   /* ordinal timeframe ramp (short -> long), validated: one hue, dL >= 0.06, light end >= 2:1 */
   --ramp-lo: #68c4a1; --ramp-hi: #04301f;
@@ -62,11 +62,16 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
 
 .legend-row { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: center; justify-content: space-between; }
 .method-note { font-size: 13.5px; color: var(--muted); max-width: 72ch; margin: 0; }
-.scale { display: grid; gap: 2px; width: min(320px, 100%); flex: 0 1 320px; }
+#legend { flex: 0 1 320px; min-width: 0; display: grid; gap: 6px; }
+.scale { display: grid; gap: 2px; width: 100%; }
 .scale canvas { width: 100%; height: 12px; border-radius: 3px; display: block; }
 .scale .ticks { position: relative; height: 14px; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); }
 .scale .ticks span { position: absolute; transform: translateX(-50%); }
-.scale .cap { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+.scale .cap { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--muted); }
+.scale .cap i { display: inline-block; width: 12px; height: 9px; margin-right: 4px; vertical-align: -1px; border: 1px solid var(--line); background: repeating-linear-gradient(135deg, var(--sunken) 0 3px, var(--line) 3px 4px); }
+.shape-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); }
+.shape-legend b { display: inline-block; width: 10px; height: 10px; margin-right: 5px; background: var(--muted); vertical-align: -1px; }
+.lempty { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; color: var(--muted); pointer-events: none; }
 .ramp-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
 .ramp-legend span { display: inline-flex; align-items: center; gap: 5px; }
 .ramp-legend i { display: inline-block; width: 16px; height: 0; border-top: 2px solid; }
@@ -84,12 +89,12 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
 .slabels, .svalues { display: grid; }
 .slabels div, .svalues div { font-family: var(--font-mono); font-size: 11px; display: flex; align-items: center; white-space: nowrap; overflow: hidden; }
 .slabels div { color: var(--muted); justify-content: flex-end; }
-.slabels .cons, .svalues .cons { color: var(--faint); font-family: var(--font-sans); }
+.slabels .cons, .svalues .cons { color: var(--muted); font-family: var(--font-sans); }
 .svalues div { gap: 5px; font-variant-numeric: tabular-nums; }
 .svalues i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
-.svalues .na { color: var(--faint); }
+.svalues .na { color: var(--muted); }
 .svalues .fb { font-style: italic; color: var(--muted); }
-.cv { position: relative; min-width: 0; }
+.cv { position: relative; min-width: 0; touch-action: pan-y; }
 .cv canvas { display: block; width: 100%; }
 .hline { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--fg); pointer-events: none; display: none; }
 .xaxis { position: relative; height: 16px; margin-left: 52px; margin-right: 62px; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); }
@@ -106,35 +111,37 @@ h1 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
 .sm-wrap { overflow-x: auto; padding: 10px 12px 12px; }
 table.sm { border-collapse: separate; border-spacing: 4px; }
 .sm th { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: left; padding: 2px 4px; white-space: nowrap; }
-.sm th.rowh { text-align: right; padding-right: 8px; }
+.sm th.rowh { text-align: right; padding-right: 8px; position: sticky; left: 0; z-index: 1; background: var(--surface); }
 .sm th.rowh b { display: block; font-size: 12px; color: var(--fg); }
 .sm th.rowh span { font-family: var(--font-sans); font-weight: 400; font-size: 11px; }
 .sm td { padding: 0; }
-.smc { position: relative; width: 118px; height: 58px; border-radius: 6px; background: var(--sunken); overflow: hidden; }
+.smc { position: relative; width: 118px; height: 58px; border-radius: 6px; background: var(--sunken); overflow: hidden; touch-action: pan-y; }
 .smc canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.smc .v { position: absolute; left: 6px; top: 3px; font-family: var(--font-mono); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; text-shadow: 0 0 3px var(--sunken), 0 0 3px var(--sunken); }
+.smc .v { position: absolute; left: 4px; top: 3px; padding: 0 4px; border-radius: 4px; background: var(--surface); font-family: var(--font-mono); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; }
 .smc .v.fb { font-style: italic; font-weight: 500; }
-.smc .na { position: absolute; inset: 0; display: grid; place-items: center; font-size: 11px; color: var(--faint); }
+.smc .na { position: absolute; inset: 0; display: grid; place-items: center; font-size: 11px; color: var(--muted); }
 
 /* ④ current */
 .cur { display: grid; gap: 12px; }
 .heat-wrap { overflow-x: auto; padding: 10px 12px 12px; }
 table.heat { border-collapse: separate; border-spacing: 2px; width: 100%; }
 .heat th { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; color: var(--muted); padding: 4px 4px; white-space: nowrap; text-align: center; }
-.heat th.rowh { text-align: right; padding-right: 8px; color: var(--fg); }
+.heat th.rowh { text-align: right; padding-right: 8px; color: var(--fg); position: sticky; left: 0; z-index: 1; background: var(--surface); }
 .heat td { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; text-align: center; padding: 9px 4px; border-radius: 4px; min-width: 46px; font-variant-numeric: tabular-nums; }
-.heat td.na { background: var(--sunken); color: var(--faint); font-weight: 400; }
+.heat td.na { background: var(--sunken); color: var(--muted); font-weight: 400; }
 .heat td.fb { font-style: italic; font-weight: 500; }
-.heat .grp th { font-family: var(--font-sans); font-size: 11px; font-weight: 600; color: var(--faint); text-align: left; padding: 0 4px; }
+.heat .grp th { font-family: var(--font-sans); font-size: 11px; font-weight: 600; color: var(--muted); text-align: left; padding: 0 4px; }
 .rails { padding: 10px 14px 14px; display: grid; gap: 4px; }
 .rrow { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 12px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
 .rrow:last-child { border-bottom: 0; }
 .rrow b { font-family: var(--font-mono); font-size: 12px; }
-.rail { position: relative; height: 46px; }
-.rail .band { position: absolute; top: 20px; height: 8px; }
-.rail .tick { position: absolute; top: 16px; height: 16px; border-left: 1px solid var(--faint); }
+.rail { position: relative; height: 70px; }
+.rail .band { position: absolute; top: 44px; height: 8px; }
+.rail .tick { position: absolute; top: 40px; height: 16px; border-left: 1px solid var(--faint); }
 .rail .tick span { position: absolute; top: 16px; transform: translateX(-50%); font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
-.rail .dot { position: absolute; top: 16px; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; border: 2px solid var(--surface); cursor: default; }
+.rail .dot { position: absolute; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid var(--surface); cursor: default; }
+.rail .dot.sq { border-radius: 2px; }
+.rail .dot.dm { border-radius: 2px; transform: rotate(45deg) scale(.9); }
 .rail .dot:hover, .rail .dot:focus-visible { z-index: 2; box-shadow: 0 0 0 2px var(--fg); }
 
 /* tooltip */
@@ -168,29 +175,29 @@ table.heat { border-collapse: separate; border-spacing: 2px; width: 100%; }
 
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow"><span>6개 티커 × 21개 타임프레임</span><span>값 ÷ WMA 200</span><span>그날 진행 중인 봉 기준</span></div>
+    <div class="eyebrow"><span>6개 티커 × 21개 타임프레임 (1W는 데일리·위클리 양쪽)</span><span>값 ÷ WMA 200</span><span>그날 진행 중인 봉 기준</span></div>
     <div class="title-row"><h1>타임프레임 비교 시안</h1><span class="badge" id="badge">TradingView 데이터</span></div>
   </header>
 
   <div class="controls" role="group" aria-label="보기 설정">
-    <div class="ctl"><span>방식</span>
-      <div class="seg" id="methodSeg">
+    <div class="ctl"><span id="lb-method">방식</span>
+      <div class="seg" id="methodSeg" role="group" aria-labelledby="lb-method">
         <button type="button" data-method="strip">① 히트스트립</button>
         <button type="button" data-method="lines">② 겹친 선</button>
         <button type="button" data-method="grid">③ 작은 차트</button>
         <button type="button" data-method="now">④ 현재값</button>
       </div>
     </div>
-    <div class="ctl"><span>축</span>
-      <div class="seg" id="groupSeg">
+    <div class="ctl"><span id="lb-group">축</span>
+      <div class="seg" id="groupSeg" role="group" aria-labelledby="lb-group">
         <button type="button" data-group="daily">데일리축<small>7</small></button>
         <button type="button" data-group="weekly">위클리축<small>6</small></button>
         <button type="button" data-group="monthly">먼슬리축<small>8</small></button>
         <button type="button" data-group="all">전체<small>20</small></button>
       </div>
     </div>
-    <div class="ctl"><span>기간</span>
-      <div class="seg" id="rangeSeg">
+    <div class="ctl"><span id="lb-range">기간</span>
+      <div class="seg" id="rangeSeg" role="group" aria-labelledby="lb-range">
         <button type="button" data-range="all">전체</button>
         <button type="button" data-range="5">5년</button>
         <button type="button" data-range="2">2년</button>
@@ -213,11 +220,12 @@ table.heat { border-collapse: separate; border-spacing: 2px; width: 100%; }
       <li><b>값:</b> 그날 종가로 진행 중인 봉을 계산한 배수입니다. 그날 TradingView 차트에 보이던 값과 같습니다. 화면에는 일주일에 하루씩(마지막 날과 같은 요일) 표본을 찍었습니다.</li>
       <li><b>봉:</b> 모든 타임프레임은 TradingView에서 받은 봉을 그대로 씁니다. 3D·8M·10M처럼 기간이 1년으로 나누어떨어지지 않는 봉은 매년 1월에 새로 시작해서 연말에 짧은 봉이 생깁니다.</li>
       <li><b>데이터 부족:</b> WMA 200은 봉이 200개 있어야 계산됩니다. 먼슬리축은 CRYPTO:BTCUSD 1M(205봉)만 계산되고, 3W는 ETH 시가총액과 ETH.D(166봉)가 계산되지 않습니다. 참고용 스위치를 켜면 있는 봉 전부(12봉 이상)로 계산한 값을 기울임꼴로 보여 줍니다.</li>
+      <li><b>빗금:</b> 그날 계산할 수 없는 칸입니다. 봉이 200개가 안 됐거나, 그 티커의 이력이 시작되기 전이거나, TradingView 일봉에 빈 날(예: CRYPTOCAP:BTC 2018-09~10)입니다.</li>
       <li><b>색:</b> 파랑은 WMA보다 낮음, 빨강은 높음입니다. 0.3 이하와 2.4 이상이 가장 진하고, 0.4–2.2 사이는 1.0(회색)에서 멀어질수록 조금씩 짙어집니다. 도미넌스도 같은 기준으로 칠했습니다.</li>
     </ul>
   </section>
 </div>
-<div class="tip" id="tip" role="status" aria-live="polite"></div>
+<div class="tip" id="tip" role="tooltip"></div>
 
 <script>
 const DATA = /*__DATA__*/null;
@@ -267,6 +275,8 @@ function valAt(sym, tf, i) {
   if (state.fb && t.fb[tf]?.[i] != null) return { m: t.fb[tf][i] / 1000, fb: true };
   return null;
 }
+// zone and printed number both come from the same 2-decimal integer
+function hundredths(m) { return Math.floor((Math.round(m * 1000) + 5) / 10); }
 function curOf(sym, tf) {
   const t = DATA.tickers[sym];
   if (t.cur[tf] != null) return { m: t.cur[tf], fb: false };
@@ -280,8 +290,9 @@ function visibleRange() {
     const from = last - Math.round(Number(state.range) * 365.25);
     start = days.findIndex((d) => d >= from);
   } else {
-    // trim the empty left edge: first sample where any ticker has a value in this group
-    start = days.length - 1;
+    // trim the empty left edge: first sample where any ticker has a value in this group,
+    // but never show less than the 1-year window
+    start = days.findIndex((d) => d >= last - 365);
     for (const s of SYMS) for (const tf of tfsNow()) {
       const i = days.findIndex((_, k) => valAt(s.id, tf, k));
       if (i >= 0 && i < start) start = i;
@@ -290,21 +301,22 @@ function visibleRange() {
   return { start: Math.max(0, start), end: days.length - 1 };
 }
 const dateStr = (d) => new Date(d * DAYMS).toISOString().slice(0, 10);
-const fmt = (m) => (m >= 10 ? m.toFixed(1) : m.toFixed(2));
+const fmt = (m) => (m >= 10 ? m.toFixed(1) : (hundredths(m) / 100).toFixed(2));
 
 // ---------- colors ----------
 function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 function rgb(hex) { const h = hex.replace('#', ''); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)); }
 let C = {};
 function readColors() {
-  for (const k of ['u3', 'u2', 'u1', 'mid', 'o1', 'o2', 'o3', 'ramp-lo', 'ramp-hi', 'surface', 'sunken', 'line', 'fg', 'muted', 'faint', 'on-strong']) C[k] = css('--' + k);
+  for (const k of ['u3', 'u2', 'u1', 'mid', 'o1', 'o2', 'o3', 'ramp-lo', 'ramp-hi', 'surface', 'sunken', 'line', 'fg', 'muted', 'faint']) C[k] = css('--' + k);
   C.rgb = {}; for (const k of ['u3', 'u2', 'u1', 'mid', 'o1', 'o2', 'o3', 'ramp-lo', 'ramp-hi']) C.rgb[k] = rgb(C[k]);
+  hatchCache = null;
 }
 const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
 const toCss = (c) => `rgb(${c[0]},${c[1]},${c[2]})`;
 function zone(m) {
-  const r = Math.round(m * 100) / 100;
-  if (r <= 0.3) return 'u3'; if (r <= 0.4) return 'u2'; if (r >= 2.4) return 'o3'; if (r >= 2.2) return 'o2'; return 'n';
+  const c = hundredths(m);
+  if (c <= 30) return 'u3'; if (c <= 40) return 'u2'; if (c >= 240) return 'o3'; if (c >= 220) return 'o2'; return 'n';
 }
 function colorOf(m) {
   const z = zone(m);
@@ -312,19 +324,26 @@ function colorOf(m) {
   if (m < 1) return mix(C.rgb.u1, C.rgb.mid, Math.log(m / 0.4) / Math.log(1 / 0.4));
   return mix(C.rgb.mid, C.rgb.o1, Math.min(1, Math.log(m) / Math.log(2.2)));
 }
+function relLum(c) {
+  const f = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+  return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]);
+}
 function inkOn(c) {
-  // pick readable text on a filled cell
-  const L = (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255;
-  return L < 0.55 ? '#ffffff' : '#141922';
+  // pick whichever text color has more contrast on this fill
+  const L = relLum(c), light = 1.0, dark = relLum([20, 25, 34]);
+  return (light + 0.05) / (L + 0.05) >= (L + 0.05) / (dark + 0.05) ? '#ffffff' : '#141922';
 }
 function rampColor(i, n) { return toCss(mix(C.rgb['ramp-lo'], C.rgb['ramp-hi'], n <= 1 ? 1 : i / (n - 1))); }
-let hatch = null;
+let hatchCache = null;
 function hatchPattern(ctx) {
+  if (hatchCache && hatchCache.key === C.sunken + C.line) return hatchCache.pat;
   const c = document.createElement('canvas'); c.width = c.height = 6;
   const g = c.getContext('2d');
   g.fillStyle = C.sunken; g.fillRect(0, 0, 6, 6);
   g.strokeStyle = C.line; g.lineWidth = 1; g.beginPath(); g.moveTo(0, 6); g.lineTo(6, 0); g.stroke();
-  return ctx.createPattern(c, 'repeat');
+  const pat = ctx.createPattern(c, 'repeat');
+  hatchCache = { key: C.sunken + C.line, pat };
+  return pat;
 }
 function setupCanvas(cv, w, h) {
   const dpr = window.devicePixelRatio || 1;
@@ -362,7 +381,7 @@ function divergingLegend() {
   const cv = document.createElement('canvas'); wrap.append(cv);
   const ticks = document.createElement('div'); ticks.className = 'ticks';
   const cap = document.createElement('div'); cap.className = 'cap';
-  cap.innerHTML = '<span>WMA보다 낮음</span><span>높음</span>';
+  cap.innerHTML = '<span>WMA보다 낮음</span><span><i></i>계산 불가</span><span>높음</span>';
   wrap.append(ticks, cap);
   requestAnimationFrame(() => {
     const w = cv.clientWidth || 300, ctx = setupCanvas(cv, w, 12);
@@ -371,6 +390,7 @@ function divergingLegend() {
     for (const t of [0.3, 0.4, 1, 2.2, 2.4]) {
       const s = document.createElement('span'); s.textContent = t;
       s.style.left = ((Math.log(t) - lo) / (hi - lo) * 100) + '%';
+      s.style.transform = 'translateX(-50%)';
       if (t === 0.3 || t === 2.2) s.style.transform = 'translateX(-95%)';
       if (t === 0.4 || t === 2.4) s.style.transform = 'translateX(-5%)';
       ticks.append(s);
@@ -398,8 +418,9 @@ function yearTicks(start, end) {
   if (span < 2) { // short ranges: quarter ticks
     out.length = 0;
     const d0 = new Date(days[start] * DAYMS);
+    const q0 = Math.floor(d0.getUTCMonth() / 3) * 3;
     for (let k = 1; k < 12; k++) {
-      const dt = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + k * 3, 1) / DAYMS;
+      const dt = Date.UTC(d0.getUTCFullYear(), q0 + k * 3, 1) / DAYMS;
       const i = days.findIndex((x) => x >= dt);
       if (i > start && i <= end) out.push({ i, label: dateStr(dt).slice(0, 7) });
     }
@@ -433,6 +454,7 @@ function renderStrip(view) {
     const vc = document.createElement('div'); vc.className = 'cons'; values.append(vc);
     const cvw = document.createElement('div'); cvw.className = 'cv';
     const cv = document.createElement('canvas'); const hl = document.createElement('div'); hl.className = 'hline';
+    cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${s.id}의 ${tfs.length}개 타임프레임 배수 이력. 현재 값은 오른쪽 열에 있습니다.`);
     cvw.append(cv, hl);
     grid.append(labels, cvw, values); b.append(grid); panel.append(b);
     blocks.push({ s, cv, hl, vc });
@@ -450,10 +472,21 @@ function renderStrip(view) {
       const cw = W / N;
       tfs.forEach((tf, r) => {
         const y = r * (rowH + gap);
-        for (let k = 0; k < N; k++) {
-          const v = valAt(bl.s.id, tf, start + k);
-          ctx.fillStyle = v ? toCss(colorOf(v.m)) : pat;
-          ctx.fillRect(Math.floor(k * cw), y, Math.ceil(cw) + 0.5, rowH);
+        if (cw >= 1) {
+          for (let k = 0; k < N; k++) {
+            const v = valAt(bl.s.id, tf, start + k);
+            ctx.fillStyle = v ? toCss(colorOf(v.m)) : pat;
+            ctx.fillRect(Math.floor(k * cw), y, Math.ceil(cw) + 0.5, rowH);
+          }
+        } else {
+          // several samples share a pixel: keep the one farthest from 1.0 so short spikes survive
+          for (let x = 0; x < W; x++) {
+            const k0 = Math.floor(x / cw), k1 = Math.min(N - 1, Math.floor((x + 1) / cw));
+            let best = null;
+            for (let k = k0; k <= k1; k++) { const v = valAt(bl.s.id, tf, start + k); if (v && (!best || Math.abs(Math.log(v.m)) > Math.abs(Math.log(best.m)))) best = v; }
+            ctx.fillStyle = best ? toCss(colorOf(best.m)) : pat;
+            ctx.fillRect(x, y, 1, rowH);
+          }
         }
       });
       // consensus row: share of timeframes at or below 0.4 (top half) / at or above 2.2 (bottom half)
@@ -491,6 +524,7 @@ function renderStrip(view) {
   };
   for (const bl of blocks) {
     bl.cv.addEventListener('pointermove', (ev) => move(ev, bl));
+    bl.cv.addEventListener('pointerdown', (ev) => move(ev, bl));
     bl.cv.addEventListener('pointerleave', () => { hideTip(); for (const o of blocks) o.hl.style.display = 'none'; });
   }
   return draw;
@@ -517,13 +551,16 @@ function renderLines(view) {
     card.querySelector('b').textContent = s.id; card.querySelector('span').textContent = s.desc;
     const cvw = document.createElement('div'); cvw.className = 'cv';
     const cv = document.createElement('canvas'); cvw.append(cv); card.append(cvw); grid.append(card);
+    cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${s.id}의 타임프레임별 배수 선 차트`);
+    const has = tfs.some((tf) => DATA.days.some((_, k) => k >= start && valAt(s.id, tf, k)));
+    if (!has) { const e = document.createElement('div'); e.className = 'lempty'; e.textContent = '이 축에서는 봉이 200개 미만이라 계산할 수 없습니다'; cvw.append(e); }
     cards.push({ s, cv });
   }
   view.append(grid);
   const H = 230, padL = 6, padR = 40, padT = 8, padB = 20;
   const geom = new Map();
-  const draw = () => {
-    for (const cd of cards) {
+  const drawCard = (cd) => {
+    {
       const W = cd.cv.parentElement.clientWidth, ctx = setupCanvas(cd.cv, W, H);
       let lo = 0.27, hi = 2.65;
       for (const tf of tfs) for (let k = start; k <= end; k++) { const v = valAt(cd.s.id, tf, k); if (v) { lo = Math.min(lo, v.m); hi = Math.max(hi, v.m); } }
@@ -559,20 +596,23 @@ function renderLines(view) {
       });
     }
   };
+  const draw = () => cards.forEach(drawCard);
   draw();
   for (const cd of cards) {
-    cd.cv.addEventListener('pointermove', (ev) => {
+    const onMove = (ev) => {
       const g = geom.get(cd.cv); if (!g) return;
       const rect = cd.cv.getBoundingClientRect();
       const k = Math.round(start + (ev.clientX - rect.left - padL) / (g.W - padL - padR) * (N - 1));
+      drawCard(cd);
       if (k < start || k > end) { hideTip(); return; }
-      draw();
       const ctx = cd.cv.getContext('2d');
       ctx.strokeStyle = C.fg; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(Math.round(g.X(k)) + 0.5, padT); ctx.lineTo(Math.round(g.X(k)) + 0.5, H - padB); ctx.stroke();
       const rows = tfs.map((tf, r) => { const v = valAt(cd.s.id, tf, k); return { color: rampColor(r, tfs.length), value: v ? fmt(v.m) : '–', label: tf, italic: v?.fb }; }).reverse();
       showTip(ev, `${cd.s.short} · ${dateStr(DATA.days[k])}`, rows);
-    });
-    cd.cv.addEventListener('pointerleave', () => { hideTip(); draw(); });
+    };
+    cd.cv.addEventListener('pointermove', onMove);
+    cd.cv.addEventListener('pointerdown', onMove);
+    cd.cv.addEventListener('pointerleave', () => { hideTip(); drawCard(cd); });
   }
   return draw;
 }
@@ -627,12 +667,14 @@ function renderGrid(view) {
   };
   draw();
   for (const cl of cells) {
-    cl.box.addEventListener('pointermove', (ev) => {
+    const onMove = (ev) => {
       const r = cl.box.getBoundingClientRect();
       const k = Math.round(start + (ev.clientX - r.left) / r.width * (N - 1));
       const v = valAt(cl.s.id, cl.tf, Math.min(end, Math.max(start, k)));
       showTip(ev, `${cl.s.short} ${cl.tf} · ${dateStr(DATA.days[Math.min(end, Math.max(start, k))])}`, [{ color: v ? toCss(colorOf(v.m)) : C.line, value: v ? fmt(v.m) : '–', label: '배수', square: true, italic: v?.fb }]);
-    });
+    };
+    cl.box.addEventListener('pointermove', onMove);
+    cl.box.addEventListener('pointerdown', onMove);
     cl.box.addEventListener('pointerleave', hideTip);
   }
   return draw;
@@ -677,12 +719,19 @@ function renderNow(view) {
     const segs = [[0.2, 0.3, 'u3'], [0.3, 0.4, 'u2'], [0.4, 2.2, 'mid'], [2.2, 2.4, 'o2'], [2.4, 4, 'o3']];
     for (const [a, z2, k] of segs) { const d = document.createElement('div'); d.className = 'band'; d.style.left = pct(a); d.style.width = `calc(${pct(z2)} - ${pct(a)})`; d.style.background = `var(--${k})`; rail.append(d); }
     for (const t of [0.3, 0.4, 1, 2.2, 2.4]) { const d = document.createElement('div'); d.className = 'tick'; d.style.left = pct(t); const sp = document.createElement('span'); sp.textContent = t; if (t === 2.2) sp.style.transform = 'translateX(-95%)'; if (t === 2.4) sp.style.transform = 'translateX(-5%)'; d.append(sp); rail.append(d); }
+    const placed = [];
     tfs.forEach((tf, i) => {
       const c = curOf(s.id, tf); if (!c) return;
-      const d = document.createElement('div'); d.className = 'dot'; d.tabIndex = 0;
-      d.style.left = pct(c.m); d.style.background = rampColor(i, tfs.length);
+      const st = dotStyle(tf, i, tfs);
+      const d = document.createElement('div'); d.className = 'dot' + st.cls; d.tabIndex = 0; d.setAttribute('role', 'img');
+      // stack dots that would overlap (within ~1.4% of the rail) on rows above the rail
+      const x = parseFloat(pct(c.m));
+      let lvl = 0; while (placed.some((p) => p.lvl === lvl && Math.abs(p.x - x) < 1.4)) lvl++;
+      placed.push({ x, lvl });
+      d.style.top = (37 - Math.min(lvl, 3) * 11) + 'px';
+      d.style.left = pct(c.m); d.style.background = st.color;
       d.setAttribute('aria-label', `${s.id} ${tf} ${fmt(c.m)}`);
-      const show = (ev) => showTip(ev.clientX ? ev : { clientX: d.getBoundingClientRect().right, clientY: d.getBoundingClientRect().bottom }, s.short, [{ color: rampColor(i, tfs.length), value: fmt(c.m), label: tf, italic: c.fb }]);
+      const show = (ev) => showTip(ev.clientX ? ev : { clientX: d.getBoundingClientRect().right, clientY: d.getBoundingClientRect().bottom }, s.short, [{ color: st.color, value: fmt(c.m), label: tf, italic: c.fb }]);
       d.addEventListener('pointerenter', show); d.addEventListener('focus', show);
       d.addEventListener('pointerleave', hideTip); d.addEventListener('blur', hideTip);
       rail.append(d);
@@ -691,6 +740,25 @@ function renderNow(view) {
   }
   box.append(rails); view.append(box);
   return () => {};
+}
+
+// In 'all', 20 steps of one ramp are too close to tell apart: encode the axis by shape
+// and use the ramp within each axis.
+const AXIS_OF = (tf) => (GROUPS.daily.includes(tf) ? 'daily' : GROUPS.weekly.includes(tf) ? 'weekly' : 'monthly');
+function dotStyle(tf, i, tfs) {
+  if (state.group !== 'all') return { cls: '', color: rampColor(i, tfs.length) };
+  const ax = AXIS_OF(tf), list = GROUPS[ax].filter((t) => ax !== 'weekly' || t !== '1W');
+  return { cls: ax === 'weekly' ? ' sq' : ax === 'monthly' ? ' dm' : '', color: rampColor(list.indexOf(tf), list.length) };
+}
+function shapeLegend() {
+  const el = document.createElement('div'); el.className = 'shape-legend';
+  for (const [label, r] of [['데일리축 ●', '50%'], ['위클리축 ■', '2px'], ['먼슬리축 ◆', '2px']]) {
+    const s = document.createElement('span'); const b = document.createElement('b'); b.style.borderRadius = r;
+    if (label.startsWith('먼슬리')) b.style.transform = 'rotate(45deg) scale(.85)';
+    s.append(b, document.createTextNode(label.slice(0, -2))); el.append(s);
+  }
+  const s = document.createElement('span'); s.textContent = '각 축 안에서는 짧을수록 옅고 길수록 진합니다'; el.append(s);
+  return el;
 }
 
 // ---------- shell ----------
@@ -706,7 +774,7 @@ function render() {
   document.getElementById('methodNote').textContent = NOTES[state.method];
   const legend = document.getElementById('legend'); legend.replaceChildren();
   legend.append(state.method === 'lines' && state.group !== 'all' ? rampLegend(tfsNow()) : divergingLegend());
-  if (state.method === 'now') legend.append(rampLegend(tfsNow()));
+  if (state.method === 'now') legend.append(state.group === 'all' ? shapeLegend() : rampLegend(tfsNow()));
   const view = document.getElementById('view'); view.replaceChildren();
   redraw = { strip: renderStrip, lines: renderLines, grid: renderGrid, now: renderNow }[state.method](view);
 }
