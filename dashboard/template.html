@@ -280,6 +280,8 @@ table.matrix { width: 100%; border-collapse: collapse; min-width: 640px; }
     <ul>
       <li>모든 값은 TradingView 차트 데이터입니다. 여섯 티커의 1D, 3D, 1W 봉을 TradingView에서 그대로 받아 왔으므로, 봉 경계와 종가가 TradingView 차트와 같습니다.</li>
       <li>데이터는 GitHub Actions가 로그인 쿠키로 TradingView에 접속해 받아 옵니다. TradingView가 공식 제공하는 방법이 아니어서 언제든 막힐 수 있습니다.</li>
+      <li id="noteLogin" hidden></li>
+      <li id="noteMissing" hidden></li>
       <li>WMA 200은 Pine Script의 <span class="num">ta.wma(close, 200)</span>과 같은 식(최근 봉 가중치 200부터 1까지)으로 계산했습니다.</li>
       <li>각 타임프레임의 마지막 봉은 수집 시각 기준으로 진행 중인 봉입니다. 새 데이터는 수집을 다시 돌리고 보드를 다시 게시해야 반영됩니다.</li>
     </ul>
@@ -660,9 +662,21 @@ document.getElementById('viewTable').addEventListener('click', () => setView('ta
 document.getElementById('viewRail').addEventListener('click', () => setView('rail'));
 
 const fetched = new Date(DATA.fetchedAt);
-const fetchedStr = fetched.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
-document.getElementById('asOf').textContent = `수집 ${fetchedStr}`;
-document.getElementById('srcBadge').textContent = `TradingView 데이터 · ${fetched.toISOString().slice(0, 10)}`;
+if (!isNaN(fetched)) {
+  document.getElementById('asOf').textContent = `수집 ${fetched.toISOString().slice(0, 16).replace('T', ' ')} UTC`;
+  document.getElementById('srcBadge').textContent = `TradingView 데이터 · ${fetched.toISOString().slice(0, 10)}`;
+}
+if (DATA.loggedIn === false) {
+  const el = document.getElementById('noteLogin');
+  el.textContent = '이번 데이터는 로그인 없이 받아서, 로그인했을 때보다 이력이 짧을 수 있습니다.';
+  el.hidden = false;
+}
+const missing = SYMS.flatMap((s) => TFS.filter((tf) => !DATA.series[s.id]?.[tf.id]?.t?.length).map((tf) => `${s.id} ${tf.id}`));
+if (missing.length) {
+  const el = document.getElementById('noteMissing');
+  el.textContent = `받지 못한 시리즈: ${missing.join(', ')}`;
+  el.hidden = false;
+}
 renderSummary();
 renderTable();
 renderRails();

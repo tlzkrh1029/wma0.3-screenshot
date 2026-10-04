@@ -28,10 +28,8 @@ async function authToken() {
   });
   const html = await res.text();
   const m = html.match(/"auth_token":"([^"]+)"/);
-  if (!m) {
-    console.warn(`auth_token not found (HTTP ${res.status}); falling back to anonymous token`);
-    return { token: 'unauthorized_user_token', loggedIn: false };
-  }
+  if (!m) throw new Error(`login cookies did not yield an auth_token (HTTP ${res.status}); they may have expired`);
+  if (process.env.GITHUB_ACTIONS) console.log(`::add-mask::${m[1]}`);
   return { token: m[1], loggedIn: true };
 }
 
@@ -42,10 +40,15 @@ function parseFrames(raw) {
   let i = 0;
   while (i < raw.length) {
     const m = /^~m~(\d+)~m~/.exec(raw.slice(i));
-    if (!m) break;
-    const start = i + m[0].length;
-    out.push(raw.slice(start, start + Number(m[1])));
-    i = start + Number(m[1]);
+    const end = m ? i + m[0].length + Number(m[1]) : -1;
+    // The declared length may not match JS string length for non-ASCII text;
+    // if it doesn't land on the next frame, split the rest on the delimiters.
+    if (!m || (end < raw.length && !raw.startsWith('~m~', end))) {
+      out.push(...raw.slice(i).split(/~m~\d+~m~/).filter(Boolean));
+      break;
+    }
+    out.push(raw.slice(i + m[0].length, end));
+    i = end;
   }
   return out;
 }
@@ -54,11 +57,24 @@ class TVClient {
   constructor(ws) {
     this.ws = ws;
     this.listeners = new Set();
+    this.rejecters = new Set();
+    this.closed = null;
+    const abort = (reason) => {
+      this.closed = reason;
+      for (const reject of [...this.rejecters]) reject(new Error(reason));
+    };
+    ws.on('close', (code) => abort(`connection closed (code ${code})`));
+    ws.on('error', (err) => abort(`connection error: ${err.message}`));
     ws.on('message', (data) => {
       for (const payload of parseFrames(data.toString())) {
         if (payload.startsWith('~h~')) { ws.send(frame(payload)); continue; }
         let msg;
         try { msg = JSON.parse(payload); } catch { continue; }
+        // protocol/critical errors without a chart session apply to the whole connection
+        if ((msg.m === 'protocol_error' || msg.m === 'critical_error') && !String(msg.p?.[0] ?? '').startsWith('cs_')) {
+          abort(`${msg.m}: ${JSON.stringify(msg.p).slice(0, 200)}`);
+          continue;
+        }
         for (const fn of this.listeners) fn(msg);
       }
     });
@@ -67,16 +83,19 @@ class TVClient {
   // Resolve with the first message for which pick() returns a non-undefined value.
   wait(pick, timeoutMs = 45_000, label = 'message') {
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => { this.listeners.delete(fn); reject(new Error(`timeout waiting for ${label}`)); }, timeoutMs);
+      if (this.closed) return reject(new Error(this.closed));
+      const done = () => { clearTimeout(timer); this.listeners.delete(fn); this.rejecters.delete(fail); };
+      const fail = (err) => { done(); reject(err); };
+      const timer = setTimeout(() => fail(new Error(`timeout waiting for ${label}`)), timeoutMs);
       const fn = (msg) => {
         let v;
         try { v = pick(msg); } catch (err) { v = err; }
         if (v === undefined) return;
-        clearTimeout(timer);
-        this.listeners.delete(fn);
+        done();
         v instanceof Error ? reject(v) : resolve(v);
       };
       this.listeners.add(fn);
+      this.rejecters.add(fail);
     });
   }
 }
@@ -87,7 +106,7 @@ async function fetchSeries(client, symbol, tf) {
   const bars = new Map(); // time -> close
   const onData = (msg) => {
     if ((msg.m === 'timescale_update' || msg.m === 'du') && msg.p?.[0] === cs) {
-      for (const b of msg.p[1]?.sds_1?.s || []) bars.set(b.v[0], b.v[4]);
+      for (const b of msg.p[1]?.sds_1?.s || []) if (Number.isFinite(b.v?.[4])) bars.set(b.v[0], b.v[4]);
     }
   };
   client.listeners.add(onData);
@@ -114,16 +133,15 @@ async function fetchSeries(client, symbol, tf) {
     client.send('create_series', [cs, 'sds_1', 's1', 'sds_sym_1', tf, CHUNK, '']);
     const meta = await resolved;
     await next;
-    for (let round = 1; round <= MAX_ROUNDS && bars.size >= CHUNK * round; round++) {
-      // Older history comes in further chunks; stop when a round adds nothing.
+    // Older history comes in further chunks; keep asking until a round adds nothing.
+    let added = bars.size >= CHUNK ? Infinity : 0;
+    for (let round = 1; added > 0; round++) {
+      if (round > MAX_ROUNDS) throw new Error(`still receiving data after ${MAX_ROUNDS} extra chunks; history may be truncated`);
       const before = bars.size;
-      next = completed(30_000);
+      next = completed(45_000);
       client.send('request_more_data', [cs, 'sds_1', CHUNK]);
-      try { await next; } catch (err) {
-        if (/^timeout/.test(err.message)) break;
-        throw err;
-      }
-      if (bars.size === before) break;
+      await next; // a timeout here fails the series instead of silently truncating it
+      added = bars.size - before;
     }
     const sorted = [...bars.entries()].sort((a, b) => a[0] - b[0]);
     return {
@@ -149,6 +167,7 @@ client.send('set_auth_token', [token]);
 client.send('set_locale', ['en', 'US']);
 
 const out = { fetchedAt: new Date().toISOString(), loggedIn, series: {} };
+// the bars are in UTC; drop nulls the feed may contain
 let failures = 0;
 for (const symbol of SYMBOLS) {
   out.series[symbol] = {};
@@ -167,7 +186,11 @@ for (const symbol of SYMBOLS) {
 }
 ws.close();
 
+if (failures) {
+  // Keep the previously committed file intact rather than replacing it with a partial one.
+  console.error(`${failures} series failed; ${OUT} was not updated`);
+  process.exit(1);
+}
 await mkdir(path.dirname(OUT), { recursive: true });
 await writeFile(OUT, JSON.stringify(out));
 console.log(`wrote ${OUT}`);
-if (failures) process.exitCode = 1;

@@ -18,9 +18,12 @@ const round = (sym, v) => {
 const series = {};
 for (const [sym, tfs] of Object.entries(raw.series)) {
   series[sym] = {};
-  for (const [tf, s] of Object.entries(tfs)) series[sym][tf] = { t: s.t, c: s.c.map((v) => round(sym, v)) };
+  for (const [tf, s] of Object.entries(tfs)) {
+    const keep = s.c.map((v, i) => (Number.isFinite(v) ? i : -1)).filter((i) => i >= 0);
+    series[sym][tf] = { t: keep.map((i) => s.t[i]), c: keep.map((i) => round(sym, s.c[i])) };
+  }
 }
-const data = JSON.stringify({ fetchedAt: raw.fetchedAt, series });
+const data = JSON.stringify({ fetchedAt: raw.fetchedAt, loggedIn: raw.loggedIn, series });
 const marker = '/*__DATA__*/null';
 if (!template.includes(marker)) throw new Error(`template is missing ${marker}`);
 await mkdir(path.dirname(out), { recursive: true });

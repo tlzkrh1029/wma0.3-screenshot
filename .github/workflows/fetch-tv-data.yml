@@ -37,7 +37,6 @@ jobs:
         run: node scripts/fetch-tv.mjs
 
       - name: Commit data
-        if: ${{ !cancelled() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
