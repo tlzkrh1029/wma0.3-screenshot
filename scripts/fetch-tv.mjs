@@ -4,16 +4,19 @@
 // Env:
 //   TV_SESSIONID, TV_SESSIONID_SIGN  TradingView login cookies (optional; without
 //                                    them the anonymous token is used)
+//   TICKERS_FILE JSON file of coins with resolved {cap, usd} tickers (overrides TV_SYMBOLS)
 //   TV_SYMBOLS   comma-separated tickers (default: the six dashboard tickers)
 //   TV_TFS       comma-separated resolutions (default: the 20 dashboard timeframes)
 //   OUT          output file (default data/tv-history.json)
 import WebSocket from 'ws';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const SYMBOLS = (process.env.TV_SYMBOLS ||
-  'CRYPTO:BTCUSD,CRYPTOCAP:BTC,CRYPTOCAP:BTC.D,CRYPTO:ETHUSD,CRYPTOCAP:ETH,CRYPTOCAP:ETH.D')
-  .split(',').map((s) => s.trim()).filter(Boolean);
+// TICKERS_FILE (e.g. data/tickers.json) lists coins with their resolved tickers; otherwise TV_SYMBOLS.
+const SYMBOLS = process.env.TICKERS_FILE
+  ? JSON.parse(await readFile(process.env.TICKERS_FILE, 'utf8')).coins.flatMap((c) => [c.cap, c.usd]).filter(Boolean)
+  : (process.env.TV_SYMBOLS || 'CRYPTO:BTCUSD,CRYPTOCAP:BTC,CRYPTOCAP:BTC.D,CRYPTO:ETHUSD,CRYPTOCAP:ETH,CRYPTOCAP:ETH.D')
+    .split(',').map((s) => s.trim()).filter(Boolean);
 const TFS = (process.env.TV_TFS || '1D,2D,3D,4D,5D,6D,1W,8D,9D,10D,2W,3W,1M,2M,3M,4M,6M,8M,10M,12M').split(',').map((s) => s.trim()).filter(Boolean);
 const OUT = process.env.OUT || path.join('data', 'tv-history.json');
 const CHUNK = 5000;

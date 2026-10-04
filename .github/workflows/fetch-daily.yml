@@ -1,0 +1,57 @@
+name: Fetch daily closes
+
+# Daily 1D closes for every coin in data/tickers.json (CRYPTOCAP + CRYPTO USD tickers).
+# The other 19 timeframes are rebuilt from these closes, matching TradingView's own bars.
+on:
+  schedule:
+    - cron: '15 0 * * *'   # 00:15 UTC = 09:15 KST, after the daily candle closes
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths:
+      - 'data/tickers.json'
+      - '.github/workflows/fetch-daily.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-daily-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+      - name: Fetch daily closes
+        env:
+          TV_SESSIONID: ${{ secrets.TV_SESSIONID }}
+          TV_SESSIONID_SIGN: ${{ secrets.TV_SESSIONID_SIGN }}
+          TICKERS_FILE: data/tickers.json
+          TV_TFS: 1D
+          OUT: data/tv-daily.json
+        run: node scripts/fetch-tv.mjs
+
+      - name: Commit data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add data/tv-daily.json
+          if git diff --cached --quiet; then
+            echo "No data changes"
+          else
+            git commit -m "Update daily closes ($(date -u +%F))"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

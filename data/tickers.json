@@ -1,0 +1,405 @@
+{
+ "resolvedAt": "2026-10-04T16:02:24.426Z",
+ "coins": [
+  {
+   "rank": 1,
+   "sym": "BTC",
+   "name": "Bitcoin",
+   "usd": "CRYPTO:BTCUSD",
+   "cap": "CRYPTOCAP:BTC",
+   "tvName": "Bitcoin",
+   "confidence": "high",
+   "alternatives": [
+    "BTCBUSD (Bitcoin BEP2)",
+    "BTCFUSD (BITCOIN FUTURE)",
+    "BTCVUSD (Bitcoin Vault)"
+   ]
+  },
+  {
+   "rank": 2,
+   "sym": "ETH",
+   "name": "Ethereum",
+   "usd": "CRYPTO:ETHUSD",
+   "cap": "CRYPTOCAP:ETH",
+   "tvName": "Ethereum",
+   "confidence": "high",
+   "alternatives": [
+    "ETHWUSD (EthereumPoW)",
+    "ETHFUSD (EthereumFair)",
+    "ETCUSD (Ethereum Classic)"
+   ]
+  },
+  {
+   "rank": 3,
+   "sym": "USDT",
+   "name": "Tether",
+   "usd": "CRYPTO:USDTUSD",
+   "cap": "CRYPTOCAP:USDT",
+   "tvName": "Tether USDt",
+   "confidence": "high",
+   "alternatives": [
+    "XAUTUSD (Tether Gold)",
+    "EURTUSD (Tether EURt)",
+    "USDUTUSD (unstable tether)"
+   ]
+  },
+  {
+   "rank": 4,
+   "sym": "BNB",
+   "name": "BNB",
+   "usd": "CRYPTO:BNBUSD",
+   "cap": "CRYPTOCAP:BNB",
+   "tvName": "BNB",
+   "confidence": "high",
+   "alternatives": [
+    "BNBAIBUSD (BNB Agents)",
+    "BNBULLUSD (BNBULL)",
+    "BNBXBTUSD (BNBXBT)"
+   ]
+  },
+  {
+   "rank": 5,
+   "sym": "XRP",
+   "name": "XRP",
+   "usd": "CRYPTO:XRPUSD",
+   "cap": "CRYPTOCAP:XRP",
+   "tvName": "XRP",
+   "confidence": "high",
+   "alternatives": [
+    "XRPCUSD (Xrp Classic (new))",
+    "XRPHUSD (XRP Healthcare)",
+    "XRP20USD (XRP 2.0)"
+   ]
+  },
+  {
+   "rank": 6,
+   "sym": "USDC",
+   "name": "USDC",
+   "usd": "CRYPTO:USDCUSD",
+   "cap": "CRYPTOCAP:USDC",
+   "tvName": "USDC",
+   "confidence": "high",
+   "alternatives": [
+    "SYRUPUSDCUSD (Syrup USDC)"
+   ]
+  },
+  {
+   "rank": 7,
+   "sym": "SOL",
+   "name": "Solana",
+   "usd": "CRYPTO:SOLUSD",
+   "cap": "CRYPTOCAP:SOL",
+   "tvName": "Solana",
+   "confidence": "high",
+   "alternatives": [
+    "SOSSOUSD (Solana Swap)",
+    "LUMIOUSD (Solana Mascot)",
+    "SIFSUSD (Solana Index Fund)"
+   ]
+  },
+  {
+   "rank": 8,
+   "sym": "TRX",
+   "name": "TRON",
+   "usd": "CRYPTO:TRXUSD",
+   "cap": "CRYPTOCAP:TRX",
+   "tvName": "TRON",
+   "confidence": "high",
+   "alternatives": [
+    "TRONDOGUSD (TronDog)",
+    "TBKUSD (TronBank)",
+    "BULLTRUSD (Tron Bull)"
+   ]
+  },
+  {
+   "rank": 9,
+   "sym": "ZEC",
+   "name": "Zcash",
+   "usd": "CRYPTO:ZECUSD",
+   "cap": "CRYPTOCAP:ZEC",
+   "tvName": "Zcash",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 10,
+   "sym": "HYPE",
+   "name": "Hyperliquid",
+   "usd": "CRYPTO:HYPEHUSD",
+   "cap": "CRYPTOCAP:HYPEH",
+   "tvName": "Hyperliquid",
+   "confidence": "high",
+   "alternatives": [
+    "HYPERLUSD (Hyperlane)",
+    "HYPERUSD (HyperChainX)",
+    "HYPERSKIDSUSD ($HYPERSKIDS)"
+   ]
+  },
+  {
+   "rank": 11,
+   "sym": "DOGE",
+   "name": "Dogecoin",
+   "usd": "CRYPTO:DOGEUSD",
+   "cap": "CRYPTOCAP:DOGE",
+   "tvName": "Dogecoin",
+   "confidence": "high",
+   "alternatives": [
+    "DOGE20DUSD (Dogecoin20)",
+    "DOGESOLUSD (D.O.G.E (Solana))",
+    "DOGECOINUSD (Buff Doge Coin)"
+   ]
+  },
+  {
+   "rank": 12,
+   "sym": "LINK",
+   "name": "Chainlink",
+   "usd": "CRYPTO:LINKUSD",
+   "cap": "CRYPTOCAP:LINK",
+   "tvName": "Chainlink",
+   "confidence": "high",
+   "alternatives": [
+    "LFWUSD (Linked Finance World)",
+    "SDLSUSD (stake.link)",
+    "LOTTUSD (Beauty Bakery Linked Operation Transaction Technology)"
+   ]
+  },
+  {
+   "rank": 13,
+   "sym": "USDS",
+   "name": "USDS",
+   "usd": "CRYPTO:USDS2USD",
+   "cap": "CRYPTOCAP:USDS2",
+   "tvName": "USDS",
+   "confidence": "high",
+   "alternatives": [
+    "USDSUIUSD (USDsui)",
+    "USDSMSUSD (Stable Mint United States Dollar)"
+   ]
+  },
+  {
+   "rank": 14,
+   "sym": "ADA",
+   "name": "Cardano",
+   "usd": "CRYPTO:ADAUSD",
+   "cap": "CRYPTOCAP:ADA",
+   "tvName": "Cardano",
+   "confidence": "high",
+   "alternatives": [
+    "ADAPADUSD (ADAPad)",
+    "ADASOLUSD (TOLY'S DOG)",
+    "ASWUSD (AdaSwap)"
+   ]
+  },
+  {
+   "rank": 15,
+   "sym": "XLM",
+   "name": "Stellar",
+   "usd": "CRYPTO:XLMUSD",
+   "cap": "CRYPTOCAP:XLM",
+   "tvName": "Stellar",
+   "confidence": "high",
+   "alternatives": [
+    "AIDOGEXLMUSD (AIDOGE Stellar)"
+   ]
+  },
+  {
+   "rank": 16,
+   "sym": "NEAR",
+   "name": "NEAR Protocol",
+   "usd": "CRYPTO:NEARUSD",
+   "cap": "CRYPTOCAP:NEAR",
+   "tvName": "NEAR Protocol",
+   "confidence": "high",
+   "alternatives": [
+    "VIRTUALUSD (Virtuals Protocol)",
+    "LQRUSD (Laqira Protocol)",
+    "DEEPBUSD (DeepBook Protocol)"
+   ]
+  },
+  {
+   "rank": 17,
+   "sym": "BCH",
+   "name": "Bitcoin Cash",
+   "usd": "CRYPTO:BCHUSD",
+   "cap": "CRYPTOCAP:BCH",
+   "tvName": "Bitcoin Cash",
+   "confidence": "high",
+   "alternatives": [
+    "BTCUSD (Bitcoin)",
+    "CASH2USD (Cash)",
+    "BCHEMUSD (Bitchemical)"
+   ]
+  },
+  {
+   "rank": 18,
+   "sym": "UNI",
+   "name": "Uniswap",
+   "usd": "CRYPTO:UNIUSD",
+   "cap": "CRYPTOCAP:UNI",
+   "tvName": "Uniswap",
+   "confidence": "high",
+   "alternatives": [
+    "UNI2USD (UNI)",
+    "UNIOUSD (Unio Coin)",
+    "UNIONUSD (Union)"
+   ]
+  },
+  {
+   "rank": 19,
+   "sym": "LTC",
+   "name": "Litecoin",
+   "usd": "CRYPTO:LTCUSD",
+   "cap": "CRYPTOCAP:LTC",
+   "tvName": "Litecoin",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 20,
+   "sym": "USDE",
+   "name": "Ethena USDe",
+   "usd": "CRYPTO:USDEEUSD",
+   "cap": "CRYPTOCAP:USDEE",
+   "tvName": "Ethena USDe",
+   "confidence": "high",
+   "alternatives": [
+    "ENAUSD (Ethena)",
+    "SUSDEUSD (Ethena Staked USDe)",
+    "USDTBUSD (Ethena Labs (USDTb))"
+   ]
+  },
+  {
+   "rank": 21,
+   "sym": "CC",
+   "name": "Canton",
+   "usd": "CRYPTO:CCCAUSD",
+   "cap": "CRYPTOCAP:CCCA",
+   "tvName": "Canton",
+   "confidence": "high",
+   "alternatives": [
+    "CCDUSD (Concordium)",
+    "CCL2USD (CYCLEAN)",
+    "CCDOGUSD (Courage The Dog)"
+   ]
+  },
+  {
+   "rank": 22,
+   "sym": "SUI",
+   "name": "Sui",
+   "usd": "CRYPTO:SUIUSD",
+   "cap": "CRYPTOCAP:SUI",
+   "tvName": "Sui",
+   "confidence": "high",
+   "alternatives": [
+    "SUIPUSD (SuiPad)",
+    "SUIAUSD (Suia)",
+    "SUICYUSD (SUICY the Seal)"
+   ]
+  },
+  {
+   "rank": 23,
+   "sym": "AVAX",
+   "name": "Avalanche",
+   "usd": "CRYPTO:AVAXUSD",
+   "cap": "CRYPTOCAP:AVAX",
+   "tvName": "Avalanche",
+   "confidence": "high",
+   "alternatives": [
+    "CAICOUSD (Colony Avalanche Index)",
+    "AVAXAIUSD (AIvalanche DeFAI Agents)",
+    "WOLFLAUSD (LANDWOLF (AVAX))"
+   ]
+  },
+  {
+   "rank": 24,
+   "sym": "HBAR",
+   "name": "Hedera",
+   "usd": "CRYPTO:HBARUSD",
+   "cap": "CRYPTOCAP:HBAR",
+   "tvName": "Hedera",
+   "confidence": "high",
+   "alternatives": [
+    "HGGUSD (Hedera Guild Game)"
+   ]
+  },
+  {
+   "rank": 25,
+   "sym": "USD1",
+   "name": "USD1",
+   "usd": "CRYPTO:USD1WUSD",
+   "cap": "CRYPTOCAP:USD1W",
+   "tvName": "World Liberty Financial USD",
+   "confidence": "check",
+   "alternatives": []
+  },
+  {
+   "rank": 26,
+   "sym": "GRAM",
+   "name": "Gram (prev. Toncoin)",
+   "usd": "CRYPTO:GRAMUSD",
+   "cap": "CRYPTOCAP:GRAM",
+   "tvName": "Gram (prev. Toncoin)",
+   "confidence": "high",
+   "alternatives": [
+    "POLYGUSD (Polygon (prev. MATIC))",
+    "FRAXPUSD (Frax (prev. FXS))"
+   ]
+  },
+  {
+   "rank": 27,
+   "sym": "QNT",
+   "name": "Quant",
+   "usd": "CRYPTO:QNTUSD",
+   "cap": "CRYPTOCAP:QNT",
+   "tvName": "Quant",
+   "confidence": "high",
+   "alternatives": [
+    "QNTBUSD (Quantinuum Tokenized bStocks)",
+    "QRLUSD (Quantum Resistant Ledger)",
+    "QUUSD (Quantum)"
+   ]
+  },
+  {
+   "rank": 28,
+   "sym": "TAO",
+   "name": "Bittensor",
+   "usd": "CRYPTO:TAOBUSD",
+   "cap": "CRYPTOCAP:TAOB",
+   "tvName": "Bittensor",
+   "confidence": "high",
+   "alternatives": [
+    "TAONUUSD (TAO INU)",
+    "TAOCATUSD (TAOCat by Virtuals & Masa)",
+    "SN14USD (TAOHash)"
+   ]
+  },
+  {
+   "rank": 29,
+   "sym": "CRO",
+   "name": "Cronos",
+   "usd": "CRYPTO:CROUSD",
+   "cap": "CRYPTOCAP:CRO",
+   "tvName": "Cronos",
+   "confidence": "high",
+   "alternatives": [
+    "CROIDUSD (Cronos ID)",
+    "CROBUSD (Crob Coin)",
+    "CROSSUSD (CROSS)"
+   ]
+  },
+  {
+   "rank": 30,
+   "sym": "SHIB",
+   "name": "Shiba Inu",
+   "usd": "CRYPTO:SHIBUSD",
+   "cap": "CRYPTOCAP:SHIB",
+   "tvName": "Shiba Inu",
+   "confidence": "high",
+   "alternatives": [
+    "TREAT3USD (Shiba Inu TREAT)",
+    "GINUXUSD (Green Shiba Inu [New])",
+    "SHIB20SUSD (Shib2.0)"
+   ]
+  }
+ ]
+}
