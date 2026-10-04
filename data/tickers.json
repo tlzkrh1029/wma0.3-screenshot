@@ -1,5 +1,5 @@
 {
- "resolvedAt": "2026-10-04T18:31:49.362Z",
+ "resolvedAt": "2026-10-04T20:00:56.290Z",
  "coins": [
   {
    "rank": 1,
@@ -293,25 +293,11 @@
    "alternatives": [
     "QNTBUSD (Quantinuum Tokenized bStocks)",
     "QRLUSD (Quantum Resistant Ledger)",
-    "QUUSD (Quantum)"
+    "QTOQUSD (Quanto)"
    ]
   },
   {
    "rank": 23,
-   "sym": "TAO",
-   "name": "Bittensor",
-   "usd": "CRYPTO:TAOBUSD",
-   "cap": "CRYPTOCAP:TAOB",
-   "tvName": "Bittensor",
-   "confidence": "high",
-   "alternatives": [
-    "TAONUUSD (TAO INU)",
-    "TAOCATUSD (TAOCat by Virtuals & Masa)",
-    "SN14USD (TAOHash)"
-   ]
-  },
-  {
-   "rank": 24,
    "sym": "SHIB",
    "name": "Shiba Inu",
    "usd": "CRYPTO:SHIBUSD",
@@ -322,6 +308,20 @@
     "TREAT3USD (Shiba Inu TREAT)",
     "GINUXUSD (Green Shiba Inu [New])",
     "SHIB20SUSD (Shib2.0)"
+   ]
+  },
+  {
+   "rank": 24,
+   "sym": "TAO",
+   "name": "Bittensor",
+   "usd": "CRYPTO:TAOBUSD",
+   "cap": "CRYPTOCAP:TAOB",
+   "tvName": "Bittensor",
+   "confidence": "high",
+   "alternatives": [
+    "TAONUUSD (TAO INU)",
+    "TAOCATUSD (TAOCat by Virtuals & Masa)",
+    "SN14USD (TAOHash)"
    ]
   },
   {
@@ -391,7 +391,7 @@
    "alternatives": [
     "ONDOAIUSD (Ondo DeFAI)",
     "USDYOUSD (Ondo US Dollar Yield)",
-    "AMDONUSD (AMD Tokenized Stock (Ondo))"
+    "NKEONUSD (Nike Tokenized Stock (Ondo))"
    ]
   },
   {
