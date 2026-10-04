@@ -46,6 +46,62 @@ async function dismissPopups(page) {
   }
 }
 
+// Keep the run read-only: the layout belongs to the logged-in account, so any
+// write (autosave of the symbol change, panel state, settings) must not reach it.
+async function blockWrites(context) {
+  const blocked = new Set();
+  await context.route(/tradingview\.com/, (route) => {
+    const req = route.request();
+    if (req.method() === 'GET' || req.method() === 'HEAD' || req.method() === 'OPTIONS') return route.continue();
+    const u = new URL(req.url());
+    const key = `${req.method()} ${u.host}${u.pathname}`;
+    if (!blocked.has(key)) {
+      blocked.add(key);
+      console.log('blocked write:', key);
+    }
+    return route.abort();
+  });
+}
+
+async function describeButtons(page, label) {
+  const info = await page.evaluate(() =>
+    [...document.querySelectorAll('button, [role="button"]')]
+      .map((b) => {
+        const r = b.getBoundingClientRect();
+        return { id: b.id, name: b.dataset.name, aria: b.getAttribute('aria-label'), pressed: b.getAttribute('aria-pressed'), x: Math.round(r.x), y: Math.round(r.y), cls: b.className.toString().slice(0, 60) };
+      })
+      .filter((b) => b.x > 1700 || b.y < 40)
+  );
+  console.log(`${label} buttons:`, JSON.stringify(info));
+}
+
+// Close the right-side watchlist panel and switch the chart to fullscreen mode.
+async function enlargeChart(page) {
+  const watchlist = page.locator('button[aria-label*="Watchlist" i], [data-name="base"]').first();
+  if (await watchlist.count()) {
+    const pressed = await watchlist.getAttribute('aria-pressed');
+    const cls = (await watchlist.getAttribute('class')) || '';
+    const open = pressed === 'true' || /isActive|active/i.test(cls);
+    console.log('watchlist button found, open =', open);
+    if (open) await watchlist.click();
+  } else {
+    console.log('watchlist button not found');
+  }
+  await page.waitForTimeout(1_000);
+
+  const fullscreen = page.locator('#header-toolbar-fullscreen, button[aria-label*="Fullscreen" i], button[data-tooltip*="Fullscreen" i]').first();
+  if (await fullscreen.count()) {
+    console.log('fullscreen button found');
+    await fullscreen.click();
+  } else {
+    console.log('fullscreen button not found; using Shift+F');
+    await page.keyboard.press('Shift+F');
+  }
+  await page.waitForTimeout(3_000);
+}
+
+let describedButtons = false;
+
 async function capture(page, coin) {
   const ticker = `CRYPTOCAP:${coin.symbol}`;
   const url = `https://www.tradingview.com/chart/${LAYOUT_ID}/?symbol=${encodeURIComponent(ticker)}`;
@@ -54,7 +110,10 @@ async function capture(page, coin) {
   // Give the data feed and indicators time to finish drawing.
   await page.waitForTimeout(15_000);
   await dismissPopups(page);
-  await page.waitForTimeout(1_000);
+  if (!describedButtons) await describeButtons(page, 'before enlarge');
+  await enlargeChart(page);
+  if (!describedButtons) await describeButtons(page, 'after enlarge');
+  describedButtons = true;
   const file = path.join(OUT_DIR, `${String(coin.rank).padStart(2, '0')}_${coin.symbol}.png`);
   await page.screenshot({ path: file });
   console.log(`saved ${file} (${ticker})`);
@@ -70,6 +129,7 @@ const context = await browser.newContext({
   locale: 'en-US',
   timezoneId: 'Asia/Seoul',
 });
+await blockWrites(context);
 const cookies = await loginCookies();
 if (cookies.length) await context.addCookies(cookies);
 console.log(cookies.length ? 'using TradingView login cookies' : 'no login cookies; viewing anonymously');
