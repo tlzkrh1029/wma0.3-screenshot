@@ -1,0 +1,677 @@
+<title>WMA 괴리 보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: instrument panel. A summary matrix of all 18 readings on top,
+   one inspected reading below (line chart + multiple pane + level ladder). */
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --sunken: #eef1f4;
+  --fg: #141922;
+  --muted: #5b6574;
+  --faint: #8a93a1;
+  --line: #dfe3e8;
+  --accent: #2f5bd3;
+  --accent-soft: #e6ecfb;
+  --price: #141922;
+  --wma: #2f5bd3;
+  /* zone colors (semantic, separate from the accent) */
+  --z5: #b3261e;      /* >= 2.4 strong overvalued */
+  --z4: #b45309;      /* 2.2 - 2.4 */
+  --z3: #7b8594;      /* neutral */
+  --z2: #237a35;      /* 0.3 - 0.4 */
+  --z1: #0b7a55;      /* <= 0.3 strong undervalued */
+  --z5-bg: #fbe7e5;
+  --z4-bg: #fdeedd;
+  --z3-bg: #eef1f4;
+  --z2-bg: #e3f4e6;
+  --z1-bg: #d3efe4;
+  --warn-bg: #fff6db;
+  --warn-fg: #7a5a00;
+  --font-sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
+    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --price: #e5e8ee; --wma: #7d9cf5;
+    --z5: #ff6f61; --z4: #ffa04d; --z3: #8a93a1; --z2: #5fd07a; --z1: #2fd3a0;
+    --z5-bg: #3a1714; --z4-bg: #3a2512; --z3-bg: #1b2129; --z2-bg: #15301d; --z1-bg: #0f3328;
+    --warn-bg: #33290d; --warn-fg: #f2cf6b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
+  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --price: #e5e8ee; --wma: #7d9cf5;
+  --z5: #ff6f61; --z4: #ffa04d; --z3: #8a93a1; --z2: #5fd07a; --z1: #2fd3a0;
+  --z5-bg: #3a1714; --z4-bg: #3a2512; --z3-bg: #1b2129; --z2-bg: #15301d; --z1-bg: #0f3328;
+  --warn-bg: #33290d; --warn-fg: #f2cf6b;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); font-size: 14px; line-height: 1.55; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 48px; display: grid; gap: 28px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* header */
+.top { display: grid; gap: 14px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.title-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 16px; }
+h1 { font-size: 28px; font-weight: 700; letter-spacing: -.01em; }
+.draft { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--warn-bg); color: var(--warn-fg); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 7px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.chip i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.chip.z1 { background: var(--z1-bg); color: var(--z1); font-weight: 700; }
+.chip.z2 { background: var(--z2-bg); color: var(--z2); }
+.chip.z3 { background: var(--z3-bg); color: var(--muted); }
+.chip.z4 { background: var(--z4-bg); color: var(--z4); }
+.chip.z5 { background: var(--z5-bg); color: var(--z5); }
+.chip.na { background: var(--sunken); color: var(--faint); }
+
+/* section heads */
+.sec { display: grid; gap: 12px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+h2 { font-size: 17px; font-weight: 600; }
+.sub { color: var(--muted); font-size: 13px; }
+.seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: 9px; background: var(--sunken); border: 1px solid var(--line); }
+.seg button { border: 0; background: transparent; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgb(0 0 0 / .12); }
+
+/* summary strip */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.sum { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 2px; min-width: 0; }
+.sum .k { font-size: 12px; color: var(--muted); }
+.sum .v { font-size: 15px; font-weight: 600; }
+.sum .v .num { font-weight: 600; }
+
+/* matrix */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.scroll-x { overflow-x: auto; }
+table.matrix { width: 100%; border-collapse: collapse; min-width: 640px; }
+.matrix th, .matrix td { padding: 0; text-align: left; }
+.matrix thead th { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .04em; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.matrix thead th.tf { text-align: center; font-family: var(--font-mono); }
+.matrix .grp th { font-size: 12px; font-weight: 700; color: var(--fg); padding: 12px 12px 6px; letter-spacing: .02em; }
+.matrix tbody tr.row td, .matrix tbody tr.row th { border-bottom: 1px solid var(--line); }
+.matrix tbody tr.row:last-child td, .matrix tbody tr.row:last-child th { border-bottom: 0; }
+.matrix .sym { padding: 10px 12px; vertical-align: middle; }
+.sym .t { font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+.sym .ts { display: none; font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; }
+.sym .d .num { white-space: nowrap; }
+.sym .d { font-size: 12px; color: var(--muted); }
+.cell { display: grid; gap: 4px; width: 100%; padding: 10px 12px; border: 0; background: transparent; text-align: left; cursor: pointer; border-left: 1px solid var(--line); }
+.cell:hover { background: var(--sunken); }
+.cell[aria-pressed="true"] { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+.cell .line1 { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.cell .m { font-family: var(--font-mono); font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
+.cell .m small { font-size: 13px; color: var(--muted); margin-left: 1px; }
+.cell .note { font-size: 11.5px; color: var(--muted); }
+.cell .note .num { color: var(--fg); }
+.cell.z1 .m { color: var(--z1); }
+.cell.z2 .m { color: var(--z2); }
+.cell.z4 .m { color: var(--z4); }
+.cell.z5 .m { color: var(--z5); }
+.cell.dom .note { color: var(--warn-fg); }
+.minirail { display: block; width: 100%; height: 10px; }
+
+/* rail view */
+.rails { display: grid; gap: 4px; padding: 6px 12px 12px; }
+.rail-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.rail-row:last-child { border-bottom: 0; }
+.rail-row .grp-label { grid-column: 1 / -1; font-size: 12px; font-weight: 700; padding-top: 8px; border: 0; }
+.rail { position: relative; height: 86px; margin-inline: 14px; }
+.rail .band { position: absolute; top: 58px; height: 8px; }
+.rail .band.z1 { background: var(--z1); border-radius: 4px 0 0 4px; }
+.rail .band.z2 { background: var(--z2); }
+.rail .band.z3 { background: var(--sunken); box-shadow: inset 0 0 0 1px var(--line); }
+.rail .band.z4 { background: var(--z4); }
+.rail .band.z5 { background: var(--z5); border-radius: 0 4px 4px 0; }
+.rail .tick { position: absolute; top: 54px; height: 16px; border-left: 1px solid var(--faint); }
+.rail .tick span { position: absolute; top: 17px; left: 0; transform: translateX(-50%); font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+.rail .stem { position: absolute; width: 0; border-left: 1px solid var(--fg); }
+.rail .dot { position: absolute; top: 58px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 2px var(--surface); }
+.rail .mk { position: absolute; transform: translateX(-50%); height: 15px; padding: 0 6px; border: 0; border-radius: 8px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; line-height: 15px; color: var(--surface); cursor: pointer; white-space: nowrap; }
+.rail .mk.z3 { background: var(--fg); }
+.rail .mk.z1 { background: var(--z1); }
+.rail .mk.z2 { background: var(--z2); }
+.rail .mk.z4 { background: var(--z4); }
+.rail .mk.z5 { background: var(--z5); }
+
+/* detail */
+.picker { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.picker .seg button { font-family: var(--font-mono); font-size: 12px; }
+.detail { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 14px; align-items: start; }
+.charts { padding: 12px 6px 6px 12px; display: grid; gap: 0; min-width: 0; }
+.chart-cap { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); padding: 0 6px 6px 0; }
+.chart-cap span { display: inline-flex; align-items: center; gap: 6px; }
+.chart-cap i { display: inline-block; width: 14px; height: 0; border-top: 2px solid currentColor; }
+.chart-cap i.dash { border-top-style: dashed; }
+#priceChart { height: 360px; }
+#ratioChart { height: 160px; border-top: 1px solid var(--line); }
+.pane-label { font-size: 11px; color: var(--muted); padding: 6px 0 2px; font-family: var(--font-mono); letter-spacing: .04em; }
+.ladder { padding: 14px; display: grid; gap: 10px; }
+.ladder h3 { font-size: 14px; font-weight: 600; }
+.ladder ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.ladder li { display: grid; grid-template-columns: 62px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.ladder li:last-child { border-bottom: 0; }
+.ladder .lv { font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+.ladder .val { font-family: var(--font-mono); font-size: 13px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.ladder .dist { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-align: right; }
+.ladder li.now { background: var(--accent-soft); margin-inline: -14px; padding-inline: 14px; border-bottom-color: transparent; }
+.ladder li.now .lv, .ladder li.now .val { color: var(--accent); }
+.ladder li.z5 .lv { color: var(--z5); }
+.ladder li.z4 .lv { color: var(--z4); }
+.ladder li.z2 .lv { color: var(--z2); }
+.ladder li.z1 .lv { color: var(--z1); }
+.ladder li.off .val { color: var(--faint); text-decoration: line-through; }
+.ladder .foot { font-size: 12px; color: var(--muted); }
+.hist { display: grid; gap: 6px; padding-top: 10px; border-top: 1px solid var(--line); }
+.hist h3 { font-size: 13px; }
+.hist dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-size: 12.5px; }
+.hist dt { color: var(--muted); }
+.hist dd { margin: 0; font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; overflow-wrap: anywhere; }
+.hist dd.z1 { color: var(--z1); font-weight: 600; }
+.hist dd.z5 { color: var(--z5); font-weight: 600; }
+.callout { font-size: 12.5px; padding: 9px 11px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-fg); }
+
+/* notes */
+.notes { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+.notes ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.notes b { color: var(--fg); font-weight: 600; }
+
+@media (max-width: 860px) {
+  .detail { grid-template-columns: minmax(0, 1fr); }
+  #priceChart { height: 300px; }
+  #ratioChart { height: 140px; }
+}
+@media (max-width: 600px) {
+  /* compact matrix: short symbol, value and rail only, so all three timeframes fit */
+  table.matrix { min-width: 0; table-layout: fixed; }
+  .matrix thead th { padding: 8px 6px; }
+  .matrix thead th:first-child { width: 74px; }
+  .matrix .sym { padding: 8px 6px 8px 10px; }
+  .matrix .sym .t, .matrix .sym .d { display: none; }
+  .matrix .sym .ts { display: block; }
+  .rail .tick.t22 span { display: none; }
+  .cell { padding: 8px 7px; gap: 5px; }
+  .cell .m { font-size: 16px; }
+  .cell .chip, .cell .note { display: none; }
+  .matrix .grp th { padding: 10px 10px 4px; }
+}
+@media (max-width: 520px) {
+  .wrap { padding-inline: 16px; }
+  h1 { font-size: 23px; }
+  .rail-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow"><span>Bitcoin · Ethereum</span><span>WMA 200 · 종가 · 선차트</span><span id="asOf"></span></div>
+    <div class="title-row">
+      <h1>WMA 괴리 보드</h1>
+      <span class="draft" id="srcBadge">TradingView 데이터</span>
+    </div>
+    <div class="legend" role="group" aria-label="구간 범례">
+      <span class="chip z5"><i></i>2.4 이상 · 강한 고평가</span>
+      <span class="chip z4"><i></i>2.2–2.4 · 고평가</span>
+      <span class="chip z3"><i></i>0.4–2.2 · 중립</span>
+      <span class="chip z2"><i></i>0.3–0.4 · 저평가</span>
+      <span class="chip z1"><i></i>0.3 이하 · 강한 저평가</span>
+    </div>
+  </header>
+
+  <section class="sec" aria-labelledby="h-now">
+    <div class="sec-head">
+      <div>
+        <h2 id="h-now">현재 배수</h2>
+        <div class="sub">값 ÷ WMA(200). 칸을 누르면 아래 차트가 바뀝니다.</div>
+      </div>
+      <div class="seg" role="group" aria-label="보기 방식">
+        <button type="button" id="viewTable" aria-pressed="true">표</button>
+        <button type="button" id="viewRail" aria-pressed="false">레일</button>
+      </div>
+    </div>
+    <div class="summary" id="summary"></div>
+    <div class="panel scroll-x" id="tableView"></div>
+    <div class="panel" id="railView" hidden></div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-detail">
+    <div class="sec-head">
+      <div>
+        <h2 id="h-detail">차트</h2>
+        <div class="sub" id="detailSub"></div>
+      </div>
+      <div class="picker">
+        <div class="seg" role="group" aria-label="심볼" id="symPicker"></div>
+        <div class="seg" role="group" aria-label="타임프레임" id="tfPicker"></div>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="panel charts">
+        <div class="chart-cap" id="chartCap"></div>
+        <div id="priceChart"></div>
+        <div class="pane-label">배수 (값 ÷ WMA 200) · 로그 눈금</div>
+        <div id="ratioChart"></div>
+      </div>
+      <aside class="panel ladder" aria-labelledby="h-ladder">
+        <h3 id="h-ladder">기준선 환산값</h3>
+        <div class="foot" id="ladderSub"></div>
+        <ol id="ladder"></ol>
+        <div class="callout" id="ladderNote" hidden></div>
+        <div class="hist" id="hist"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="notes" aria-labelledby="h-notes">
+    <h2 id="h-notes" style="color:var(--fg)">데이터와 한계</h2>
+    <ul>
+      <li>모든 값은 TradingView 차트 데이터입니다. 여섯 티커의 1D, 3D, 1W 봉을 TradingView에서 그대로 받아 왔으므로, 봉 경계와 종가가 TradingView 차트와 같습니다.</li>
+      <li>데이터는 GitHub Actions가 로그인 쿠키로 TradingView에 접속해 받아 옵니다. TradingView가 공식 제공하는 방법이 아니어서 언제든 막힐 수 있습니다.</li>
+      <li>WMA 200은 Pine Script의 <span class="num">ta.wma(close, 200)</span>과 같은 식(최근 봉 가중치 200부터 1까지)으로 계산했습니다.</li>
+      <li>각 타임프레임의 마지막 봉은 수집 시각 기준으로 진행 중인 봉입니다. 새 데이터는 수집을 다시 돌리고 보드를 다시 게시해야 반영됩니다.</li>
+    </ul>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script>
+const DATA = /*__DATA__*/null;
+
+const LEVELS = [
+  { k: 2.4, z: 'z5', label: '×2.4' },
+  { k: 2.2, z: 'z4', label: '×2.2' },
+  { k: 0.4, z: 'z2', label: '×0.4' },
+  { k: 0.3, z: 'z1', label: '×0.3' },
+];
+const TFS = [
+  { id: '1D', days: 1, name: '일봉' },
+  { id: '3D', days: 3, name: '3일봉' },
+  { id: '1W', days: 7, name: '주봉' },
+];
+const SYMS = [
+  { id: 'CRYPTO:BTCUSD',   asset: 'Bitcoin',  short: 'BTCUSD',  kind: 'price', desc: '가격 (USD)' },
+  { id: 'CRYPTOCAP:BTC',   asset: 'Bitcoin',  short: 'BTC',     kind: 'mcap',  desc: '시가총액' },
+  { id: 'CRYPTOCAP:BTC.D', asset: 'Bitcoin',  short: 'BTC.D',   kind: 'dom',   desc: '도미넌스 (%)' },
+  { id: 'CRYPTO:ETHUSD',   asset: 'Ethereum', short: 'ETHUSD',  kind: 'price', desc: '가격 (USD)' },
+  { id: 'CRYPTOCAP:ETH',   asset: 'Ethereum', short: 'ETH',     kind: 'mcap',  desc: '시가총액' },
+  { id: 'CRYPTOCAP:ETH.D', asset: 'Ethereum', short: 'ETH.D',   kind: 'dom',   desc: '도미넌스 (%)' },
+];
+const WMA_LEN = 200;
+const DAY = 86400;
+
+// ---------- math ----------
+// Bars come straight from TradingView (its own 1D/3D/1W bars); time = bar open, value = close.
+function barsOf(symId, tf) {
+  const s = DATA.series[symId]?.[tf.id];
+  if (!s || !s.t.length) return [];
+  return s.t.map((t, i) => ({ time: t, value: s.c[i] }));
+}
+function wma(bars, n) {
+  const denom = n * (n + 1) / 2;
+  const out = new Array(bars.length).fill(null);
+  for (let i = n - 1; i < bars.length; i++) {
+    let s = 0;
+    for (let j = 0; j < n; j++) s += bars[i - j].value * (n - j);
+    out[i] = s / denom;
+  }
+  return out;
+}
+function zoneOf(m) {
+  if (m == null) return 'na';
+  m = Math.round(m * 100) / 100; // classify the value the page prints
+  if (m >= 2.4) return 'z5';
+  if (m >= 2.2) return 'z4';
+  if (m <= 0.3) return 'z1';
+  if (m <= 0.4) return 'z2';
+  return 'z3';
+}
+const ZONE_NAME = { z5: '강한 고평가', z4: '고평가', z3: '중립', z2: '저평가', z1: '강한 저평가', na: '데이터 부족' };
+
+const CACHE = {};
+function compute(symId, tf) {
+  const key = symId + '|' + tf.id;
+  if (CACHE[key]) return CACHE[key];
+  const bars = barsOf(symId, tf);
+  const w = wma(bars, WMA_LEN);
+  const last = bars.length - 1;
+  const res = {
+    bars, w,
+    ratio: bars.map((b, i) => (w[i] ? b.value / w[i] : null)),
+    value: last >= 0 ? bars[last].value : null,
+    wmaNow: last >= 0 ? w[last] : null,
+    m: last >= 0 && w[last] ? bars[last].value / w[last] : null,
+    count: bars.length,
+    first: bars.length ? bars[0].time : null,
+  };
+  CACHE[key] = res;
+  return res;
+}
+
+// ---------- formatting ----------
+function fmtValue(sym, v) {
+  if (v == null) return '–';
+  if (sym.kind === 'dom') return v.toFixed(2) + '%';
+  if (sym.kind === 'mcap') {
+    if (v >= 1e12) return '$' + (v / 1e12).toFixed(3) + 'T';
+    return '$' + (v / 1e9).toFixed(1) + 'B';
+  }
+  return '$' + v.toLocaleString('en-US', { maximumFractionDigits: v >= 1000 ? 0 : 2 });
+}
+function fmtPct(x) {
+  const p = x * 100;
+  const s = Math.abs(p) >= 100 ? Math.round(Math.abs(p)).toString() : Math.abs(p).toFixed(1);
+  return (p >= 0 ? '+' : '−') + s + '%';
+}
+const fmtM = (m) => (m == null ? '–' : m.toFixed(2));
+function dateStr(t) { return new Date(t * 1000).toISOString().slice(0, 10); }
+
+// ---------- state ----------
+const state = { sym: 'CRYPTO:BTCUSD', tf: '1W', view: 'table' };
+try {
+  const saved = JSON.parse(localStorage.getItem('wma-board') || '{}');
+  if (SYMS.some((s) => s.id === saved.sym)) state.sym = saved.sym;
+  if (TFS.some((t) => t.id === saved.tf)) state.tf = saved.tf;
+  if (saved.view === 'rail' || saved.view === 'table') state.view = saved.view;
+} catch (e) {}
+function save() { try { localStorage.setItem('wma-board', JSON.stringify(state)); } catch (e) {} }
+
+// ---------- mini rail (log scale 0.2 .. 3.2) ----------
+const RMIN = Math.log(0.2), RMAX = Math.log(3.2);
+const rx = (m, w) => ((Math.log(Math.min(Math.max(m, 0.2), 3.2)) - RMIN) / (RMAX - RMIN)) * w;
+function zoneBands(w, y, h, opacity) {
+  const segs = [[0.2, 0.3, 'z1'], [0.3, 0.4, 'z2'], [0.4, 2.2, 'z3'], [2.2, 2.4, 'z4'], [2.4, 3.2, 'z5']];
+  return segs.map(([a, b, z]) => `<rect x="${rx(a, w).toFixed(1)}" y="${y}" width="${(rx(b, w) - rx(a, w)).toFixed(1)}" height="${h}" fill="var(--${z})" fill-opacity="${z === 'z3' ? opacity * 0.45 : opacity}"/>`).join('');
+}
+function miniRail(m) {
+  const W = 200;
+  const x = rx(m, W);
+  return `<svg class="minirail" viewBox="0 0 ${W} 10" preserveAspectRatio="none" aria-hidden="true">
+    ${zoneBands(W, 3, 4, 0.55)}
+    <rect x="${(x - 1.5).toFixed(1)}" y="0" width="3" height="10" fill="var(--fg)"/>
+  </svg>`;
+}
+
+// ---------- summary ----------
+function renderSummary() {
+  const cells = [];
+  for (const s of SYMS) if (s.kind !== 'dom') for (const tf of TFS) { const r = compute(s.id, tf); if (r.m) cells.push({ s, tf, m: r.m }); }
+  if (!cells.length) { document.getElementById('summary').innerHTML = ''; return; }
+  const dist = (m, line) => Math.abs(Math.log(m / line));
+  const low = cells.reduce((a, b) => (dist(b.m, 0.3) < dist(a.m, 0.3) ? b : a));
+  const high = cells.reduce((a, b) => (dist(b.m, 2.4) < dist(a.m, 2.4) ? b : a));
+  const lowText = zoneOf(low.m) === 'z1' ? '이미 0.3 이하 구간입니다' : `0.3까지 값이 ${fmtPct(0.3 / low.m - 1)} 움직여야 합니다`;
+  const highText = zoneOf(high.m) === 'z5' ? '이미 2.4 이상 구간입니다' : `2.4까지 값이 ${fmtPct(2.4 / high.m - 1)} 움직여야 합니다`;
+  const inZone = cells.filter((c) => zoneOf(c.m) !== 'z3');
+  const item = (k, c, extra) => `<button type="button" class="sum" data-sym="${c.s.id}" data-tf="${c.tf.id}" style="text-align:left;cursor:pointer">
+      <span class="k">${k}</span>
+      <span class="v"><span class="num">${c.s.short} ${c.tf.id}</span> · <span class="num">${fmtM(c.m)}</span></span>
+      <span class="k">${extra}</span></button>`;
+  document.getElementById('summary').innerHTML =
+    item('0.3선에 가장 가까운 칸', low, lowText) +
+    item('2.4선에 가장 가까운 칸', high, highText) +
+    `<div class="sum"><span class="k">기준 구간에 들어간 칸 (도미넌스 제외)</span>
+      <span class="v"><span class="num">${inZone.length}</span> / ${cells.length}</span>
+      <span class="k">${inZone.length ? inZone.map((c) => c.s.short + ' ' + c.tf.id).join(', ') : '모두 0.4–2.2 중립 구간입니다'}</span></div>`;
+}
+
+// ---------- table view ----------
+function renderTable() {
+  let html = `<table class="matrix"><thead><tr><th scope="col">심볼</th>${TFS.map((t) => `<th scope="col" class="tf">${t.id}</th>`).join('')}</tr></thead><tbody>`;
+  let asset = null;
+  for (const s of SYMS) {
+    if (s.asset !== asset) { asset = s.asset; html += `<tr class="grp"><th colspan="4" scope="rowgroup">${asset}</th></tr>`; }
+    html += `<tr class="row"><th scope="row" class="sym"><div class="t">${s.id}</div><div class="ts">${s.short}</div><div class="d">${s.desc}</div></th>`;
+    for (const tf of TFS) {
+      const r = compute(s.id, tf);
+      const z = zoneOf(r.m);
+      const pressed = s.id === state.sym && tf.id === state.tf;
+      let note;
+      if (!r.m) note = r.count ? `봉 ${r.count}개 · 200개 미만` : '데이터 없음';
+      else if (s.kind === 'dom') note = `×2.4 = ${(r.wmaNow * 2.4).toFixed(0)}%${r.wmaNow * 2.4 > 100 ? ' · 도달 불가' : ''}`;
+      else note = `0.3까지 <span class="num">${fmtPct(0.3 / r.m - 1)}</span>`;
+      html += `<td><button type="button" class="cell ${z} ${s.kind === 'dom' ? 'dom' : ''}" data-sym="${s.id}" data-tf="${tf.id}" aria-pressed="${pressed}" aria-label="${s.id} ${tf.id} 배수 ${fmtM(r.m)} ${ZONE_NAME[z]}">
+        <span class="line1"><span class="m">${fmtM(r.m)}<small>×</small></span><span class="chip ${z}">${ZONE_NAME[z]}</span></span>
+        ${r.m ? miniRail(r.m) : ''}
+        <span class="note">${note}</span></button></td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('tableView').innerHTML = html;
+}
+
+// ---------- rail view ----------
+function renderRails() {
+  // Log-scale rail from 0.2 to 3.2; one pill row per timeframe so close values never overlap.
+  const pct = (m) => rx(m, 100).toFixed(2) + '%';
+  const segs = [[0.2, 0.3, 'z1'], [0.3, 0.4, 'z2'], [0.4, 2.2, 'z3'], [2.2, 2.4, 'z4'], [2.4, 3.2, 'z5']];
+  const bands = segs.map(([a, b, z]) => `<div class="band ${z}" style="left:${pct(a)};width:${(rx(b, 100) - rx(a, 100)).toFixed(2)}%"></div>`).join('');
+  const ticks = [0.3, 0.4, 1, 2.2, 2.4].map((t) => `<div class="tick${t === 2.2 ? ' t22' : ''}" style="left:${pct(t)}"><span>${t}</span></div>`).join('');
+  const ROW_TOP = [36, 19, 2]; // 1D lowest, 1W highest
+  let html = '<div class="rails">';
+  let asset = null;
+  for (const s of SYMS) {
+    if (s.asset !== asset) { asset = s.asset; html += `<div class="rail-row"><div class="grp-label">${asset}</div></div>`; }
+    const marks = TFS.map((tf, i) => ({ tf, m: compute(s.id, tf).m, i })).filter((d) => d.m);
+    const markHtml = marks.map((d) => {
+      const top = ROW_TOP[d.i];
+      return `<div class="stem" style="left:${pct(d.m)};top:${top + 15}px;height:${58 - top - 15}px"></div>
+        <div class="dot" style="left:${pct(d.m)}"></div>
+        <button type="button" class="mk ${zoneOf(d.m)}" style="left:${pct(d.m)};top:${top}px" data-sym="${s.id}" data-tf="${d.tf.id}" aria-label="${s.id} ${d.tf.id} 배수 ${fmtM(d.m)}">${d.tf.id}</button>`;
+    }).join('');
+    const vals = marks.map((d) => `<span class="num">${d.tf.id} ${fmtM(d.m)}</span>`).join(' · ');
+    html += `<div class="rail-row"><div class="sym" style="padding:0"><div class="t">${s.id}</div><div class="d">${vals}</div></div>
+      <div class="rail">${bands}${ticks}${markHtml}</div></div>`;
+  }
+  html += '</div>';
+  document.getElementById('railView').innerHTML = html;
+}
+
+// ---------- pickers ----------
+function renderPickers() {
+  document.getElementById('symPicker').innerHTML = SYMS.map((s) => `<button type="button" data-sym="${s.id}" aria-pressed="${s.id === state.sym}">${s.short}</button>`).join('');
+  document.getElementById('tfPicker').innerHTML = TFS.map((t) => `<button type="button" data-tf="${t.id}" aria-pressed="${t.id === state.tf}">${t.id}</button>`).join('');
+}
+
+// ---------- charts ----------
+let priceChart, ratioChart, priceSeries, wmaSeries, bandSeries = [], ratioSeries, ratioLines = [];
+function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function chartTheme() {
+  return {
+    layout: { background: { type: 'solid', color: css('--surface') }, textColor: css('--muted'), fontFamily: 'IBM Plex Mono, ui-monospace, monospace', fontSize: 11 },
+    grid: { vertLines: { visible: false }, horzLines: { color: css('--line') } },
+    rightPriceScale: { borderColor: css('--line'), minimumWidth: 78 },
+    timeScale: { borderColor: css('--line') },
+    crosshair: { vertLine: { color: css('--faint'), labelBackgroundColor: css('--fg') }, horzLine: { color: css('--faint'), labelBackgroundColor: css('--fg') } },
+  };
+}
+function initCharts() {
+  if (!window.LightweightCharts) {
+    document.getElementById('priceChart').innerHTML = '<p class="sub" style="padding:24px">차트 라이브러리를 불러오지 못했습니다. 네트워크 연결을 확인한 뒤 새로고침해 주세요.</p>';
+    return;
+  }
+  const LC = window.LightweightCharts;
+  const common = { autoSize: true, handleScale: { axisPressedMouseMove: true }, localization: { locale: 'en-US' } };
+  priceChart = LC.createChart(document.getElementById('priceChart'), { ...common, ...chartTheme(), timeScale: { visible: false } });
+  ratioChart = LC.createChart(document.getElementById('ratioChart'), { ...common, ...chartTheme() });
+  priceChart.priceScale('right').applyOptions({ mode: LC.PriceScaleMode.Logarithmic, scaleMargins: { top: 0.06, bottom: 0.06 } });
+  ratioChart.priceScale('right').applyOptions({ mode: LC.PriceScaleMode.Logarithmic, scaleMargins: { top: 0.08, bottom: 0.08 } });
+  bandSeries = LEVELS.map((l) => priceChart.addLineSeries({ lineWidth: 1, lineStyle: l.k === 2.2 || l.k === 0.4 ? 2 : 0, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: false, title: l.label }));
+  wmaSeries = priceChart.addLineSeries({ lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: false, title: 'WMA' });
+  priceSeries = priceChart.addLineSeries({ lineWidth: 2, priceLineVisible: false, lastValueVisible: true });
+  ratioSeries = ratioChart.addLineSeries({
+    lineWidth: 2, priceLineVisible: false, lastValueVisible: true,
+    priceFormat: { type: 'custom', formatter: (v) => v.toFixed(2), minMove: 0.01 },
+    // always keep the 0.3 and 2.4 lines in view
+    autoscaleInfoProvider: (orig) => {
+      const r = orig();
+      if (!r) return r;
+      return { ...r, priceRange: { minValue: Math.min(r.priceRange.minValue, 0.27), maxValue: Math.max(r.priceRange.maxValue, 2.65) } };
+    },
+  });
+  // keep both panes on the same visible range
+  let syncing = false;
+  const link = (a, b) => a.timeScale().subscribeVisibleLogicalRangeChange((r) => {
+    if (syncing || !r) return; syncing = true; b.timeScale().setVisibleLogicalRange(r); syncing = false;
+  });
+  link(priceChart, ratioChart); link(ratioChart, priceChart);
+  applyChartColors();
+}
+function applyChartColors() {
+  if (!priceChart) return;
+  priceChart.applyOptions({ ...chartTheme(), timeScale: { visible: false, borderColor: css('--line') } });
+  ratioChart.applyOptions(chartTheme());
+  priceSeries.applyOptions({ color: css('--price') });
+  wmaSeries.applyOptions({ color: css('--wma') });
+  LEVELS.forEach((l, i) => bandSeries[i].applyOptions({ color: css('--' + l.z) }));
+  ratioSeries.applyOptions({ color: css('--fg') });
+  ratioLines.forEach((pl) => ratioSeries.removePriceLine(pl));
+  ratioLines = [...LEVELS.map((l) => ratioSeries.createPriceLine({ price: l.k, color: css('--' + l.z), lineWidth: 1, lineStyle: l.k === 2.2 || l.k === 0.4 ? 2 : 0, axisLabelVisible: true, title: '' })),
+    ratioSeries.createPriceLine({ price: 1, color: css('--wma'), lineWidth: 1, lineStyle: 1, axisLabelVisible: false, title: '' })];
+}
+function priceFormat(sym) {
+  if (sym.kind === 'dom') return { type: 'custom', formatter: (v) => v.toFixed(1) + '%', minMove: 0.01 };
+  if (sym.kind === 'mcap') return { type: 'custom', formatter: (v) => (v >= 1e12 ? (v / 1e12).toFixed(2) + 'T' : (v / 1e9).toFixed(0) + 'B'), minMove: 1 };
+  return { type: 'custom', formatter: (v) => (v >= 1000 ? Math.round(v).toLocaleString('en-US') : v.toFixed(2)), minMove: 0.01 };
+}
+function renderChart() {
+  const sym = SYMS.find((s) => s.id === state.sym);
+  const tf = TFS.find((t) => t.id === state.tf);
+  const r = compute(sym.id, tf);
+  document.getElementById('detailSub').textContent = r.count
+    ? `${sym.id} · ${tf.id} (${tf.name}) · ${dateStr(r.first)}부터 봉 ${r.count.toLocaleString('en-US')}개`
+    : `${sym.id} · ${tf.id} · 데이터를 받지 못했습니다`;
+  document.getElementById('chartCap').innerHTML =
+    `<span style="color:var(--price)"><i></i>종가</span><span style="color:var(--wma)"><i></i>WMA 200</span>` +
+    LEVELS.map((l) => `<span style="color:var(--${l.z})"><i class="${l.k === 2.2 || l.k === 0.4 ? 'dash' : ''}"></i>${l.label}</span>`).join('');
+  if (priceChart) {
+    const fmt = priceFormat(sym);
+    priceSeries.applyOptions({ priceFormat: fmt });
+    wmaSeries.applyOptions({ priceFormat: fmt });
+    bandSeries.forEach((s) => s.applyOptions({ priceFormat: fmt }));
+    priceSeries.setData(r.bars.map((b) => ({ time: b.time, value: b.value })));
+    wmaSeries.setData(r.bars.map((b, i) => (r.w[i] ? { time: b.time, value: r.w[i] } : { time: b.time })));
+    LEVELS.forEach((l, k) => bandSeries[k].setData(r.bars.map((b, i) => (r.w[i] ? { time: b.time, value: r.w[i] * l.k } : { time: b.time }))));
+    ratioSeries.setData(r.bars.map((b, i) => (r.ratio[i] ? { time: b.time, value: r.ratio[i] } : { time: b.time })));
+    // show the whole history; the bands start once 200 bars exist
+    priceChart.timeScale().fitContent();
+    ratioChart.timeScale().fitContent();
+  }
+  renderLadder(sym, tf, r);
+  renderHistory(sym, tf, r);
+}
+function renderLadder(sym, tf, r) {
+  if (r.m == null) {
+    document.getElementById('ladderSub').textContent = `${sym.short} ${tf.id} · 봉 ${r.count}개라 WMA 200을 계산할 수 없습니다`;
+    document.getElementById('ladder').innerHTML = '';
+    document.getElementById('ladderNote').hidden = true;
+    return;
+  }
+  document.getElementById('ladderSub').textContent = `${sym.short} ${tf.id} · 현재 배수 ${fmtM(r.m)} (${ZONE_NAME[zoneOf(r.m)]})`;
+  const rows = [
+    ...LEVELS.map((l) => ({ lv: l.label, z: l.z, v: r.wmaNow * l.k })),
+    { lv: 'WMA', z: '', v: r.wmaNow },
+    { lv: '현재', z: 'now', v: r.value },
+  ].sort((a, b) => b.v - a.v);
+  document.getElementById('ladder').innerHTML = rows.map((row) => {
+    const off = sym.kind === 'dom' && row.v > 100;
+    const dist = row.z === 'now' ? '' : fmtPct(row.v / r.value - 1);
+    return `<li class="${row.z === 'now' ? 'now' : row.z} ${off ? 'off' : ''}"><span class="lv">${row.lv}</span><span class="val">${fmtValue(sym, row.v)}</span><span class="dist">${off ? '100% 초과' : dist}</span></li>`;
+  }).join('');
+  const note = document.getElementById('ladderNote');
+  const over = sym.kind === 'dom' ? rows.filter((row) => row.v > 100).map((row) => row.lv) : [];
+  if (over.length) {
+    note.hidden = false;
+    note.textContent = `도미넌스는 0–100% 사이 값이라 ${over.join('와 ')} 선에 닿을 수 없습니다. 도미넌스에 맞는 별도 기준이 필요합니다.`;
+  } else if (sym.kind === 'dom') {
+    note.hidden = false;
+    note.textContent = `${sym.short}는 기준선이 모두 100% 아래에 있어 계산상 닿을 수는 있습니다. 다만 도미넌스는 가격보다 변동 폭이 작아 0.3이나 2.4까지 가기 어렵습니다.`;
+  } else note.hidden = true;
+}
+
+// ---------- history of the multiple ----------
+function renderHistory(sym, tf, r) {
+  const el = document.getElementById('hist');
+  const pts = r.bars.map((b, i) => ({ t: b.time, m: r.ratio[i] })).filter((p) => p.m != null);
+  if (!pts.length) { el.innerHTML = ''; return; }
+  let lo = pts[0], hi = pts[0];
+  const count = { z1: 0, z2: 0, z4: 0, z5: 0 };
+  const lastIn = {};
+  for (const p of pts) {
+    if (p.m < lo.m) lo = p;
+    if (p.m > hi.m) hi = p;
+    const z = zoneOf(p.m);
+    if (z in count) { count[z]++; lastIn[z] = p.t; }
+  }
+  const unit = { '1D': '일', '3D': '봉', '1W': '주' }[tf.id];
+  const n = (k) => (k === 'z1' ? count.z1 : k === 'z2' ? count.z1 + count.z2 : k === 'z4' ? count.z4 + count.z5 : count.z5);
+  const since = (k) => {
+    const t = k === 'z2' ? Math.max(lastIn.z1 || 0, lastIn.z2 || 0) : k === 'z4' ? Math.max(lastIn.z4 || 0, lastIn.z5 || 0) : lastIn[k];
+    return t ? ` · 마지막 ${dateStr(t)}` : '';
+  };
+  el.innerHTML = `<h3>이력 (${dateStr(pts[0].t)}부터 ${pts.length.toLocaleString('en-US')}봉)</h3>
+    <dl>
+      <dt>최저 배수</dt><dd class="${zoneOf(lo.m) === 'z1' ? 'z1' : ''}">${fmtM(lo.m)} · ${dateStr(lo.t)}</dd>
+      <dt>최고 배수</dt><dd class="${zoneOf(hi.m) === 'z5' ? 'z5' : ''}">${fmtM(hi.m)} · ${dateStr(hi.t)}</dd>
+      <dt>0.3 이하</dt><dd class="${n('z1') ? 'z1' : ''}">${n('z1')}${unit}${since('z1')}</dd>
+      <dt>0.4 이하</dt><dd>${n('z2')}${unit}${since('z2')}</dd>
+      <dt>2.2 이상</dt><dd>${n('z4')}${unit}${since('z4')}</dd>
+      <dt>2.4 이상</dt><dd class="${n('z5') ? 'z5' : ''}">${n('z5')}${unit}${since('z5')}</dd>
+    </dl>`;
+}
+
+// ---------- wiring ----------
+function select(sym, tf) {
+  if (sym) state.sym = sym;
+  if (tf) state.tf = tf;
+  save();
+  document.querySelectorAll('.cell').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.sym === state.sym && b.dataset.tf === state.tf)));
+  renderPickers();
+  renderChart();
+}
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-sym],[data-tf]');
+  if (!el) return;
+  const fromPicker = el.closest('#symPicker, #tfPicker');
+  select(el.dataset.sym || null, el.dataset.tf || null);
+  if (!fromPicker && el.dataset.sym && el.dataset.tf) document.getElementById('h-detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+});
+function setView(v) {
+  state.view = v; save();
+  document.getElementById('tableView').hidden = v !== 'table';
+  document.getElementById('railView').hidden = v !== 'rail';
+  document.getElementById('viewTable').setAttribute('aria-pressed', String(v === 'table'));
+  document.getElementById('viewRail').setAttribute('aria-pressed', String(v === 'rail'));
+}
+document.getElementById('viewTable').addEventListener('click', () => setView('table'));
+document.getElementById('viewRail').addEventListener('click', () => setView('rail'));
+
+const fetched = new Date(DATA.fetchedAt);
+const fetchedStr = fetched.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+document.getElementById('asOf').textContent = `수집 ${fetchedStr}`;
+document.getElementById('srcBadge').textContent = `TradingView 데이터 · ${fetched.toISOString().slice(0, 10)}`;
+renderSummary();
+renderTable();
+renderRails();
+renderPickers();
+setView(state.view);
+initCharts();
+renderChart();
+
+// follow the viewer's theme (system setting or explicit toggle)
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyChartColors);
+new MutationObserver(applyChartColors).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
