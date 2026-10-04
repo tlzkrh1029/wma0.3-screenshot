@@ -1,7 +1,7 @@
 // Capture TradingView CRYPTOCAP market-cap charts for the top-N coins by market cap.
 //
 // Env:
-//   TOP_N      number of coins to capture (default 2)
+//   TOP_N      number of top coins to capture (default 2; 0 = extras only)
 //   EXTRA_SYMBOLS  comma-separated CRYPTOCAP tickers to capture as well (e.g. ARBI)
 //   LAYOUT_ID  shared TradingView chart layout id (default Bf3gbmLa)
 //   OUT_DIR    output directory (default screenshots/<YYYY-MM-DD>)
@@ -10,12 +10,13 @@ import { chromium } from 'playwright';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
-const TOP_N = Number(process.env.TOP_N || 2);
+const TOP_N = Number(process.env.TOP_N ?? 2);
 const LAYOUT_ID = process.env.LAYOUT_ID || 'Bf3gbmLa';
 const today = new Date().toISOString().slice(0, 10);
 const OUT_DIR = process.env.OUT_DIR || path.join('screenshots', today);
 
 async function topCoins(n) {
+  if (!(n > 0)) return [];
   const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${n}&page=1`;
   const res = await fetch(url, { headers: { accept: 'application/json' } });
   if (!res.ok) throw new Error(`CoinGecko ${res.status}: ${await res.text()}`);

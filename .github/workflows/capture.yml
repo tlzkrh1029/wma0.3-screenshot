@@ -39,7 +39,8 @@ jobs:
 
       - name: Capture screenshots
         env:
-          TOP_N: ${{ inputs.top_n || '2' }}
+          # Push-triggered runs only capture the extra symbols.
+          TOP_N: ${{ github.event_name == 'workflow_dispatch' && inputs.top_n || '0' }}
           EXTRA_SYMBOLS: ${{ github.event_name == 'workflow_dispatch' && inputs.extra_symbols || 'ARBI' }}
           TV_SESSIONID: ${{ secrets.TV_SESSIONID }}
           TV_SESSIONID_SIGN: ${{ secrets.TV_SESSIONID_SIGN }}
@@ -54,7 +55,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Commit screenshots
-        if: always()
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
