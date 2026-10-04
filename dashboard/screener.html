@@ -1,0 +1,1080 @@
+<title>WMA 시장 스크리너</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: app shell with three screens behind a sticky tab bar —
+   screener (table or tiles), market signal board, and coin detail. */
+:root {
+  --bg: #f4f6f8; --surface: #ffffff; --sunken: #eef1f4; --fg: #141922; --muted: #5b6574; --faint: #8a93a1;
+  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00;
+  --zu2: #0f7b3b; --zu1: #86d39a; --zo1: #f0c11b; --zo2: #b4161b;
+  --tint-u: #d4eedb; --mid: #eceae6; --tint-o: #f6ecc4;
+  --ramp-lo: #86b6ef; --ramp-hi: #0a2a57;
+  --nodata: #f7f8fa;
+  --font-sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
+    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b;
+    --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
+    --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
+    --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
+    --nodata: #12161c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
+  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b;
+  --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
+  --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
+  --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
+  --nodata: #12161c;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); font-size: 14px; line-height: 1.5; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+h2 { font-size: 16px; font-weight: 600; }
+button { font: inherit; color: inherit; }
+input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* shell */
+.appbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+.appbar-in { max-width: 1320px; margin: 0 auto; padding-inline: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; min-height: 52px; }
+.brand { font-weight: 700; font-size: 16px; letter-spacing: -.01em; white-space: nowrap; }
+.brand small { font-family: var(--font-mono); font-weight: 500; font-size: 11px; color: var(--muted); margin-left: 8px; }
+.tabs { display: flex; gap: 2px; flex-wrap: wrap; }
+.tabs a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: 14px; padding: 14px 12px 12px; border-bottom: 2px solid transparent; white-space: nowrap; }
+.tabs a[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+.tabs a .num { font-size: 12px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 18px 48px; display: grid; gap: 14px; }
+.banner { font-size: 13px; padding: 9px 12px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-fg); }
+.zones { display: flex; flex-wrap: wrap; gap: 6px; }
+.zc { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px 2px 7px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--sunken); color: var(--fg); border: 1px solid var(--line); white-space: nowrap; }
+.zc i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.zc b { font-family: var(--font-mono); font-weight: 600; }
+.zc.ref { border-style: dashed; color: var(--muted); }
+button.zc { cursor: pointer; }
+button.zc[aria-pressed="true"] { border-color: var(--fg); background: var(--surface); box-shadow: 0 0 0 1px var(--fg) inset; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; padding: 10px 12px; }
+.ctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ctl > span { font-size: 12px; color: var(--muted); font-weight: 500; }
+.seg { display: inline-flex; flex-wrap: wrap; padding: 3px; gap: 2px; border-radius: 9px; background: var(--sunken); border: 1px solid var(--line); }
+.seg button { border: 0; background: transparent; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgb(0 0 0 / .14); }
+.search { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 10px; width: 200px; max-width: 100%; }
+.check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); cursor: pointer; }
+.check input { accent-color: var(--accent); width: 15px; height: 15px; }
+.hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+.progress { font-size: 13px; color: var(--muted); padding: 20px; text-align: center; }
+
+/* screener: summary counts */
+.counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.count { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 10px 12px; display: grid; gap: 2px; text-align: left; cursor: pointer; }
+.count[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--fg) inset; }
+.count .k { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.count .k i { width: 10px; height: 10px; border-radius: 3px; }
+.count .v { font-size: 22px; font-weight: 700; }
+.count .v small { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+
+/* screener: table */
+.tbl-wrap { overflow-x: auto; }
+table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
+.scr th { position: sticky; top: 0; background: var(--surface); z-index: 1; font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.scr td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.scr tbody tr { cursor: pointer; }
+.scr tbody tr:hover { background: var(--sunken); }
+.scr tbody tr:focus-visible { outline-offset: -2px; }
+.scr .rk { font-family: var(--font-mono); color: var(--muted); font-size: 12px; width: 44px; }
+.coin b { font-family: var(--font-mono); font-size: 13px; }
+.coin span { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+.coin .real { display: inline-block; font-size: 10px; font-weight: 700; color: var(--accent); margin-left: 6px; letter-spacing: .03em; }
+.ex { display: flex; gap: 3px; }
+.ex i { font-style: normal; font-size: 10.5px; font-weight: 600; width: 20px; height: 18px; display: grid; place-items: center; border-radius: 4px; background: var(--sunken); color: var(--muted); border: 1px solid var(--line); }
+.ex i.on { background: var(--fg); color: var(--surface); border-color: var(--fg); }
+.sigcell { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; min-width: 170px; }
+.sigcell .more { font-size: 11.5px; color: var(--muted); }
+.mm { font-family: var(--font-mono); font-size: 12.5px; white-space: nowrap; }
+.mm small { color: var(--muted); font-size: 11px; margin-left: 4px; }
+.strips { display: grid; gap: 3px; min-width: 260px; }
+.strip { display: grid; grid-template-columns: 30px 1fr; gap: 6px; align-items: center; }
+.strip span { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); text-align: right; }
+.strip div { height: 12px; border-radius: 3px; }
+.strip-head { display: grid; grid-template-columns: 30px 1fr; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--faint); font-weight: 500; }
+.strip-head div { display: grid; grid-template-columns: 7fr 5fr 8fr; gap: 3px; }
+.strip-head em { font-style: normal; }
+.warn { color: var(--warn-fg); font-size: 11.5px; }
+.empty-row td { text-align: center; color: var(--muted); padding: 28px; cursor: default; }
+
+/* screener: tiles */
+.tiles { display: grid; gap: 14px; padding: 12px; }
+.tsec h3 { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.tsec h3 i { width: 10px; height: 10px; border-radius: 3px; }
+.tsec h3 span { color: var(--muted); font-weight: 500; font-family: var(--font-mono); }
+.tgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 3px; }
+.tile { border: 0; border-radius: 5px; padding: 5px 4px 4px; text-align: left; cursor: pointer; display: grid; gap: 0; min-width: 0; }
+.tile b { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tile span { font-family: var(--font-mono); font-size: 10.5px; opacity: .85; }
+
+/* board */
+.cv { position: relative; min-width: 0; touch-action: pan-y; }
+.cv canvas { display: block; width: 100%; }
+.board-head { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between; padding: 12px 14px 0; }
+.board-body { padding: 8px 14px 14px; display: grid; gap: 6px; }
+.bars-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); }
+.bars-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.bars-legend i { width: 10px; height: 10px; border-radius: 2px; }
+
+/* detail */
+.dhead { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
+.dtitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.dtitle h1 { font-size: 24px; font-weight: 700; font-family: var(--font-mono); }
+.dtitle span { color: var(--muted); }
+.navbtns { display: flex; gap: 6px; }
+.navbtns button { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+.navbtns button:disabled { opacity: .45; cursor: default; }
+.now { padding: 4px 14px; }
+.now-row { display: grid; grid-template-columns: 170px minmax(0, 1fr) 180px 180px; gap: 6px 14px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.now-row:last-child { border-bottom: 0; }
+.now-row.head { padding: 8px 0 4px; font-size: 11.5px; color: var(--muted); font-weight: 600; }
+.now-row .sym b { font-family: var(--font-mono); font-size: 13px; display: block; }
+.now-row .sym span { font-size: 12px; color: var(--muted); }
+.now-row .cur { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.now-row .cur .zc { white-space: normal; max-width: 100%; }
+.now-row .none { font-size: 12.5px; color: var(--muted); }
+.lastsig { font-size: 12.5px; display: grid; gap: 1px; min-width: 0; }
+.lastsig b { font-family: var(--font-mono); font-weight: 600; }
+.lastsig span { color: var(--muted); font-family: var(--font-mono); font-size: 11.5px; }
+.lastsig .k { display: none; color: var(--muted); font-size: 11.5px; font-family: var(--font-sans); }
+.view-head { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; justify-content: space-between; }
+.ramp-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.ramp-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.ramp-legend i { display: inline-block; width: 16px; height: 0; border-top: 2px solid; }
+.lines-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.lcard { padding: 12px 12px 8px; display: grid; gap: 6px; min-width: 0; }
+.shead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.shead b { font-family: var(--font-mono); font-size: 13px; }
+.shead span { font-size: 12px; color: var(--muted); }
+.shead .zc { font-size: 11.5px; padding: 1px 8px 1px 6px; white-space: normal; }
+.lempty { position: absolute; inset: 0 0 40px; display: grid; place-items: center; font-size: 12.5px; color: var(--muted); pointer-events: none; }
+.strip-view { padding: 10px 14px 14px; display: grid; gap: 12px; }
+.sblock { display: grid; gap: 4px; }
+.sgrid { display: grid; grid-template-columns: 44px minmax(0, 1fr) 54px; column-gap: 8px; }
+.slabels, .svalues { display: grid; }
+.slabels div, .svalues div { font-family: var(--font-mono); font-size: 11px; display: flex; align-items: center; white-space: nowrap; overflow: hidden; }
+.slabels div { color: var(--muted); justify-content: flex-end; }
+.slabels .sig { font-family: var(--font-sans); color: var(--fg); font-weight: 600; }
+.svalues div { gap: 5px; }
+.svalues i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.svalues .na, .svalues .fb { color: var(--muted); }
+.svalues .fb { font-style: italic; }
+.dense .slabels div, .dense .svalues div { font-size: 9.5px; line-height: 1; }
+.hline { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--fg); pointer-events: none; display: none; }
+.xaxis { position: relative; height: 16px; margin-left: 52px; margin-right: 62px; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); }
+.xaxis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.empty { padding: 28px; text-align: center; color: var(--muted); }
+.empty button { margin: 4px; border: 1px solid var(--line); background: var(--sunken); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+
+/* tooltip */
+.tip { position: fixed; z-index: 30; pointer-events: none; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 18px rgb(0 0 0 / .18); padding: 8px 10px; font-size: 12px; min-width: 160px; max-width: 300px; display: none; }
+.tip .h { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); margin-bottom: 4px; }
+.tip .r { display: grid; grid-template-columns: 14px auto 1fr; gap: 6px; align-items: center; line-height: 1.5; }
+.tip .r i { width: 12px; height: 0; border-top: 2px solid; }
+.tip .r i.sq { height: 10px; border: 0; border-radius: 2px; }
+.tip .r b { font-family: var(--font-mono); }
+.tip .r span { color: var(--muted); font-family: var(--font-mono); }
+.tip .s { margin-top: 5px; padding-top: 5px; border-top: 1px solid var(--line); display: grid; gap: 2px; }
+.tip .s div { display: flex; gap: 6px; align-items: center; }
+.tip .s i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.tip .warn { margin-top: 5px; }
+
+@media (max-width: 900px) {
+  .now-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .now-row.head { display: none; }
+  .now-row .sym, .now-row .cur { grid-column: 1 / -1; }
+  .lastsig .k { display: block; }
+  .lines-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 720px) {
+  /* screener rows become stacked cards */
+  table.scr { min-width: 0; }
+  .scr thead { display: none; }
+  .scr, .scr tbody, .scr tr, .scr td { display: block; width: 100%; }
+  .scr tbody tr { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .scr td { padding: 0; border: 0; }
+  .scr td.rk { grid-row: 1; grid-column: 1; width: auto; }
+  .scr td.coin-td { grid-row: 1; grid-column: 2; }
+  .scr td.ex-td { grid-row: 1; grid-column: 3; }
+  .scr td.sig-td { grid-column: 1 / -1; }
+  .scr td.min-td, .scr td.max-td, .scr td.last-td { display: none; }
+  .scr td.strip-td { grid-column: 1 / -1; }
+  .sigcell, .strips { min-width: 0; }
+}
+@media (max-width: 520px) {
+  .appbar-in, .wrap { padding-inline: 16px; }
+  .sgrid { grid-template-columns: 34px minmax(0, 1fr) 44px; column-gap: 6px; }
+  .xaxis { margin-left: 40px; margin-right: 50px; }
+  .svalues i { display: none; }
+}
+</style>
+
+<header class="appbar">
+  <div class="appbar-in">
+    <div class="brand">WMA 시장 스크리너<small id="asof"></small></div>
+    <nav class="tabs" aria-label="화면">
+      <a href="#screener" id="tab-screener">스크리너</a>
+      <a href="#board" id="tab-board">시장 신호판</a>
+      <a href="#coin-BTC" id="tab-coin">종목 상세</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="banner" id="banner">시안입니다. 종목 목록·시가총액 순위·거래소 상장 여부는 실제 데이터이고, 배수와 신호는 <b>BTC·ETH만 TradingView 실제 값</b>입니다. 나머지 종목의 배수와 신호는 화면 구성을 보여 드리기 위한 가상 데이터입니다.</div>
+  <div class="zones" aria-label="신호 구간">
+    <span class="zc"><i style="background:var(--zu2)"></i>0.3 이하 · 강한 저평가</span>
+    <span class="zc"><i style="background:var(--zu1)"></i>0.4 이하 · 저평가</span>
+    <span class="zc"><i style="background:var(--zo1)"></i>2.2 이상 · 고평가</span>
+    <span class="zc"><i style="background:var(--zo2)"></i>2.4 이상 · 강한 고평가</span>
+  </div>
+
+  <!-- screener -->
+  <section id="screen-screener" hidden>
+    <div style="display:grid;gap:12px">
+      <div class="counts" id="counts"></div>
+      <div class="panel controls" role="group" aria-label="스크리너 설정">
+        <input class="search" id="q" type="search" placeholder="심볼·이름 검색" aria-label="종목 검색">
+        <div class="ctl"><span id="lb-v">보기</span><div class="seg" role="group" aria-labelledby="lb-v" id="viewSeg">
+          <button type="button" data-v="table">표</button><button type="button" data-v="tiles">타일</button></div></div>
+        <div class="ctl"><span id="lb-s">정렬</span><div class="seg" role="group" aria-labelledby="lb-s" id="sortSeg">
+          <button type="button" data-sort="signal">신호 강도</button><button type="button" data-sort="low">0.3에 가까운 순</button><button type="button" data-sort="high">2.4에 가까운 순</button><button type="button" data-sort="rank">시가총액 순위</button></div></div>
+        <div class="ctl"><span id="lb-t">티커</span><div class="seg" role="group" aria-labelledby="lb-t" id="tickSeg">
+          <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
+        <div class="ctl"><span id="lb-e">거래소</span><div class="seg" role="group" aria-labelledby="lb-e" id="exSeg">
+          <button type="button" data-ex="U">업비트</button><button type="button" data-ex="B">빗썸</button><button type="button" data-ex="N">바이낸스</button></div></div>
+      </div>
+      <p class="hint" id="scrHint"></p>
+      <div class="panel" id="scrBody"><div class="progress" id="progress">가상 데이터를 계산하고 있습니다…</div></div>
+    </div>
+  </section>
+
+  <!-- board -->
+  <section id="screen-board" hidden>
+    <div style="display:grid;gap:12px">
+      <div class="panel controls" role="group" aria-label="신호판 설정">
+        <div class="ctl"><span id="lb-br">기간</span><div class="seg" role="group" aria-labelledby="lb-br" id="bRangeSeg">
+          <button type="button" data-br="all">전체</button><button type="button" data-br="5">5년</button><button type="button" data-br="2">2년</button><button type="button" data-br="1">1년</button></div></div>
+        <div class="ctl"><span id="lb-bo">줄 순서</span><div class="seg" role="group" aria-labelledby="lb-bo" id="bOrderSeg">
+          <button type="button" data-bo="rank">시가총액 순위</button><button type="button" data-bo="listed">상장일</button><button type="button" data-bo="now">현재 신호</button></div></div>
+        <div class="ctl"><span id="lb-bt">티커</span><div class="seg" role="group" aria-labelledby="lb-bt" id="bTickSeg">
+          <button type="button" data-btk="both">둘 다</button><button type="button" data-btk="cap">CAP</button><button type="button" data-btk="usd">USD</button></div></div>
+      </div>
+      <div class="panel">
+        <div class="board-head"><h2>신호가 뜬 종목 수</h2><div class="bars-legend">
+          <span><i style="background:var(--zu2)"></i>0.3 이하</span><span><i style="background:var(--zu1)"></i>0.4 이하</span>
+          <span><i style="background:var(--zo1)"></i>2.2 이상</span><span><i style="background:var(--zo2)"></i>2.4 이상</span></div></div>
+        <div class="board-body"><p class="hint">주마다 어느 타임프레임 하나라도 기준에 들어간 종목 수입니다. 위로는 저평가, 아래로는 고평가 신호입니다.</p><div class="cv"><canvas id="breadth"></canvas></div></div>
+      </div>
+      <div class="panel">
+        <div class="board-head"><h2>종목별 신호 바코드</h2><p class="hint" id="barcodeHint"></p></div>
+        <div class="board-body"><div class="cv"><canvas id="barcode"></canvas></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- detail -->
+  <section id="screen-coin" hidden>
+    <div style="display:grid;gap:14px">
+      <div class="dhead">
+        <div class="dtitle" id="dTitle"></div>
+        <div class="navbtns"><button type="button" id="prevCoin">← 이전 종목</button><button type="button" id="nextCoin">다음 종목 →</button></div>
+      </div>
+      <p class="hint" id="dNote"></p>
+      <div class="panel controls" role="group" aria-label="보기 설정">
+        <div class="ctl"><span id="lb-m">보기</span><div class="seg" id="methodSeg" role="group" aria-labelledby="lb-m">
+          <button type="button" data-method="lines">겹친 선</button><button type="button" data-method="strip">히트스트립</button></div></div>
+        <div class="ctl"><span id="lb-g">축</span><div class="seg" id="groupSeg" role="group" aria-labelledby="lb-g">
+          <button type="button" data-group="daily">데일리축</button><button type="button" data-group="weekly">위클리축</button><button type="button" data-group="monthly">먼슬리축</button><button type="button" data-group="all">전체</button></div></div>
+        <div class="ctl"><span id="lb-r">기간</span><div class="seg" id="rangeSeg" role="group" aria-labelledby="lb-r">
+          <button type="button" data-range="all">전체</button><button type="button" data-range="5">5년</button><button type="button" data-range="2">2년</button><button type="button" data-range="1">1년</button></div></div>
+        <label class="check"><input type="checkbox" id="fbToggle"> 200봉 미만이면 있는 봉으로 계산 (참고용)</label>
+      </div>
+      <div class="panel now" id="now"></div>
+      <div class="view-head"><p class="hint" id="viewNote"></p><div id="legend"></div></div>
+      <div id="view"></div>
+    </div>
+  </section>
+</main>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const TFS = DATA.tfs;
+const GROUPS = {
+  daily: ['1D', '2D', '3D', '4D', '5D', '6D', '1W'],
+  weekly: ['1W', '8D', '9D', '10D', '2W', '3W'],
+  monthly: ['1M', '2M', '3M', '4M', '6M', '8M', '10M', '12M'],
+  all: TFS,
+};
+const ZONE_LABEL = { u2: '0.3 이하', u1: '0.4 이하', o1: '2.2 이상', o2: '2.4 이상' };
+const DAYMS = 86400000;
+const S = DATA.days.length;              // weekly samples
+const DAY0 = DATA.btc.start, ND = DATA.btc.c.length;
+const tip = document.getElementById('tip');
+
+// ---------- shared helpers ----------
+function hundredths(m) { return Math.floor((Math.round(m * 1000) + 5) / 10); }
+function zone(m) { const c = hundredths(m); if (c <= 30) return 'u2'; if (c <= 40) return 'u1'; if (c >= 240) return 'o2'; if (c >= 220) return 'o1'; return 'n'; }
+const fmt = (m) => (m >= 10 ? m.toFixed(1) : (hundredths(m) / 100).toFixed(2));
+const dateStr = (d) => new Date(d * DAYMS).toISOString().slice(0, 10);
+const underLevel = (m) => { const z = zone(m); return z === 'u2' ? 2 : z === 'u1' ? 1 : 0; };
+const overLevel = (m) => { const z = zone(m); return z === 'o2' ? 2 : z === 'o1' ? 1 : 0; };
+function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function rgb(hex) { const h = hex.replace('#', ''); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)); }
+const C = {};
+let hatchCache = null, warnHatch = null;
+function readColors() {
+  for (const k of ['zu2', 'zu1', 'zo1', 'zo2', 'tint-u', 'mid', 'tint-o', 'ramp-lo', 'ramp-hi', 'surface', 'sunken', 'line', 'fg', 'muted', 'faint', 'nodata', 'warn-fg']) C[k] = css('--' + k);
+  C.rgb = {}; for (const k of ['zu2', 'zu1', 'zo1', 'zo2', 'tint-u', 'mid', 'tint-o', 'ramp-lo', 'ramp-hi', 'sunken', 'surface']) C.rgb[k] = rgb(C[k]);
+  hatchCache = null; warnHatch = null;
+}
+const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+const toCss = (c) => `rgb(${c[0]},${c[1]},${c[2]})`;
+const zoneColor = (z) => C['z' + z];
+function colorOf(m) {
+  const z = zone(m);
+  if (z !== 'n') return C.rgb['z' + z];
+  if (m < 1) return mix(C.rgb['tint-u'], C.rgb.mid, Math.log(m / 0.4) / Math.log(1 / 0.4));
+  return mix(C.rgb.mid, C.rgb['tint-o'], Math.min(1, Math.log(m) / Math.log(2.2)));
+}
+function relLum(c) { const f = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); }
+function inkOn(c) { const L = relLum(c), dark = relLum([20, 25, 34]); return (1.05) / (L + 0.05) >= (L + 0.05) / (dark + 0.05) ? '#ffffff' : '#141922'; }
+function rampColor(i, n) { return toCss(mix(C.rgb['ramp-lo'], C.rgb['ramp-hi'], n <= 1 ? 1 : i / (n - 1))); }
+function hatchPattern(ctx) {
+  if (hatchCache) return hatchCache;
+  const c = document.createElement('canvas'); c.width = c.height = 6; const g = c.getContext('2d');
+  g.fillStyle = C.sunken; g.fillRect(0, 0, 6, 6); g.strokeStyle = C.line; g.lineWidth = 1; g.beginPath(); g.moveTo(0, 6); g.lineTo(6, 0); g.stroke();
+  return (hatchCache = ctx.createPattern(c, 'repeat'));
+}
+function warnPattern(ctx) {
+  if (warnHatch) return warnHatch;
+  const c = document.createElement('canvas'); c.width = c.height = 7; const g = c.getContext('2d');
+  g.strokeStyle = C['warn-fg']; g.globalAlpha = 0.55; g.lineWidth = 1; g.beginPath(); g.moveTo(0, 7); g.lineTo(7, 0); g.stroke();
+  return (warnHatch = ctx.createPattern(c, 'repeat'));
+}
+function setupCanvas(cv, w, h) {
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = Math.max(1, Math.round(w * dpr)); cv.height = Math.max(1, Math.round(h * dpr)); cv.style.height = h + 'px';
+  const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); return ctx;
+}
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function showTip(ev, title, rows, extra) {
+  tip.replaceChildren(el('div', 'h', title));
+  for (const r of rows) {
+    const row = el('div', 'r'); const key = el('i');
+    if (r.square) { key.className = 'sq'; key.style.background = r.color; } else key.style.borderColor = r.color;
+    const b = el('b', null, r.value); if (r.italic) b.style.fontStyle = 'italic';
+    row.append(key, b, el('span', null, r.label)); tip.append(row);
+  }
+  if (extra) tip.append(extra);
+  tip.style.display = 'block';
+  const pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  if (x + w > innerWidth - 8) x = ev.clientX - w - pad;
+  if (y + h > innerHeight - 8) y = ev.clientY - h - pad;
+  tip.style.left = Math.max(8, Math.min(x, innerWidth - w - 8)) + 'px'; tip.style.top = Math.max(8, Math.min(y, innerHeight - h - 8)) + 'px';
+}
+function hideTip() { tip.style.display = 'none'; }
+function sigBox(items, title) {
+  const box = el('div', 's'); const head = el('div', null, title); head.style.color = 'var(--muted)'; box.append(head);
+  if (!items.length) box.append(el('div', null, '없음'));
+  for (const it of items) { const d = el('div'); const i = el('i'); i.style.background = zoneColor(it.z); d.append(i, el('span', null, it.text)); box.append(d); }
+  return box;
+}
+function zoneChip(z, text, ref) {
+  const c = el('span', 'zc' + (ref ? ' ref' : '')); const i = el('i'); i.style.background = `var(--z${z})`;
+  c.append(i, el('span', null, ZONE_LABEL[z] + (ref ? ' (참고)' : '') + ' · '), el('b', null, text)); return c;
+}
+
+// ---------- calendar: TradingView-style bar buckets on the shared day axis ----------
+// nD bars restart every January 1st, 2W/3W at the year's first Monday, nM every January; 1W is Monday-based.
+function keyFn(tf) {
+  const m = /^(\d+)([DWM])$/.exec(tf), n = Number(m[1]), u = m[2];
+  return (d) => {
+    if (u === 'D' && n === 1) return d;
+    const t = new Date(d * DAYMS), y = t.getUTCFullYear(), jan1 = Date.UTC(y, 0, 1) / DAYMS;
+    if (u === 'D') return y * 1000 + Math.floor((d - jan1) / n);
+    if (u === 'W') {
+      if (n === 1) return Math.floor((d + 3) / 7);
+      // multi-week bars restart at the first Monday on or after January 1st; the days before it
+      // finish the previous year's cycle (TradingView behaviour, checked against its 2W/3W bars)
+      const firstMon = (yy) => { const j = Date.UTC(yy, 0, 1) / DAYMS; return j + ((1 - ((j + 4) % 7) + 7) % 7); };
+      const cy = d >= firstMon(y) ? y : y - 1;
+      return cy * 100 + Math.floor(Math.floor((d - firstMon(cy)) / 7) / n);
+    }
+    return y * 100 + Math.floor(t.getUTCMonth() / n);
+  };
+}
+const BAR = {};
+for (const tf of TFS) {
+  const f = keyFn(tf), a = new Int32Array(ND); let b = -1, prev = null;
+  for (let i = 0; i < ND; i++) { const k = f(DAY0 + i); if (k !== prev) { b++; prev = k; } a[i] = b; }
+  BAR[tf] = a;
+}
+const SIDX = DATA.days.map((d) => d - DAY0); // sample day -> day index
+
+// One timeframe of one daily series starting at day index s0. Returns closes per bar and, per bar b >= 199,
+// V[b] = sum_{j=1..199} (200-j) * C[b-j], so the in-progress multiple on day i is c / ((200c + V[b]) / 20100).
+function tfSeries(c, s0, tf) {
+  const idx = BAR[tf], base = idx[s0], nb = idx[ND - 1] - base + 1;
+  const Cb = new Float64Array(nb);
+  for (let i = s0; i < ND; i++) Cb[idx[i] - base] = c[i];
+  const V = new Float64Array(nb).fill(NaN);
+  if (nb >= 200) {
+    let A = 0, B = 0;
+    for (let i = 0; i < 199; i++) { A += (i + 1) * Cb[i]; B += Cb[i]; }
+    V[199] = A;
+    for (let e = 199; e < nb - 1; e++) { A = A + 199 * Cb[e] - B; B = B + Cb[e] - Cb[e - 199]; V[e + 1] = A; }
+  }
+  return { idx, base, Cb, V };
+}
+function mAt(ts, c, i) {
+  const b = ts.idx[i] - ts.base;
+  if (b < 199 || Number.isNaN(ts.V[b])) return null;
+  const x = c[i]; return x / ((200 * x + ts.V[b]) / 20100);
+}
+function fbAt(ts, c, i) {
+  const b = ts.idx[i] - ts.base, n = Math.min(200, b + 1);
+  if (b < 0 || n < 12) return null;
+  let s = 0; for (let j = 1; j < n; j++) s += (n - j) * ts.Cb[b - j];
+  const x = c[i]; return x / ((n * x + s) / (n * (n + 1) / 2));
+}
+
+// ---------- generated coins (layout review only) ----------
+function hashStr(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function rngFor(seed) { let a = seed; return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const LOGBTC = Float64Array.from(DATA.btc.c, Math.log);
+const STABLE = /^(USDT|USDC|DAI|FDUSD|TUSD|USDE|USDS|PYUSD|USD1|RLUSD|USDD|FRAX|EURC|BUSD|USDP|USDG|USDF|USD0|SUSDE|EURI|AEUR|XUSD|BFUSD|USDTB|USDA|FXUSD)$/;
+function dayIdxOf(y, m = 0, d = 1) { return Math.round(Date.UTC(y, m, d) / DAYMS) - DAY0; }
+function generate(coin) {
+  const r = rngFor(hashStr(coin.s));
+  const gauss = () => { let u = 0, v = 0; while (!u) u = r(); while (!v) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  const span = coin.r <= 20 ? [2014, 2019] : coin.r <= 100 ? [2016, 2022] : coin.r <= 300 ? [2017, 2024] : [2019, 2025.7];
+  const L = Math.max(0, Math.min(ND - 120, dayIdxOf(Math.floor(span[0])) + Math.floor(r() * (span[1] - span[0]) * 365)));
+  const stable = STABLE.test(coin.s);
+  // market beta to BTC, a mild trend, and a mean-reverting (OU) idiosyncratic part
+  const beta = stable ? 0 : 0.8 + r() * 0.8, mu = stable ? 0 : -0.6 + r() * 0.7, vol = stable ? 0.02 : 0.45 + r() * 0.5;
+  const theta = 0.35 + r() * 1.0, pump = stable ? 0 : r() * 0.8, p0 = Math.log(0.01) + r() * Math.log(5000);
+  const g = stable ? 0.05 + r() * 0.2 : r() * 0.35, s0 = Math.log(1e6 + r() * 1e9);
+  const steps = []; const nSteps = stable ? 0 : Math.floor(r() * 4);
+  for (let k = 0; k < nSteps; k++) steps.push([L + Math.floor(r() * (ND - L)), 0.02 + r() * 0.08]);
+  const price = new Float64Array(ND).fill(NaN), cap = new Float64Array(ND).fill(NaN);
+  let rw = 0, sup = s0;
+  const sd = vol / Math.sqrt(365), pull = theta / 365;
+  for (let i = L; i < ND; i++) {
+    rw += -pull * rw + sd * gauss();
+    const lp = p0 + beta * (LOGBTC[i] - LOGBTC[L]) + mu * (i - L) / 365 + rw + pump * Math.exp(-(i - L) / 90);
+    for (const [d, a] of steps) if (d === i) sup += a;
+    price[i] = Math.exp(lp); cap[i] = Math.exp(lp + sup + g * (i - L) / 365);
+  }
+  let suspect = [];
+  if (!stable && r() < 0.08) { const a = L + Math.floor(r() * Math.max(1, ND - L - 200)); suspect = [[DAY0 + a, DAY0 + a + 30 + Math.floor(r() * 150)]]; }
+  return { L, price, cap, suspect };
+}
+
+// ---------- per-coin summaries ----------
+// Each coin has two tickers: CRYPTOCAP:X (kind 'cap') and CRYPTO:XUSD (kind 'usd').
+const COINS = DATA.coins.map((c) => ({ ...c, real: !!DATA.real[`CRYPTOCAP:${c.s}`] }));
+function tickerIds(coin) { return [{ id: `CRYPTOCAP:${coin.s}`, kind: 'cap', short: 'CAP', desc: '시가총액' }, { id: `CRYPTO:${coin.s}USD`, kind: 'usd', short: 'USD', desc: '가격' }]; }
+function summarizeReal(coin) {
+  return tickerIds(coin).map((t) => {
+    const e = DATA.real[t.id];
+    const cur = new Float32Array(TFS.length).fill(NaN); TFS.forEach((tf, j) => { if (e.cur[tf] != null) cur[j] = e.cur[tf]; });
+    const has = new Uint8Array(S); for (let k = 0; k < S; k++) has[k] = TFS.some((tf) => e.m[tf]?.[k] != null) ? 1 : 0;
+    return { ...t, cur, u: Uint8Array.from(e.sig.u), o: Uint8Array.from(e.sig.o), has, suspect: e.suspect, listed: DATA.days.find((d, k) => has[k]) ?? null };
+  });
+}
+function summarizeGen(coin) {
+  const g = generate(coin);
+  return tickerIds(coin).map((t) => {
+    const series = t.kind === 'cap' ? g.cap : g.price;
+    const cur = new Float32Array(TFS.length).fill(NaN), u = new Uint8Array(S), o = new Uint8Array(S), has = new Uint8Array(S);
+    TFS.forEach((tf, j) => {
+      const ts = tfSeries(series, g.L, tf);
+      const m = mAt(ts, series, ND - 1); if (m != null) cur[j] = m;
+      for (let k = 0; k < S; k++) {
+        const i = SIDX[k]; if (i < g.L) continue;
+        const v = mAt(ts, series, i); if (v == null) continue;
+        has[k] = 1; const ul = underLevel(v), ol = overLevel(v);
+        if (ul > u[k]) u[k] = ul; if (ol > o[k]) o[k] = ol;
+      }
+    });
+    return { ...t, cur, u, o, has, suspect: g.suspect, listed: DAY0 + g.L };
+  });
+}
+
+// ---------- state & routing ----------
+const state = { screen: 'screener', coin: 'BTC', view: 'table', sort: 'signal', tk: 'both', ex: [], zf: [], q: '',
+  br: 'all', bo: 'rank', btk: 'both', method: 'lines', group: 'daily', range: 'all', fb: false };
+try { Object.assign(state, JSON.parse(localStorage.getItem('wma-screener') || '{}')); } catch (e) {}
+function save() { try { const { screen, coin, ...rest } = state; localStorage.setItem('wma-screener', JSON.stringify(rest)); } catch (e) {} }
+function route() {
+  const h = location.hash.slice(1);
+  if (h === 'board') state.screen = 'board';
+  else if (h.startsWith('coin-')) { state.screen = 'coin'; state.coin = h.slice(5); }
+  else state.screen = 'screener';
+  for (const s of ['screener', 'board', 'coin']) {
+    document.getElementById('screen-' + s).hidden = state.screen !== s;
+    document.getElementById('tab-' + s).setAttribute('aria-current', state.screen === s ? 'page' : 'false');
+  }
+  document.getElementById('tab-coin').textContent = `종목 상세 · ${state.coin}`;
+  document.getElementById('tab-coin').href = '#coin-' + state.coin;
+  hideTip();
+  if (!READY) return;
+  if (state.screen === 'screener') renderScreener();
+  if (state.screen === 'board') renderBoard();
+  if (state.screen === 'coin') renderCoin();
+  window.scrollTo({ top: 0 });
+}
+
+// ---------- screener ----------
+let READY = false;
+const SUM = new Map(); // sym -> tickers summary
+function activeTickers(sum, tk) { return sum.filter((t) => tk === 'both' || t.kind === tk); }
+function coinStats(coin, tk) {
+  const ts = activeTickers(SUM.get(coin.s), tk);
+  let min = null, max = null; const hits = { u2: [], u1: [], o1: [], o2: [] };
+  for (const t of ts) TFS.forEach((tf, j) => {
+    const m = t.cur[j]; if (Number.isNaN(m)) return;
+    if (!min || m < min.m) min = { m, label: `${t.short} ${tf}` };
+    if (!max || m > max.m) max = { m, label: `${t.short} ${tf}` };
+    const z = zone(m); if (z !== 'n') hits[z].push({ m, label: `${t.short} ${tf}` });
+  });
+  let lastU2 = -1, lastO2 = -1;
+  for (let k = S - 1; k >= 0 && (lastU2 < 0 || lastO2 < 0); k--) for (const t of ts) { if (lastU2 < 0 && t.u[k] === 2) lastU2 = k; if (lastO2 < 0 && t.o[k] === 2) lastO2 = k; }
+  const top = hits.u2.length ? 'u2' : hits.o2.length ? 'o2' : hits.u1.length ? 'u1' : hits.o1.length ? 'o1' : (min ? 'n' : 'na');
+  const suspect = ts.some((t) => t.suspect.length);
+  const lastSusp = lastU2 >= 0 && ts.some((t) => t.suspect.some(([a, b]) => a <= DATA.days[lastU2] && b >= DATA.days[lastU2] - 6));
+  return { coin, min, max, hits, top, lastU2, lastO2, suspect, lastSusp, ts };
+}
+const TOP_RANK = { u2: 0, o2: 1, u1: 2, o1: 3, n: 4, na: 5 };
+function filteredStats() {
+  const q = state.q.trim().toLowerCase();
+  let list = COINS.map((c) => coinStats(c, state.tk));
+  const all = list;
+  if (q) list = list.filter((s) => s.coin.s.toLowerCase().includes(q) || s.coin.n.toLowerCase().includes(q) || (s.coin.k || '').includes(q));
+  if (state.ex.length) list = list.filter((s) => state.ex.every((x) => s.coin.x.includes(x)));
+  if (state.zf.length) list = list.filter((s) => state.zf.some((z) => (z === 'n' ? s.top === 'n' : s.hits[z].length)));
+  const by = {
+    signal: (a, b) => TOP_RANK[a.top] - TOP_RANK[b.top] || (b.hits[a.top]?.length || 0) - (a.hits[a.top]?.length || 0) || a.coin.r - b.coin.r,
+    low: (a, b) => (a.min ? a.min.m : 99) - (b.min ? b.min.m : 99),
+    high: (a, b) => (b.max ? b.max.m : -1) - (a.max ? a.max.m : -1),
+    rank: (a, b) => a.coin.r - b.coin.r,
+  }[state.sort];
+  list.sort(by);
+  return { list, all };
+}
+let ORDER = []; // current screener order (for prev/next in detail)
+function stripGradient(cur) {
+  // 20 cells with a small gap after 1W and after 3W (daily | weekly | monthly)
+  const stops = []; const gap = 0.8; const cell = (100 - 2 * gap) / 20;
+  let x = 0;
+  TFS.forEach((tf, j) => {
+    const m = cur[j]; const col = Number.isNaN(m) ? C.nodata : toCss(colorOf(m));
+    stops.push(`${col} ${x.toFixed(2)}% ${(x + cell).toFixed(2)}%`); x += cell;
+    if (j === 6 || j === 11) { stops.push(`transparent ${x.toFixed(2)}% ${(x + gap).toFixed(2)}%`); x += gap; }
+  });
+  return `linear-gradient(90deg, ${stops.join(', ')})`;
+}
+function stripIndexAt(ev, div) {
+  const r = div.getBoundingClientRect(), p = (ev.clientX - r.left) / r.width * 100, gap = 0.8, cell = (100 - 2 * gap) / 20;
+  let x = 0;
+  for (let j = 0; j < 20; j++) { if (p < x + cell) return j; x += cell; if (j === 6 || j === 11) { if (p < x + gap) return null; x += gap; } }
+  return 19;
+}
+function renderCounts(all) {
+  const box = document.getElementById('counts'); box.replaceChildren();
+  const n = (z) => all.filter((s) => (z === 'n' ? s.top === 'n' : s.hits[z].length)).length;
+  const defs = [['u2', '0.3 이하'], ['u1', '0.4 이하'], ['o1', '2.2 이상'], ['o2', '2.4 이상'], ['n', '신호 없음']];
+  for (const [z, label] of defs) {
+    const b = el('button', 'count'); b.type = 'button'; b.setAttribute('aria-pressed', String(state.zf.includes(z)));
+    const k = el('span', 'k'); const i = el('i'); i.style.background = z === 'n' ? 'var(--mid)' : `var(--z${z})`; k.append(i, el('span', null, label + (z === 'n' ? '' : ' 신호')));
+    const v = el('span', 'v num', String(n(z))); v.append(el('small', null, '종'));
+    b.append(k, v);
+    b.addEventListener('click', () => { state.zf = state.zf.includes(z) ? state.zf.filter((x) => x !== z) : [...state.zf, z]; save(); renderScreener(); });
+    box.append(b);
+  }
+}
+function renderScreener() {
+  for (const [id, key, attr] of [['viewSeg', 'view', 'v'], ['sortSeg', 'sort', 'sort'], ['tickSeg', 'tk', 'tk']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
+  document.querySelectorAll('#exSeg button').forEach((b) => b.setAttribute('aria-pressed', String(state.ex.includes(b.dataset.ex))));
+  document.getElementById('q').value = state.q;
+  const { list, all } = filteredStats();
+  ORDER = list.map((s) => s.coin.s);
+  renderCounts(all);
+  const filt = [state.q && `검색 "${state.q}"`, state.ex.length && `거래소 ${state.ex.map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join('·')} 모두 상장`, state.zf.length && '신호 필터'].filter(Boolean);
+  document.getElementById('scrHint').textContent = `${list.length}종 표시 · 전체 ${all.length}종` + (filt.length ? ` · ${filt.join(', ')}` : '') + ' · 신호는 20개 타임프레임 중 하나라도 기준에 들어간 경우입니다. 줄을 누르면 종목 상세가 열립니다.';
+  const body = document.getElementById('scrBody'); body.replaceChildren();
+  if (state.view === 'tiles') return renderTiles(body, list);
+  const wrap = el('div', 'tbl-wrap'); const table = el('table', 'scr');
+  table.innerHTML = `<thead><tr><th>#</th><th>종목</th><th>거래소</th><th>현재 신호</th><th>최저 배수</th><th>최고 배수</th>
+    <th><div class="strip-head"><span></span><div><em>1D … 1W</em><em>8D … 3W</em><em>1M … 12M</em></div></div></th><th>마지막 0.3</th></tr></thead>`;
+  const tb = el('tbody');
+  if (!list.length) { const tr = el('tr', 'empty-row'); const td = el('td', null, '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.'); td.colSpan = 8; tr.append(td); tb.append(tr); }
+  for (const s of list) {
+    const tr = el('tr'); tr.tabIndex = 0; tr.dataset.sym = s.coin.s;
+    tr.append(el('td', 'rk', String(s.coin.r)));
+    const coin = el('td', 'coin coin-td'); const b = el('b', null, s.coin.s); if (s.coin.real) b.append(el('span', 'real', '실제'));
+    coin.append(b, el('span', null, s.coin.k ? `${s.coin.k} · ${s.coin.n}` : s.coin.n)); tr.append(coin);
+    const ex = el('td', 'ex-td'); const exd = el('div', 'ex');
+    for (const [x, l] of [['U', '업'], ['B', '빗'], ['N', '바']]) { const i = el('i', s.coin.x.includes(x) ? 'on' : '', l); i.title = { U: '업비트', B: '빗썸', N: '바이낸스' }[x] + (s.coin.x.includes(x) ? ' 상장' : ' 미상장'); exd.append(i); }
+    ex.append(exd); tr.append(ex);
+    const sig = el('td', 'sig-td'); const sc = el('div', 'sigcell');
+    if (s.top === 'na') sc.append(el('span', 'more', '데이터 없음 (봉 200개 미만)'));
+    else if (s.top === 'n') sc.append(el('span', 'more', '신호 없음'));
+    else {
+      const items = s.hits[s.top].sort((a, b) => (s.top[0] === 'u' ? a.m - b.m : b.m - a.m));
+      sc.append(zoneChip(s.top, `${items[0].label} ${fmt(items[0].m)}`));
+      const others = ['u2', 'o2', 'u1', 'o1'].reduce((n, z) => n + s.hits[z].length, 0) - 1;
+      if (others > 0) sc.append(el('span', 'more', `외 ${others}칸`));
+    }
+    if (s.suspect) sc.append(el('span', 'warn', '⚠ 데이터 의심 구간 있음'));
+    sig.append(sc); tr.append(sig);
+    const mm = (v) => { const td = el('td', 'mm'); if (v) { td.textContent = fmt(v.m); td.append(el('small', null, v.label)); } else td.textContent = '–'; return td; };
+    const mn = mm(s.min); mn.classList.add('min-td'); tr.append(mn); const mx = mm(s.max); mx.classList.add('max-td'); tr.append(mx);
+    const st = el('td', 'strip-td'); const sw = el('div', 'strips');
+    for (const t of s.ts) {
+      const row = el('div', 'strip'); const bar = el('div'); bar.style.background = stripGradient(t.cur);
+      bar.addEventListener('pointermove', (ev) => {
+        const j = stripIndexAt(ev, bar); if (j == null) { hideTip(); return; }
+        const m = t.cur[j];
+        showTip(ev, `${t.id} · ${TFS[j]}`, [{ color: Number.isNaN(m) ? C.nodata : toCss(colorOf(m)), value: Number.isNaN(m) ? '–' : fmt(m), label: Number.isNaN(m) ? '데이터 없음' : '현재 배수', square: true }]);
+      });
+      bar.addEventListener('pointerleave', hideTip);
+      row.append(el('span', null, t.short), bar); sw.append(row);
+    }
+    st.append(sw); tr.append(st);
+    const last = el('td', 'mm last-td', s.lastU2 >= 0 ? dateStr(DATA.days[s.lastU2]) : '–');
+    if (s.lastSusp) last.append(el('div', 'warn', '⚠ 의심 구간'));
+    tr.append(last);
+    tb.append(tr);
+  }
+  table.append(tb); wrap.append(table); body.append(wrap);
+  tb.addEventListener('click', (e) => { const tr = e.target.closest('tr[data-sym]'); if (tr) location.hash = 'coin-' + tr.dataset.sym; });
+  tb.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const tr = e.target.closest('tr[data-sym]'); if (tr) location.hash = 'coin-' + tr.dataset.sym; } });
+}
+function renderTiles(body, list) {
+  const box = el('div', 'tiles');
+  const secs = [['u2', '0.3 이하 신호'], ['o2', '2.4 이상 신호'], ['u1', '0.4 이하 신호'], ['o1', '2.2 이상 신호'], ['n', '신호 없음'], ['na', '데이터 없음 (봉 200개 미만)']];
+  for (const [z, label] of secs) {
+    const items = list.filter((s) => s.top === z); if (!items.length) continue;
+    const sec = el('div', 'tsec'); const h = el('h3'); const i = el('i'); i.style.background = z === 'n' || z === 'na' ? 'var(--mid)' : `var(--z${z})`;
+    h.append(i, document.createTextNode(label), el('span', null, `${items.length}종`)); sec.append(h);
+    const grid = el('div', 'tgrid');
+    for (const s of items) {
+      // color: the most extreme value on the coin's side of 1.0
+      const v = z[0] === 'o' ? s.max : s.min;
+      const ext = !v ? null : (s.min && s.max && Math.abs(Math.log(s.min.m)) >= Math.abs(Math.log(s.max.m)) ? s.min : s.max);
+      const pick = z === 'n' ? ext : v;
+      const col = pick ? colorOf(pick.m) : rgb(C.nodata);
+      const t = el('button', 'tile'); t.type = 'button'; t.style.background = toCss(col); t.style.color = inkOn(col);
+      t.append(el('b', null, s.coin.s), el('span', null, pick ? fmt(pick.m) : '–'));
+      t.setAttribute('aria-label', `${s.coin.s} ${pick ? pick.label + ' ' + fmt(pick.m) : '데이터 없음'}`);
+      t.addEventListener('click', () => { location.hash = 'coin-' + s.coin.s; });
+      t.addEventListener('pointerenter', (ev) => showTip(ev, `${s.coin.r}위 · ${s.coin.s} ${s.coin.k || s.coin.n}`, [
+        ...(s.min ? [{ color: toCss(colorOf(s.min.m)), value: fmt(s.min.m), label: '최저 · ' + s.min.label, square: true }] : []),
+        ...(s.max ? [{ color: toCss(colorOf(s.max.m)), value: fmt(s.max.m), label: '최고 · ' + s.max.label, square: true }] : []),
+      ]));
+      t.addEventListener('pointerleave', hideTip);
+      grid.append(t);
+    }
+    sec.append(grid); box.append(sec);
+  }
+  body.append(box);
+}
+
+// ---------- market signal board ----------
+function boardRange() {
+  const last = DATA.days[S - 1];
+  if (state.br === 'all') { const k = DATA.days.findIndex((d) => d >= Date.UTC(2013, 0, 1) / DAYMS); return Math.max(0, k); }
+  return Math.max(0, DATA.days.findIndex((d) => d >= last - Math.round(Number(state.br) * 365.25)));
+}
+function coinLevels(sum, k, tk) {
+  let u = 0, o = 0, has = 0;
+  for (const t of activeTickers(sum, tk)) { if (t.u[k] > u) u = t.u[k]; if (t.o[k] > o) o = t.o[k]; if (t.has[k]) has = 1; }
+  return { u, o, has };
+}
+function yearTicksFor(start, end) {
+  const out = []; const y0 = new Date(DATA.days[start] * DAYMS).getUTCFullYear(), y1 = new Date(DATA.days[end] * DAYMS).getUTCFullYear();
+  if (y1 - y0 >= 2) { for (let y = y0 + 1; y <= y1; y++) { const d = Date.UTC(y, 0, 1) / DAYMS; const i = DATA.days.findIndex((x) => x >= d); if (i > start) out.push({ i, label: String(y) }); } }
+  else { const d0 = new Date(DATA.days[start] * DAYMS), q0 = Math.floor(d0.getUTCMonth() / 3) * 3; for (let k = 1; k < 12; k++) { const dt = Date.UTC(d0.getUTCFullYear(), q0 + k * 3, 1) / DAYMS; const i = DATA.days.findIndex((x) => x >= dt); if (i > start) out.push({ i, label: dateStr(dt).slice(0, 7) }); } }
+  return out;
+}
+function renderBoard() {
+  for (const [id, key, attr] of [['bRangeSeg', 'br', 'br'], ['bOrderSeg', 'bo', 'bo'], ['bTickSeg', 'btk', 'btk']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
+  const start = boardRange(), end = S - 1, N = end - start + 1;
+  // breadth
+  const counts = [];
+  for (let k = start; k <= end; k++) {
+    const c = { u2: 0, u1: 0, o1: 0, o2: 0, has: 0 };
+    for (const coin of COINS) { const L = coinLevels(SUM.get(coin.s), k, state.btk); if (L.has) c.has++; if (L.u === 2) c.u2++; else if (L.u === 1) c.u1++; if (L.o === 2) c.o2++; else if (L.o === 1) c.o1++; }
+    counts.push(c);
+  }
+  const bc = document.getElementById('breadth'), W = bc.parentElement.clientWidth, H = 200, padL = 36, padR = 8, padT = 8, padB = 18;
+  const ctx = setupCanvas(bc, W, H);
+  const maxUp = Math.max(1, ...counts.map((c) => c.u2 + c.u1)), maxDn = Math.max(1, ...counts.map((c) => c.o2 + c.o1));
+  const plotH = H - padT - padB, mid = padT + plotH * maxUp / (maxUp + maxDn), sc = plotH / (maxUp + maxDn), plotW = W - padL - padR;
+  ctx.strokeStyle = C.line; ctx.beginPath(); ctx.moveTo(padL, Math.round(mid) + 0.5); ctx.lineTo(W - padR, Math.round(mid) + 0.5); ctx.stroke();
+  ctx.font = '10.5px "IBM Plex Mono", monospace'; ctx.fillStyle = C.muted; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  ctx.fillText(String(maxUp), padL - 6, padT + 6); ctx.fillText('0', padL - 6, mid); ctx.fillText(String(maxDn), padL - 6, H - padB - 4);
+  ctx.textAlign = 'left'; ctx.fillText('저평가 신호 ↑', padL + 4, padT + 6); ctx.fillText('고평가 신호 ↓', padL + 4, H - padB - 4);
+  for (let px = 0; px < plotW; px++) {
+    const k0 = Math.floor(px * N / plotW), k1 = Math.max(k0, Math.ceil((px + 1) * N / plotW) - 1);
+    let u2 = 0, u1 = 0, o1 = 0, o2 = 0;
+    for (let k = k0; k <= Math.min(k1, N - 1); k++) { u2 = Math.max(u2, counts[k].u2); u1 = Math.max(u1, counts[k].u2 + counts[k].u1); o2 = Math.max(o2, counts[k].o2); o1 = Math.max(o1, counts[k].o2 + counts[k].o1); }
+    const x = padL + px;
+    ctx.fillStyle = C.zu1; ctx.fillRect(x, mid - u1 * sc, 1, u1 * sc);
+    ctx.fillStyle = C.zu2; ctx.fillRect(x, mid - u2 * sc, 1, u2 * sc);
+    ctx.fillStyle = C.zo1; ctx.fillRect(x, mid, 1, o1 * sc);
+    ctx.fillStyle = C.zo2; ctx.fillRect(x, mid, 1, o2 * sc);
+  }
+  ctx.fillStyle = C.muted; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  for (const t of yearTicksFor(start, end)) ctx.fillText(t.label, padL + (t.i - start) / N * plotW, H - 4);
+  bc.onpointermove = (ev) => {
+    const r = bc.getBoundingClientRect(), k = Math.floor((ev.clientX - r.left - padL) / plotW * N);
+    if (k < 0 || k >= N) { hideTip(); return; }
+    const c = counts[k];
+    showTip(ev, `${dateStr(DATA.days[start + k])} 주`, [
+      { color: C.zu2, value: String(c.u2), label: '0.3 이하', square: true }, { color: C.zu1, value: String(c.u1), label: '0.4 이하 (0.3 제외)', square: true },
+      { color: C.zo1, value: String(c.o1), label: '2.2 이상 (2.4 제외)', square: true }, { color: C.zo2, value: String(c.o2), label: '2.4 이상', square: true },
+      { color: C.line, value: String(c.has), label: '값이 있는 종목', square: true }]);
+  };
+  bc.onpointerleave = hideTip;
+
+  // barcode: one row per coin
+  let rows = COINS.map((c) => ({ coin: c, sum: SUM.get(c.s) }));
+  if (state.bo === 'listed') rows.sort((a, b) => Math.min(...a.sum.map((t) => t.listed ?? 1e9)) - Math.min(...b.sum.map((t) => t.listed ?? 1e9)));
+  if (state.bo === 'now') { const sc2 = (r) => { const L = coinLevels(r.sum, S - 1, state.btk); return L.u ? 10 - L.u : L.o ? 7 - L.o : L.has ? 6 : 9; }; rows.sort((a, b) => sc2(a) - sc2(b) || a.coin.r - b.coin.r); }
+  const rowH = 2, cv = document.getElementById('barcode'), BW = cv.parentElement.clientWidth, BH = rows.length * rowH + 22, bpadL = 36, bplotW = BW - bpadL - 8;
+  const g = setupCanvas(cv, BW, BH);
+  g.fillStyle = C.nodata; g.fillRect(bpadL, 0, bplotW, rows.length * rowH);
+  const fadeMid = toCss(mix(rgb(C.mid), rgb(C.surface), 0.35));
+  rows.forEach((r, ri) => {
+    const y = ri * rowH;
+    for (let px = 0; px < bplotW; px++) {
+      const k0 = start + Math.floor(px * N / bplotW), k1 = start + Math.max(Math.floor(px * N / bplotW), Math.ceil((px + 1) * N / bplotW) - 1);
+      let u = 0, o = 0, has = 0;
+      for (let k = k0; k <= Math.min(k1, end); k++) { const L = coinLevels(r.sum, k, state.btk); u = Math.max(u, L.u); o = Math.max(o, L.o); has = has || L.has; }
+      if (!has) continue;
+      g.fillStyle = u ? C['zu' + u] : o ? C['zo' + o] : fadeMid;
+      g.fillRect(bpadL + px, y, 1, rowH);
+    }
+  });
+  g.font = '10.5px "IBM Plex Mono", monospace'; g.fillStyle = C.muted; g.textAlign = 'right'; g.textBaseline = 'middle';
+  if (state.bo === 'rank') for (const rk of [1, 100, 200, 300, 400, 500, 600]) if (rk <= rows.length) g.fillText(rk + '위', bpadL - 4, Math.max(6, (rk - 1) * rowH + 1));
+  g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  for (const t of yearTicksFor(start, end)) g.fillText(t.label, bpadL + (t.i - start) / N * bplotW, BH - 6);
+  document.getElementById('barcodeHint').textContent = `${rows.length}종 · 한 줄 = 한 종목, 한 칸 = 한 주 · 회색은 신호 없음, 빈칸은 데이터 없음 · 줄을 누르면 종목 상세`;
+  const at = (ev) => { const r = cv.getBoundingClientRect(); const ri = Math.floor((ev.clientY - r.top) / rowH), k = start + Math.floor((ev.clientX - r.left - bpadL) / bplotW * N); return ri >= 0 && ri < rows.length && k >= start && k <= end ? { row: rows[ri], k } : null; };
+  cv.onpointermove = (ev) => {
+    const a = at(ev); if (!a) { hideTip(); return; }
+    const L = coinLevels(a.row.sum, a.k, state.btk);
+    const items = []; if (L.u) items.push({ z: 'u' + L.u, text: ZONE_LABEL['u' + L.u] }); if (L.o) items.push({ z: 'o' + L.o, text: ZONE_LABEL['o' + L.o] });
+    showTip(ev, `${a.row.coin.r}위 · ${a.row.coin.s} ${a.row.coin.k || a.row.coin.n} · ${dateStr(DATA.days[a.k])}`, [], L.has ? sigBox(items, '이 주의 신호') : el('div', null, '데이터 없음'));
+  };
+  cv.onpointerleave = hideTip;
+  cv.onclick = (ev) => { const a = at(ev); if (a) location.hash = 'coin-' + a.row.coin.s; };
+}
+
+// ---------- coin detail ----------
+// Detail data has the same shape as the single-coin board: per ticker m/fb (x1000 ints per weekly sample),
+// cur/curFb, sig {u,uM,o,oM,uf,ufM,of,ofM}, last, days, suspect.
+const DETAIL = new Map();
+function detailFor(coin) {
+  if (DETAIL.has(coin.s)) return DETAIL.get(coin.s);
+  const syms = tickerIds(coin); const T = {};
+  if (coin.real) { for (const t of syms) T[t.id] = { ...DATA.real[t.id], unit: '일' }; }
+  else {
+    const g = generate(coin);
+    for (const t of syms) {
+      const series = t.kind === 'cap' ? g.cap : g.price;
+      const e = { m: {}, fb: {}, cur: {}, curFb: {}, sig: { u: new Array(S).fill(0), uM: new Array(S).fill(0), o: new Array(S).fill(0), oM: new Array(S).fill(0), uf: new Array(S).fill(0), ufM: new Array(S).fill(0), of: new Array(S).fill(0), ofM: new Array(S).fill(0) }, suspect: g.suspect, unit: '주' };
+      const bump = (lv, mask, k, level, bit) => { if (!level) return; if (level > lv[k]) { lv[k] = level; mask[k] = bit; } else if (level === lv[k]) mask[k] |= bit; };
+      TFS.forEach((tf, j) => {
+        const ts = tfSeries(series, g.L, tf), bit = 1 << j;
+        e.m[tf] = new Array(S).fill(null); let fbArr = null;
+        for (let k = 0; k < S; k++) {
+          const i = SIDX[k]; if (i < g.L) continue;
+          const v = mAt(ts, series, i);
+          if (v != null) { e.m[tf][k] = Math.round(v * 1000); bump(e.sig.u, e.sig.uM, k, underLevel(v), bit); bump(e.sig.o, e.sig.oM, k, overLevel(v), bit); bump(e.sig.uf, e.sig.ufM, k, underLevel(v), bit); bump(e.sig.of, e.sig.ofM, k, overLevel(v), bit); }
+          else { const f = fbAt(ts, series, i); if (f != null) { (fbArr ||= new Array(S).fill(null))[k] = Math.round(f * 1000); bump(e.sig.uf, e.sig.ufM, k, underLevel(f), bit); bump(e.sig.of, e.sig.ofM, k, overLevel(f), bit); } }
+        }
+        if (fbArr) e.fb[tf] = fbArr;
+        e.cur[tf] = mAt(ts, series, ND - 1);
+        if (e.cur[tf] == null) e.curFb[tf] = fbAt(ts, series, ND - 1);
+      });
+      const lastOf = (lv, mask, level) => { for (let k = S - 1; k >= 0; k--) if (lv[k] >= level) return { day: DATA.days[k], mask: lv[k] === level ? mask[k] : 0 }; return null; };
+      const count = (lv, level) => lv.reduce((n, x) => n + (x >= level ? 1 : 0), 0);
+      e.last = { u2: lastOf(e.sig.u, e.sig.uM, 2), o2: lastOf(e.sig.o, e.sig.oM, 2) };
+      e.days = { u2: count(e.sig.u, 2), o2: count(e.sig.o, 2), total: e.m['1D'].filter((v) => v != null).length };
+      T[t.id] = e;
+    }
+  }
+  const d = { coin, syms, T }; DETAIL.set(coin.s, d); return d;
+}
+let D = null; // current detail
+const tfsNow = () => GROUPS[state.group];
+function valAt(sym, tf, i) { const t = D.T[sym]; const v = t.m[tf]?.[i]; if (v != null) return { m: v / 1000, fb: false }; if (state.fb && t.fb[tf]?.[i] != null) return { m: t.fb[tf][i] / 1000, fb: true }; return null; }
+function curOf(sym, tf) { const t = D.T[sym]; if (t.cur[tf] != null) return { m: t.cur[tf], fb: false }; if (state.fb && t.curFb[tf] != null) return { m: t.curFb[tf], fb: true }; return null; }
+const maskTfs = (mask) => TFS.filter((_, i) => mask & (1 << i));
+const suspectWeek = (sym, k) => { const d = DATA.days[k]; return D.T[sym].suspect.some(([a, b]) => a <= d && b >= d - 6); };
+function visibleRange() {
+  const days = DATA.days, last = days[S - 1];
+  let start;
+  if (state.range !== 'all') start = days.findIndex((d) => d >= last - Math.round(Number(state.range) * 365.25));
+  else { start = days.findIndex((d) => d >= last - 365); for (const s of D.syms) for (const tf of TFS) { const i = days.findIndex((_, k) => valAt(s.id, tf, k)); if (i >= 0 && i < start) start = i; } }
+  return { start: Math.max(0, start), end: S - 1 };
+}
+function paintSignalRow(ctx, sym, start, N, x0, width, y, h) {
+  const g = D.T[sym].sig, half = h / 2;
+  const faded = (key) => toCss(mix(C.rgb['z' + key], C.rgb.sunken, 0.6));
+  const cols = Math.max(1, Math.round(width));
+  for (let px = 0; px < cols; px++) {
+    const k0 = start + Math.floor(px * N / cols), k1 = start + Math.max(Math.floor(px * N / cols), Math.ceil((px + 1) * N / cols) - 1);
+    let u = 0, o = 0, uf = 0, of = 0;
+    for (let k = k0; k <= Math.min(k1, start + N - 1); k++) { u = Math.max(u, g.u[k]); o = Math.max(o, g.o[k]); uf = Math.max(uf, g.uf[k]); of = Math.max(of, g.of[k]); }
+    const x = x0 + px;
+    if (u) { ctx.fillStyle = C['zu' + u]; ctx.fillRect(x, y, 1, half); } else if (state.fb && uf) { ctx.fillStyle = faded('u' + uf); ctx.fillRect(x, y, 1, half); }
+    if (o) { ctx.fillStyle = C['zo' + o]; ctx.fillRect(x, y + half, 1, half); } else if (state.fb && of) { ctx.fillStyle = faded('o' + of); ctx.fillRect(x, y + half, 1, half); }
+  }
+}
+function hatchSuspect(ctx, sym, start, N, x0, width, y, h) {
+  if (!D.T[sym].suspect.length) return;
+  ctx.fillStyle = warnPattern(ctx); let rs = -1;
+  for (let k = 0; k <= N; k++) { const on = k < N && suspectWeek(sym, start + k); if (on && rs < 0) rs = k; if (!on && rs >= 0) { const a = Math.floor(x0 + rs / N * width), b = Math.ceil(x0 + k / N * width); ctx.fillRect(a, y, Math.max(1, b - a), h); rs = -1; } }
+}
+function signalTipItems(sym, k) {
+  const s = D.T[sym].sig, out = [];
+  if (s.u[k]) out.push({ z: 'u' + s.u[k], text: `${ZONE_LABEL['u' + s.u[k]]}: ${maskTfs(s.uM[k]).join(', ')}` }); else if (state.fb && s.uf[k]) out.push({ z: 'u' + s.uf[k], text: `${ZONE_LABEL['u' + s.uf[k]]} (참고): ${maskTfs(s.ufM[k]).join(', ')}` });
+  if (s.o[k]) out.push({ z: 'o' + s.o[k], text: `${ZONE_LABEL['o' + s.o[k]]}: ${maskTfs(s.oM[k]).join(', ')}` }); else if (state.fb && s.of[k]) out.push({ z: 'o' + s.of[k], text: `${ZONE_LABEL['o' + s.of[k]]} (참고): ${maskTfs(s.ofM[k]).join(', ')}` });
+  return out;
+}
+function tipExtra(sym, k) {
+  const box = sigBox(signalTipItems(sym, k), '이 주의 신호 (20개 타임프레임)');
+  if (suspectWeek(sym, k)) { const w = el('div', 'warn', '⚠ 이 주는 시가총액 데이터가 의심되는 구간입니다'); const f = document.createDocumentFragment(); f.append(box, w); return f; }
+  return box;
+}
+function currentZones(sym) {
+  const out = { u2: [], u1: [], o1: [], o2: [], ref: { u2: [], u1: [], o1: [], o2: [] } };
+  for (const tf of TFS) { const c = curOf(sym, tf); if (!c) continue; const z = zone(c.m); if (z === 'n') continue; (c.fb ? out.ref[z] : out[z]).push({ tf, m: c.m }); }
+  return out;
+}
+function renderCoin() {
+  const coin = COINS.find((c) => c.s === state.coin) || COINS[0]; state.coin = coin.s;
+  D = detailFor(coin);
+  const t = document.getElementById('dTitle'); t.replaceChildren();
+  t.append(el('h1', null, coin.s), el('span', null, `${coin.k ? coin.k + ' · ' : ''}${coin.n} · 시가총액 ${coin.r}위 · ${['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join(' · ')}`));
+  document.getElementById('dNote').textContent = coin.real ? 'TradingView 실제 값입니다. 티커가 6개로 늘어나면 아래 카드가 티커 수만큼 늘어납니다.' : '이 종목의 배수와 신호는 화면 확인용 가상 데이터입니다. 티커가 6개로 늘어나면 아래 카드가 티커 수만큼 늘어납니다.';
+  const idx = ORDER.indexOf(coin.s);
+  const prev = document.getElementById('prevCoin'), next = document.getElementById('nextCoin');
+  prev.disabled = idx <= 0; next.disabled = idx < 0 || idx >= ORDER.length - 1;
+  prev.onclick = () => { if (idx > 0) location.hash = 'coin-' + ORDER[idx - 1]; };
+  next.onclick = () => { if (idx >= 0 && idx < ORDER.length - 1) location.hash = 'coin-' + ORDER[idx + 1]; };
+  prev.title = next.title = '스크리너의 현재 정렬·필터 순서를 따릅니다';
+  for (const [id, key] of [['methodSeg', 'method'], ['groupSeg', 'group'], ['rangeSeg', 'range']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[key] === state[key])));
+  document.getElementById('fbToggle').checked = state.fb;
+  renderNow();
+  document.getElementById('viewNote').textContent = state.method === 'lines' ? '티커마다 차트 하나에 타임프레임별 배수 선을 겹쳤습니다. 차트 아래 띠는 20개 타임프레임 전체로 판정한 신호입니다.' : '티커마다 타임프레임을 한 줄씩 쌓고 날짜별 배수를 색으로 칠했습니다. 맨 아래 줄은 20개 타임프레임 전체로 판정한 신호입니다.';
+  const legend = document.getElementById('legend'); legend.replaceChildren();
+  if (state.method === 'lines' && state.group !== 'all') { const l = el('div', 'ramp-legend'); tfsNow().forEach((tf, i) => { const s = el('span'); const k = el('i'); k.style.borderColor = rampColor(i, tfsNow().length); s.append(k, document.createTextNode(tf)); l.append(s); }); legend.append(l); }
+  const view = document.getElementById('view'); view.replaceChildren();
+  redraw = (state.method === 'lines' ? renderLines : renderStrip)(view);
+}
+let redraw = () => {};
+function renderNow() {
+  const box = document.getElementById('now'); box.replaceChildren();
+  const head = el('div', 'now-row head'); for (const x of ['티커', '현재 구간에 들어간 타임프레임', '마지막 0.3 이하', '마지막 2.4 이상']) head.append(el('div', null, x)); box.append(head);
+  for (const s of D.syms) {
+    const row = el('div', 'now-row'); const sym = el('div', 'sym'); sym.append(el('b', null, s.id), el('span', null, s.desc));
+    const cur = el('div', 'cur'); const z = currentZones(s.id); let any = false;
+    for (const k of ['u2', 'u1', 'o2', 'o1']) { if (z[k].length) { cur.append(zoneChip(k, z[k].map((x) => `${x.tf} ${fmt(x.m)}`).join(', '))); any = true; } if (z.ref[k].length) { cur.append(zoneChip(k, z.ref[k].map((x) => `${x.tf} ${fmt(x.m)}`).join(', '), true)); any = true; } }
+    if (!any) { const have = TFS.filter((tf) => curOf(s.id, tf)).length; cur.append(el('span', 'none', `신호 없음 · 값이 있는 ${have}개 타임프레임 모두 0.4–2.2 사이` + (have < TFS.length ? ` · ${TFS.length - have}개는 데이터 없음` : ''))); }
+    const e = D.T[s.id];
+    const cell = (key, label) => {
+      const d = el('div', 'lastsig'); d.append(el('div', 'k', label)); const L = e.last[key];
+      d.append(el('b', null, L ? dateStr(L.day) : '없음'), el('span', null, L ? `${maskTfs(L.mask).join(', ') || '여러 타임프레임'} · 이력 중 ${e.days[key].toLocaleString('en-US')}${e.unit}` : '이력 중 0' + e.unit));
+      if (L && e.suspect.some(([a, b]) => a <= L.day && b >= L.day - 6)) d.append(el('span', 'warn', '⚠ 데이터 의심 구간의 신호'));
+      return d;
+    };
+    row.append(sym, cur, cell('u2', '마지막 0.3 이하'), cell('o2', '마지막 2.4 이상')); box.append(row);
+  }
+}
+function yearTicks(start, end) { return yearTicksFor(start, end); }
+function renderLines(view) {
+  const tfs = tfsNow();
+  if (state.group === 'all') {
+    const e = el('div', 'panel empty'); e.append(el('p', null, '20개 선을 한 차트에 겹치면 읽을 수 없어서, 겹친 선은 축을 하나 골라야 합니다.'));
+    for (const [g, l] of [['daily', '데일리축'], ['weekly', '위클리축'], ['monthly', '먼슬리축']]) { const b = el('button', null, l); b.type = 'button'; b.dataset.group = g; e.append(b); }
+    const b = el('button', null, '히트스트립으로 보기'); b.type = 'button'; b.dataset.method = 'strip'; e.append(b);
+    view.append(e); return () => {};
+  }
+  const { start, end } = visibleRange(), N = end - start + 1;
+  const grid = el('div', 'lines-grid'); const cards = [];
+  for (const s of D.syms) {
+    const card = el('div', 'panel lcard'); const head = el('div', 'shead'); head.append(el('b', null, s.id), el('span', null, s.desc));
+    const z = currentZones(s.id); for (const k of ['u2', 'u1', 'o2', 'o1']) if (z[k].length) head.append(zoneChip(k, z[k].map((x) => `${x.tf} ${fmt(x.m)}`).join(', ')));
+    card.append(head);
+    const cvw = el('div', 'cv'); const cv = el('canvas'); cvw.append(cv); card.append(cvw); grid.append(card);
+    cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${s.id}의 타임프레임별 배수 선 차트와 신호 띠`);
+    if (!tfs.some((tf) => DATA.days.some((_, k) => k >= start && valAt(s.id, tf, k)))) cvw.append(el('div', 'lempty', '데이터 없음 · 이 축의 타임프레임은 모두 봉 200개 미만'));
+    cards.push({ s, cv });
+  }
+  view.append(grid);
+  const H = 262, padL = 6, padR = 40, padT = 8, sigH = 12, padB = 20 + sigH + 6; const geom = new Map();
+  const drawCard = (cd) => {
+    const W = cd.cv.parentElement.clientWidth, ctx = setupCanvas(cd.cv, W, H);
+    let lo = 0.27, hi = 2.65;
+    for (const tf of tfs) for (let k = start; k <= end; k++) { const v = valAt(cd.s.id, tf, k); if (v) { lo = Math.min(lo, v.m); hi = Math.max(hi, v.m); } }
+    lo = Math.max(lo, 0.02);
+    const plotW = W - padL - padR;
+    const X = (k) => padL + (k - start) / Math.max(1, N - 1) * plotW;
+    const Y = (m) => padT + (Math.log(hi) - Math.log(m)) / (Math.log(hi) - Math.log(lo)) * (H - padT - padB);
+    geom.set(cd.cv, { X, Y, W });
+    ctx.font = '10.5px "IBM Plex Mono", monospace'; ctx.textBaseline = 'middle';
+    for (const m of [0.1, 5, 10, 20]) if (m < hi && m > lo && (m > 2.6 || m < 0.25)) { ctx.strokeStyle = C.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(padL, Math.round(Y(m)) + 0.5); ctx.lineTo(W - padR, Math.round(Y(m)) + 0.5); ctx.stroke(); ctx.fillStyle = C.muted; ctx.textAlign = 'left'; ctx.fillText(String(m), W - padR + 6, Y(m)); }
+    for (const [m, col] of [[0.3, C.zu2], [0.4, C.zu1], [1, C.faint], [2.2, C.zo1], [2.4, C.zo2]]) {
+      if (m < lo || m > hi) continue;
+      ctx.strokeStyle = col; ctx.lineWidth = m === 1 ? 1 : 1.5; ctx.globalAlpha = m === 1 ? 0.7 : 1;
+      ctx.beginPath(); ctx.moveTo(padL, Math.round(Y(m)) + 0.5); ctx.lineTo(W - padR, Math.round(Y(m)) + 0.5); ctx.stroke();
+      ctx.globalAlpha = 1; ctx.fillStyle = C.muted; ctx.textAlign = 'left'; ctx.fillText(String(m), W - padR + 6, Y(m) + (m === 2.2 || m === 0.3 ? 5 : m === 2.4 || m === 0.4 ? -5 : 0));
+    }
+    const yS = H - padB + 6; ctx.fillStyle = C.sunken; ctx.fillRect(padL, yS, plotW, sigH);
+    paintSignalRow(ctx, cd.s.id, start, N, padL, plotW, yS, sigH);
+    ctx.fillStyle = C.muted; ctx.textAlign = 'left'; ctx.fillText('신호', W - padR + 6, yS + sigH / 2);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    for (const t of yearTicks(start, end)) ctx.fillText(t.label, X(t.i), H - 4);
+    hatchSuspect(ctx, cd.s.id, start, N, padL, plotW, padT, H - padT - padB);
+    ctx.save(); ctx.beginPath(); ctx.rect(padL, padT - 2, plotW, H - padT - padB + 4); ctx.clip();
+    tfs.forEach((tf, r) => {
+      ctx.strokeStyle = rampColor(r, tfs.length); ctx.lineWidth = 1.6; ctx.lineJoin = 'round';
+      let pen = false, prev = null; const flush = () => { if (pen) ctx.stroke(); pen = false; };
+      for (let k = start; k <= end; k++) {
+        const v = valAt(cd.s.id, tf, k);
+        if (!v) { flush(); prev = null; continue; }
+        if (pen && prev && v.fb !== prev.v.fb) { flush(); ctx.beginPath(); ctx.setLineDash(v.fb ? [3, 3] : []); ctx.moveTo(X(prev.k), Y(prev.v.m)); pen = true; }
+        if (!pen) { ctx.beginPath(); ctx.setLineDash(v.fb ? [3, 3] : []); ctx.moveTo(X(k), Y(v.m)); pen = true; } else ctx.lineTo(X(k), Y(v.m));
+        prev = { k, v };
+      }
+      flush(); ctx.setLineDash([]);
+    });
+    ctx.restore();
+  };
+  cards.forEach(drawCard);
+  for (const cd of cards) {
+    const onMove = (ev) => {
+      const g = geom.get(cd.cv); if (!g) return; const r = cd.cv.getBoundingClientRect();
+      const k = Math.round(start + (ev.clientX - r.left - padL) / (g.W - padL - padR) * (N - 1));
+      drawCard(cd); if (k < start || k > end) { hideTip(); return; }
+      const ctx = cd.cv.getContext('2d'); ctx.strokeStyle = C.fg; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(Math.round(g.X(k)) + 0.5, padT); ctx.lineTo(Math.round(g.X(k)) + 0.5, H - 20); ctx.stroke();
+      const rows = tfs.map((tf, i) => { const v = valAt(cd.s.id, tf, k); return { color: rampColor(i, tfs.length), value: v ? fmt(v.m) : '–', label: tf + (v?.fb ? ' (참고)' : ''), italic: v?.fb }; }).reverse();
+      showTip(ev, `${cd.s.id} · ${dateStr(DATA.days[k])}`, rows, tipExtra(cd.s.id, k));
+    };
+    cd.cv.addEventListener('pointermove', onMove); cd.cv.addEventListener('pointerdown', onMove);
+    cd.cv.addEventListener('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; hideTip(); drawCard(cd); });
+  }
+  return () => cards.forEach(drawCard);
+}
+function renderStrip(view) {
+  const tfs = tfsNow(), { start, end } = visibleRange(), N = end - start + 1;
+  const dense = tfs.length > 10, rowH = dense ? 9 : 15, gap = 1, sigH = 14;
+  const panel = el('div', 'panel strip-view' + (dense ? ' dense' : '')); const axisTop = el('div', 'xaxis'); panel.append(axisTop);
+  const blocks = [];
+  for (const s of D.syms) {
+    const b = el('div', 'sblock'); const head = el('div', 'shead'); head.append(el('b', null, s.id), el('span', null, s.desc)); b.append(head);
+    const grid = el('div', 'sgrid'); const rows = `repeat(${tfs.length}, ${rowH + gap}px) ${sigH + 4}px`;
+    const labels = el('div', 'slabels'); labels.style.gridTemplateRows = rows; const values = el('div', 'svalues'); values.style.gridTemplateRows = rows;
+    for (const tf of tfs) {
+      labels.append(el('div', null, tf)); const v = el('div'); const c = curOf(s.id, tf);
+      if (c) { const i = el('i'); i.style.background = toCss(colorOf(c.m)); v.append(i, document.createTextNode(fmt(c.m))); if (c.fb) v.className = 'fb'; } else { v.textContent = '–'; v.className = 'na'; }
+      values.append(v);
+    }
+    labels.append(el('div', 'sig', '신호')); values.append(el('div'));
+    const cvw = el('div', 'cv'); const cv = el('canvas'); const hl = el('div', 'hline'); cvw.append(cv, hl);
+    cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${s.id}의 ${tfs.length}개 타임프레임 배수 이력과 신호`);
+    grid.append(labels, cvw, values); b.append(grid); panel.append(b); blocks.push({ s, cv, hl });
+  }
+  const axisBottom = el('div', 'xaxis'); panel.append(axisBottom); view.append(panel);
+  const H = tfs.length * (rowH + gap) + sigH + 4;
+  const draw = () => {
+    const W = blocks[0].cv.parentElement.clientWidth, cw = W / N;
+    for (const bl of blocks) {
+      const ctx = setupCanvas(bl.cv, W, H), pat = hatchPattern(ctx);
+      tfs.forEach((tf, r) => {
+        const y = r * (rowH + gap);
+        if (cw >= 1) for (let k = 0; k < N; k++) { const v = valAt(bl.s.id, tf, start + k); ctx.fillStyle = v ? toCss(colorOf(v.m)) : pat; const a = Math.floor(k * cw); ctx.fillRect(a, y, Math.floor((k + 1) * cw) - a || 1, rowH); }
+        else for (let x = 0; x < W; x++) { const k0 = Math.floor(x / cw), k1 = Math.min(N - 1, Math.floor((x + 1) / cw)); let best = null; for (let k = k0; k <= k1; k++) { const v = valAt(bl.s.id, tf, start + k); if (v && (!best || Math.abs(Math.log(v.m)) > Math.abs(Math.log(best.m)))) best = v; } ctx.fillStyle = best ? toCss(colorOf(best.m)) : pat; ctx.fillRect(x, y, 1, rowH); }
+      });
+      const yS = tfs.length * (rowH + gap) + 4; ctx.fillStyle = C.sunken; ctx.fillRect(0, yS, W, sigH);
+      paintSignalRow(ctx, bl.s.id, start, N, 0, W, yS, sigH);
+      hatchSuspect(ctx, bl.s.id, start, N, 0, W, 0, H);
+      ctx.fillStyle = C.surface; for (const t of yearTicks(start, end)) ctx.fillRect(Math.round((t.i - start) * cw), 0, 1, H);
+    }
+    for (const ax of [axisTop, axisBottom]) { ax.replaceChildren(); for (const t of yearTicks(start, end)) { const s = el('span', null, t.label); s.style.left = ((t.i - start) / N * 100) + '%'; ax.append(s); } }
+  };
+  draw();
+  for (const bl of blocks) {
+    const move = (ev) => {
+      const r = bl.cv.getBoundingClientRect(); const k = Math.min(N - 1, Math.max(0, Math.floor((ev.clientX - r.left) / r.width * N)));
+      for (const o of blocks) { o.hl.style.display = 'block'; o.hl.style.left = ((k + 0.5) / N * r.width) + 'px'; }
+      const rows = tfs.map((tf) => { const v = valAt(bl.s.id, tf, start + k); return { color: v ? toCss(colorOf(v.m)) : C.line, value: v ? fmt(v.m) : '–', label: tf + (v?.fb ? ' (참고)' : ''), square: true, italic: v?.fb }; });
+      showTip(ev, `${bl.s.id} · ${dateStr(DATA.days[start + k])}`, rows, tipExtra(bl.s.id, start + k));
+    };
+    bl.cv.addEventListener('pointermove', move); bl.cv.addEventListener('pointerdown', move);
+    bl.cv.addEventListener('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; hideTip(); for (const o of blocks) o.hl.style.display = 'none'; });
+  }
+  return draw;
+}
+
+// ---------- wiring ----------
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  const d = b.dataset; let hit = true;
+  if (d.v) state.view = d.v; else if (d.sort) state.sort = d.sort; else if (d.tk) state.tk = d.tk;
+  else if (d.ex) state.ex = state.ex.includes(d.ex) ? state.ex.filter((x) => x !== d.ex) : [...state.ex, d.ex];
+  else if (d.br) state.br = d.br; else if (d.bo) state.bo = d.bo; else if (d.btk) state.btk = d.btk;
+  else if (d.method) state.method = d.method; else if (d.group) state.group = d.group; else if (d.range) state.range = d.range;
+  else hit = false;
+  if (!hit) return;
+  save(); hideTip();
+  if (state.screen === 'screener') renderScreener(); else if (state.screen === 'board') renderBoard(); else renderCoin();
+});
+let qt; document.getElementById('q').addEventListener('input', (e) => { clearTimeout(qt); qt = setTimeout(() => { state.q = e.target.value; save(); renderScreener(); }, 150); });
+document.getElementById('fbToggle').addEventListener('change', (e) => { state.fb = e.target.checked; save(); renderCoin(); });
+document.addEventListener('pointerdown', (e) => { if (!e.target.closest('canvas, .strip div, .tile')) hideTip(); });
+addEventListener('scroll', hideTip, { passive: true });
+addEventListener('hashchange', route);
+let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (state.screen === 'board') renderBoard(); else if (state.screen === 'coin') redraw(); }, 150); });
+const rerender = () => { readColors(); if (!READY) return; if (state.screen === 'screener') renderScreener(); else if (state.screen === 'board') renderBoard(); else renderCoin(); };
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rerender);
+new MutationObserver(rerender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+document.getElementById('asof').textContent = `TradingView ${new Date(DATA.fetchedAt).toISOString().slice(0, 10)} · 종목 ${COINS.length}`;
+
+// Compute summaries in small batches so the page stays responsive, then route.
+readColors(); route();
+let ci = 0;
+(function batch() {
+  const t0 = performance.now();
+  while (ci < COINS.length && performance.now() - t0 < 40) { const c = COINS[ci++]; SUM.set(c.s, c.real ? summarizeReal(c) : summarizeGen(c)); }
+  const p = document.getElementById('progress'); if (p) p.textContent = `가상 데이터를 계산하고 있습니다… ${ci} / ${COINS.length}`;
+  if (ci < COINS.length) { setTimeout(batch, 0); return; }
+  READY = true; ORDER = filteredStats().list.map((s) => s.coin.s); route();
+})();
+</script>

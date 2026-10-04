@@ -4,6 +4,7 @@
 // result in dashboard/tf-compare.html.
 //
 // Usage: node scripts/build-tf-compare.mjs [out]   (default dist/tf-compare.html)
+//        DATA_JSON=path also writes the computed data as JSON.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -168,4 +169,6 @@ const marker = '/*__DATA__*/null';
 if (!template.includes(marker)) throw new Error(`template is missing ${marker}`);
 await mkdir(path.dirname(out), { recursive: true });
 await writeFile(out, template.replace(marker, () => data));
+// Optionally keep the computed data for other pages (e.g. the screener mockup).
+if (process.env.DATA_JSON) await writeFile(process.env.DATA_JSON, data);
 console.log(`wrote ${out} (${Math.round(data.length / 1024)} KB of data, ${sampleDays.length} samples)`);
