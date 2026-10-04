@@ -50,6 +50,12 @@ for (let d = lastDay; d >= firstDay; d -= SAMPLE_EVERY) sampleDays.push(d);
 sampleDays.reverse();
 
 const q = (m) => (m == null || !Number.isFinite(m) ? null : Math.round(m * 1000)); // 3 decimals as int
+// Signal levels use the same 2-decimal value the page prints.
+const hundredths = (m) => Math.floor((Math.round(m * 1000) + 5) / 10);
+const underLevel = (m) => { const c = hundredths(m); return c <= 30 ? 2 : c <= 40 ? 1 : 0; };
+const overLevel = (m) => { const c = hundredths(m); return c >= 240 ? 2 : c >= 220 ? 1 : 0; };
+// Sample k covers the days after sample k-1 up to and including sample k.
+const sampleOfDay = (d) => Math.max(0, Math.ceil((d - sampleDays[0]) / SAMPLE_EVERY));
 const tickers = {};
 for (const [sym, tfs] of Object.entries(raw.series)) {
   const daily = tfs['1D'];
@@ -60,6 +66,14 @@ for (const [sym, tfs] of Object.entries(raw.series)) {
     return d >= dayOf(daily.t[0]) ? -1 : null;
   });
   const entry = { m: {}, fb: {}, cur: {}, curFb: {}, bars: {} };
+  // Daily signal state across ALL timeframes: strongest level of the day and which timeframes hit it.
+  const nDays = daily.t.length;
+  const sig = { u: new Array(nDays).fill(0), o: new Array(nDays).fill(0), uM: new Array(nDays).fill(0), oM: new Array(nDays).fill(0),
+    uf: new Array(nDays).fill(0), of: new Array(nDays).fill(0), ufM: new Array(nDays).fill(0), ofM: new Array(nDays).fill(0) };
+  const bump = (lv, mask, i, level, bit) => {
+    if (!level) return;
+    if (level > lv[i]) { lv[i] = level; mask[i] = bit; } else if (level === lv[i]) mask[i] |= bit;
+  };
   for (const tf of TFS) {
     const s = tfs[tf];
     if (!s || !s.t.length) { entry.m[tf] = sampleDays.map(() => null); entry.bars[tf] = 0; continue; }
@@ -79,6 +93,17 @@ for (const [sym, tfs] of Object.entries(raw.series)) {
     };
     const fbAt = (i) => (barOfDay[i] < 0 ? null : fallbackAt(C, barOfDay[i], daily.c[i]));
     entry.m[tf] = sampleRows.map((i) => (i == null || i < 0 ? null : q(mAt(i))));
+    const bit = 1 << TFS.indexOf(tf);
+    for (let i = 0; i < nDays; i++) {
+      const m = mAt(i);
+      if (m != null) {
+        bump(sig.u, sig.uM, i, underLevel(m), bit); bump(sig.o, sig.oM, i, overLevel(m), bit);
+        bump(sig.uf, sig.ufM, i, underLevel(m), bit); bump(sig.of, sig.ofM, i, overLevel(m), bit);
+      } else {
+        const f = fbAt(i);
+        if (f != null) { bump(sig.uf, sig.ufM, i, underLevel(f), bit); bump(sig.of, sig.ofM, i, overLevel(f), bit); }
+      }
+    }
     const last = daily.t.length - 1;
     entry.cur[tf] = mAt(last);
     // fallback history wherever the real WMA 200 is missing (early history, short timeframes)
@@ -87,10 +112,58 @@ for (const [sym, tfs] of Object.entries(raw.series)) {
     }
     if (entry.cur[tf] == null) entry.curFb[tf] = fbAt(last);
   }
+  // Aggregate to samples: keep the strongest level inside each week so short dips are not lost.
+  const agg = (lv, mask) => {
+    const L = new Array(sampleDays.length).fill(0), M = new Array(sampleDays.length).fill(0);
+    for (let i = 0; i < nDays; i++) {
+      const k = sampleOfDay(dayOf(daily.t[i]));
+      if (k >= sampleDays.length || !lv[i]) continue;
+      if (lv[i] > L[k]) { L[k] = lv[i]; M[k] = mask[i]; } else if (lv[i] === L[k]) M[k] |= mask[i];
+    }
+    return { L, M };
+  };
+  const su = agg(sig.u, sig.uM), so = agg(sig.o, sig.oM), suf = agg(sig.uf, sig.ufM), sof = agg(sig.of, sig.ofM);
+  entry.sig = { u: su.L, uM: su.M, o: so.L, oM: so.M, uf: suf.L, ufM: suf.M, of: sof.L, ofM: sof.M };
+  // Most recent day each signal level was seen (real WMA 200 values only), with the timeframes that hit it.
+  const lastOf = (lv, mask, level) => {
+    for (let i = nDays - 1; i >= 0; i--) if (lv[i] >= level) return { day: dayOf(daily.t[i]), mask: lv[i] === level ? mask[i] : 0, level: lv[i] };
+    return null;
+  };
+  const count = (lv, level) => { let n = 0; for (let i = 0; i < nDays; i++) if (lv[i] >= level) n++; return n; };
+  entry.last = { u2: lastOf(sig.u, sig.uM, 2), u1: lastOf(sig.u, sig.uM, 1), o2: lastOf(sig.o, sig.oM, 2), o1: lastOf(sig.o, sig.oM, 1) };
+  entry.days = { u2: count(sig.u, 2), u1: count(sig.u, 1), o2: count(sig.o, 2), o1: count(sig.o, 1), total: nDays };
   tickers[sym] = entry;
 }
 
-const data = JSON.stringify({ fetchedAt: raw.fetchedAt, loggedIn: raw.loggedIn, days: sampleDays, tickers });
+// Data-quality check for market-cap tickers: CRYPTOCAP:X / CRYPTO:XUSD gives an implied
+// circulating supply, which should move slowly. Months where it swings more than 3% are
+// flagged (and merged across one-month gaps); CRYPTOCAP:X.D inherits X's ranges.
+const SUSPECT_SWING = 0.03;
+function suspectRanges(capSym, pxSym) {
+  const cap = raw.series[capSym]?.['1D'], px = raw.series[pxSym]?.['1D'];
+  if (!cap || !px) return [];
+  const price = new Map(px.t.map((t, i) => [dayOf(t), px.c[i]]));
+  const months = new Map(); // 'YYYY-MM' -> [min, max, firstDay, lastDay]
+  cap.t.forEach((t, i) => {
+    const p = price.get(dayOf(t)); if (!p) return;
+    const supply = cap.c[i] / p, key = new Date(t * 1000).toISOString().slice(0, 7);
+    const m = months.get(key) || [Infinity, -Infinity, dayOf(t), dayOf(t)];
+    months.set(key, [Math.min(m[0], supply), Math.max(m[1], supply), Math.min(m[2], dayOf(t)), Math.max(m[3], dayOf(t))]);
+  });
+  const ranges = [];
+  for (const [, [lo, hi, d0, d1]] of [...months.entries()].sort()) {
+    if ((hi - lo) / hi <= SUSPECT_SWING) continue;
+    const prev = ranges[ranges.length - 1];
+    if (prev && d0 - prev[1] <= 62) prev[1] = d1; else ranges.push([d0, d1]);
+  }
+  return ranges;
+}
+for (const sym of Object.keys(tickers)) {
+  const m = /^CRYPTOCAP:([A-Z0-9]+)(\.D)?$/.exec(sym);
+  tickers[sym].suspect = m ? suspectRanges(`CRYPTOCAP:${m[1]}`, `CRYPTO:${m[1]}USD`) : [];
+}
+
+const data = JSON.stringify({ fetchedAt: raw.fetchedAt, loggedIn: raw.loggedIn, days: sampleDays, tfs: TFS, tickers });
 const marker = '/*__DATA__*/null';
 if (!template.includes(marker)) throw new Error(`template is missing ${marker}`);
 await mkdir(path.dirname(out), { recursive: true });
