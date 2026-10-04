@@ -1,7 +1,60 @@
 {
- "about": "Manual overrides for scripts/build-universe.mjs. ids: CoinGecko coin to use for an exchange symbol when the largest-market-cap coin with that symbol is a different asset. keep: coins that a CoinGecko stablecoin/security category would drop but that are not themselves stablecoins or securities. exclude: coins to drop that no category catches.",
+ "about": "Manual overrides for scripts/build-universe.mjs. ids: CoinGecko coin to use for an exchange symbol when the largest-market-cap coin with that symbol is a different asset; also: other exchange symbols for the same coin (their listings count, and they are not matched separately). keep: coins that a CoinGecko stablecoin/security category would drop but that are not themselves stablecoins or securities. exclude: coins to drop that no category catches.",
  "ids": {
-  "FRAX": { "id": "frax-share", "reason": "Binance and Bithumb FRAX is the Frax governance token (formerly FXS, about $0.29), not the Legacy Frax Dollar stablecoin that shares the symbol" }
+  "FRAX": {
+   "id": "frax-share",
+   "reason": "Binance and Bithumb FRAX is the Frax governance token (formerly FXS, about $0.29), not the Legacy Frax Dollar stablecoin that shares the symbol"
+  },
+  "PRL": {
+   "id": "perle",
+   "reason": "Upbit and Bithumb PRL is Perle, not Pearl"
+  },
+  "EDGE": {
+   "id": "definitive",
+   "reason": "Upbit and Bithumb EDGE is Definitive; edgeX trades as EDGEX"
+  },
+  "EDGEX": {
+   "id": "edgex",
+   "reason": "Bithumb EDGEX is edgeX (CoinGecko symbol EDGE)"
+  },
+  "META": {
+   "id": "metadium",
+   "reason": "Upbit and Bithumb META is Metadium; MetaDAO trades as META2"
+  },
+  "META2": {
+   "id": "meta-2-2",
+   "reason": "Upbit and Bithumb META2 is MetaDAO (CoinGecko symbol META)"
+  },
+  "AI": {
+   "id": "gensyn",
+   "also": [
+    "AIGENSYN"
+   ],
+   "reason": "Upbit and Bithumb AI and Binance AIGENSYN are Gensyn, not Artificial Inu (Binance's own AI pair is Sleepless AI, too small to rank)"
+  },
+  "ONE": {
+   "id": "harmony",
+   "reason": "Binance ONE is Harmony, not ONEchain"
+  },
+  "MEME": {
+   "id": "memecoin-2",
+   "reason": "Binance MEME is Memecoin (Memeland), not MEMETOON"
+  },
+  "UP": {
+   "id": "superform",
+   "also": [
+    "UP2"
+   ],
+   "reason": "Bithumb UP and Upbit UP2 are Superform, not Unitas"
+  },
+  "XAI": {
+   "id": "xai-blockchain",
+   "reason": "Binance and Bithumb XAI is Xai, not SideShift"
+  },
+  "TREE": {
+   "id": "treehouse",
+   "reason": "Upbit, Bithumb and Binance TREE is Treehouse, not Tree"
+  }
  },
  "keep": {
   "EL": "ELYSIA is the governance and staking token of a real-estate tokenization platform; it is not a share in any property (CoinGecko lists it under Tokenized Real Estate for the platform)"
