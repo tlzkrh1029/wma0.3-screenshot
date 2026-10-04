@@ -56,6 +56,7 @@ input { font: inherit; color: inherit; }
 .tabs a .num { font-size: 12px; }
 .wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 18px 48px; display: grid; gap: 14px; }
 .banner { font-size: 13px; padding: 9px 12px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-fg); }
+.banner.pilot { background: var(--accent-soft); color: var(--fg); }
 .zones { display: flex; flex-wrap: wrap; gap: 6px; }
 .zc { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px 2px 7px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--sunken); color: var(--fg); border: 1px solid var(--line); white-space: nowrap; }
 .zc i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
@@ -97,6 +98,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .coin a { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--fg); text-decoration: none; }
 .coin a:hover { text-decoration: underline; }
 .coin span { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+.coin .warn { color: var(--warn-fg); font-size: 11px; }
 .coin .real { display: inline-block; font-size: 10px; font-weight: 700; color: var(--accent); margin-left: 6px; letter-spacing: .03em; }
 .ex { display: flex; gap: 3px; }
 .ex i { font-style: normal; font-size: 10.5px; font-weight: 600; width: 20px; height: 18px; display: grid; place-items: center; border-radius: 4px; background: var(--sunken); color: var(--muted); border: 1px solid var(--line); }
@@ -250,8 +252,8 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   <div class="zones" aria-label="신호 구간">
     <span class="zc"><i style="background:var(--zu2)"></i>0.3 이하 · 강한 저평가</span>
     <span class="zc"><i style="background:var(--zu1)"></i>0.4 이하 · 저평가</span>
-    <span class="zc"><i style="background:var(--zo1)"></i>2.2 이상 · 고평가</span>
-    <span class="zc"><i style="background:var(--zo2)"></i>2.4 이상 · 강한 고평가</span>
+    <span class="zc"><i style="background:var(--zo2)"></i>2.4 이상 · 강한 과열</span>
+    <span class="zc"><i style="background:var(--zo1)"></i>2.2 이상 · 과열</span>
   </div>
 
   <!-- screener -->
@@ -263,7 +265,9 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
         <div class="ctl"><span id="lb-v">보기</span><div class="seg" role="group" aria-labelledby="lb-v" id="viewSeg">
           <button type="button" data-v="table">표</button><button type="button" data-v="tiles">타일</button></div></div>
         <div class="ctl"><span id="lb-s">정렬</span><div class="seg" role="group" aria-labelledby="lb-s" id="sortSeg">
-          <button type="button" data-sort="signal">신호 강도</button><button type="button" data-sort="low">최저 배수 낮은 순</button><button type="button" data-sort="high">최고 배수 높은 순</button><button type="button" data-sort="rank">시가총액 순위</button></div></div>
+          <button type="button" data-sort="under">저평가 신호순</button><button type="button" data-sort="over">과열 신호순</button><button type="button" data-sort="low">최저 배수 낮은 순</button><button type="button" data-sort="high">최고 배수 높은 순</button><button type="button" data-sort="rank">시가총액 순위</button></div></div>
+        <div class="ctl" id="sideCtl"><span id="lb-sd">타일 묶음</span><div class="seg" role="group" aria-labelledby="lb-sd" id="sideSeg">
+          <button type="button" data-side="under">저평가 쪽</button><button type="button" data-side="over">과열 쪽</button></div></div>
         <div class="ctl"><span id="lb-t">티커</span><div class="seg" role="group" aria-labelledby="lb-t" id="tickSeg">
           <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
         <div class="ctl"><span id="lb-e">거래소</span><div class="seg" role="group" aria-labelledby="lb-e" id="exSeg">
@@ -282,6 +286,8 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
           <button type="button" data-br="all">전체</button><button type="button" data-br="5">5년</button><button type="button" data-br="2">2년</button><button type="button" data-br="1">1년</button></div></div>
         <div class="ctl"><span id="lb-bo">줄 순서</span><div class="seg" role="group" aria-labelledby="lb-bo" id="bOrderSeg">
           <button type="button" data-bo="rank">시가총액 순위</button><button type="button" data-bo="listed">상장일</button><button type="button" data-bo="now">현재 신호</button></div></div>
+        <div class="ctl"><span id="lb-bs">바코드</span><div class="seg" role="group" aria-labelledby="lb-bs" id="bSideSeg">
+          <button type="button" data-bside="under">저평가 쪽</button><button type="button" data-bside="over">과열 쪽</button><button type="button" data-bside="both">둘 다</button></div></div>
         <div class="ctl"><span id="lb-bt">티커</span><div class="seg" role="group" aria-labelledby="lb-bt" id="bTickSeg">
           <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
       </div>
@@ -335,7 +341,8 @@ const GROUPS = {
 const ZONE_LABEL = { u2: '0.3 이하', u1: '0.4 이하', o1: '2.2 이상', o2: '2.4 이상' };
 const DAYMS = 86400000;
 const S = DATA.days.length;              // weekly samples
-const DAY0 = DATA.btc.start, ND = DATA.btc.c.length;
+// shared day axis: the pilot's own range, or the BTC daily range in the mockup
+const DAY0 = DATA.axis ? DATA.axis.start : DATA.btc.start, ND = DATA.axis ? DATA.axis.n : DATA.btc.c.length;
 const tip = document.getElementById('tip');
 
 // ---------- shared helpers ----------
@@ -441,12 +448,17 @@ for (const tf of TFS) {
 }
 const SIDX = DATA.days.map((d) => d - DAY0); // sample day -> day index
 
-// One timeframe of one daily series starting at day index s0. Returns closes per bar and, per bar b >= 199,
-// V[b] = sum_{j=1..199} (200-j) * C[b-j], so the in-progress multiple on day i is c / ((200c + V[b]) / 20100).
-function tfSeries(c, s0, tf) {
-  const idx = BAR[tf], base = idx[s0], nb = idx[ND - 1] - base + 1;
+// One timeframe of one daily series starting at day index s0. c is forward-filled; ok marks the days that
+// have a TradingView bar (null = every day). A bucket only becomes a bar once a day inside it has a bar,
+// as on TradingView; days without a bar stay on the latest bar. Returns the bar of each day (bi), closes
+// per bar and, per bar b >= 199, V[b] = sum_{j=1..199} (200-j) * C[b-j], so the in-progress multiple on
+// day i is c / ((200c + V[b]) / 20100).
+function tfSeries(c, s0, tf, ok) {
+  const idx = BAR[tf], bi = new Int32Array(ND).fill(-1);
+  let nb = 0, prev = -1;
+  for (let i = s0; i < ND; i++) { if ((!ok || ok[i]) && idx[i] !== prev) { nb++; prev = idx[i]; } bi[i] = nb - 1; }
   const Cb = new Float64Array(nb);
-  for (let i = s0; i < ND; i++) Cb[idx[i] - base] = c[i];
+  for (let i = s0; i < ND; i++) if (bi[i] >= 0) Cb[bi[i]] = c[i];
   const V = new Float64Array(nb).fill(NaN);
   if (nb >= 200) {
     let A = 0, B = 0;
@@ -454,15 +466,15 @@ function tfSeries(c, s0, tf) {
     V[199] = A;
     for (let e = 199; e < nb - 1; e++) { A = A + 199 * Cb[e] - B; B = B + Cb[e] - Cb[e - 199]; V[e + 1] = A; }
   }
-  return { idx, base, Cb, V };
+  return { bi, Cb, V };
 }
 function mAt(ts, c, i) {
-  const b = ts.idx[i] - ts.base;
+  const b = ts.bi[i];
   if (b < 199 || Number.isNaN(ts.V[b])) return null;
   const x = c[i]; return x / ((200 * x + ts.V[b]) / 20100);
 }
 function fbAt(ts, c, i) {
-  const b = ts.idx[i] - ts.base, n = Math.min(200, b + 1);
+  const b = ts.bi[i], n = Math.min(200, b + 1);
   if (b < 0 || n < 12) return null;
   let s = 0; for (let j = 1; j < n; j++) s += (n - j) * ts.Cb[b - j];
   const x = c[i]; return x / ((n * x + s) / (n * (n + 1) / 2));
@@ -471,7 +483,7 @@ function fbAt(ts, c, i) {
 // ---------- generated coins (layout review only) ----------
 function hashStr(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function rngFor(seed) { let a = seed; return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
-const LOGBTC = Float64Array.from(DATA.btc.c, Math.log);
+const LOGBTC = DATA.btc ? Float64Array.from(DATA.btc.c, Math.log) : null;
 const STABLE = /^(USDT|USDC|DAI|FDUSD|TUSD|USDE|USDS|PYUSD|USD1|RLUSD|USDD|FRAX|EURC|BUSD|USDP|USDG|USDF|USD0|SUSDE|EURI|AEUR|XUSD|BFUSD|USDTB|USDA|FXUSD)$/;
 function dayIdxOf(y, m = 0, d = 1) { return Math.round(Date.UTC(y, m, d) / DAYMS) - DAY0; }
 function generate(coin) {
@@ -500,10 +512,127 @@ function generate(coin) {
   return { L, price, cap, suspect };
 }
 
-// ---------- per-coin summaries ----------
-// Each coin has two tickers: CRYPTOCAP:X (kind 'cap') and CRYPTO:XUSD (kind 'usd').
-const COINS = DATA.coins.map((c) => ({ ...c, real: !!DATA.real[`CRYPTOCAP:${c.s}`] }));
-function tickerIds(coin) { return [{ id: `CRYPTOCAP:${coin.s}`, kind: 'cap', short: 'CAP', desc: '시가총액' }, { id: `CRYPTO:${coin.s}USD`, kind: 'usd', short: 'USD', desc: '가격' }]; }
+// ---------- per-coin series and analysis ----------
+// Each coin has two tickers: market cap (kind 'cap') and USD price (kind 'usd').
+const PILOT = !!DATA.daily;
+const COINS = DATA.coins.map((c) => ({ ...c, real: PILOT ? true : !!DATA.real?.[`CRYPTOCAP:${c.s}`] }));
+function tickerIds(coin) {
+  return [{ id: coin.cap || `CRYPTOCAP:${coin.s}`, kind: 'cap', short: 'CAP', desc: '시가총액' },
+          { id: coin.usd || `CRYPTO:${coin.s}USD`, kind: 'usd', short: 'USD', desc: '가격' }];
+}
+// sample index covering each day (sample k covers the days after sample k-1 up to sample k)
+const SOF = new Int32Array(ND).fill(-1);
+{ let k = 0; for (let i = 0; i < ND; i++) { while (k < S && SIDX[k] < i) k++; SOF[i] = k < S ? k : -1; } }
+// Market-cap data check on implied supply (cap / price), which should only move slowly or in one-way steps
+// (unlocks, burns, minting). Flagged: (a) days more than 3% off the median of the surrounding 15 days, padded
+// by a week, and (b) months whose implied supply swings more than 8% and mostly comes back (a level error
+// that comes and goes). Ranges closer than 31 days are merged. Only days where both tickers have a bar count.
+function suspectFrom(cap, price, L, okCap, okPrice) {
+  const day = [], sup = [];
+  for (let i = L; i < ND; i++) {
+    if (!(price[i] > 0) || !(cap[i] > 0) || (okCap && !okCap[i]) || (okPrice && !okPrice[i])) continue;
+    day.push(DAY0 + i); sup.push(cap[i] / price[i]);
+  }
+  const iv = [];
+  for (let i = 0, a = 0, b = 0; i < day.length; i++) {
+    while (day[a] < day[i] - 7) a++;
+    while (b < day.length && day[b] <= day[i] + 7) b++;
+    if (b - a < 5) continue;
+    const w = sup.slice(a, b).sort((x, y) => x - y);
+    if (Math.abs(sup[i] / w[w.length >> 1] - 1) > 0.03) iv.push([day[i] - 7, day[i] + 7]);
+  }
+  const months = new Map();
+  for (let i = 0; i < day.length; i++) {
+    const key = new Date(day[i] * DAYMS).toISOString().slice(0, 7), s = sup[i];
+    const m = months.get(key); if (!m) { months.set(key, { lo: s, hi: s, first: s, last: s, d0: day[i], d1: day[i] }); continue; }
+    m.lo = Math.min(m.lo, s); m.hi = Math.max(m.hi, s); m.last = s; m.d1 = day[i];
+  }
+  for (const m of months.values()) { const sw = (m.hi - m.lo) / m.hi; if (sw > 0.08 && Math.abs(m.last - m.first) / m.hi < 0.6 * sw) iv.push([m.d0, m.d1]); }
+  iv.sort((x, y) => x[0] - y[0]);
+  const out = [];
+  for (const [a, b] of iv) { const r = out[out.length - 1]; if (r && a - r[1] <= 31) r[1] = Math.max(r[1], b); else out.push([a, b]); }
+  return out;
+}
+const SERIES = new Map();
+function seriesFor(coin) {
+  if (SERIES.has(coin.s)) return SERIES.get(coin.s);
+  let v;
+  if (PILOT) {
+    // daily closes from the ticker's first bar; null days have no TradingView bar and are forward-filled
+    const ids = tickerIds(coin), mk = (id) => {
+      const d = DATA.daily[id], a = new Float64Array(ND).fill(NaN), ok = new Uint8Array(ND);
+      if (!d) return { a, ok, s: ND };
+      let last = NaN;
+      for (let i = d.s; i < ND; i++) { const x = d.c[i - d.s]; if (x != null) { last = x; ok[i] = 1; } a[i] = last; }
+      return { a, ok, s: d.s };
+    };
+    const cap = mk(ids[0].id), price = mk(ids[1].id);
+    v = { cap: cap.a, price: price.a, okCap: cap.ok, okUsd: price.ok, Lcap: cap.s, Lusd: price.s,
+      suspect: suspectFrom(cap.a, price.a, Math.max(cap.s, price.s), cap.ok, price.ok) };
+  } else {
+    const g = generate(coin); v = { cap: g.cap, price: g.price, okCap: null, okUsd: null, Lcap: g.L, Lusd: g.L, suspect: g.suspect };
+  }
+  if (PILOT) SERIES.set(coin.s, v); // generated series are cheap to rebuild; real ones are kept
+  return v;
+}
+// Analyse one ticker. daily=true checks every day (signals keep the strongest level of each week);
+// otherwise only the weekly sample days. detail=true also returns per-sample multiples, fallback
+// values, timeframe masks and the exact last 0.3 / 2.4 days. ok marks the days with a bar: only those
+// count as signal days, and a sample day shows a value only if a bar is at most 3 days old (as the
+// timeframe board does), so longer gaps stay empty instead of drawing a flat line.
+function analyze(series, L, { daily, detail, ok = null }) {
+  const cur = new Float32Array(TFS.length).fill(NaN), u = new Uint8Array(S), o = new Uint8Array(S), has = new Uint8Array(S);
+  let lastU2 = -1; // exact last day index with a 0.3 signal (daily mode)
+  const e = detail ? { m: {}, fb: {}, cur: {}, curFb: {}, sig: { u: new Array(S).fill(0), uM: new Array(S).fill(0), o: new Array(S).fill(0), oM: new Array(S).fill(0), uf: new Array(S).fill(0), ufM: new Array(S).fill(0), of: new Array(S).fill(0), ofM: new Array(S).fill(0) } } : null;
+  const dayU = detail ? new Uint8Array(ND) : null, dayO = detail ? new Uint8Array(ND) : null, dayUM = detail ? new Uint32Array(ND) : null, dayOM = detail ? new Uint32Array(ND) : null;
+  const bump = (lv, mask, k, level, bit) => { if (!level) return; if (level > lv[k]) { lv[k] = level; mask[k] = bit; } else if (level === lv[k]) mask[k] |= bit; };
+  if (L >= ND) return { cur, u, o, has, e, lastU2 };
+  TFS.forEach((tf, j) => {
+    const ts = tfSeries(series, L, tf, ok), bit = 1 << j;
+    if (detail) e.m[tf] = new Array(S).fill(null);
+    let fbArr = null, lastBar = -1;
+    const visit = (i) => {
+      const bar = !ok || ok[i]; if (bar) lastBar = i;
+      const k = SOF[i]; if (k < 0) return;
+      const v = mAt(ts, series, i), fresh = i - lastBar <= 3, sample = i === SIDX[k] && fresh;
+      if (v != null) {
+        if (fresh) has[k] = 1;
+        if (detail && sample) e.m[tf][k] = Math.round(v * 1000);
+        if (!bar) return;
+        const ul = underLevel(v), ol = overLevel(v);
+        if (ul > u[k]) u[k] = ul; if (ol > o[k]) o[k] = ol;
+        if (ul === 2 && i > lastU2) lastU2 = i;
+        if (detail) {
+          bump(e.sig.u, e.sig.uM, k, ul, bit); bump(e.sig.o, e.sig.oM, k, ol, bit); bump(e.sig.uf, e.sig.ufM, k, ul, bit); bump(e.sig.of, e.sig.ofM, k, ol, bit);
+          if (ul > dayU[i]) { dayU[i] = ul; dayUM[i] = bit; } else if (ul && ul === dayU[i]) dayUM[i] |= bit;
+          if (ol > dayO[i]) { dayO[i] = ol; dayOM[i] = bit; } else if (ol && ol === dayO[i]) dayOM[i] |= bit;
+        }
+      } else if (detail && (sample || (daily && bar))) {
+        // fallback (fewer than 200 bars): reference values and faded signals only
+        const f = fbAt(ts, series, i); if (f == null) return;
+        if (sample) (fbArr ||= new Array(S).fill(null))[k] = Math.round(f * 1000);
+        if (bar) { bump(e.sig.uf, e.sig.ufM, k, underLevel(f), bit); bump(e.sig.of, e.sig.ofM, k, overLevel(f), bit); }
+      }
+    };
+    if (daily) for (let i = L; i < ND; i++) visit(i);
+    else for (let k = 0; k < S; k++) if (SIDX[k] >= L) visit(SIDX[k]);
+    // current values only if the ticker still has a recent bar
+    let live = !ok; for (let i = ND - 1; i >= Math.max(L, ND - 4) && !live; i--) live = !!ok[i];
+    const m = live ? mAt(ts, series, ND - 1) : null; if (m != null) cur[j] = m;
+    if (detail) { if (fbArr) e.fb[tf] = fbArr; e.cur[tf] = m; if (m == null && live) e.curFb[tf] = fbAt(ts, series, ND - 1); }
+  });
+  if (detail) {
+    const lastDay = (lv, mask, level) => { for (let i = ND - 1; i >= L; i--) if (lv[i] >= level) return { day: DAY0 + i, mask: lv[i] === level ? mask[i] : 0 }; return null; };
+    const count = (lv, level) => { let n = 0; for (let i = L; i < ND; i++) if (lv[i] >= level) n++; return n; };
+    if (daily) { e.last = { u2: lastDay(dayU, dayUM, 2), o2: lastDay(dayO, dayOM, 2) }; e.days = { u2: count(dayU, 2), o2: count(dayO, 2) }; e.unit = '일'; }
+    else {
+      const lastOf = (lv, mask, level) => { for (let k = S - 1; k >= 0; k--) if (lv[k] >= level) return { day: DATA.days[k], mask: lv[k] === level ? mask[k] : 0 }; return null; };
+      e.last = { u2: lastOf(e.sig.u, e.sig.uM, 2), o2: lastOf(e.sig.o, e.sig.oM, 2) };
+      e.days = { u2: e.sig.u.filter((x) => x >= 2).length, o2: e.sig.o.filter((x) => x >= 2).length }; e.unit = '주';
+    }
+  }
+  return { cur, u, o, has, e, lastU2: daily ? lastU2 : -1 };
+}
 function summarizeReal(coin) {
   return tickerIds(coin).map((t) => {
     const e = DATA.real[t.id];
@@ -512,29 +641,20 @@ function summarizeReal(coin) {
     return { ...t, cur, u: Uint8Array.from(e.sig.u), o: Uint8Array.from(e.sig.o), has, suspect: e.suspect, listed: DATA.realFirst[t.id] ?? null };
   });
 }
-function summarizeGen(coin) {
-  const g = generate(coin);
+function summarize(coin) {
+  if (!PILOT && coin.real) return summarizeReal(coin);
+  const sr = seriesFor(coin);
   return tickerIds(coin).map((t) => {
-    const series = t.kind === 'cap' ? g.cap : g.price;
-    const cur = new Float32Array(TFS.length).fill(NaN), u = new Uint8Array(S), o = new Uint8Array(S), has = new Uint8Array(S);
-    TFS.forEach((tf, j) => {
-      const ts = tfSeries(series, g.L, tf);
-      const m = mAt(ts, series, ND - 1); if (m != null) cur[j] = m;
-      for (let k = 0; k < S; k++) {
-        const i = SIDX[k]; if (i < g.L) continue;
-        const v = mAt(ts, series, i); if (v == null) continue;
-        has[k] = 1; const ul = underLevel(v), ol = overLevel(v);
-        if (ul > u[k]) u[k] = ul; if (ol > o[k]) o[k] = ol;
-      }
-    });
-    return { ...t, cur, u, o, has, suspect: g.suspect, listed: DAY0 + g.L };
+    const series = t.kind === 'cap' ? sr.cap : sr.price, L = t.kind === 'cap' ? sr.Lcap : sr.Lusd, ok = t.kind === 'cap' ? sr.okCap : sr.okUsd;
+    const a = analyze(series, L, { daily: PILOT, detail: false, ok });
+    return { ...t, cur: a.cur, u: a.u, o: a.o, has: a.has, lastU2Day: a.lastU2 >= 0 ? DAY0 + a.lastU2 : null, suspect: t.kind === 'cap' ? sr.suspect : [], listed: L < ND ? DAY0 + L : null };
   });
 }
 
 // ---------- state & routing ----------
-const state = { screen: 'screener', coin: 'BTC', view: 'table', sort: 'signal', tk: 'both', ex: [], zf: [], q: '',
+const state = { screen: 'screener', coin: 'BTC', view: 'table', sort: 'under', side: 'under', bside: 'under', tk: 'both', ex: [], zf: [], q: '',
   br: 'all', bo: 'rank', method: 'lines', group: 'daily', range: 'all', fb: false };
-try { const saved = JSON.parse(localStorage.getItem('wma-screener') || '{}'); delete saved.btk; Object.assign(state, saved); } catch (e) {}
+try { const saved = JSON.parse(localStorage.getItem('wma-screener') || '{}'); delete saved.btk; if (saved.sort === 'signal') saved.sort = 'under'; Object.assign(state, saved); } catch (e) {}
 function save() { try { const { screen, coin, ...rest } = state; localStorage.setItem('wma-screener', JSON.stringify(rest)); } catch (e) {} }
 let LIMIT = 100;             // screener rows rendered so far ("더 보기" adds more)
 const SCROLL = {};           // remembered scroll position per screen
@@ -578,9 +698,20 @@ function coinStats(coin, tk) {
   for (let k = S - 1; k >= 0 && (lastU2 < 0 || lastO2 < 0); k--) for (const t of ts) { if (lastU2 < 0 && t.u[k] === 2) lastU2 = k; if (lastO2 < 0 && t.o[k] === 2) lastO2 = k; }
   const top = hits.u2.length ? 'u2' : hits.o2.length ? 'o2' : hits.u1.length ? 'u1' : hits.o1.length ? 'o1' : (min ? 'n' : 'na');
   const underTop = hits.u2.length ? 2 : hits.u1.length ? 1 : 0, overTop = hits.o2.length ? 2 : hits.o1.length ? 1 : 0;
-  const suspect = ts.some((t) => t.suspect.length);
-  const lastSusp = lastU2 >= 0 && ts.some((t) => t.suspect.some(([a, b]) => a <= DATA.days[lastU2] && b >= DATA.days[lastU2] - 6));
-  return { coin, min, max, hits, top, underTop, overTop, lastU2, lastO2, suspect, lastSusp, ts };
+  // the latest week falls in a flagged market-cap range, so today's CAP values may be off
+  const suspect = ts.some((t) => t.suspect.some(([, b]) => b >= DAY0 + ND - 7));
+  // the last 0.3 came from a ticker whose market-cap data is flagged that week
+  // date of the last 0.3: the exact day when every day was checked (pilot), else the week's sample day
+  let lastU2Day = lastU2 >= 0 ? DATA.days[lastU2] : null, lastSusp = false;
+  if (PILOT && lastU2 >= 0) {
+    const hit = ts.filter((t) => t.lastU2Day != null).sort((a, b) => b.lastU2Day - a.lastU2Day);
+    lastU2Day = hit[0].lastU2Day;
+    lastSusp = hit.some((t) => t.lastU2Day === lastU2Day && t.suspect.some(([a, b]) => a <= lastU2Day && b >= lastU2Day));
+  } else {
+    // the last 0.3 came from a ticker whose market-cap data is flagged that week
+    lastSusp = lastU2 >= 0 && ts.some((t) => t.u[lastU2] === 2 && t.suspect.some(([a, b]) => a <= DATA.days[lastU2] && b >= DATA.days[lastU2] - 6));
+  }
+  return { coin, min, max, hits, top, underTop, overTop, lastU2, lastU2Day, lastO2, suspect, lastSusp, ts };
 }
 // Counts, filters and the board all use the same rule: each side (under / over) counts a coin once,
 // at its strongest level, so "0.4 이하" means 0.4 but not 0.3.
@@ -594,12 +725,14 @@ function filteredStats() {
   if (state.ex.length) list = list.filter((s) => state.ex.every((x) => s.coin.x.includes(x)));
   const scoped = list;
   if (state.zf.length) list = list.filter((s) => state.zf.some((z) => inZone(s, z)));
+  // 0.3/0.4 (possible cycle bottom) and 2.4/2.2 (possible overheating) are separate gauges
   const by = {
-    signal: (a, b) => TOP_RANK[a.top] - TOP_RANK[b.top] || (b.hits[a.top]?.length || 0) - (a.hits[a.top]?.length || 0) || a.coin.r - b.coin.r,
+    under: (a, b) => b.underTop - a.underTop || (a.min ? a.min.m : 99) - (b.min ? b.min.m : 99) || a.coin.r - b.coin.r,
+    over: (a, b) => b.overTop - a.overTop || (b.max ? b.max.m : -1) - (a.max ? a.max.m : -1) || a.coin.r - b.coin.r,
     low: (a, b) => (a.min ? a.min.m : 99) - (b.min ? b.min.m : 99),
     high: (a, b) => (b.max ? b.max.m : -1) - (a.max ? a.max.m : -1),
     rank: (a, b) => a.coin.r - b.coin.r,
-  }[state.sort];
+  }[state.sort] || ((a, b) => a.coin.r - b.coin.r);
   list.sort(by);
   return { list, scoped, all };
 }
@@ -624,7 +757,7 @@ function stripIndexAt(ev, div) {
 function renderCounts(scoped) {
   const box = document.getElementById('counts'); box.replaceChildren();
   const n = (z) => scoped.filter((s) => inZone(s, z)).length;
-  const defs = [['u2', '0.3 이하'], ['u1', '0.4 이하 (0.3 제외)'], ['o1', '2.2 이상 (2.4 제외)'], ['o2', '2.4 이상'], ['n', '신호 없음']];
+  const defs = [['u2', '저평가 · 0.3 이하'], ['u1', '저평가 · 0.4 이하 (0.3 제외)'], ['o2', '과열 · 2.4 이상'], ['o1', '과열 · 2.2 이상 (2.4 제외)'], ['n', '신호 없음']];
   for (const [z, label] of defs) {
     const b = el('button', 'count'); b.type = 'button'; b.setAttribute('aria-pressed', String(state.zf.includes(z)));
     const k = el('span', 'k'); const i = el('i'); i.style.background = z === 'n' ? 'var(--mid)' : `var(--z${z})`; k.append(i, el('span', null, label));
@@ -636,7 +769,8 @@ function renderCounts(scoped) {
 }
 function renderScreener() {
   hideTip();
-  for (const [id, key, attr] of [['viewSeg', 'view', 'v'], ['sortSeg', 'sort', 'sort'], ['tickSeg', 'tk', 'tk']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
+  for (const [id, key, attr] of [['viewSeg', 'view', 'v'], ['sortSeg', 'sort', 'sort'], ['tickSeg', 'tk', 'tk'], ['sideSeg', 'side', 'side']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
+  document.getElementById('sideCtl').hidden = state.view !== 'tiles';
   document.querySelectorAll('#exSeg button').forEach((b) => b.setAttribute('aria-pressed', String(state.ex.includes(b.dataset.ex))));
   document.getElementById('q').value = state.q;
   const { list, scoped, all } = filteredStats();
@@ -647,30 +781,37 @@ function renderScreener() {
   const body = document.getElementById('scrBody'); body.replaceChildren();
   if (state.view === 'tiles') return renderTiles(body, list);
   const wrap = el('div', 'tbl-wrap'); const table = el('table', 'scr');
-  table.innerHTML = `<thead><tr><th>#</th><th>종목</th><th>거래소</th><th>현재 신호</th><th>최저 배수</th><th>최고 배수</th>
+  table.innerHTML = `<thead><tr><th>#</th><th>종목</th><th>거래소</th><th>저평가 신호</th><th>과열 신호</th><th>최저 배수</th><th>최고 배수</th>
     <th><div class="strip-head"><span></span><div><em>1D … 1W</em><em>8D … 3W</em><em>1M … 12M</em></div></div></th><th>마지막 0.3</th></tr></thead>`;
   const tb = el('tbody');
-  if (!list.length) { const tr = el('tr', 'empty-row'); const td = el('td', null, '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.'); td.colSpan = 8; tr.append(td); tb.append(tr); }
+  if (!list.length) { const tr = el('tr', 'empty-row'); const td = el('td', null, '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.'); td.colSpan = 9; tr.append(td); tb.append(tr); }
   for (const s of list.slice(0, LIMIT)) {
     const tr = el('tr'); tr.dataset.sym = s.coin.s;
     tr.append(el('td', 'rk', String(s.coin.r)));
     const coin = el('td', 'coin coin-td'); const a = el('a', null, s.coin.s); a.href = '#coin-' + encodeURIComponent(s.coin.s);
-    coin.append(a); if (s.coin.real) coin.append(el('span', 'real', '실제'));
-    coin.append(el('span', null, s.coin.k ? `${s.coin.k} · ${s.coin.n}` : s.coin.n)); tr.append(coin);
+    coin.append(a); if (s.coin.real && !PILOT) coin.append(el('span', 'real', '실제'));
+    coin.append(el('span', null, s.coin.k ? `${s.coin.k} · ${s.coin.n}` : s.coin.n));
+    if (s.suspect) { const w = el('span', 'warn', '⚠ 지금 CAP 데이터 의심'); w.title = '최근 1주가 시가총액 데이터 의심 구간에 들어 있어서 CAP 배수가 틀릴 수 있습니다'; coin.append(w); }
+    tr.append(coin);
     const ex = el('td', 'ex-td'); const exd = el('div', 'ex');
     for (const [x, l] of [['U', '업'], ['B', '빗'], ['N', '바']]) { const i = el('i', s.coin.x.includes(x) ? 'on' : '', l); i.title = { U: '업비트', B: '빗썸', N: '바이낸스' }[x] + (s.coin.x.includes(x) ? ' 상장' : ' 미상장'); exd.append(i); }
     ex.append(exd); tr.append(ex);
-    const sig = el('td', 'sig-td'); const sc = el('div', 'sigcell');
-    if (s.top === 'na') sc.append(el('span', 'more', '데이터 없음 (봉 200개 미만)'));
-    else if (s.top === 'n') sc.append(el('span', 'more', '신호 없음'));
-    else {
-      const items = s.hits[s.top].sort((a, b) => (s.top[0] === 'u' ? a.m - b.m : b.m - a.m));
-      sc.append(zoneChip(s.top, `${items[0].label} ${fmt(items[0].m)}`));
-      const others = ['u2', 'o2', 'u1', 'o1'].reduce((n, z) => n + s.hits[z].length, 0) - 1;
-      if (others > 0) sc.append(el('span', 'more', `외 ${others}칸`));
-    }
-    if (s.suspect) sc.append(el('span', 'warn', '⚠ 데이터 의심 구간 있음'));
-    sig.append(sc); tr.append(sig);
+    // one column per side: strongest zone on that side, then how many other cells are in a zone there
+    const sideCell = (zones) => {
+      const td = el('td', 'sig-td'); const sc = el('div', 'sigcell');
+      const z = zones.find((x) => s.hits[x].length);
+      if (s.top === 'na') sc.append(el('span', 'more', '데이터 없음'));
+      else if (!z) sc.append(el('span', 'more', '–'));
+      else {
+        const items = s.hits[z].slice().sort((a, b) => (z[0] === 'u' ? a.m - b.m : b.m - a.m));
+        sc.append(zoneChip(z, `${items[0].label} ${fmt(items[0].m)}`));
+        const others = zones.reduce((n, x) => n + s.hits[x].length, 0) - 1;
+        if (others > 0) sc.append(el('span', 'more', `외 ${others}칸`));
+      }
+      td.append(sc); return td;
+    };
+    const uCell = sideCell(['u2', 'u1']);
+    tr.append(uCell, sideCell(['o2', 'o1']));
     const mm = (v) => { const td = el('td', 'mm'); if (v) { td.textContent = fmt(v.m); td.append(el('small', null, v.label)); } else td.textContent = '–'; return td; };
     const mn = mm(s.min); mn.classList.add('min-td'); tr.append(mn); const mx = mm(s.max); mx.classList.add('max-td'); tr.append(mx);
     const st = el('td', 'strip-td'); const sw = el('div', 'strips');
@@ -687,7 +828,7 @@ function renderScreener() {
     }
     sw.append(el('div', 'strip-key', '칸: 1D…1W │ 8D…3W │ 1M…12M'));
     st.append(sw); tr.append(st);
-    const last = el('td', 'mm last-td', s.lastU2 >= 0 ? dateStr(DATA.days[s.lastU2]) : '–');
+    const last = el('td', 'mm last-td', s.lastU2Day != null ? dateStr(s.lastU2Day) : '–');
     if (s.lastSusp) last.append(el('div', 'warn', '⚠ 의심 구간'));
     tr.append(last);
     tb.append(tr);
@@ -708,18 +849,19 @@ function renderScreener() {
 function renderTiles(body, list) {
   const box = el('div', 'tiles'); const shown = [];
   if (!list.length) { body.append(el('div', 'progress', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); ORDER = []; return; }
-  const secs = [['u2', '0.3 이하 신호'], ['o2', '2.4 이상 신호'], ['u1', '0.4 이하 신호'], ['o1', '2.2 이상 신호'], ['n', '신호 없음'], ['na', '데이터 없음 (봉 200개 미만)']];
+  const under = state.side !== 'over';
+  const secs = under ? [['u2', '0.3 이하'], ['u1', '0.4 이하'], ['rest', '0.4 초과 (저평가 신호 없음)'], ['na', '데이터 없음 (봉 200개 미만)']]
+                     : [['o2', '2.4 이상'], ['o1', '2.2 이상'], ['rest', '2.2 미만 (과열 신호 없음)'], ['na', '데이터 없음 (봉 200개 미만)']];
+  const secOf = (s) => (s.top === 'na' ? 'na' : under ? (s.underTop === 2 ? 'u2' : s.underTop === 1 ? 'u1' : 'rest') : (s.overTop === 2 ? 'o2' : s.overTop === 1 ? 'o1' : 'rest'));
   for (const [z, label] of secs) {
-    const items = list.filter((s) => s.top === z); if (!items.length) continue;
+    const items = list.filter((s) => secOf(s) === z); if (!items.length) continue;
     shown.push(...items.map((s) => s.coin.s));
-    const sec = el('div', 'tsec'); const h = el('h3'); const i = el('i'); i.style.background = z === 'n' || z === 'na' ? 'var(--mid)' : `var(--z${z})`;
+    const sec = el('div', 'tsec'); const h = el('h3'); const i = el('i'); i.style.background = z === 'rest' || z === 'na' ? 'var(--mid)' : `var(--z${z})`;
     h.append(i, document.createTextNode(label), el('span', null, `${items.length}종`)); sec.append(h);
     const grid = el('div', 'tgrid');
     for (const s of items) {
-      // color: the most extreme value on the coin's side of 1.0
-      const v = z[0] === 'o' ? s.max : s.min;
-      const ext = !v ? null : (s.min && s.max && Math.abs(Math.log(s.min.m)) >= Math.abs(Math.log(s.max.m)) ? s.min : s.max);
-      const pick = z === 'n' ? ext : v;
+      // colour and number: the lowest multiple on the under side, the highest on the over side
+      const pick = under ? s.min : s.max;
       const col = pick ? colorOf(pick.m) : rgb(C.nodata);
       const t = el('button', 'tile'); t.type = 'button'; t.style.background = toCss(col); t.style.color = inkOn(col);
       t.append(el('b', null, s.coin.s), el('span', null, pick ? fmt(pick.m) : '–'));
@@ -768,7 +910,7 @@ function yearTicksRaw(start, end) {
 }
 function renderBoard() {
   hideTip();
-  for (const [id, key, attr] of [['bRangeSeg', 'br', 'br'], ['bOrderSeg', 'bo', 'bo'], ['bTickSeg', 'tk', 'tk']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
+  for (const [id, key, attr] of [['bRangeSeg', 'br', 'br'], ['bOrderSeg', 'bo', 'bo'], ['bTickSeg', 'tk', 'tk'], ['bSideSeg', 'bside', 'bside']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
   const start = boardRange(), end = S - 1, N = end - start + 1;
   // breadth
   const counts = [];
@@ -812,13 +954,19 @@ function renderBoard() {
   let rows = COINS.map((c) => ({ coin: c, sum: SUM.get(c.s), L: levels(c.s, state.tk) }));
   if (state.bo === 'listed') rows.sort((a, b) => Math.min(...a.sum.map((t) => t.listed ?? 1e9)) - Math.min(...b.sum.map((t) => t.listed ?? 1e9)));
   // current signal first: 0.3, 0.4, 2.4, 2.2, then no signal, then no data
-  if (state.bo === 'now') { const sc2 = (r) => { const k = S - 1; return r.L.u[k] ? 3 - r.L.u[k] : r.L.o[k] ? 5 - r.L.o[k] : r.L.has[k] ? 6 : 9; }; rows.sort((a, b) => sc2(a) - sc2(b) || a.coin.r - b.coin.r); }
-  const rowH = 2, cv = document.getElementById('barcode'), BW = cv.parentElement.clientWidth, BH = rows.length * rowH + 22, bpadL = 36, bplotW = BW - bpadL - 8;
+  if (state.bo === 'now') {
+    const k = S - 1;
+    const sc2 = (r) => (!r.L.has[k] ? 9 : state.bside === 'over' ? (r.L.o[k] ? 3 - r.L.o[k] : 6) : state.bside === 'under' ? (r.L.u[k] ? 3 - r.L.u[k] : 6) : (r.L.u[k] ? 3 - r.L.u[k] : r.L.o[k] ? 5 - r.L.o[k] : 6));
+    rows.sort((a, b) => sc2(a) - sc2(b) || a.coin.r - b.coin.r);
+  }
+  // rows get thinner as the list grows (the full universe uses 2px rows)
+  const rowH = rows.length <= 60 ? 8 : rows.length <= 150 ? 4 : 2, cv = document.getElementById('barcode'), BW = cv.parentElement.clientWidth, BH = rows.length * rowH + 22, bpadL = 36, bplotW = BW - bpadL - 8;
   const g = setupCanvas(cv, BW, BH);
   g.fillStyle = C.nodata; g.fillRect(bpadL, 0, bplotW, rows.length * rowH);
   const fadeMid = toCss(mix(rgb(C.mid), rgb(C.surface), 0.35));
   // one rectangle per run of equal colour (cells wider than a pixel when the range is short)
-  const colOf = (u, o, has) => (!has ? null : u ? C['zu' + u] : o ? C['zo' + o] : fadeMid);
+  const side = state.bside;
+  const colOf = (u, o, has) => (!has ? null : side !== 'over' && u ? C['zu' + u] : side !== 'under' && o ? C['zo' + o] : fadeMid);
   const cols = Math.min(bplotW, N);
   rows.forEach((r, ri) => {
     const y = ri * rowH; let runCol = null, runX = 0;
@@ -834,10 +982,10 @@ function renderBoard() {
     }
   });
   g.font = '10.5px "IBM Plex Mono", monospace'; g.fillStyle = C.muted; g.textAlign = 'right'; g.textBaseline = 'middle';
-  if (state.bo === 'rank') for (const rk of [1, 100, 200, 300, 400, 500, 600]) if (rk <= rows.length) g.fillText(rk + '위', bpadL - 4, Math.max(6, (rk - 1) * rowH + 1));
+  if (state.bo === 'rank') for (const rk of rows.length <= 60 ? [1, 10, 20, 30, 40, 50, 60] : [1, 100, 200, 300, 400, 500, 600]) if (rk <= rows.length) g.fillText(rk + '위', bpadL - 4, Math.max(6, (rk - 1) * rowH + rowH / 2));
   g.textAlign = 'center'; g.textBaseline = 'alphabetic';
   for (const t of yearTicksFor(start, end, bplotW)) g.fillText(t.label, bpadL + (t.i - start) / N * bplotW, BH - 6);
-  document.getElementById('barcodeHint').textContent = `${rows.length}종 · 한 줄 = 한 종목, 한 칸 = 한 주 · 회색은 신호 없음, 빈칸은 데이터 없음 · 줄을 누르면 종목 상세`;
+  document.getElementById('barcodeHint').textContent = `${rows.length}종 · 한 줄 = 한 종목, 한 칸 = 한 주 · ${{ under: '저평가 신호만', over: '과열 신호만', both: '두 쪽 모두(저평가 우선)' }[side]} 칠함 · 회색은 신호 없음, 빈칸은 데이터 없음 · 줄을 누르면 종목 상세`;
   const at = (ev) => { const r = cv.getBoundingClientRect(); const ri = Math.floor((ev.clientY - r.top) / rowH), k = start + Math.floor((ev.clientX - r.left - bpadL) / bplotW * N); return ri >= 0 && ri < rows.length && k >= start && k <= end ? { row: rows[ri], k } : null; };
   cv.onpointermove = (ev) => {
     const a = at(ev); if (!a) { hideTip(); return; }
@@ -862,31 +1010,13 @@ const DETAIL = new Map();
 function detailFor(coin) {
   if (DETAIL.has(coin.s)) return DETAIL.get(coin.s);
   const syms = tickerIds(coin); const T = {};
-  if (coin.real) { for (const t of syms) T[t.id] = { ...DATA.real[t.id], unit: '일' }; }
+  if (!PILOT && coin.real) { for (const t of syms) T[t.id] = { ...DATA.real[t.id], unit: '일' }; }
   else {
-    const g = generate(coin);
+    const sr = seriesFor(coin);
     for (const t of syms) {
-      const series = t.kind === 'cap' ? g.cap : g.price;
-      const e = { m: {}, fb: {}, cur: {}, curFb: {}, sig: { u: new Array(S).fill(0), uM: new Array(S).fill(0), o: new Array(S).fill(0), oM: new Array(S).fill(0), uf: new Array(S).fill(0), ufM: new Array(S).fill(0), of: new Array(S).fill(0), ofM: new Array(S).fill(0) }, suspect: g.suspect, unit: '주' };
-      const bump = (lv, mask, k, level, bit) => { if (!level) return; if (level > lv[k]) { lv[k] = level; mask[k] = bit; } else if (level === lv[k]) mask[k] |= bit; };
-      TFS.forEach((tf, j) => {
-        const ts = tfSeries(series, g.L, tf), bit = 1 << j;
-        e.m[tf] = new Array(S).fill(null); let fbArr = null;
-        for (let k = 0; k < S; k++) {
-          const i = SIDX[k]; if (i < g.L) continue;
-          const v = mAt(ts, series, i);
-          if (v != null) { e.m[tf][k] = Math.round(v * 1000); bump(e.sig.u, e.sig.uM, k, underLevel(v), bit); bump(e.sig.o, e.sig.oM, k, overLevel(v), bit); bump(e.sig.uf, e.sig.ufM, k, underLevel(v), bit); bump(e.sig.of, e.sig.ofM, k, overLevel(v), bit); }
-          else { const f = fbAt(ts, series, i); if (f != null) { (fbArr ||= new Array(S).fill(null))[k] = Math.round(f * 1000); bump(e.sig.uf, e.sig.ufM, k, underLevel(f), bit); bump(e.sig.of, e.sig.ofM, k, overLevel(f), bit); } }
-        }
-        if (fbArr) e.fb[tf] = fbArr;
-        e.cur[tf] = mAt(ts, series, ND - 1);
-        if (e.cur[tf] == null) e.curFb[tf] = fbAt(ts, series, ND - 1);
-      });
-      const lastOf = (lv, mask, level) => { for (let k = S - 1; k >= 0; k--) if (lv[k] >= level) return { day: DATA.days[k], mask: lv[k] === level ? mask[k] : 0 }; return null; };
-      const count = (lv, level) => lv.reduce((n, x) => n + (x >= level ? 1 : 0), 0);
-      e.last = { u2: lastOf(e.sig.u, e.sig.uM, 2), o2: lastOf(e.sig.o, e.sig.oM, 2) };
-      e.days = { u2: count(e.sig.u, 2), o2: count(e.sig.o, 2), total: e.m['1D'].filter((v) => v != null).length };
-      T[t.id] = e;
+      const series = t.kind === 'cap' ? sr.cap : sr.price, L = t.kind === 'cap' ? sr.Lcap : sr.Lusd, ok = t.kind === 'cap' ? sr.okCap : sr.okUsd;
+      const { e } = analyze(series, L, { daily: PILOT, detail: true, ok });
+      T[t.id] = { ...(e || { m: {}, fb: {}, cur: {}, curFb: {}, sig: { u: [], uM: [], o: [], oM: [], uf: [], ufM: [], of: [], ofM: [] }, last: {}, days: {}, unit: '일' }), suspect: t.kind === 'cap' ? sr.suspect : [] };
     }
   }
   const d = { coin, syms, T }; DETAIL.set(coin.s, d); return d;
@@ -952,7 +1082,9 @@ function renderCoin() {
   D = detailFor(coin);
   const t = document.getElementById('dTitle'); t.replaceChildren();
   t.append(el('h1', null, coin.s), el('span', null, `${coin.k ? coin.k + ' · ' : ''}${coin.n} · 시가총액 ${coin.r}위 · ${['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join(' · ')}`));
-  document.getElementById('dNote').textContent = coin.real ? 'TradingView 실제 값입니다. 티커가 6개로 늘어나면 아래 카드가 티커 수만큼 늘어납니다.' : '이 종목의 배수와 신호는 화면 확인용 가상 데이터입니다. 티커가 6개로 늘어나면 아래 카드가 티커 수만큼 늘어납니다.';
+  document.getElementById('dNote').textContent = PILOT
+    ? `TradingView 일봉으로 20개 타임프레임을 다시 만들어 계산한 실제 값입니다.${coin.tv ? ` TradingView 이름은 "${coin.tv}"입니다.` : ''}`
+    : coin.real ? 'TradingView 실제 값입니다. 티커가 6개로 늘어나면 아래 카드가 티커 수만큼 늘어납니다.' : '이 종목의 배수와 신호는 화면 확인용 가상 데이터입니다. 티커가 6개로 늘어나면 아래 카드가 티커 수만큼 늘어납니다.';
   // prev/next follow the screener's current order; coins outside it fall back to market-cap order
   const inOrder = ORDER.includes(coin.s), seq = inOrder ? ORDER : COINS.map((c) => c.s), idx = seq.indexOf(coin.s);
   const prev = document.getElementById('prevCoin'), next = document.getElementById('nextCoin');
@@ -1121,7 +1253,7 @@ document.addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b) return;
   const d = b.dataset; let hit = true;
   if (d.v || d.sort || d.tk || d.ex) LIMIT = 100;
-  if (d.v) state.view = d.v; else if (d.sort) state.sort = d.sort; else if (d.tk) state.tk = d.tk;
+  if (d.v) state.view = d.v; else if (d.sort) state.sort = d.sort; else if (d.tk) state.tk = d.tk; else if (d.side) state.side = d.side; else if (d.bside) state.bside = d.bside;
   else if (d.ex) state.ex = state.ex.includes(d.ex) ? state.ex.filter((x) => x !== d.ex) : [...state.ex, d.ex];
   else if (d.br) state.br = d.br; else if (d.bo) state.bo = d.bo;
   else if (d.method) state.method = d.method; else if (d.group) state.group = d.group; else if (d.range) state.range = d.range;
@@ -1145,14 +1277,21 @@ const rerender = () => { readColors(); if (!READY) return; if (state.screen === 
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rerender);
 new MutationObserver(rerender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 document.getElementById('asof').textContent = `TradingView ${new Date(DATA.fetchedAt).toISOString().slice(0, 10)} · 종목 ${COINS.length}`;
+if (PILOT) {
+  // every coin here is real: say so once and drop the generated-data tags
+  const b = document.getElementById('banner'), p = document.getElementById('progress');
+  b.replaceChildren(document.createTextNode(`파일럿입니다. 시가총액 상위 ${COINS.length}종의 배수와 신호는 모두 TradingView 일봉(${new Date(DATA.fetchedAt).toISOString().slice(0, 10)} 수집)에서 계산한 실제 값이고, 가상 데이터는 없습니다. 오늘 봉은 수집 시점까지 진행된 값입니다.`), p);
+  b.classList.add('pilot');
+  document.querySelectorAll('.gen-tag').forEach((t) => t.remove());
+}
 
 // Compute summaries in small batches so the page stays responsive, then route.
 readColors(); route();
 let ci = 0;
 (function batch() {
   const t0 = performance.now();
-  while (ci < COINS.length && performance.now() - t0 < 40) { const c = COINS[ci++]; SUM.set(c.s, c.real ? summarizeReal(c) : summarizeGen(c)); }
-  document.getElementById('progress').textContent = ci < COINS.length ? ` · 가상 데이터 계산 중 ${ci} / ${COINS.length}` : '';
+  while (ci < COINS.length && performance.now() - t0 < 40) { const c = COINS[ci++]; SUM.set(c.s, summarize(c)); }
+  document.getElementById('progress').textContent = ci < COINS.length ? ` · ${PILOT ? '계산 중' : '가상 데이터 계산 중'} ${ci} / ${COINS.length}` : '';
   if (ci < COINS.length) { setTimeout(batch, 0); return; }
   READY = true; ORDER = filteredStats().list.map((s) => s.coin.s); route();
 })();
