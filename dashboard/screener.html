@@ -190,8 +190,6 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .lcard { padding: 10px 12px 6px; display: grid; gap: 4px; min-width: 0; }
 .ltotal { padding: 8px 12px 6px; display: grid; gap: 4px; min-width: 0; }
 .saxis { font-size: 12px; font-weight: 600; margin: 6px 0 0; }
-.controls.trial { border-style: dashed; }
-.trial-tag { flex-basis: 100%; font-size: 11.5px; font-weight: 600; color: var(--accent); }
 .shead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
 .shead b { font-family: var(--font-mono); font-size: 13px; }
 .shead span { font-size: 12px; color: var(--muted); }
@@ -346,13 +344,6 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
         <div class="ctl"><span id="lb-r">기간</span><div class="seg" id="rangeSeg" role="group" aria-labelledby="lb-r">
           <button type="button" data-range="all">전체</button><button type="button" data-range="5">5년</button><button type="button" data-range="2">2년</button><button type="button" data-range="1">1년</button></div></div>
         <label class="check"><input type="checkbox" id="fbToggle"> 200봉 미만이면 있는 봉으로 계산 (참고용)</label>
-      </div>
-      <div class="panel controls trial" role="group" aria-label="시안 비교">
-        <span class="trial-tag">시안 비교용 · 결정하시면 하나만 남깁니다</span>
-        <div class="ctl"><span id="lb-band">신호 띠</span><div class="seg" id="bandSeg" role="group" aria-labelledby="lb-band">
-          <button type="button" data-band="axis">A · 축별 띠</button><button type="button" data-band="both">B · 축별 띠 + 종합 띠</button><button type="button" data-band="total">C · 종합 띠만</button></div></div>
-        <div class="ctl" id="yCtl"><span id="lb-ys">세로 범위</span><div class="seg" id="ySeg" role="group" aria-labelledby="lb-ys">
-          <button type="button" data-ys="1">세 차트 공유</button><button type="button" data-ys="0">차트마다 따로</button></div></div>
       </div>
       <div class="panel now" id="now"></div>
       <p class="hint" id="viewNote"></p>
@@ -795,9 +786,9 @@ function summarize(coin) {
 
 // ---------- state & routing ----------
 const state = { v: 2, screen: 'screener', coin: 'BTC', view: 'table', sort: 'under', rdir: 'asc', side: 'under', bside: 'under', tk: 'both', ex: [], zf: [], q: '',
-  br: 'all', bo: 'rank', method: 'lines', range: 'all', fb: true, band: 'both', yshare: true };
+  br: 'all', bo: 'rank', method: 'lines', range: 'all', fb: true };
 try {
-  const saved = JSON.parse(localStorage.getItem('wma-screener') || '{}'); delete saved.btk; delete saved.group; if (saved.sort === 'signal') saved.sort = 'under';
+  const saved = JSON.parse(localStorage.getItem('wma-screener') || '{}'); delete saved.btk; delete saved.group; delete saved.band; delete saved.yshare; if (saved.sort === 'signal') saved.sort = 'under';
   if (saved.v !== 2) { delete saved.fb; saved.v = 2; } // reference values are on by default from v2 on
   Object.assign(state, saved);
 } catch (e) {}
@@ -1306,14 +1297,12 @@ function renderCoin() {
   prev.onclick = () => { if (idx > 0) location.hash = 'coin-' + encodeURIComponent(seq[idx - 1]); };
   next.onclick = () => { if (idx < seq.length - 1) location.hash = 'coin-' + encodeURIComponent(seq[idx + 1]); };
   document.getElementById('navPos').textContent = `${idx + 1} / ${seq.length} · ${inOrder ? '스크리너 순서' : '시가총액 순서'}`;
-  for (const [id, key] of [['methodSeg', 'method'], ['rangeSeg', 'range'], ['bandSeg', 'band']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[key] === state[key])));
-  document.querySelectorAll('#ySeg button').forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.ys === '1') === state.yshare)));
-  document.getElementById('yCtl').hidden = state.method !== 'lines';
+  for (const [id, key] of [['methodSeg', 'method'], ['rangeSeg', 'range']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[key] === state[key])));
   document.getElementById('fbToggle').checked = state.fb;
   renderNow();
-  const bandNote = { axis: '각 차트 아래 띠는 그 축의 타임프레임만으로 판정한 신호입니다.', both: '각 차트 아래 띠는 그 축의 타임프레임만으로, 맨 위 종합 띠는 20개 타임프레임 전체로 판정한 신호입니다.', total: '맨 위 종합 띠 하나가 20개 타임프레임 전체로 판정한 신호입니다.' }[state.band];
+  const bandNote = '각 축의 신호 띠는 그 축의 타임프레임만으로, 맨 위 종합 띠는 20개 타임프레임 전체로 판정한 신호입니다.';
   document.getElementById('viewNote').textContent = (state.method === 'lines'
-    ? '티커마다 데일리축·위클리축·먼슬리축 차트를 세로로 놓고, 차트마다 그 축의 타임프레임 선을 겹쳤습니다. '
+    ? '티커마다 데일리축·위클리축·먼슬리축 차트를 세로로 놓고, 차트마다 그 축의 타임프레임 선을 겹쳤습니다. 같은 티커의 세 차트는 세로 범위가 같아서 기준선이 같은 높이에 있습니다. '
     : '티커마다 데일리축·위클리축·먼슬리축을 차례로 쌓고, 타임프레임마다 한 줄씩 날짜별 배수를 색으로 칠했습니다. ') + bandNote + ' 띠의 위칸은 과열, 아래칸은 저평가입니다.';
   const view = document.getElementById('view'); view.replaceChildren();
   redraw = (state.method === 'lines' ? renderLines : renderStrip)(view);
@@ -1350,14 +1339,13 @@ function axisHasData(sym, tfs, start) { return tfs.some((tf) => DATA.days.some((
 // Every chart shares the same date axis, so a date sits at the same x in all six.
 function renderLines(view) {
   const { start, end } = visibleRange(), N = end - start + 1;
-  const showAxisBand = state.band !== 'total', showTotal = state.band !== 'axis';
   const cols = el('div', 'lines-cols'); const cards = [];
   for (const s of D.syms) {
     const col = el('div', 'lcol');
     const head = el('div', 'lhead'); head.append(el('b', null, s.id), el('span', null, s.desc));
     const z = currentZones(s.id); for (const k of ['o2', 'o1', 'u2', 'u1']) if (z[k].length) head.append(zoneChip(k, z[k].map((x) => `${x.tf} ${fmt(x.m)}`).join(', ')));
     col.append(head);
-    if (showTotal) {
+    { // combined band: the 20-timeframe signal the screener and the board use
       const card = el('div', 'panel ltotal'); const t = el('div', 'lsub'); t.append(el('b', null, '종합 신호'), el('span', null, '20개 타임프레임'));
       const cvw = el('div', 'cv'); const cv = el('canvas'); cvw.append(cv); card.append(t, cvw); col.append(card);
       cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${s.id}의 20개 타임프레임 종합 신호 띠`);
@@ -1377,13 +1365,13 @@ function renderLines(view) {
     cols.append(col);
   }
   view.append(cols);
-  // multiple range: per ticker over all three axes (shared) or per chart
+  // multiple range shared by a ticker's three charts, so the zone lines sit at the same height in each
   const range = new Map();
-  const rangeOf = (sym, tfs) => {
-    const key = state.yshare ? sym : sym + '|' + tfs.join(','); if (range.has(key)) return range.get(key);
+  const rangeOf = (sym) => {
+    if (range.has(sym)) return range.get(sym);
     let lo = 0.27, hi = 2.65;
-    for (const tf of (state.yshare ? TFS : tfs)) for (let k = start; k <= end; k++) { const v = valAt(sym, tf, k); if (v) { lo = Math.min(lo, v.m); hi = Math.max(hi, v.m); } }
-    const r = [Math.max(lo, 0.02), hi]; range.set(key, r); return r;
+    for (const tf of TFS) for (let k = start; k <= end; k++) { const v = valAt(sym, tf, k); if (v) { lo = Math.min(lo, v.m); hi = Math.max(hi, v.m); } }
+    const r = [Math.max(lo, 0.02), hi]; range.set(sym, r); return r;
   };
   const padL = 6, padR = 40, padT = 8, sigH = 12;
   let cross = -1; // week under the pointer, drawn on every chart
@@ -1400,8 +1388,8 @@ function renderLines(view) {
       if (cross >= start) { ctx.fillStyle = C.fg; ctx.fillRect(Math.round(X(cross)), 0, 1, H); }
       geom.set(cd.cv, { W, H, X }); return;
     }
-    const padB = 20 + (showAxisBand ? sigH + 6 : 0), H = 178 + padB;
-    const ctx = setupCanvas(cd.cv, W, H), [lo, hi] = rangeOf(cd.s.id, cd.tfs);
+    const padB = 20 + sigH + 6, H = 178 + padB;
+    const ctx = setupCanvas(cd.cv, W, H), [lo, hi] = rangeOf(cd.s.id);
     const Y = (m) => padT + (Math.log(hi) - Math.log(m)) / (Math.log(hi) - Math.log(lo)) * (H - padT - padB);
     geom.set(cd.cv, { W, H, X });
     ctx.font = '10.5px "IBM Plex Mono", monospace'; ctx.textBaseline = 'middle';
@@ -1412,7 +1400,7 @@ function renderLines(view) {
       ctx.beginPath(); ctx.moveTo(padL, Math.round(Y(m)) + 0.5); ctx.lineTo(W - padR, Math.round(Y(m)) + 0.5); ctx.stroke();
       ctx.globalAlpha = 1; ctx.fillStyle = C.muted; ctx.textAlign = 'left'; ctx.fillText(String(m), W - padR + 6, Y(m) + (m === 2.2 || m === 0.3 ? 5 : m === 2.4 || m === 0.4 ? -5 : 0));
     }
-    if (showAxisBand) {
+    { // this axis's own band
       const g = bandFor(cd.s.id, cd.tfs), yS = H - padB + 6;
       ctx.fillStyle = C.sunken; ctx.fillRect(padL, yS, plotW, sigH);
       paintSignalRow(ctx, g, start, N, padL, plotW, yS, sigH);
@@ -1449,8 +1437,7 @@ function renderLines(view) {
       const T = `${cd.s.id} · ${dateStr(DATA.days[k])}`;
       if (cd.kind === 'total') { showTip(ev, T, [], tipExtra(cd.s.id, k, D.T[cd.s.id].sig, BAND_TITLE(TFS))); return; }
       const rows = cd.tfs.map((tf, i) => { const v = valAt(cd.s.id, tf, k); return { color: rampColor(i, cd.tfs.length), value: v ? fmt(v.m) : '–', label: tf + (v?.fb ? ' (참고)' : ''), italic: v?.fb }; }).reverse();
-      const band = showAxisBand ? cd.tfs : TFS; // without axis bands the tooltip still names the week's signals
-      showTip(ev, T, rows, tipExtra(cd.s.id, k, bandFor(cd.s.id, band), BAND_TITLE(band)));
+      showTip(ev, T, rows, tipExtra(cd.s.id, k, bandFor(cd.s.id, cd.tfs), BAND_TITLE(cd.tfs)));
     };
     cd.cv.addEventListener('pointermove', onMove); cd.cv.addEventListener('pointerdown', onMove);
     cd.cv.addEventListener('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; hideTip(); cross = -1; drawAll(); });
@@ -1460,7 +1447,6 @@ function renderLines(view) {
 // Heat strip: per ticker, the combined band (B, C), then the daily, weekly and monthly blocks one under another.
 function renderStrip(view) {
   const { start, end } = visibleRange(), N = end - start + 1;
-  const showAxisBand = state.band !== 'total', showTotal = state.band !== 'axis';
   const rowH = 13, gap = 1, sigH = 14;
   const panel = el('div', 'panel strip-view'); const axisTop = el('div', 'xaxis'); panel.append(axisTop);
   const blocks = [];
@@ -1481,8 +1467,8 @@ function renderStrip(view) {
   };
   for (const s of D.syms) {
     const b = el('div', 'sblock'); const head = el('div', 'shead'); head.append(el('b', null, s.id), el('span', null, s.desc)); b.append(head);
-    if (showTotal) addGrid(b, s, TFS, false, true, `${s.id}의 20개 타임프레임 종합 신호 띠`);
-    for (const [g, label] of AXES) { b.append(el('div', 'saxis', label)); addGrid(b, s, GROUPS[g], true, showAxisBand, `${s.id} ${label}의 타임프레임별 배수 이력`); }
+    addGrid(b, s, TFS, false, true, `${s.id}의 20개 타임프레임 종합 신호 띠`);
+    for (const [g, label] of AXES) { b.append(el('div', 'saxis', label)); addGrid(b, s, GROUPS[g], true, true, `${s.id} ${label}의 타임프레임별 배수 이력`); }
     panel.append(b);
   }
   const axisBottom = el('div', 'xaxis'); panel.append(axisBottom); view.append(panel);
@@ -1511,7 +1497,7 @@ function renderStrip(view) {
     const move = (ev) => {
       const r = bl.cv.getBoundingClientRect(); const k = Math.min(N - 1, Math.max(0, Math.floor((ev.clientX - r.left) / r.width * N)));
       for (const o of blocks) { o.hl.style.display = 'block'; o.hl.style.left = ((k + 0.5) / N * r.width) + 'px'; }
-      const T = `${bl.s.id} · ${dateStr(DATA.days[start + k])}`, band = bl.withRows && showAxisBand ? bl.tfs : TFS;
+      const T = `${bl.s.id} · ${dateStr(DATA.days[start + k])}`, band = bl.withRows ? bl.tfs : TFS;
       const rows = bl.withRows ? bl.tfs.map((tf) => { const v = valAt(bl.s.id, tf, start + k); return { color: v ? toCss(colorOf(v.m)) : C.line, value: v ? fmt(v.m) : '–', label: tf + (v?.fb ? ' (참고)' : ''), square: true, italic: v?.fb }; }) : [];
       showTip(ev, T, rows, tipExtra(bl.s.id, start + k, bandFor(bl.s.id, band), BAND_TITLE(band)));
     };
@@ -1534,7 +1520,6 @@ document.addEventListener('click', (e) => {
   else if (d.ex) state.ex = state.ex.includes(d.ex) ? state.ex.filter((x) => x !== d.ex) : [...state.ex, d.ex];
   else if (d.br) state.br = d.br; else if (d.bo) state.bo = d.bo;
   else if (d.method) state.method = d.method; else if (d.range) state.range = d.range;
-  else if (d.band) state.band = d.band; else if (d.ys) state.yshare = d.ys === '1';
   else hit = false;
   if (!hit) return;
   save(); hideTip();
