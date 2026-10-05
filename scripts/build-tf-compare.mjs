@@ -66,7 +66,8 @@ for (const [sym, tfs] of Object.entries(raw.series)) {
     for (let back = 0; back < 4; back++) if (dIdx.has(d - back)) return dIdx.get(d - back);
     return d >= dayOf(daily.t[0]) ? -1 : null;
   });
-  const entry = { m: {}, fb: {}, cur: {}, curFb: {}, bars: {} };
+  // tfw: per timeframe, sparse [week, u, o, uf, of] levels over every day of the week (the screener's axis bands)
+  const entry = { m: {}, fb: {}, cur: {}, curFb: {}, bars: {}, tfw: {} };
   // Daily signal state across ALL timeframes: strongest level of the day and which timeframes hit it.
   const nDays = daily.t.length;
   const sig = { u: new Array(nDays).fill(0), o: new Array(nDays).fill(0), uM: new Array(nDays).fill(0), oM: new Array(nDays).fill(0),
@@ -95,16 +96,24 @@ for (const [sym, tfs] of Object.entries(raw.series)) {
     const fbAt = (i) => (barOfDay[i] < 0 ? null : fallbackAt(C, barOfDay[i], daily.c[i]));
     entry.m[tf] = sampleRows.map((i) => (i == null || i < 0 ? null : q(mAt(i))));
     const bit = 1 << TFS.indexOf(tf);
+    const W = new Map(); // week -> [u, o, uf, of] for this timeframe alone
+    const wk = (i, u, o, uf, of) => {
+      if (!(u || o || uf || of)) return;
+      const k = sampleOfDay(dayOf(daily.t[i])); if (k >= sampleDays.length) return;
+      const r = W.get(k) || [0, 0, 0, 0]; r[0] = Math.max(r[0], u); r[1] = Math.max(r[1], o); r[2] = Math.max(r[2], uf); r[3] = Math.max(r[3], of); W.set(k, r);
+    };
     for (let i = 0; i < nDays; i++) {
       const m = mAt(i);
       if (m != null) {
         bump(sig.u, sig.uM, i, underLevel(m), bit); bump(sig.o, sig.oM, i, overLevel(m), bit);
         bump(sig.uf, sig.ufM, i, underLevel(m), bit); bump(sig.of, sig.ofM, i, overLevel(m), bit);
+        wk(i, underLevel(m), overLevel(m), underLevel(m), overLevel(m));
       } else {
         const f = fbAt(i);
-        if (f != null) { bump(sig.uf, sig.ufM, i, underLevel(f), bit); bump(sig.of, sig.ofM, i, overLevel(f), bit); }
+        if (f != null) { bump(sig.uf, sig.ufM, i, underLevel(f), bit); bump(sig.of, sig.ofM, i, overLevel(f), bit); wk(i, 0, 0, underLevel(f), overLevel(f)); }
       }
     }
+    entry.tfw[tf] = [...W].sort((a, b) => a[0] - b[0]).map(([k, r]) => [k, ...r]);
     const last = daily.t.length - 1;
     entry.cur[tf] = mAt(last);
     // fallback history wherever the real WMA 200 is missing (early history, short timeframes)

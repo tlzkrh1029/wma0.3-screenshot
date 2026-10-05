@@ -176,9 +176,10 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .ramp-legend span { display: inline-flex; align-items: center; gap: 5px; }
 .ramp-legend i { display: inline-block; width: 16px; height: 0; border-top: 2px solid; }
 .lines-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
-.lcol { display: grid; gap: 8px; min-width: 0; }
+.lcol { display: grid; grid-template-rows: subgrid; row-gap: 8px; min-width: 0; }
 .lhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 2px 2px 0; }
-.lhead b { font-family: var(--font-mono); font-size: 14px; }
+.lhead > b { font-family: var(--font-mono); font-size: 14px; }
+.zc > span { white-space: nowrap; }
 .lhead > span { font-size: 12px; color: var(--muted); }
 .lhead .zc { font-size: 11.5px; padding: 1px 8px 1px 6px; white-space: normal; }
 .lsub { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
@@ -195,7 +196,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .shead b { font-family: var(--font-mono); font-size: 13px; }
 .shead span { font-size: 12px; color: var(--muted); }
 .shead .zc { font-size: 11.5px; padding: 1px 8px 1px 6px; white-space: normal; }
-.lempty { position: absolute; inset: 0 0 40px; display: grid; place-items: center; font-size: 12.5px; color: var(--muted); pointer-events: none; }
+.lempty { position: absolute; inset: 0 40px 40px 6px; margin: auto; width: fit-content; height: fit-content; padding: 2px 8px; border-radius: 6px; background: var(--surface); text-align: center; word-break: keep-all; font-size: 12.5px; color: var(--muted); pointer-events: none; }
 .strip-view { padding: 10px 14px 14px; display: grid; gap: 12px; }
 .sblock { display: grid; gap: 4px; }
 .sgrid { display: grid; grid-template-columns: 44px minmax(0, 1fr) 54px; column-gap: 8px; }
@@ -681,6 +682,8 @@ const SUSPECT_SHARE = 0.1;
 function analyze(series, L, { daily, detail, ok = null, bad = null }) {
   const cur = new Float32Array(TFS.length).fill(NaN), u = new Uint8Array(S), o = new Uint8Array(S), has = new Uint8Array(S);
   const curSusp = new Uint8Array(TFS.length), sus = new Uint8Array(S); // suspect current value / a suspect signal that week
+  // the same for reference (fewer than 200 bars) signals, detail only
+  const susf = detail ? new Uint8Array(S) : null, susfM = detail ? new Uint32Array(S) : null;
   // per day: bit 1 = some timeframe hit 0.3 (2.4), bit 2 = one of those hits is not suspect (daily mode)
   const d2u = daily ? new Uint8Array(ND) : null, d2o = daily ? new Uint8Array(ND) : null;
   const e = detail ? { m: {}, fb: {}, cur: {}, curFb: {}, tfsig: {}, sig: { u: new Array(S).fill(0), uM: new Array(S).fill(0), o: new Array(S).fill(0), oM: new Array(S).fill(0), uf: new Array(S).fill(0), ufM: new Array(S).fill(0), of: new Array(S).fill(0), ofM: new Array(S).fill(0) } } : null;
@@ -695,8 +698,15 @@ function analyze(series, L, { daily, detail, ok = null, bad = null }) {
     const ts = tfSeries(series, L, tf, ok), bit = 1 << j;
     const tb = bad && tfSeries(bad, L, tf, ok);
     // this timeframe's own weekly levels (sp: bit 1 = a suspect hit, bit 2 = a hit that is not suspect)
-    const ps = detail ? (e.tfsig[tf] = { u: new Uint8Array(S), o: new Uint8Array(S), uf: new Uint8Array(S), of: new Uint8Array(S), sp: new Uint8Array(S) }) : null;
+    const ps = detail ? (e.tfsig[tf] = { u: new Uint8Array(S), o: new Uint8Array(S), uf: new Uint8Array(S), of: new Uint8Array(S), sp: new Uint8Array(S), spf: new Uint8Array(S) }) : null;
     const suspAt = (i) => { if (!tb) return false; if (bad[i]) return true; const b = barOf(tb, i); return b >= 199 && (200 * bad[i] + tb.V[b]) / 20100 >= SUSPECT_SHARE; };
+    // reference value over n < 200 bars: the same 10% test with that shorter window's weights
+    const suspFb = (i) => {
+      if (!tb) return false; if (bad[i]) return true;
+      const b = barOf(tb, i), n = Math.min(200, b + 1); let w = 0;
+      for (let j = 1; j < n; j++) w += (n - j) * tb.Cb[b - j];
+      return w / (n * (n + 1) / 2) >= SUSPECT_SHARE;
+    };
     if (detail) e.m[tf] = new Array(S).fill(null);
     let fbArr = null, lastBar = -1;
     const visit = (i) => {
@@ -730,6 +740,7 @@ function analyze(series, L, { daily, detail, ok = null, bad = null }) {
           const fu = underLevel(f), fo = overLevel(f);
           bump(e.sig.uf, e.sig.ufM, k, fu, bit); bump(e.sig.of, e.sig.ofM, k, fo, bit);
           if (fu > ps.uf[k]) ps.uf[k] = fu; if (fo > ps.of[k]) ps.of[k] = fo;
+          if (fu || fo) { const sp = suspFb(i); ps.spf[k] |= sp ? 1 : 2; susf[k] |= sp ? 1 : 2; if (sp) susfM[k] |= bit; }
         }
       }
     };
@@ -745,7 +756,10 @@ function analyze(series, L, { daily, detail, ok = null, bad = null }) {
   const lastU2 = lastHit(d2u), lastO2 = lastHit(d2o);
   const lastU2Susp = lastU2 >= 0 && !(d2u[lastU2] & 2), lastO2Susp = lastO2 >= 0 && !(d2o[lastO2] & 2);
   // a week counts as suspect only when every hit that week is suspect; susM lists the suspect timeframes
-  if (detail) { e.sig.sus = Array.from(sus, (x) => (x === 1 ? 1 : 0)); e.sig.susM = Array.from(susM); e.curSusp = Object.fromEntries(TFS.map((tf, j) => [tf, !!curSusp[j]])); }
+  if (detail) {
+    e.sig.sus = Array.from(sus, (x) => (x === 1 ? 1 : 0)); e.sig.susM = Array.from(susM);
+    // reference signals count as suspect in weeks without full 200-bar hits, when every one of them is suspect
+    e.sig.susf = Array.from(susf, (x, k) => (!sus[k] && x === 1 ? 1 : 0)); e.sig.susfM = Array.from(susfM); e.curSusp = Object.fromEntries(TFS.map((tf, j) => [tf, !!curSusp[j]])); }
   if (detail) {
     const lastDay = (lv, mask, level) => { for (let i = ND - 1; i >= L; i--) if (lv[i] >= level) return { day: DAY0 + i, mask: lv[i] === level ? mask[i] : 0 }; return null; };
     const count = (lv, level) => { let n = 0; for (let i = L; i < ND; i++) if (lv[i] >= level) n++; return n; };
@@ -916,7 +930,7 @@ function renderScreener() {
   if (state.view === 'tiles') return renderTiles(body, list);
   const wrap = el('div', 'tbl-wrap'); const table = el('table', 'scr');
   const rankSort = state.sort === 'rank', arrow = rankSort ? (state.rdir === 'desc' ? '▼' : '▲') : '';
-  table.innerHTML = `<thead><tr><th aria-sort="${rankSort ? (state.rdir === 'desc' ? 'descending' : 'ascending') : 'none'}"><button type="button" class="th-sort" data-rsort="1" title="시가총액 순위로 정렬 (다시 누르면 순서가 뒤집힙니다)">#<span>${arrow}</span></button></th><th>종목</th><th title="${MC_SOURCE}">시가총액</th><th>거래소</th><th>저평가 신호</th><th>과열 신호</th><th>최저 배수</th><th>최고 배수</th>
+  table.innerHTML = `<thead><tr><th aria-sort="${rankSort ? (state.rdir === 'desc' ? 'descending' : 'ascending') : 'none'}"><button type="button" class="th-sort" data-rsort="1" aria-label="시가총액 순위로 정렬" title="시가총액 순위로 정렬 (다시 누르면 순서가 뒤집힙니다)">#<span>${arrow}</span></button></th><th>종목</th><th title="${MC_SOURCE}">시가총액</th><th>거래소</th><th>저평가 신호</th><th>과열 신호</th><th>최저 배수</th><th>최고 배수</th>
     <th><div class="strip-head"><span></span><div><em>1D … 1W</em><em>8D … 3W</em><em>1M … 12M</em></div></div></th><th>마지막 0.3</th></tr></thead>`;
   const tb = el('tbody');
   if (!list.length) { const tr = el('tr', 'empty-row'); const td = el('td', null, '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.'); td.colSpan = 10; tr.append(td); tb.append(tr); }
@@ -926,7 +940,7 @@ function renderScreener() {
     const coin = el('td', 'coin coin-td'); const a = el('a', null, s.coin.s); a.href = '#coin-' + encodeURIComponent(s.coin.s);
     coin.append(a); if (s.coin.real && !PILOT) coin.append(el('span', 'real', '실제'));
     coin.append(el('span', null, s.coin.k ? `${s.coin.k} · ${s.coin.n}` : s.coin.n));
-    coin.append(el('span', 'mc-m', fmtCap(s.coin.mc))); // phone cards show the market cap under the name
+    coin.append(el('span', 'mc-m', '시가총액 ' + fmtCap(s.coin.mc))); // phone cards have no header, so the line carries its own label
     if (s.suspect) { const w = el('span', 'warn', '⚠ 지금 CAP 데이터 의심'); w.title = '최근 1주가 시가총액 데이터 의심 구간에 들어 있어서 CAP 배수가 틀릴 수 있습니다'; coin.append(w); }
     tr.append(coin);
     tr.append(el('td', 'mm mc-td', fmtCap(s.coin.mc)));
@@ -1208,22 +1222,27 @@ function bandFor(sym, tfs) {
   if (tfs.length === TFS.length) return T.sig;
   const key = sym + '|' + tfs.join(','); if (BANDS.has(key)) return BANDS.get(key);
   const b = { u: new Uint8Array(S), uM: new Uint32Array(S), o: new Uint8Array(S), oM: new Uint32Array(S), uf: new Uint8Array(S), ufM: new Uint32Array(S),
-    of: new Uint8Array(S), ofM: new Uint32Array(S), sus: new Uint8Array(S), susM: new Uint32Array(S) };
-  const sp = new Uint8Array(S);
+    of: new Uint8Array(S), ofM: new Uint32Array(S), sus: new Uint8Array(S), susM: new Uint32Array(S), susf: new Uint8Array(S), susfM: new Uint32Array(S) };
+  const sp = new Uint8Array(S), spf = new Uint8Array(S);
   const merge = (lv, mask, k, level, bit) => { if (!level) return; if (level > lv[k]) { lv[k] = level; mask[k] = bit; } else if (level === lv[k]) mask[k] |= bit; };
   for (const tf of tfs) {
     const p = T.tfsig?.[tf] || levelsFromSamples(T, tf), bit = 1 << TFS.indexOf(tf);
     for (let k = 0; k < S; k++) {
       merge(b.u, b.uM, k, p.u[k], bit); merge(b.o, b.oM, k, p.o[k], bit); merge(b.uf, b.ufM, k, p.uf[k], bit); merge(b.of, b.ofM, k, p.of[k], bit);
       sp[k] |= p.sp[k]; if (p.sp[k] & 1) b.susM[k] |= bit;
+      if (p.spf) { spf[k] |= p.spf[k]; if (p.spf[k] & 1) b.susfM[k] |= bit; }
     }
   }
-  for (let k = 0; k < S; k++) b.sus[k] = sp[k] === 1 ? 1 : 0; // every hit of these timeframes that week is suspect
+  for (let k = 0; k < S; k++) { b.sus[k] = sp[k] === 1 ? 1 : 0; b.susf[k] = !sp[k] && spf[k] === 1 ? 1 : 0; } // every hit of these timeframes that week is suspect
   BANDS.set(key, b); return b;
 }
 // mockup BTC/ETH carry only weekly sample values: read each timeframe's level from those
 function levelsFromSamples(T, tf) {
   const p = { u: new Uint8Array(S), o: new Uint8Array(S), uf: new Uint8Array(S), of: new Uint8Array(S), sp: new Uint8Array(S) };
+  if (T.tfw?.[tf]) { // weekly levels over every day of the week (build-tf-compare)
+    for (const [k, u, o, uf, of] of T.tfw[tf]) { p.u[k] = u; p.o[k] = o; p.uf[k] = uf; p.of[k] = of; if (u || o) p.sp[k] = 2; }
+    return p;
+  }
   for (let k = 0; k < S; k++) {
     const m = T.m[tf]?.[k], f = T.fb[tf]?.[k];
     if (m != null) { p.u[k] = p.uf[k] = underLevel(m / 1000); p.o[k] = p.of[k] = overLevel(m / 1000); if (p.u[k] || p.o[k]) p.sp[k] = 2; }
@@ -1239,8 +1258,9 @@ function hatchSuspect(ctx, sym, start, N, x0, width, y, h) {
   if (D.T[sym].suspect.length) hatchWeeks(ctx, (k) => suspectWeek(sym, k), start, N, x0, width, y, h);
 }
 // hatch the band where every signal of the week leans on flagged data but the week itself is not flagged
+const bandSuspect = (g, k) => !!(g.sus?.[k] || (state.fb && g.susf?.[k]));
 function hatchSignalSuspect(ctx, g, sym, start, N, x0, width, y, h) {
-  if (g.sus?.some(Boolean)) hatchWeeks(ctx, (k) => !!g.sus[k] && !suspectWeek(sym, k), start, N, x0, width, y, h);
+  if (g.sus?.some(Boolean) || (state.fb && g.susf?.some(Boolean))) hatchWeeks(ctx, (k) => bandSuspect(g, k) && !suspectWeek(sym, k), start, N, x0, width, y, h);
 }
 function signalTipItems(g, k) {
   const out = [];
@@ -1250,9 +1270,9 @@ function signalTipItems(g, k) {
 }
 function tipExtra(sym, k, g, title) {
   const box = sigBox(signalTipItems(g, k), title);
-  const sm = g.susM?.[k] || 0;
+  const sm = (g.susM?.[k] || 0) | (state.fb ? g.susfM?.[k] || 0 : 0);
   const note = suspectWeek(sym, k) ? '⚠ 이 주는 시가총액 데이터가 의심되는 구간입니다'
-    : g.sus?.[k] ? '⚠ 이 주의 신호는 모두 의심 구간의 시가총액 데이터가 WMA 안에 섞인 값에서 나왔습니다'
+    : bandSuspect(g, k) ? '⚠ 이 주의 신호는 모두 의심 구간의 시가총액 데이터가 WMA 안에 섞인 값에서 나왔습니다'
     : sm ? `⚠ ${maskTfs(sm).join(', ')}의 WMA 안에는 의심 구간의 시가총액 데이터가 섞여 있습니다` : null;
   if (note) { const f = document.createDocumentFragment(); f.append(box, el('div', 'warn', note)); return f; }
   return box;
@@ -1267,8 +1287,8 @@ function renderCoin() {
   const coin = findCoin(state.coin);
   if (!coin) {
     const t = document.getElementById('dTitle'); t.replaceChildren(el('h1', null, '종목을 찾을 수 없습니다'), el('span', null, `"${state.coinQuery || ''}"는 목록에 없는 심볼입니다. 스크리너에서 종목을 골라 주세요.`));
-    for (const id of ['now', 'view', 'legend']) document.getElementById(id).replaceChildren();
-    document.getElementById('dNote').textContent = ''; document.getElementById('navPos').textContent = '';
+    for (const id of ['now', 'view']) document.getElementById(id).replaceChildren();
+    for (const id of ['dNote', 'navPos', 'viewNote']) document.getElementById(id).textContent = '';
     document.getElementById('prevCoin').disabled = document.getElementById('nextCoin').disabled = true;
     return;
   }
@@ -1353,6 +1373,7 @@ function renderLines(view) {
       if (!axisHasData(s.id, tfs, start)) cvw.append(el('div', 'lempty', state.fb ? '데이터 없음 · 이 축은 봉이 12개도 안 됩니다' : '데이터 없음 · 이 축의 타임프레임은 모두 봉 200개 미만입니다 (참고값을 켜면 보입니다)'));
       cards.push({ s, kind: 'axis', axis: g, tfs, cv });
     }
+    col.style.gridRow = `span ${col.children.length}`; // rows line up across the two columns
     cols.append(col);
   }
   view.append(cols);
@@ -1374,6 +1395,7 @@ function renderLines(view) {
       const H = sigH + 4, ctx = setupCanvas(cd.cv, W, H), g = D.T[cd.s.id].sig;
       ctx.fillStyle = C.sunken; ctx.fillRect(padL, 2, plotW, sigH);
       paintSignalRow(ctx, g, start, N, padL, plotW, 2, sigH);
+      hatchSuspect(ctx, cd.s.id, start, N, padL, plotW, 2, sigH); // no chart above this band to carry the flagged-week hatch
       hatchSignalSuspect(ctx, g, cd.s.id, start, N, padL, plotW, 2, sigH);
       if (cross >= start) { ctx.fillStyle = C.fg; ctx.fillRect(Math.round(X(cross)), 0, 1, H); }
       geom.set(cd.cv, { W, H, X }); return;
@@ -1518,6 +1540,7 @@ document.addEventListener('click', (e) => {
   save(); hideTip();
   if (state.screen === 'coin') renderCoin();
   else if (READY) (state.screen === 'screener' ? renderScreener : renderBoard)();
+  if (d.rsort) document.querySelector('#scrBody .th-sort')?.focus(); // the header was rebuilt
 });
 let qt; document.getElementById('q').addEventListener('input', (e) => { clearTimeout(qt); qt = setTimeout(() => { state.q = e.target.value; LIMIT = 100; save(); if (READY) renderScreener(); }, 150); });
 document.getElementById('fbToggle').addEventListener('change', (e) => { state.fb = e.target.checked; save(); renderCoin(); });
