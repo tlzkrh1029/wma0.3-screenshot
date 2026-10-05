@@ -43,7 +43,7 @@ let status = null;
 try { status = JSON.parse(await readFile(path.join(DAILY_DIR, '_status.json'), 'utf8')); } catch {}
 
 // daily closes per ticker id, trimmed by usdFrom / capFrom (bars before that day belong to an older coin that
-// TradingView kept under the same ticker)
+// TradingView kept under the same ticker, or are wrong, e.g. a CRYPTOCAP history with a wrong circulating supply)
 const fileOf = (id) => path.join(DAILY_DIR, id.replace(/[^A-Za-z0-9.]+/g, '_') + '.json');
 const dayOf = (iso) => Date.parse(`${iso}T00:00:00Z`) / 86400000;
 async function load(id, from) {
@@ -116,7 +116,8 @@ for (const c of coins) {
   const mc = c.cap ? c.cap.c.at(-1) : c.u.mcap, x = c.cap && c.u.mcap > 0 ? mc / c.u.mcap : 1;
   rows.push({ coin: { r: 0, s: c.u.sym, n: c.u.name, k: c.u.ko || null, x: c.u.ex, mc: Math.round(mc), ...(c.cap ? {} : { mcs: 'cg' }),
     ...(x > 3 || x < 1 / 3 ? { mcx: Number(x.toPrecision(2)) } : {}),
-    cap: c.cap?.id ?? null, usd: c.usd?.id ?? null, tv: c.t.tvName ?? null, sum }, daily });
+    cap: c.cap?.id ?? null, usd: c.usd?.id ?? null, tv: c.t.tvName ?? null,
+    ...(c.cap && c.t.capFrom ? { cf: c.t.capFrom } : {}), ...(c.usd && c.t.usdFrom ? { uf: c.t.usdFrom } : {}), sum }, daily });
 }
 // daily-close files follow the universe order (rows are still in it here), not the day's market-cap rank
 rows.forEach((r, i) => { r.coin.ch = Math.floor(i / CHUNK); });

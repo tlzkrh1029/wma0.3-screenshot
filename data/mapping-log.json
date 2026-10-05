@@ -1,5 +1,5 @@
 {
- "about": "Record of coin-to-ticker matches that were found wrong and fixed, shown at the top of the screener. kind: tradingview (TradingView ticker of another coin; fixed with a manual entry in data/tickers.json), coingecko (CoinGecko coin of another asset with the same symbol; fixed with an ids pin in data/exclusions.json), none (no TradingView ticker exists), history (the TradingView ticker is right but part of its history is wrong; dropped with usdFrom / capFrom on a manual entry in data/tickers.json). Add an entry whenever a check (scripts/check-tickers.mjs or a review) changes a match, and update checkedAt.",
+ "about": "Record of coin-to-ticker matches that were found wrong and fixed, shown at the top of the screener. kind: tradingview (TradingView ticker of another coin; fixed with a manual entry in data/tickers.json), coingecko (CoinGecko coin of another asset with the same symbol; fixed with an ids pin in data/exclusions.json), none (no TradingView ticker exists), history (the TradingView ticker is right but part of its history is wrong; dropped with usdFrom / capFrom on a manual entry in data/tickers.json). Add an entry whenever a check (scripts/check-tickers.mjs or a review) changes a match or drops part of a ticker's history, and update checkedAt.",
  "checkedAt": "2026-10-05",
  "entries": [
   {
@@ -8,7 +8,7 @@
    "kind": "history",
    "was": "CRYPTOCAP:FCT2 전체 이력 (2019-12-05부터)",
    "now": "CRYPTOCAP:FCT2 2023-05-24부터",
-   "why": "2023-05-23까지는 시가총액에서 나온 유통량이 실제와 맞지 않음: 2022-01-10~2023-05-23은 약 10M(앞 336M, 뒤 675M)이고, 2020-07~2021-07은 9M과 184M을 오감"
+   "why": "2023-05-23까지는 시가총액÷가격으로 계산한 유통량이 크게 오락가락함: 2022-01-10~2023-05-23은 약 10M(직전 336M, 직후 675M), 2020-07~2021-07은 9M과 184M 사이를 반복"
   },
   {
    "date": "2026-10-05",

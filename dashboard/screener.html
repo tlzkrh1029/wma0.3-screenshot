@@ -7,7 +7,7 @@
    screener (table or tiles), market signal board, and coin detail. */
 :root {
   --bg: #f4f6f8; --surface: #ffffff; --sunken: #eef1f4; --fg: #141922; --muted: #5b6574; --faint: #737c8a;
-  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00;
+  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00; --ml-hist: #8a4fd1;
   --zu2: #0f7b3b; --zu1: #86d39a; --zo1: #f0c11b; --zo2: #b4161b;
   --tint-u: #d4eedb; --mid: #eceae6; --tint-o: #f6ecc4;
   --ramp-lo: #86b6ef; --ramp-hi: #0a2a57;
@@ -19,7 +19,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
-    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b;
+    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5;
     --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
     --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
     --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
@@ -29,7 +29,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
-  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b;
+  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5;
   --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
   --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
   --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
@@ -311,7 +311,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   <details class="panel maplog" id="maplog" hidden>
     <summary id="maplogSum"></summary>
     <div class="ml-body">
-      <p class="hint">거래소에 상장된 코인과 다른 코인에 짝지어져 있다가 바로잡은 기록입니다. TradingView 티커는 거래소 가격과 대조해서, CoinGecko 매칭은 거래소 가격과 CoinGecko 가격을 대조하거나 분류 검토로 찾았습니다. 이력 보정은 티커는 맞지만 일부 기간의 값이 잘못되어 그 기간을 계산에서 뺀 기록입니다.</p>
+      <p class="hint">거래소에 상장된 코인과 다른 코인에 짝지어져 있다가 바로잡은 기록입니다. TradingView 티커는 거래소 가격과 대조해서, CoinGecko 매칭은 거래소 가격과 CoinGecko 가격을 대조하거나 분류 검토로 찾았습니다. 이력 일부 제외는 티커는 맞지만 일부 기간의 값이 잘못되어 그 기간을 계산과 차트에서 뺀 기록입니다.</p>
       <div class="ml-syms" id="maplogSyms"></div>
       <table class="ml"><thead><tr><th>구분</th><th>종목</th><th>이전 매핑</th><th>현재 매핑</th><th>근거</th><th>날짜</th></tr></thead><tbody id="maplogRows"></tbody></table>
     </div>
@@ -1021,7 +1021,8 @@ function renderCoin() {
   const syms = tickerIds(coin);
   document.getElementById('dNote').textContent = !syms.length ? 'TradingView에서 이 종목의 티커를 찾지 못해서 배수를 계산하지 못했습니다.'
     : `TradingView 일봉으로 20개 타임프레임을 다시 만들어 계산한 값입니다.${coin.tv ? ` TradingView 이름은 "${coin.tv}"입니다.` : ''}` +
-      (coin.cap ? '' : ' TradingView에 이 종목의 시가총액(CRYPTOCAP) 티커가 없어서 가격 티커만 봅니다.') + (coin.usd ? '' : ' TradingView에 이 종목의 USD 가격 티커가 없어서 시가총액 티커만 봅니다.') + (coin.mcx ? ` ${capNote(coin)}.` : '');
+      (coin.cap ? '' : ' TradingView에 이 종목의 시가총액(CRYPTOCAP) 티커가 없어서 가격 티커만 봅니다.') + (coin.usd ? '' : ' TradingView에 이 종목의 USD 가격 티커가 없어서 시가총액 티커만 봅니다.') + (coin.mcx ? ` ${capNote(coin)}.` : '') +
+      (coin.cf || coin.uf ? ` ${[coin.cf && `시가총액 티커는 ${coin.cf}`, coin.uf && `USD 가격 티커는 ${coin.uf}`].filter(Boolean).join(', ')}부터 계산합니다. 그 전 값은 다른 코인의 이력이거나 잘못된 값이어서 뺐습니다(티커 매핑 기록 참고).` : '');
   // prev/next follow the screener's current order; coins outside it fall back to market-cap order
   const inOrder = ORDER.includes(coin.s), seq = inOrder ? ORDER : COINS.map((c) => c.s), idx = seq.indexOf(coin.s);
   const prev = document.getElementById('prevCoin'), next = document.getElementById('nextCoin');
@@ -1322,7 +1323,7 @@ if (DATA.dir && DATA.dir.files >= DATA.dir.warnAt) {
     `${DATA.dir.limit.toLocaleString('en-US')}개를 넘기 전에 data/daily를 하위 폴더로 나눠야 합니다.`;
 }
 // record of coin matches that were found wrong and fixed (data/mapping-log.json)
-const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], history: ['TradingView 이력 보정', 'var(--warn-fg)', '이력 보정'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
+const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], history: ['TradingView 이력 일부 제외', 'var(--ml-hist)', '이력 제외'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
 if (DATA.mapLog?.entries?.length) {
   const box = document.getElementById('maplog'), sum = document.getElementById('maplogSum'), syms = document.getElementById('maplogSyms'), rows = document.getElementById('maplogRows');
   const order = Object.keys(ML_KIND), entries = DATA.mapLog.entries.slice().sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
