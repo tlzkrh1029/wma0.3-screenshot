@@ -13,6 +13,10 @@ day and deploys a GitHub Pages site. The owner set these rules; keep to them.
 - **Record every fixed coin match.** When a TradingView ticker (`manual` entry in `data/tickers.json`) or a CoinGecko
   match (`ids` pin in `data/exclusions.json`) is corrected, add an entry to `data/mapping-log.json` and update its
   `checkedAt`. The page shows this record at the top.
+- **Weekly universe refresh** (`.github/workflows/refresh-universe.yml`, Mondays 01:37 UTC, CoinGecko Demo key in
+  the `COINGECKO_DEMO_KEY` secret). Coins are matched through CoinGecko's exchange tickers first. Unchanged coins and
+  matches are committed directly; added, removed or re-matched coins go to a pull request for the owner's review (an
+  issue if Actions may not open pull requests). Re-matched coins are logged in `data/mapping-log.json` automatically.
 - **Credit CoinGecko.** The site uses CoinGecko data (coin list, ranks, some market caps), so keep the linked
   "Data provided by CoinGecko" credit on the page.
 - **Custom timeframes need a login.** Anonymous requests get only standard resolutions (1D, 1W, 1M, 3M, 6M, 12M);

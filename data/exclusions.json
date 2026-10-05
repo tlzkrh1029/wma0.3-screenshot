@@ -58,6 +58,41 @@
   "REI": {
    "id": "rei-network",
    "reason": "Upbit, Bithumb and Binance REI is REI Network (about $0.002, matching the exchange prices), not Rei (unit-00-rei)"
+  },
+  "AXL": {
+   "id": "axelar",
+   "also": [
+    "WAXL"
+   ],
+   "reason": "Upbit and Binance AXL and Bithumb WAXL are Axelar"
+  },
+  "MET": {
+   "id": "meteora",
+   "also": [
+    "MET2"
+   ],
+   "reason": "Bithumb and Binance MET and Upbit MET2 are Meteora"
+  },
+  "BTT": {
+   "id": "bittorrent",
+   "also": [
+    "BTTC"
+   ],
+   "reason": "Upbit and Bithumb BTT and Binance BTTC are BitTorrent (the new BTT)"
+  },
+  "BEAM": {
+   "id": "beam-2",
+   "also": [
+    "BEAMX"
+   ],
+   "reason": "Upbit and Bithumb BEAM and Binance BEAMX are Beam"
+  },
+  "RON": {
+   "id": "ronin",
+   "also": [
+    "RONIN"
+   ],
+   "reason": "Bithumb RON and Binance RONIN are Ronin"
   }
  },
  "keep": {

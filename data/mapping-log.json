@@ -2,29 +2,237 @@
  "about": "Record of coin-to-ticker matches that were found wrong and fixed, shown at the top of the screener. kind: tradingview (TradingView ticker of another coin; fixed with a manual entry in data/tickers.json), coingecko (CoinGecko coin of another asset with the same symbol; fixed with an ids pin in data/exclusions.json), none (no TradingView ticker exists). Add an entry whenever a check (scripts/check-tickers.mjs or a review) changes a match, and update checkedAt.",
  "checkedAt": "2026-10-05",
  "entries": [
-  { "date": "2026-10-05", "sym": "BTT", "kind": "tradingview", "was": "CRYPTO:BTTOLDUSD (BitTorrent 구 토큰)", "now": "CRYPTO:BTTUSD · CRYPTOCAP:BTT (BitTorrent-New)", "why": "구 토큰은 615일 전에 거래가 끝났고 가격이 업비트의 2.7배" },
-  { "date": "2026-10-05", "sym": "LUNC", "kind": "tradingview", "was": "CRYPTO:LUNAUSD · CRYPTOCAP:LUNA (Terra 2.0)", "now": "CRYPTO:LUNCUSD · CRYPTOCAP:LUNC (Terra Classic)", "why": "가격이 바이낸스의 963배 (LUNA 시세)" },
-  { "date": "2026-10-05", "sym": "BEAM", "kind": "tradingview", "was": "CRYPTO:BEAMUSD · CRYPTOCAP:BEAM (다른 Beam)", "now": "CRYPTO:BEAM2USD · CRYPTOCAP:BEAM2", "why": "가격이 업비트의 4.7배" },
-  { "date": "2026-10-05", "sym": "SAFE", "kind": "tradingview", "was": "CRYPTO:SAFEUSD (SAFE(AnWang))", "now": "CRYPTO:SAFE3USD · CRYPTOCAP:SAFE3 (Safe)", "why": "가격이 업비트의 13배, 마지막 봉이 60일 전" },
-  { "date": "2026-10-05", "sym": "BRETT", "kind": "tradingview", "was": "CRYPTO:BRETT4USD (Brett, 이더리움판)", "now": "CRYPTO:BRETT2USD · CRYPTOCAP:BRETT2 (Brett, Base)", "why": "가격이 빗썸의 1.7배, 마지막 봉이 102일 전" },
-  { "date": "2026-10-05", "sym": "NEX", "kind": "tradingview", "was": "CRYPTO:NEXUUSD (다른 NEXUS)", "now": "CRYPTO:NEXUS5USD · CRYPTOCAP:NEXUS5 (Nexus)", "why": "가격이 빗썸의 319배, 마지막 봉이 605일 전" },
-  { "date": "2026-10-05", "sym": "NEIRO", "kind": "tradingview", "was": "CRYPTO:NEIROUSD · CRYPTOCAP:NEIRO (다른 Neiro)", "now": "CRYPTO:NEIROFUSD · CRYPTOCAP:NEIROF (Neiro)", "why": "가격이 바이낸스의 2.2배, 시가총액이 CoinGecko의 194분의 1" },
-  { "date": "2026-10-05", "sym": "HOME", "kind": "tradingview", "was": "CRYPTO:HOMERSUSD (Homer Simpson, 솔라나 밈코인)", "now": "CRYPTO:HOMEDUSD · CRYPTOCAP:HOMED (Defi App)", "why": "가격이 바이낸스의 약 2,000억분의 1, 마지막 봉이 402일 전" },
-  { "date": "2026-10-05", "sym": "BOB", "kind": "tradingview", "was": "CRYPTO:BOB2USD · CRYPTOCAP:BOB2 (BOB, 이더리움 밈코인)", "now": "CRYPTO:BOBBUILUSD · CRYPTOCAP:BOBBUIL (BOB, Build on Bitcoin)", "why": "가격이 빗썸의 5,294분의 1" },
-  { "date": "2026-10-05", "sym": "QUICK", "kind": "tradingview", "was": "CRYPTO:QUICKUSD (QuickSwap 구 토큰)", "now": "CRYPTO:QUICKSUSD · CRYPTOCAP:QUICKS (Quickswap 새 토큰)", "why": "구 토큰은 1,034일 전에 거래가 끝났고 가격이 바이낸스의 4,557배 (1:1000 분할 전 시세)" },
-  { "date": "2026-10-05", "sym": "REI", "kind": "coingecko", "was": "Rei (unit-00-rei)", "now": "REI Network (rei-network)", "why": "CoinGecko 가격이 빗썸의 7.5배. TradingView 티커는 처음부터 REI Network였음" },
-  { "date": "2026-10-04", "sym": "FRAX", "kind": "coingecko", "was": "Legacy Frax Dollar (스테이블코인)", "now": "Frax 거버넌스 토큰 (frax-share, 옛 FXS)", "why": "바이낸스·빗썸 FRAX는 거버넌스 토큰" },
-  { "date": "2026-10-04", "sym": "PRL", "kind": "coingecko", "was": "Pearl", "now": "Perle (perle)", "why": "업비트·빗썸 PRL은 Perle" },
-  { "date": "2026-10-04", "sym": "EDGE", "kind": "coingecko", "was": "edgeX", "now": "Definitive (definitive)", "why": "업비트·빗썸 EDGE는 Definitive. edgeX는 EDGEX로 따로 추가" },
-  { "date": "2026-10-04", "sym": "META", "kind": "coingecko", "was": "MetaDAO", "now": "Metadium (metadium)", "why": "업비트·빗썸 META는 메타디움. MetaDAO는 META2로 따로 추가" },
-  { "date": "2026-10-04", "sym": "AI", "kind": "coingecko", "was": "Artificial Inu", "now": "Gensyn (gensyn)", "why": "업비트·빗썸 AI와 바이낸스 AIGENSYN은 Gensyn" },
-  { "date": "2026-10-04", "sym": "ONE", "kind": "coingecko", "was": "ONEchain", "now": "Harmony (harmony)", "why": "바이낸스 ONE은 Harmony" },
-  { "date": "2026-10-04", "sym": "MEME", "kind": "coingecko", "was": "MEMETOON", "now": "Memecoin (memecoin-2, Memeland)", "why": "바이낸스 MEME는 Memeland의 Memecoin" },
-  { "date": "2026-10-04", "sym": "UP", "kind": "coingecko", "was": "Unitas", "now": "Superform (superform)", "why": "빗썸 UP과 업비트 UP2는 Superform" },
-  { "date": "2026-10-04", "sym": "XAI", "kind": "coingecko", "was": "SideShift", "now": "Xai (xai-blockchain)", "why": "바이낸스·빗썸 XAI는 Xai" },
-  { "date": "2026-10-04", "sym": "TREE", "kind": "coingecko", "was": "Tree", "now": "Treehouse (treehouse)", "why": "업비트·빗썸·바이낸스 TREE는 Treehouse" },
-  { "date": "2026-10-05", "sym": "POD", "kind": "none", "was": "CRYPTO:MIHARUUSD (smiling dolphin, 다른 코인)", "now": "없음", "why": "TradingView에 Dolphin(POD) 티커가 없음" },
-  { "date": "2026-10-05", "sym": "VERONA", "kind": "none", "was": "CRYPTO:VDAUSD (Verida, 다른 코인)", "now": "없음", "why": "TradingView에 Verona 티커가 없음" },
-  { "date": "2026-10-05", "sym": "币安人生", "kind": "none", "was": "없음", "now": "없음", "why": "TradingView에 币安人生 티커가 없음" }
+  {
+   "date": "2026-10-05",
+   "sym": "BTT",
+   "kind": "tradingview",
+   "was": "CRYPTO:BTTOLDUSD (BitTorrent 구 토큰)",
+   "now": "CRYPTO:BTTUSD · CRYPTOCAP:BTT (BitTorrent-New)",
+   "why": "구 토큰은 615일 전에 거래가 끝났고 가격이 업비트의 2.7배"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "LUNC",
+   "kind": "tradingview",
+   "was": "CRYPTO:LUNAUSD · CRYPTOCAP:LUNA (Terra 2.0)",
+   "now": "CRYPTO:LUNCUSD · CRYPTOCAP:LUNC (Terra Classic)",
+   "why": "가격이 바이낸스의 963배 (LUNA 시세)"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "BEAM",
+   "kind": "tradingview",
+   "was": "CRYPTO:BEAMUSD · CRYPTOCAP:BEAM (다른 Beam)",
+   "now": "CRYPTO:BEAM2USD · CRYPTOCAP:BEAM2",
+   "why": "가격이 업비트의 4.7배"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "SAFE",
+   "kind": "tradingview",
+   "was": "CRYPTO:SAFEUSD (SAFE(AnWang))",
+   "now": "CRYPTO:SAFE3USD · CRYPTOCAP:SAFE3 (Safe)",
+   "why": "가격이 업비트의 13배, 마지막 봉이 60일 전"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "BRETT",
+   "kind": "tradingview",
+   "was": "CRYPTO:BRETT4USD (Brett, 이더리움판)",
+   "now": "CRYPTO:BRETT2USD · CRYPTOCAP:BRETT2 (Brett, Base)",
+   "why": "가격이 빗썸의 1.7배, 마지막 봉이 102일 전"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "NEX",
+   "kind": "tradingview",
+   "was": "CRYPTO:NEXUUSD (다른 NEXUS)",
+   "now": "CRYPTO:NEXUS5USD · CRYPTOCAP:NEXUS5 (Nexus)",
+   "why": "가격이 빗썸의 319배, 마지막 봉이 605일 전"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "NEIRO",
+   "kind": "tradingview",
+   "was": "CRYPTO:NEIROUSD · CRYPTOCAP:NEIRO (다른 Neiro)",
+   "now": "CRYPTO:NEIROFUSD · CRYPTOCAP:NEIROF (Neiro)",
+   "why": "가격이 바이낸스의 2.2배, 시가총액이 CoinGecko의 194분의 1"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "HOME",
+   "kind": "tradingview",
+   "was": "CRYPTO:HOMERSUSD (Homer Simpson, 솔라나 밈코인)",
+   "now": "CRYPTO:HOMEDUSD · CRYPTOCAP:HOMED (Defi App)",
+   "why": "가격이 바이낸스의 약 2,000억분의 1, 마지막 봉이 402일 전"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "BOB",
+   "kind": "tradingview",
+   "was": "CRYPTO:BOB2USD · CRYPTOCAP:BOB2 (BOB, 이더리움 밈코인)",
+   "now": "CRYPTO:BOBBUILUSD · CRYPTOCAP:BOBBUIL (BOB, Build on Bitcoin)",
+   "why": "가격이 빗썸의 5,294분의 1"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "QUICK",
+   "kind": "tradingview",
+   "was": "CRYPTO:QUICKUSD (QuickSwap 구 토큰)",
+   "now": "CRYPTO:QUICKSUSD · CRYPTOCAP:QUICKS (Quickswap 새 토큰)",
+   "why": "구 토큰은 1,034일 전에 거래가 끝났고 가격이 바이낸스의 4,557배 (1:1000 분할 전 시세)"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "AXL",
+   "kind": "coingecko",
+   "was": "AXL만 매칭 (빗썸 WAXL 상장 누락)",
+   "now": "AXL + WAXL → 엑셀라 (axelar)",
+   "why": "빗썸 WAXL이 같은 코인이라서 거래소 표시에 추가. CoinGecko 거래소 티커로 발견"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "MET",
+   "kind": "coingecko",
+   "was": "MET만 매칭 (업비트 MET2 상장 누락)",
+   "now": "MET + MET2 → 메테오라 (meteora)",
+   "why": "업비트 MET2이 같은 코인이라서 거래소 표시에 추가. CoinGecko 거래소 티커로 발견"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "BTT",
+   "kind": "coingecko",
+   "was": "BTT만 매칭 (바이낸스 BTTC 상장 누락)",
+   "now": "BTT + BTTC → 비트토렌트 (bittorrent)",
+   "why": "바이낸스 BTTC이 같은 코인이라서 거래소 표시에 추가. CoinGecko 거래소 티커로 발견"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "BEAM",
+   "kind": "coingecko",
+   "was": "BEAM만 매칭 (바이낸스 BEAMX 상장 누락)",
+   "now": "BEAM + BEAMX → 빔 (beam-2)",
+   "why": "바이낸스 BEAMX이 같은 코인이라서 거래소 표시에 추가. CoinGecko 거래소 티커로 발견"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "RON",
+   "kind": "coingecko",
+   "was": "RON만 매칭 (바이낸스 RONIN 상장 누락)",
+   "now": "RON + RONIN → 로닌 (ronin)",
+   "why": "바이낸스 RONIN이 같은 코인이라서 거래소 표시에 추가. CoinGecko 거래소 티커로 발견"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "REI",
+   "kind": "coingecko",
+   "was": "Rei (unit-00-rei)",
+   "now": "REI Network (rei-network)",
+   "why": "CoinGecko 가격이 빗썸의 7.5배. TradingView 티커는 처음부터 REI Network였음"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "FRAX",
+   "kind": "coingecko",
+   "was": "Legacy Frax Dollar (스테이블코인)",
+   "now": "Frax 거버넌스 토큰 (frax-share, 옛 FXS)",
+   "why": "바이낸스·빗썸 FRAX는 거버넌스 토큰"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "PRL",
+   "kind": "coingecko",
+   "was": "Pearl",
+   "now": "Perle (perle)",
+   "why": "업비트·빗썸 PRL은 Perle"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "EDGE",
+   "kind": "coingecko",
+   "was": "edgeX",
+   "now": "Definitive (definitive)",
+   "why": "업비트·빗썸 EDGE는 Definitive. edgeX는 EDGEX로 따로 추가"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "META",
+   "kind": "coingecko",
+   "was": "MetaDAO",
+   "now": "Metadium (metadium)",
+   "why": "업비트·빗썸 META는 메타디움. MetaDAO는 META2로 따로 추가"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "AI",
+   "kind": "coingecko",
+   "was": "Artificial Inu",
+   "now": "Gensyn (gensyn)",
+   "why": "업비트·빗썸 AI와 바이낸스 AIGENSYN은 Gensyn"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "ONE",
+   "kind": "coingecko",
+   "was": "ONEchain",
+   "now": "Harmony (harmony)",
+   "why": "바이낸스 ONE은 Harmony"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "MEME",
+   "kind": "coingecko",
+   "was": "MEMETOON",
+   "now": "Memecoin (memecoin-2, Memeland)",
+   "why": "바이낸스 MEME는 Memeland의 Memecoin"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "UP",
+   "kind": "coingecko",
+   "was": "Unitas",
+   "now": "Superform (superform)",
+   "why": "빗썸 UP과 업비트 UP2는 Superform"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "XAI",
+   "kind": "coingecko",
+   "was": "SideShift",
+   "now": "Xai (xai-blockchain)",
+   "why": "바이낸스·빗썸 XAI는 Xai"
+  },
+  {
+   "date": "2026-10-04",
+   "sym": "TREE",
+   "kind": "coingecko",
+   "was": "Tree",
+   "now": "Treehouse (treehouse)",
+   "why": "업비트·빗썸·바이낸스 TREE는 Treehouse"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "POD",
+   "kind": "none",
+   "was": "CRYPTO:MIHARUUSD (smiling dolphin, 다른 코인)",
+   "now": "없음",
+   "why": "TradingView에 Dolphin(POD) 티커가 없음"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "VERONA",
+   "kind": "none",
+   "was": "CRYPTO:VDAUSD (Verida, 다른 코인)",
+   "now": "없음",
+   "why": "TradingView에 Verona 티커가 없음"
+  },
+  {
+   "date": "2026-10-05",
+   "sym": "币安人生",
+   "kind": "none",
+   "was": "없음",
+   "now": "없음",
+   "why": "TradingView에 币安人生 티커가 없음"
+  }
  ]
 }

@@ -1,0 +1,122 @@
+name: Refresh coin universe
+
+# Weekly: rebuild data/universe.json from CoinGecko (Demo key in the COINGECKO_DEMO_KEY secret), resolve TradingView
+# tickers for coins that are new or now matched to another CoinGecko coin, and check them against exchange prices.
+# - Same coins and matches: the refreshed market caps and ranks are committed directly.
+# - Coins added, removed or re-matched, or a symbol that needs a pin: a branch is pushed and a pull request opened for
+#   review (needs Settings -> Actions -> General -> "Allow GitHub Actions to create and approve pull requests");
+#   without that permission an issue with the same summary and a link to open the pull request is created instead.
+# Pushes made with GITHUB_TOKEN start no other workflow, so the daily fetch picks the changes up on its next run, or
+# right away when the owner merges the pull request.
+on:
+  schedule:
+    - cron: '37 1 * * 1'   # Mondays 01:37 UTC = 10:37 KST, clear of the daily fetch and of the top of the hour
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: refresh-universe
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+      - name: Keep the previous lists
+        run: |
+          mkdir -p "$RUNNER_TEMP/old"
+          cp data/universe.json data/tickers.json "$RUNNER_TEMP/old/"
+
+      - name: Rebuild the coin universe
+        env:
+          COINGECKO_DEMO_KEY: ${{ secrets.COINGECKO_DEMO_KEY }}
+          REPORT: ${{ runner.temp }}/universe-report.json
+        run: |
+          if [ -z "$COINGECKO_DEMO_KEY" ]; then echo "::warning::COINGECKO_DEMO_KEY is not set; using the much slower keyless API"; fi
+          node scripts/build-universe.mjs
+
+      - name: Resolve TradingView tickers for new or re-matched coins
+        env:
+          REPORT: ${{ runner.temp }}/resolve-report.json
+        run: node scripts/resolve-tickers.mjs --new-only
+
+      # new tickers are fetched into a scratch copy, only for the price check; the daily fetch adds them for real
+      - name: Fetch the new tickers for the price check
+        run: |
+          cp -r data/daily "$RUNNER_TEMP/daily"
+          ids=$(node -e 'const fs = require("fs"); const t = JSON.parse(fs.readFileSync("data/tickers.json", "utf8"));
+            console.log(t.coins.flatMap((c) => [c.cap, c.usd]).filter(Boolean)
+              .filter((id) => !fs.existsSync("data/daily/" + id.replace(/[^A-Za-z0-9.]+/g, "_") + ".json")).join(","))')
+          if [ -n "$ids" ]; then
+            echo "new tickers: $ids"
+            TV_SYMBOLS="$ids" OUT_DIR="$RUNNER_TEMP/daily" MODE=recent node scripts/fetch-tv.mjs || echo "::warning::some new tickers could not be fetched"
+          else
+            echo "no new tickers"
+          fi
+
+      - name: Check tickers against exchange prices
+        env:
+          COINGECKO_DEMO_KEY: ${{ secrets.COINGECKO_DEMO_KEY }}
+        run: node scripts/check-tickers.mjs --daily-dir "$RUNNER_TEMP/daily" --json "$RUNNER_TEMP/check.json" || echo "::warning::the ticker check failed; the summary has no price comparison"
+
+      - name: Summarize the changes
+        id: sum
+        run: |
+          node scripts/universe-refresh.mjs --old-universe "$RUNNER_TEMP/old/universe.json" --old-tickers "$RUNNER_TEMP/old/tickers.json" \
+            --universe-report "$RUNNER_TEMP/universe-report.json" --resolve-report "$RUNNER_TEMP/resolve-report.json" \
+            --check "$RUNNER_TEMP/check.json" --body "$RUNNER_TEMP/body.md"
+
+      - name: Commit refreshed market caps
+        if: steps.sum.outputs.structural == 'no'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add data/universe.json data/tickers.json data/mapping-log.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -q -m "Refresh coin universe market caps ($(date -u +%F))"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Open a pull request for review
+        if: steps.sum.outputs.structural == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ steps.sum.outputs.title }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          branch="universe-refresh-$(date -u +%Y%m%d)"
+          git checkout -b "$branch"
+          git add data/universe.json data/tickers.json data/mapping-log.json
+          git commit -q -m "Weekly coin universe refresh ($(date -u +%F))"
+          git push -f origin "$branch"
+          # an older refresh that was never merged is replaced by this one
+          for old in $(gh pr list --state open --json headRefName --jq '.[].headRefName | select(startswith("universe-refresh-"))'); do
+            if [ "$old" != "$branch" ]; then gh pr close "$old" --comment "새 주간 갱신($branch)으로 대체합니다." --delete-branch || true; fi
+          done
+          if gh pr view "$branch" > /dev/null 2>&1; then
+            gh pr edit "$branch" --title "$TITLE" --body-file "$RUNNER_TEMP/body.md"
+          elif ! gh pr create --base "$GITHUB_REF_NAME" --head "$branch" --title "$TITLE" --body-file "$RUNNER_TEMP/body.md"; then
+            url="https://github.com/$GITHUB_REPOSITORY/compare/$GITHUB_REF_NAME...$branch?expand=1"
+            { cat "$RUNNER_TEMP/body.md"; printf '\n\n---\nGitHub Actions에 PR을 만들 권한이 없어서 이슈로 남깁니다. 변경 사항은 %s 브랜치에 있고, 여기서 PR을 열 수 있습니다: %s\n' "$branch" "$url"; } > "$RUNNER_TEMP/issue.md"
+            gh issue create --title "$TITLE" --body-file "$RUNNER_TEMP/issue.md"
+          fi
