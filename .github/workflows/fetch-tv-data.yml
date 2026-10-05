@@ -1,12 +1,12 @@
 name: Fetch TradingView history
 
+# TradingView's own bars for the six reference tickers in all 20 timeframes (data/tv-history.json), used to check
+# the screener's rebuilt timeframes against TradingView. Without a login TradingView refuses custom resolutions
+# (2D, 3W, 2M, ...: series_error custom_resolution), and this repo no longer logs in, so a run fails until that
+# changes. data/tv-history.json keeps the last logged-in fetch (2026-10-05). The daily screener is not affected:
+# it fetches 1D only and rebuilds the other timeframes itself. Manual runs only.
 on:
   workflow_dispatch:
-  push:
-    branches: ['claude/**']
-    paths:
-      - 'scripts/fetch-tv.mjs'
-      - '.github/workflows/fetch-tv-data.yml'
 
 permissions:
   contents: write
