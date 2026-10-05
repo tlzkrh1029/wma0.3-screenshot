@@ -121,7 +121,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           KEEP: ${{ steps.branch.outputs.branch }}
         run: |
-          if [ -n "$KEEP" ]; then msg="새 주간 갱신($KEEP)으로 대체합니다."; else msg="이번 주 갱신은 검토할 변경이 없어서 바로 반영했으므로 닫습니다."; fi
+          if [ -n "$KEEP" ]; then msg="새 주간 갱신($KEEP)으로 대체합니다."; else msg="이번 주 갱신($(date -u +%F))에는 검토할 변경이 없어서 시가총액과 순위만 바로 반영했습니다. 이전 갱신은 이미 병합되었거나 더는 필요하지 않으므로 닫습니다."; fi
           gh pr list --state open --limit 100 --json number,headRefName \
               --jq '.[] | select(.headRefName | startswith("universe-refresh-")) | "\(.number) \(.headRefName)"' |
             while read -r n b; do
