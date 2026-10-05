@@ -3,12 +3,16 @@
 // Every coin in data/universe.json is listed; its tickers come from data/tickers.json. The screener and the
 // market signal board need only each ticker's summary, which is computed here with dashboard/engine.js (the
 // same code the page runs) and put into the page. The coin page needs the daily closes, so they go into
-// d/<n>.json files of CHUNK coins each, which the page fetches when a coin is opened.
+// d/<n>.json files ({build, daily}) of --chunk coins each, which the page fetches when a coin is opened. A coin's
+// file follows its position in data/universe.json, so it stays put from one daily build to the next; the page
+// still compares each file's build id with its own and asks for a reload when they differ.
 //
 // Output (default dist/site): index.html, d/0.json, d/1.json, ...
-// Usage: node scripts/build-site.mjs [outDir] [--daily-dir data/daily] [--tickers data/tickers.json] [--fragment]
-//   --fragment writes index.html without the document around it (for the artifact viewer, which adds its own)
+// Usage: node scripts/build-site.mjs [outDir] [--daily-dir data/daily] [--tickers data/tickers.json] [--chunk 1] [--fragment]
+//   --chunk     coins per daily-close file (default 1; the artifact viewer takes at most 511 files, so use 3 there)
+//   --fragment  writes index.html without the document around it (for the artifact viewer, which adds its own)
 import { readFile, writeFile, mkdir, rm, readdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { createEngine } from '../dashboard/engine.js';
 
@@ -18,7 +22,8 @@ const DAILY_DIR = opt('--daily-dir', path.join('data', 'daily'));
 const TICKERS = opt('--tickers', path.join('data', 'tickers.json'));
 const FRAGMENT = args.includes('--fragment');
 const OUT = args.find((a) => !a.startsWith('--')) || path.join('dist', 'site');
-const CHUNK = 10;
+const CHUNK = Number(opt('--chunk', 1));
+if (!(CHUNK >= 1)) throw new Error('--chunk must be a positive number');
 const SAMPLE_EVERY = 7;
 const TFS = ['1D', '2D', '3D', '4D', '5D', '6D', '1W', '8D', '9D', '10D', '2W', '3W',
   '1M', '2M', '3M', '4M', '6M', '8M', '10M', '12M'];
@@ -99,18 +104,24 @@ for (const c of coins) {
     ...(x > 3 || x < 1 / 3 ? { mcx: Number(x.toPrecision(2)) } : {}),
     cap: c.cap?.id ?? null, usd: c.usd?.id ?? null, tv: c.t.tvName ?? null, sum }, daily });
 }
+// daily-close files follow the universe order (rows are still in it here), not the day's market-cap rank
+rows.forEach((r, i) => { r.coin.ch = Math.floor(i / CHUNK); });
+const nChunks = Math.ceil(rows.length / CHUNK), byChunk = rows.slice();
 rows.sort((a, b) => b.coin.mc - a.coin.mc);
-rows.forEach((r, i) => { r.coin.r = i + 1; r.coin.ch = Math.floor(i / CHUNK); });
+rows.forEach((r, i) => { r.coin.r = i + 1; });
 console.log(`summaries for ${rows.length} coins in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
 
+// Build id: the fetch time plus a hash of the day axis and of which tickers sit in which file, so a page never
+// reads a daily-close file laid out for another build without noticing.
+const fetchedAt = status?.fetchedAt ?? new Date().toISOString();
+const layout = createHash('sha1').update(JSON.stringify([first, last, CHUNK, byChunk.map((r) => [r.coin.ch, r.coin.cap, r.coin.usd])])).digest('hex');
+const build = `${fetchedAt.replace(/\D/g, '').slice(0, 14)}-${layout.slice(0, 8)}`;
 await rm(OUT, { recursive: true, force: true });
 await mkdir(path.join(OUT, 'd'), { recursive: true });
-for (let ch = 0; ch * CHUNK < rows.length; ch++) {
-  const part = Object.assign({}, ...rows.slice(ch * CHUNK, (ch + 1) * CHUNK).map((r) => r.daily));
-  await writeFile(path.join(OUT, 'd', `${ch}.json`), JSON.stringify(part));
+for (let ch = 0; ch < nChunks; ch++) {
+  const daily = Object.assign({}, ...byChunk.slice(ch * CHUNK, (ch + 1) * CHUNK).map((r) => r.daily));
+  await writeFile(path.join(OUT, 'd', `${ch}.json`), JSON.stringify({ build, daily }));
 }
-const fetchedAt = status?.fetchedAt ?? new Date().toISOString();
-const build = fetchedAt.replace(/\D/g, '').slice(0, 14);
 const excluded = universe.excluded ? Object.fromEntries(['stablecoin', 'security'].map((k) => [k, universe.excluded.filter((e) => e.kind === k).length])) : null;
 const data = JSON.stringify({ fetchedAt, universeAt: universe.fetchedAt, build, excluded, failed: status?.failed?.length ?? 0, missing: missing.length,
   days, tfs: TFS, axis: { start: first, n: last - first + 1 }, coins: rows.map((r) => r.coin) });

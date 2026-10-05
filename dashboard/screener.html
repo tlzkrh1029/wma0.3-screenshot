@@ -477,13 +477,20 @@ function decodeSummary(coin) {
       u, o, has, lastU2Day: x.l2 ?? null, lastU2Susp: !!x.l2s, suspect: x.sp || [], listed: x.li ?? null };
   });
 }
-// daily closes come in chunk files of a few coins each, fetched when a coin page opens
+// Daily closes come in small files (one or a few coins each), fetched when a coin page opens. Each file carries its
+// build id: a file from another build (the page was opened before a deploy, or one of the two came from a cache)
+// is refused with err.stale, so the coin page asks for a reload instead of showing mismatched data. The last few
+// files are kept.
 const CHUNKS = new Map();
+const staleError = (msg) => Object.assign(new Error(msg), { stale: true });
 function loadChunk(ch) {
   if (!CHUNKS.has(ch)) {
-    const p = fetch(`d/${ch}.json?v=${DATA.build}`).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); });
+    const p = fetch(`d/${ch}.json?v=${DATA.build}`, { cache: 'no-cache' })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then((j) => { if (j.build !== DATA.build) throw staleError(`빌드 ${j.build}`); return j.daily; });
     p.catch(() => CHUNKS.delete(ch)); // let a later visit try again
     CHUNKS.set(ch, p);
+    if (CHUNKS.size > 24) CHUNKS.delete(CHUNKS.keys().next().value);
   }
   return CHUNKS.get(ch);
 }
@@ -869,7 +876,9 @@ function renderBoard() {
 const DETAIL = new Map();
 function detailFor(coin, daily) {
   if (DETAIL.has(coin.s)) return DETAIL.get(coin.s);
-  const syms = tickerIds(coin), T = {}, sr = E.seriesFrom(daily, coin.cap, coin.usd);
+  const syms = tickerIds(coin), lost = syms.filter((t) => !daily[t.id]);
+  if (lost.length) throw staleError(`${lost.map((t) => t.id).join(', ')} 없음`); // never cache a detail without its data
+  const T = {}, sr = E.seriesFrom(daily, coin.cap, coin.usd);
   for (const t of syms) T[t.id] = E.detailTicker(sr, t.kind);
   const d = { coin, syms, T }; DETAIL.set(coin.s, d);
   if (DETAIL.size > 8) DETAIL.delete(DETAIL.keys().next().value);
@@ -987,10 +996,12 @@ function renderCoin() {
     view.replaceChildren(); note.textContent = ''; redraw = () => {};
     if (!syms.length) { now.replaceChildren(el('div', 'none', '데이터 없음')); return; }
     now.replaceChildren(el('div', 'none', '일봉 데이터를 불러오는 중입니다…'));
-    loadChunk(coin.ch).then((daily) => { detailFor(coin, daily); if (state.screen === 'coin' && state.coin === coin.s) renderCoin(); }, (err) => {
+    loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (state.screen === 'coin' && state.coin === coin.s) renderCoin(); }, (err) => {
       if (state.screen !== 'coin' || state.coin !== coin.s) return;
-      const b = el('button', null, '다시 시도'); b.type = 'button'; b.onclick = () => renderCoin();
-      now.replaceChildren(el('div', 'none', `일봉 데이터를 불러오지 못했습니다 (${err.message}). `), b);
+      const b = el('button', null, err.stale ? '새로고침' : '다시 시도'); b.type = 'button';
+      b.onclick = () => (err.stale ? location.reload() : renderCoin());
+      now.replaceChildren(el('div', 'none', err.stale
+        ? '이 화면을 연 뒤에 새 데이터가 배포되었습니다. 새로고침하면 최신 데이터로 다시 엽니다. ' : `일봉 데이터를 불러오지 못했습니다 (${err.message}). `), b);
     });
     return;
   }

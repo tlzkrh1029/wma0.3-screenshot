@@ -5,13 +5,13 @@
 // CRYPTO candidate whose description matches the coin name, then confirm the
 // CRYPTOCAP ticker with the same CODE exists.
 //
-// Usage: node scripts/resolve-tickers.mjs [topN]   (default 30) -> data/tickers.json
+// Usage: node scripts/resolve-tickers.mjs [topN]   (default: every coin in the universe) -> data/tickers.json
 // Existing entries in data/tickers.json with "manual": true are kept as they are. Such entries may add
 // "usdFrom" / "capFrom" (YYYY-MM-DD): bars before that day are dropped, e.g. history of an older coin
 // that TradingView kept under the same ticker.
 import { readFile, writeFile } from 'node:fs/promises';
 
-const TOP = Number(process.argv[2] || 30);
+const TOP = Number(process.argv[2] || Infinity);
 const universe = JSON.parse(await readFile('data/universe.json', 'utf8')).coins.slice(0, TOP);
 let previous = {};
 try { previous = Object.fromEntries(JSON.parse(await readFile('data/tickers.json', 'utf8')).coins.map((c) => [c.sym, c])); } catch {}

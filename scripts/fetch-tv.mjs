@@ -16,7 +16,9 @@
 //   RECENT_BARS  bars fetched in recent mode (default 60, which also picks up late revisions)
 //   MAX_FAILED   with OUT_DIR: share of tickers allowed to fail before the run fails (default 0.2). A failed
 //                ticker keeps its previous file; _status.json in OUT_DIR lists the failures. With TICKERS_FILE,
-//                files of tickers no longer in it are removed.
+//                files of tickers no longer in it are removed, unless that would remove more than a tenth of the
+//                files (a truncated tickers file, say); then nothing is removed and the run fails after writing.
+//                Set ALLOW_PRUNE=1 to remove them anyway.
 import WebSocket from 'ws';
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -274,18 +276,23 @@ async function runDaily() {
       console.error(`${symbol} failed (previous file kept): ${err.message}`);
     }
   }
-  let removed = 0;
+  let removed = 0, pruneRefused = 0;
   if (process.env.TICKERS_FILE) {
     const keep = new Set(SYMBOLS.map((id) => path.basename(fileOf(id))));
-    for (const f of await readdir(OUT_DIR)) {
-      if (f.endsWith('.json') && !f.startsWith('_') && !keep.has(f)) { await rm(path.join(OUT_DIR, f)); removed++; }
-    }
+    const files = (await readdir(OUT_DIR)).filter((f) => f.endsWith('.json') && !f.startsWith('_'));
+    const stale = files.filter((f) => !keep.has(f));
+    if (stale.length > files.length / 10 && process.env.ALLOW_PRUNE !== '1') {
+      pruneRefused = stale.length;
+      console.error(`::error::${stale.length} of ${files.length} files in ${OUT_DIR} are not in ${process.env.TICKERS_FILE}; ` +
+        'not removing them (is the tickers file complete?). Set ALLOW_PRUNE=1 to remove them.');
+    } else for (const f of stale) { await rm(path.join(OUT_DIR, f)); removed++; }
   }
-  const status = { fetchedAt: new Date().toISOString(), mode: MODE, loggedIn, total: SYMBOLS.length, ok, full, removed, failed };
+  const status = { fetchedAt: new Date().toISOString(), mode: MODE, loggedIn, total: SYMBOLS.length, ok, full, removed, pruneRefused, failed };
   await writeFile(path.join(OUT_DIR, '_status.json'), JSON.stringify(status, null, 1));
   console.log(`daily closes: ${ok} ok (${full} full histories), ${failed.length} failed, ${removed} old files removed`);
   if (failed.length > SYMBOLS.length * MAX_FAILED) {
     console.error(`too many failures (${failed.length} of ${SYMBOLS.length})`);
     process.exit(1);
   }
+  if (pruneRefused) process.exit(1);
 }
