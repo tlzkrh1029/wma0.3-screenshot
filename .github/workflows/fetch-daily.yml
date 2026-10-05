@@ -4,6 +4,8 @@ name: Fetch daily closes
 # data/daily. The other 19 timeframes are rebuilt from these closes, matching TradingView's own bars.
 # Most days fetch only the last 60 bars and merge them in (a new ticker gets its whole history); the Sunday run
 # fetches every ticker's whole history again, picking up any older revisions.
+# Then the screener site is rebuilt from data/daily and deployed to GitHub Pages (Settings -> Pages -> Source:
+# GitHub Actions must be on).
 on:
   schedule:
     - cron: '15 0 * * *'   # 00:15 UTC = 09:15 KST, after the daily candle closes
@@ -18,6 +20,10 @@ on:
     branches: ['claude/**']
     paths:
       - 'data/tickers.json'
+      - 'data/universe.json'
+      - 'dashboard/screener.html'
+      - 'dashboard/engine.js'
+      - 'scripts/build-site.mjs'
       - '.github/workflows/fetch-daily.yml'
 
 permissions:
@@ -31,6 +37,8 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     timeout-minutes: 150
+    outputs:
+      site: ${{ steps.site.outputs.built }}
     steps:
       - uses: actions/checkout@v4
 
@@ -75,3 +83,29 @@ jobs:
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
+
+      - name: Build site
+        id: site
+        if: ${{ !cancelled() }}
+        run: |
+          node scripts/build-site.mjs dist/site
+          echo "built=yes" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-pages-artifact@v3
+        if: ${{ !cancelled() && steps.site.outputs.built == 'yes' }}
+        with:
+          path: dist/site
+
+  deploy:
+    needs: fetch
+    if: ${{ !cancelled() && needs.fetch.outputs.site == 'yes' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

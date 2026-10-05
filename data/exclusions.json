@@ -54,6 +54,10 @@
   "TREE": {
    "id": "treehouse",
    "reason": "Upbit, Bithumb and Binance TREE is Treehouse, not Tree"
+  },
+  "REI": {
+   "id": "rei-network",
+   "reason": "Upbit, Bithumb and Binance REI is REI Network (about $0.002, matching the exchange prices), not Rei (unit-00-rei)"
   }
  },
  "keep": {
