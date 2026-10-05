@@ -42,8 +42,6 @@ jobs:
           # Push-triggered runs only capture the extra symbols.
           TOP_N: ${{ github.event_name == 'workflow_dispatch' && inputs.top_n || '0' }}
           EXTRA_SYMBOLS: ${{ github.event_name == 'workflow_dispatch' && inputs.extra_symbols || 'ARBI' }}
-          TV_SESSIONID: ${{ secrets.TV_SESSIONID }}
-          TV_SESSIONID_SIGN: ${{ secrets.TV_SESSIONID_SIGN }}
         run: npm run capture
 
       - name: Upload screenshots

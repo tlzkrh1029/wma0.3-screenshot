@@ -2,8 +2,9 @@
 // chart WebSocket, so the dashboard uses the exact bars TradingView draws.
 //
 // Env:
-//   TV_SESSIONID, TV_SESSIONID_SIGN  TradingView login cookies (optional; without
-//                                    them the anonymous token is used)
+//   TV_SESSIONID, TV_SESSIONID_SIGN  TradingView login cookies (optional; without them, or when they no longer
+//                                    work, the anonymous token is used). The workflows do not pass them: daily
+//                                    bars are the same without a login, and a login ties the requests to the account.
 //   TICKERS_FILE JSON file of coins with resolved {cap, usd} tickers (overrides TV_SYMBOLS)
 //   TV_SYMBOLS   comma-separated tickers (default: the six dashboard tickers)
 //   TV_TFS       comma-separated resolutions (default: the 20 dashboard timeframes)
@@ -46,7 +47,10 @@ async function authToken() {
   });
   const html = await res.text();
   const m = html.match(/"auth_token":"([^"]+)"/);
-  if (!m) throw new Error(`login cookies did not yield an auth_token (HTTP ${res.status}); they may have expired`);
+  if (!m) {
+    console.log(`::warning::login cookies did not yield an auth_token (HTTP ${res.status}); they may have expired. Using the anonymous token.`);
+    return { token: 'unauthorized_user_token', loggedIn: false };
+  }
   if (process.env.GITHUB_ACTIONS) console.log(`::add-mask::${m[1]}`);
   return { token: m[1], loggedIn: true };
 }

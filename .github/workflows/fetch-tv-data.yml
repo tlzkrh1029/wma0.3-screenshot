@@ -31,9 +31,6 @@ jobs:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
       - name: Fetch history
-        env:
-          TV_SESSIONID: ${{ secrets.TV_SESSIONID }}
-          TV_SESSIONID_SIGN: ${{ secrets.TV_SESSIONID_SIGN }}
         run: node scripts/fetch-tv.mjs
 
       - name: Commit data

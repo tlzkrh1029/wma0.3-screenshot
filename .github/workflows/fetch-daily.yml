@@ -5,7 +5,13 @@ name: Fetch daily closes
 # Most days fetch only the last 60 bars and merge them in (a new ticker gets its whole history); the Sunday run
 # fetches every ticker's whole history again, picking up any older revisions.
 # Then the screener site is rebuilt from data/daily and deployed to GitHub Pages (Settings -> Pages -> Source:
-# GitHub Actions must be on).
+# GitHub Actions must be on). The run fails when the data has stopped moving (scripts/check-fresh.mjs), so the
+# failure notification reaches the owner; the page also shows a warning when the last fetch is over 36 hours old.
+# TradingView is read without a login (no TV_SESSIONID secrets).
+# GitHub disables a public repo's schedule after 60 days without activity. The daily data commit is the only
+# activity this repo relies on: never add dummy/keepalive commits or automated "enable workflow" API calls
+# (GitHub took down keepalive-workflow for circumventing that policy). If the schedule is ever disabled,
+# re-enable it by hand in the Actions tab.
 on:
   schedule:
     - cron: '15 0 * * *'   # 00:15 UTC = 09:15 KST, after the daily candle closes
@@ -63,8 +69,6 @@ jobs:
 
       - name: Fetch daily closes
         env:
-          TV_SESSIONID: ${{ secrets.TV_SESSIONID }}
-          TV_SESSIONID_SIGN: ${{ secrets.TV_SESSIONID_SIGN }}
           TICKERS_FILE: data/tickers.json
           OUT_DIR: data/daily
           MODE: ${{ steps.mode.outputs.mode }}
@@ -96,6 +100,11 @@ jobs:
         if: ${{ !cancelled() && steps.site.outputs.built == 'yes' }}
         with:
           path: dist/site
+
+      # last, so the site is still built and deployed; a failure here fails the run and notifies the owner
+      - name: Check that the data is fresh
+        if: ${{ !cancelled() }}
+        run: node scripts/check-fresh.mjs
 
   deploy:
     needs: fetch

@@ -66,6 +66,13 @@ for (const u of universe.coins) {
   coins.push({ u, t, cap: cap && { id: t.cap, ...cap }, usd: usd && { id: t.usd, ...usd } });
 }
 
+// tickers whose newest bar is 2+ UTC days old at build time (the page warns when they are many)
+function staleCount() {
+  const today = Math.floor(Date.now() / 86400000);
+  let n = 0, total = 0;
+  for (const c of coins) for (const s of [c.cap, c.usd]) if (s) { total++; if (today - (s.d0 + s.c.length - 1) >= 2) n++; }
+  return { n, total };
+}
 // one day axis from the earliest first bar to the latest bar of any ticker; weekly samples end on the last day
 let first = Infinity, last = -Infinity;
 for (const c of coins) for (const s of [c.cap, c.usd]) if (s) { first = Math.min(first, s.d0); last = Math.max(last, s.d0 + s.c.length - 1); }
@@ -132,6 +139,7 @@ for (let ch = 0; ch < nChunks; ch++) {
 const excluded = universe.excluded ? Object.fromEntries(['stablecoin', 'security'].map((k) => [k, universe.excluded.filter((e) => e.kind === k).length])) : null;
 const data = JSON.stringify({ fetchedAt, universeAt: universe.fetchedAt, build, excluded, failed: status?.failed?.length ?? 0, missing: missing.length,
   mapLog: mapLog && { checkedAt: mapLog.checkedAt, entries: mapLog.entries }, dir: { files: dailyFiles, limit: DIR_LIMIT, warnAt: DIR_WARN },
+  repo: process.env.GITHUB_REPOSITORY || null, stale: staleCount(),
   days, tfs: TFS, axis: { start: first, n: last - first + 1 }, coins: rows.map((r) => r.coin) });
 
 for (const marker of ['/*__DATA__*/null', '/*__ENGINE__*/']) if (!template.includes(marker)) throw new Error(`template is missing ${marker}`);

@@ -59,6 +59,7 @@ input { font: inherit; color: inherit; }
 [hidden] { display: none !important; }
 #scrBody { min-width: 0; }
 .banner.pilot { background: var(--accent-soft); color: var(--fg); }
+.banner a { color: inherit; }
 /* ticker-mapping record: one summary line, details on demand */
 .maplog > summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 8px 12px; font-size: 13px; }
 .maplog > summary::-webkit-details-marker { display: none; }
@@ -304,7 +305,8 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 </header>
 
 <main class="wrap">
-  <div class="banner pilot" id="banner"><span id="bannerText"></span><span id="exclNote"></span></div>
+  <div class="banner pilot" id="banner"><span id="bannerText"></span><span id="exclNote"></span> 코인 목록과 일부 시가총액은 CoinGecko 자료입니다: <a href="https://www.coingecko.com/" target="_blank" rel="noopener">Data provided by CoinGecko</a>.</div>
+  <div class="banner" id="staleNotice" role="status" hidden></div>
   <div class="banner" id="dirNotice" role="status" hidden></div>
   <details class="panel maplog" id="maplog" hidden>
     <summary id="maplogSum"></summary>
@@ -1299,6 +1301,20 @@ if (DATA.excluded) document.getElementById('exclNote').textContent = ` 종목 �
     (none ? ` TradingView에서 티커를 찾지 못한 ${none}종은 데이터 없음으로 표시합니다.` : '') + (DATA.failed ? ` 이번 수집에서 티커 ${DATA.failed}개는 받지 못해서 이전 값을 씁니다.` : '');
 }
 
+// The daily run starts around 00:15 UTC (GitHub may delay it by hours): over 36 hours since the last fetch, or many
+// tickers without a recent bar, means the collection has stopped.
+{
+  const hours = (Date.now() - Date.parse(DATA.fetchedAt)) / 3600e3, st = DATA.stale;
+  const manyOld = st && st.total && st.n > st.total * 0.1;
+  if (hours > 36 || manyOld) {
+    const n = document.getElementById('staleNotice'); n.hidden = false;
+    const at = new Date(DATA.fetchedAt).toISOString().replace('T', ' ').slice(0, 16);
+    n.append(document.createTextNode(hours > 36
+      ? `주의: 마지막 수집이 ${Math.floor(hours)}시간 전(${at} UTC)입니다. 매일 수집이 멈췄을 수 있습니다. `
+      : `주의: 티커 ${st.total.toLocaleString('en-US')}개 중 ${st.n.toLocaleString('en-US')}개가 이틀 넘게 새 봉을 받지 못했습니다. `));
+    if (DATA.repo) { const a = el('a', null, 'GitHub Actions 실행 기록 보기'); a.href = `https://github.com/${DATA.repo}/actions/workflows/fetch-daily.yml`; a.target = '_blank'; a.rel = 'noopener'; n.append(a); }
+  }
+}
 // GitHub recommends at most 3,000 entries per directory; the build counts the daily-close files
 if (DATA.dir && DATA.dir.files >= DATA.dir.warnAt) {
   const n = document.getElementById('dirNotice'); n.hidden = false;
