@@ -8,8 +8,9 @@
 //
 // Usage: node scripts/check-tickers.mjs [--daily-dir data/daily] [--ratio 1.5] [--json out.json]
 //        (in the sandbox: NODE_USE_ENV_PROXY=1; env COINGECKO_DEMO_KEY is used when set)
-//   --json  also write the flagged coins as JSON ({sym, rank, usd, cap, prices, notes, priceOff}); priceOff marks a
-//           TradingView or CoinGecko price more than --ratio off the exchange price, the case that needs a fix
+//   --json  also write the flagged coins as JSON ({sym, rank, usd, cap, price, mcap, notes, tvOff, cgOff, priceOff,
+//           noData, stale}): tvOff / cgOff mark a TradingView / CoinGecko price more than --ratio off the exchange
+//           price (priceOff is either), noData a ticker without bars, stale a last bar more than 3 days old
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -34,21 +35,23 @@ async function get(url) {
   }
   throw new Error(`still rate limited: ${url}`);
 }
-// exchange prices in USD, by exchange symbol
+// exchange prices in USD, by exchange symbol. Bithumb's public ticker resets closing_price to 0 at midnight KST until
+// a coin's first trade of the day, so its previous close is used then; any price that is still 0 counts as none.
 const exPrice = new Map();
+const setPrice = (sym, usd, ex) => { if (!exPrice.has(sym) && Number.isFinite(usd) && usd > 0) exPrice.set(sym, { usd, ex }); };
 {
   // only pairs that still trade: a delisted pair keeps its last price
   const trading = new Map((await get('https://data-api.binance.vision/api/v3/exchangeInfo?permissions=SPOT')).symbols
     .filter((x) => x.status === 'TRADING').map((x) => [x.symbol, x]));
   const bn = await get('https://data-api.binance.vision/api/v3/ticker/price');
-  for (const q of ['USDC', 'FDUSD', 'USDT']) for (const r of bn) { const x = trading.get(r.symbol); if (x?.quoteAsset === q) exPrice.set(x.baseAsset, { usd: Number(r.price), ex: 'Binance' }); }
+  for (const q of ['USDT', 'FDUSD', 'USDC']) for (const r of bn) { const x = trading.get(r.symbol); if (x?.quoteAsset === q) setPrice(x.baseAsset, Number(r.price), 'Binance'); }
   const ub = (await get('https://api.upbit.com/v1/market/all')).filter((m) => m.market.startsWith('KRW-')).map((m) => m.market);
   const ut = [];
   for (let i = 0; i < ub.length; i += 100) ut.push(...await get(`https://api.upbit.com/v1/ticker?markets=${ub.slice(i, i + 100).join(',')}`));
   const uKrw = ut.find((r) => r.market === 'KRW-USDT')?.trade_price;
-  for (const r of ut) { const sym = r.market.slice(4); if (!exPrice.has(sym) && uKrw) exPrice.set(sym, { usd: r.trade_price / uKrw, ex: 'Upbit' }); }
+  for (const r of ut) if (uKrw) setPrice(r.market.slice(4), r.trade_price / uKrw, 'Upbit');
   const bt = (await get('https://api.bithumb.com/public/ticker/ALL_KRW')).data, bKrw = Number(bt.USDT?.closing_price);
-  for (const [sym, r] of Object.entries(bt)) if (sym !== 'date' && !exPrice.has(sym) && bKrw) exPrice.set(sym, { usd: Number(r.closing_price) / bKrw, ex: 'Bithumb' });
+  for (const [sym, r] of Object.entries(bt)) if (sym !== 'date' && bKrw) setPrice(sym, (Number(r.closing_price) || Number(r.prev_closing_price)) / bKrw, 'Bithumb');
 }
 let overrides = { ids: {} };
 try { overrides = { ...overrides, ...JSON.parse(await readFile(path.join('data', 'exclusions.json'), 'utf8')) }; } catch {}
@@ -92,7 +95,8 @@ for (const u of universe.coins) {
   if (notes.length) flagged.push({ sym: u.sym, rank: u.rank, name: u.name, usd: t.usd ?? null, cap: t.cap ?? null, tvName: t.tvName ?? null,
     price: { exchange: x?.usd ?? null, ex: x?.ex ?? null, tradingview: usd?.v ?? null, coingecko: g.current_price ?? null },
     mcap: { tradingview: cap?.v ?? null, coingecko: g.market_cap ?? null }, notes,
-    priceOff: (tvx != null && tvx > RATIO) || (cgx != null && cgx > RATIO) });
+    tvOff: tvx != null && tvx > RATIO, cgOff: cgx != null && cgx > RATIO, priceOff: (tvx != null && tvx > RATIO) || (cgx != null && cgx > RATIO),
+    noData: (!!t.usd && !usd) || (!!t.cap && !cap), stale: (!!usd && today - usd.day > 3) || (!!cap && today - cap.day > 3) });
   if (notes.length) rows.push(`${String(u.rank).padStart(3)} ${u.sym.padEnd(9)} ${(t.usd || '-').padEnd(22)} ${(t.cap || '-').padEnd(20)} ` +
     `price ex ${fmt(x?.usd)} tv ${fmt(usd?.v)} cg ${fmt(g.current_price)}  cap tv ${fmt(cap?.v)} cg ${fmt(g.market_cap)}  ${u.name} | ${t.tvName ?? ''} | ${notes.join('; ')}`);
 }

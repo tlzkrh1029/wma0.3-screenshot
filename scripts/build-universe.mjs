@@ -46,15 +46,17 @@ const CG_KEY = process.env.COINGECKO_DEMO_KEY || '';
 const CG_PAUSE = CG_KEY ? 800 : 3000;
 const cg = (pathAndQuery) => get(`https://api.coingecko.com/api/v3/${pathAndQuery}`, CG_KEY ? { 'x-cg-demo-api-key': CG_KEY } : {});
 const report = { differs: [], duplicates: [] };
-async function get(url, headers = {}) {
+async function getRes(url, headers = {}) {
   for (let attempt = 0; attempt < 8; attempt++) {
     const res = await fetch(url, { headers: { accept: 'application/json', 'user-agent': 'Mozilla/5.0', ...headers } });
     if (res.status === 429) { await sleep(20_000); continue; }
     if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
-    return res.json();
+    return res;
   }
   throw new Error(`still rate limited: ${url}`);
 }
+async function get(url, headers = {}) { return (await getRes(url, headers)).json(); }
+const cgRes = (pathAndQuery) => getRes(`https://api.coingecko.com/api/v3/${pathAndQuery}`, CG_KEY ? { 'x-cg-demo-api-key': CG_KEY } : {});
 
 const upbit = new Map();
 for (const m of await get('https://api.upbit.com/v1/market/all')) {
@@ -71,22 +73,34 @@ const free = (sym) => !overrides.ids[sym] && !aliases.has(sym); // not settled b
 
 // CoinGecko's tickers for the three exchanges: symbol -> coin_id. A ticker whose coin has no market cap points at an
 // unrelated coin with the same symbol (e.g. Bithumb PROS -> pharos-2), so it is ignored; so are anomalous tickers.
-const exCoin = new Map(); // sym -> Map(coin_id -> market cap)
+const exCoin = new Map(), exAnom = new Map(); // sym -> Map(coin_id -> market cap): normal / anomalous tickers
+const exNamed = new Map(); // sym -> Set(coin_id): every coin any ticker names, with or without a market cap
+const add = (map, sym, id, v) => { const m = map.get(sym) || new Map(); m.set(id, Math.max(m.get(id) || 0, v)); map.set(sym, m); };
 for (const ex of ['upbit', 'bithumb', 'binance']) {
-  for (let page = 1; page <= 40; page++) {
-    const { tickers = [] } = await cg(`exchanges/${ex}/tickers?page=${page}`);
-    for (const t of tickers) {
-      const sym = String(t.base || '').toUpperCase();
-      if (!listed.has(sym) || !t.coin_id || !(t.coin_mcap_usd > 0) || t.is_anomaly) continue;
-      const m = exCoin.get(sym) || new Map();
-      m.set(t.coin_id, Math.max(m.get(t.coin_id) || 0, t.coin_mcap_usd)); exCoin.set(sym, m);
+  // order=base_target pages stably; a ticker whose anomaly flag flips mid-fetch still moves, so check the count
+  for (let pass = 0; pass < 3; pass++) {
+    const seen = new Set(); let total = 0;
+    for (let page = 1; page <= 40; page++) {
+      const res = await cgRes(`exchanges/${ex}/tickers?page=${page}&order=base_target`);
+      total = Number(res.headers.get('total')) || total;
+      const { tickers = [] } = await res.json();
+      for (const t of tickers) {
+        seen.add(`${t.base}/${t.target}`);
+        const sym = String(t.base || '').toUpperCase();
+        if (!listed.has(sym) || !t.coin_id) continue;
+        (exNamed.get(sym) || exNamed.set(sym, new Set()).get(sym)).add(t.coin_id);
+        if (t.coin_mcap_usd > 0) add(t.is_anomaly ? exAnom : exCoin, sym, t.coin_id, t.coin_mcap_usd);
+      }
+      await sleep(CG_PAUSE);
+      if (tickers.length < 100) break;
     }
-    await sleep(CG_PAUSE);
-    if (tickers.length < 100) break;
+    if (!total || seen.size >= total) break;
+    console.warn(`${ex}: got ${seen.size} of ${total} tickers, fetching again`);
   }
 }
-// when the exchanges' tickers name several coins for one symbol, the largest market cap wins
-const exPick = new Map([...exCoin].map(([sym, m]) => [sym, [...m].sort((a, b) => b[1] - a[1])[0][0]]));
+// normal tickers first (anomalous ones flag a price, not a different coin); several coins: the largest market cap wins
+const top = (m) => [...m].sort((a, b) => b[1] - a[1])[0][0];
+const exPick = new Map([...new Set([...exCoin.keys(), ...exAnom.keys()])].map((sym) => [sym, top(exCoin.get(sym) || exAnom.get(sym))]));
 
 const markets = [];
 for (let page = 1; page <= 12; page++) {
@@ -127,6 +141,10 @@ for (const sym of listed) {
   if (c?.market_cap && c.market_cap_rank && c.market_cap_rank <= 3000) {
     best.set(sym, { ...c, symbol: sym, cgSymbol: c.symbol }); how.set(sym, 'exchange');
     if (s && s.id !== c.id) report.differs.push({ sym, exchange: { id: c.id, name: c.name, mcap: c.market_cap }, largest: { id: s.id, name: s.name, mcap: s.market_cap } });
+  } else if (s && exPick.has(sym) && exPick.get(sym) !== s.id) {
+    // the exchanges name another coin (outside the top 3000): leave the symbol unmatched rather than guess
+    const x = byId.get(exPick.get(sym));
+    report.differs.push({ sym, exchange: { id: exPick.get(sym), name: x?.name, mcap: x?.market_cap, rank: x?.market_cap_rank ?? null }, largest: { id: s.id, name: s.name, mcap: s.market_cap }, matched: null });
   } else if (s) { best.set(sym, { ...s, cgSymbol: s.symbol }); how.set(sym, 'symbol'); }
 }
 // symbols pinned to a CoinGecko id (looked up directly, so they need not be in the top 3000)
@@ -138,7 +156,9 @@ if (pinned.length) {
     if (!c) throw new Error(`data/exclusions.json: CoinGecko id ${o.id} for ${sym} not found`);
     if (c.market_cap) { best.set(sym, { ...c, symbol: sym, cgSymbol: c.symbol }); how.set(sym, 'pin'); }
     // a pin that the exchange tickers contradict is worth a look
-    const x = exPick.get(sym); if (x && x !== o.id) report.differs.push({ sym, pin: o.id, exchange: { id: x } });
+    // only when no ticker for the symbol (or its aliases) names the pinned coin
+    const named = symsOf(sym).flatMap((y) => [...(exNamed.get(y) || [])]);
+    const x = exPick.get(sym); if (x && x !== o.id && !named.includes(o.id)) report.differs.push({ sym, pin: o.id, exchange: { id: x } });
   }
 }
 // One row per CoinGecko coin. Two exchange symbols on the same coin need an "ids" pin with "also"; until then the
@@ -149,10 +169,12 @@ const exOf = (sym) => ['U', 'B', 'N'].filter((x) => symsOf(sym).some((y) => (x =
     const other = seen.get(c.id);
     if (!other) { seen.set(c.id, sym); continue; }
     if (how.get(sym) === 'pin' && how.get(other) === 'pin') throw new Error(`CoinGecko ${c.id} is pinned for both ${other} and ${sym}`);
-    const score = (x) => (how.get(x) === 'pin' ? 100 : 0) + (x === String(c.cgSymbol).toUpperCase() ? 10 : 0) + exOf(x).length;
+    // a symbol guess that its own exchange tickers contradict (they name a coin without a market cap) loses to a verified match
+    const contradicted = (x) => how.get(x) === 'symbol' && exNamed.has(x) && !exNamed.get(x).has(c.id);
+    const score = (x) => (how.get(x) === 'pin' ? 100 : 0) + (contradicted(x) ? -20 : 0) + (x === String(c.cgSymbol).toUpperCase() ? 10 : 0) + exOf(x).length;
     const [keep, drop] = score(sym) > score(other) ? [sym, other] : [other, sym];
     best.delete(drop); seen.set(c.id, keep);
-    report.duplicates.push({ id: c.id, name: c.name, kept: keep, dropped: drop });
+    report.duplicates.push({ id: c.id, name: c.name, kept: keep, dropped: drop, how: { [keep]: how.get(keep), [drop]: how.get(drop) }, droppedNames: [...(exNamed.get(drop) || [])] });
   }
 }
 

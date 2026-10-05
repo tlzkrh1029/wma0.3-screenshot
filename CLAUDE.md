@@ -17,6 +17,9 @@ day and deploys a GitHub Pages site. The owner set these rules; keep to them.
   the `COINGECKO_DEMO_KEY` secret). Coins are matched through CoinGecko's exchange tickers first. Unchanged coins and
   matches are committed directly; added, removed or re-matched coins go to a pull request for the owner's review (an
   issue if Actions may not open pull requests). Re-matched coins are logged in `data/mapping-log.json` automatically.
+  Only the latest refresh stays open: each run closes earlier refresh pull requests and issues and deletes their
+  branches. Manual ticker fixes follow their CoinGecko coin (kept in `retired` in `data/tickers.json` while the coin is
+  out of the universe).
 - **Credit CoinGecko.** The site uses CoinGecko data (coin list, ranks, some market caps), so keep the linked
   "Data provided by CoinGecko" credit on the page.
 - **Custom timeframes need a login.** Anonymous requests get only standard resolutions (1D, 1W, 1M, 3M, 6M, 12M);

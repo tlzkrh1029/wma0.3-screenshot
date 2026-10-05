@@ -10,15 +10,26 @@
 // "usdFrom" / "capFrom" (YYYY-MM-DD): bars before that day are dropped, e.g. history of an older coin
 // that TradingView kept under the same ticker.
 // Each entry records the CoinGecko coin it was resolved for ("cg"). With --new-only, entries whose coin is unchanged
-// are kept and only coins that are new, or whose CoinGecko match changed, are searched (the weekly refresh).
-// Env REPORT: write the newly resolved entries, and manual entries whose CoinGecko coin changed, to this JSON file.
+// and that have both tickers are kept; only coins that are new, re-matched, or missing a ticker are searched (the
+// weekly refresh). A manual entry whose coin leaves the universe moves to "retired" (keyed by CoinGecko id) and
+// comes back when that coin returns, under any symbol. A manual entry whose symbol now means another coin keeps its
+// old "cg", so it is reported every run until someone checks it and updates "cg".
+// A search that stays rate limited fails the run instead of saving a coin without tickers.
+// Env REPORT: write what changed (resolved, manualChanged, restored, retired) to this JSON file.
 import { readFile, writeFile } from 'node:fs/promises';
 
 const NEW_ONLY = process.argv.includes('--new-only');
 const TOP = Number(process.argv.slice(2).find((a) => !a.startsWith('--')) || Infinity);
 const universe = JSON.parse(await readFile('data/universe.json', 'utf8')).coins.slice(0, TOP);
-let previous = {};
-try { previous = Object.fromEntries(JSON.parse(await readFile('data/tickers.json', 'utf8')).coins.map((c) => [c.sym, c])); } catch {}
+let previous = {}, retired = {};
+try {
+  const f = JSON.parse(await readFile('data/tickers.json', 'utf8'));
+  previous = Object.fromEntries(f.coins.map((c) => [c.sym, c])); retired = { ...(f.retired || {}) };
+} catch {}
+const FULL = !Number.isFinite(TOP);
+// manual entries whose symbol left the universe, by CoinGecko id (a renamed symbol, or a coin that left)
+const inUniverse = new Set(universe.map((c) => c.sym));
+const orphanManual = new Map(Object.values(previous).filter((c) => c.manual && c.cg && !inUniverse.has(c.sym)).map((c) => [c.cg, c]));
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 async function search(text, exchange) {
@@ -26,12 +37,12 @@ async function search(text, exchange) {
   for (let attempt = 0; attempt < 4; attempt++) {
     try {
       const res = await fetch(url, { headers: { origin: 'https://www.tradingview.com' } });
-      if (res.status === 429) { await sleep(3000 * (attempt + 1)); continue; }
+      if (res.status === 429) { await sleep(5000 * (attempt + 1)); continue; }
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return (await res.json()).symbols || [];
     } catch (err) { if (attempt === 3) throw err; await sleep(1500); }
   }
-  return [];
+  throw new Error(`TradingView symbol search still rate limited: ${url}`);
 }
 const norm = (s) => String(s || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[^a-z0-9]+/g, '');
 const prevName = (s) => { const m = /\(prev\.?\s*([^)]+)\)/i.exec(s || ''); return m ? norm(m[1]) : ''; };
@@ -44,15 +55,23 @@ function nameScore(desc, coin) {
   return 0;
 }
 
-const out = [], resolved = [], manualChanged = [];
+const out = [], resolved = [], manualChanged = [], restored = [];
 for (const coin of universe) {
-  const prev = previous[coin.sym], same = prev && (prev.cg ?? coin.id) === coin.id;
-  if (prev?.manual) {
-    // a manual fix belongs to the asset it was made for; flag it when the symbol now means another coin
-    if (!same) manualChanged.push({ sym: coin.sym, was: prev.cg, now: coin.id, usd: prev.usd, cap: prev.cap });
-    out.push({ ...prev, rank: coin.rank, cg: coin.id }); continue;
+  let prev = previous[coin.sym];
+  // a manual fix follows its coin: back from "retired", or over from the coin's previous symbol
+  if (FULL && !prev?.manual && (retired[coin.id] || orphanManual.has(coin.id))) {
+    const m = retired[coin.id] || orphanManual.get(coin.id);
+    restored.push({ sym: coin.sym, from: m.sym, usd: m.usd, cap: m.cap });
+    delete retired[coin.id]; orphanManual.delete(coin.id); prev = { ...m, sym: coin.sym };
   }
-  if (NEW_ONLY && same) { out.push({ ...prev, rank: coin.rank, name: coin.name, cg: coin.id }); continue; }
+  const same = prev && (prev.cg ?? coin.id) === coin.id;
+  if (prev?.manual) {
+    // a manual fix belongs to the asset it was made for: when the symbol now means another coin, keep the old "cg"
+    // so this is reported on every run until someone checks the tickers and updates "cg"
+    if (!same) manualChanged.push({ sym: coin.sym, was: prev.cg, now: coin.id, usd: prev.usd, cap: prev.cap });
+    out.push({ ...prev, rank: coin.rank, cg: same ? coin.id : prev.cg }); continue;
+  }
+  if (NEW_ONLY && same && prev.usd && prev.cap) { out.push({ ...prev, rank: coin.rank, name: coin.name, cg: coin.id }); continue; }
   const cands = new Map();
   for (const q of [coin.sym, coin.name]) {
     for (const s of await search(q, 'CRYPTO')) {
@@ -85,6 +104,9 @@ for (const coin of universe) {
   resolved.push({ ...out.at(-1), was: prev ? { cg: prev.cg ?? null, usd: prev.usd, cap: prev.cap } : null });
   console.log(`${String(coin.rank).padStart(3)} ${coin.sym.padEnd(8)} -> ${(out.at(-1).usd || '-').padEnd(22)} ${(cap || '-').padEnd(18)} ${out.at(-1).confidence.padEnd(5)} ${best?.desc ?? ''}`);
 }
-await writeFile('data/tickers.json', JSON.stringify({ resolvedAt: new Date().toISOString(), coins: out }, null, 1));
+// manual fixes of coins that left the universe wait in "retired" for the coin to come back
+const retiredNow = [];
+if (FULL) for (const [cg, m] of orphanManual) { retired[cg] = m; retiredNow.push({ sym: m.sym, cg, usd: m.usd, cap: m.cap }); }
+await writeFile('data/tickers.json', JSON.stringify({ resolvedAt: new Date().toISOString(), coins: out, ...(Object.keys(retired).length ? { retired } : {}) }, null, 1));
 console.log(`wrote data/tickers.json (${out.length} coins, ${resolved.length} resolved now, ${out.filter((c) => c.confidence !== 'high' && !c.manual).length} to check)`);
-if (process.env.REPORT) await writeFile(process.env.REPORT, JSON.stringify({ resolved, manualChanged }, null, 1));
+if (process.env.REPORT) await writeFile(process.env.REPORT, JSON.stringify({ resolved, manualChanged, restored, retired: retiredNow }, null, 1));

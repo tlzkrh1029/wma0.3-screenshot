@@ -92,15 +92,18 @@ jobs:
             echo "No changes"
           else
             git commit -q -m "Refresh coin universe market caps ($(date -u +%F))"
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            # the daily fetch or a merged refresh may push in between; retry a few times, then fail loudly
+            for i in 1 2 3; do
+              if git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME"; then break; fi
+              git rebase --abort 2>/dev/null || true
+              if [ "$i" = 3 ]; then echo "::error::could not push the refreshed market caps"; exit 1; fi
+              sleep $((i * 15))
+            done
           fi
 
-      - name: Open a pull request for review
+      - name: Push the refresh branch
+        id: branch
         if: steps.sum.outputs.structural == 'yes'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          TITLE: ${{ steps.sum.outputs.title }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
@@ -109,14 +112,44 @@ jobs:
           git add data/universe.json data/tickers.json data/mapping-log.json
           git commit -q -m "Weekly coin universe refresh ($(date -u +%F))"
           git push -f origin "$branch"
-          # an older refresh that was never merged is replaced by this one
-          for old in $(gh pr list --state open --json headRefName --jq '.[].headRefName | select(startswith("universe-refresh-"))'); do
-            if [ "$old" != "$branch" ]; then gh pr close "$old" --comment "새 주간 갱신($branch)으로 대체합니다." --delete-branch || true; fi
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      # Only the latest refresh stays open: earlier pull requests, fallback issues and branches are closed or deleted,
+      # all of them when this week needs no review (main already has this week's lists then).
+      - name: Close earlier refreshes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KEEP: ${{ steps.branch.outputs.branch }}
+        run: |
+          if [ -n "$KEEP" ]; then msg="새 주간 갱신($KEEP)으로 대체합니다."; else msg="이번 주 갱신은 검토할 변경이 없어서 바로 반영했으므로 닫습니다."; fi
+          gh pr list --state open --limit 100 --json number,headRefName \
+              --jq '.[] | select(.headRefName | startswith("universe-refresh-")) | "\(.number) \(.headRefName)"' |
+            while read -r n b; do
+              if [ "$b" != "$KEEP" ]; then gh pr close "$n" --comment "$msg" --delete-branch < /dev/null || echo "::warning::could not close pull request #$n"; fi
+            done
+          for n in $(gh issue list --state open --limit 100 --json number,title,author \
+              --jq '.[] | select(.title | startswith("주간 종목 갱신")) | select(.author.login | test("github-actions")) | .number'); do
+            gh issue close "$n" --comment "$msg" || echo "::warning::could not close issue #$n"
           done
-          if gh pr view "$branch" > /dev/null 2>&1; then
-            gh pr edit "$branch" --title "$TITLE" --body-file "$RUNNER_TEMP/body.md"
-          elif ! gh pr create --base "$GITHUB_REF_NAME" --head "$branch" --title "$TITLE" --body-file "$RUNNER_TEMP/body.md"; then
-            url="https://github.com/$GITHUB_REPOSITORY/compare/$GITHUB_REF_NAME...$branch?expand=1"
-            { cat "$RUNNER_TEMP/body.md"; printf '\n\n---\nGitHub Actions에 PR을 만들 권한이 없어서 이슈로 남깁니다. 변경 사항은 %s 브랜치에 있고, 여기서 PR을 열 수 있습니다: %s\n' "$branch" "$url"; } > "$RUNNER_TEMP/issue.md"
+          for ref in $(git ls-remote --heads origin 'refs/heads/universe-refresh-*' | cut -f2); do
+            b="${ref#refs/heads/}"
+            if [ "$b" != "$KEEP" ]; then git push -q origin --delete "$b" || echo "::warning::could not delete branch $b"; fi
+          done
+
+      - name: Open a pull request for review
+        if: steps.sum.outputs.structural == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ steps.sum.outputs.title }}
+          BRANCH: ${{ steps.branch.outputs.branch }}
+        run: |
+          pr=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$pr" ]; then
+            gh pr edit "$pr" --title "$TITLE" --body-file "$RUNNER_TEMP/body.md"
+          elif ! gh pr create --base "$GITHUB_REF_NAME" --head "$BRANCH" --title "$TITLE" --body-file "$RUNNER_TEMP/body.md"; then
+            url="https://github.com/$GITHUB_REPOSITORY/compare/$GITHUB_REF_NAME...$BRANCH?expand=1"
+            { cat "$RUNNER_TEMP/body.md"
+              printf '\n\n---\nPR을 만들지 못해서(Actions의 PR 생성 권한이 꺼져 있을 수 있음) 이슈로 남깁니다. 변경 사항은 %s 브랜치에 있고, 다음 링크에서 PR을 열 수 있습니다: %s\n' "$BRANCH" "$url"
+            } > "$RUNNER_TEMP/issue.md"
             gh issue create --title "$TITLE" --body-file "$RUNNER_TEMP/issue.md"
           fi

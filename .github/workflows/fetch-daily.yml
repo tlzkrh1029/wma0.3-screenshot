@@ -85,8 +85,13 @@ jobs:
             echo "No data changes"
           else
             git commit -q -m "Update daily closes ($(date -u +%F), ${{ steps.mode.outputs.mode }})"
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            # the weekly universe refresh or a merge may push in between; retry a few times, then fail loudly
+            for i in 1 2 3; do
+              if git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME"; then break; fi
+              git rebase --abort 2>/dev/null || true
+              if [ "$i" = 3 ]; then echo "::error::could not push the daily closes"; exit 1; fi
+              sleep $((i * 15))
+            done
           fi
 
       - name: Build site
