@@ -6412,7 +6412,9 @@
    "cap": "CRYPTOCAP:FCT2",
    "tvName": "FirmaChain",
    "confidence": "high",
-   "alternatives": []
+   "manual": true,
+   "capFrom": "2023-05-24",
+   "note": "CRYPTOCAP:FCT2 has a wrong supply before 2023-05-24 (about 10M against 336M before 2022-01-10 and 675M after, and 9M/184M back and forth in 2020-2021); bars before that day are dropped"
   },
   {
    "rank": 471,

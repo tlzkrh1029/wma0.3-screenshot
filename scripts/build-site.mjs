@@ -125,10 +125,12 @@ rows.sort((a, b) => b.coin.mc - a.coin.mc);
 rows.forEach((r, i) => { r.coin.r = i + 1; });
 console.log(`summaries for ${rows.length} coins in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
 
-// Build id: the fetch time plus a hash of the day axis and of which tickers sit in which file, so a page never
-// reads a daily-close file laid out for another build without noticing.
+// Build id: the fetch time plus a hash of the day axis and of which tickers sit in which file from which day (a
+// usdFrom / capFrom trim moves that day), so a page never reads a daily-close file laid out for another build
+// without noticing.
 const fetchedAt = status?.fetchedAt ?? new Date().toISOString();
-const layout = createHash('sha1').update(JSON.stringify([first, last, CHUNK, byChunk.map((r) => [r.coin.ch, r.coin.cap, r.coin.usd])])).digest('hex');
+const layout = createHash('sha1').update(JSON.stringify([first, last, CHUNK,
+  byChunk.map((r) => [r.coin.ch, r.coin.cap, r.coin.usd, r.coin.cap && r.daily[r.coin.cap].s, r.coin.usd && r.daily[r.coin.usd].s])])).digest('hex');
 const build = `${fetchedAt.replace(/\D/g, '').slice(0, 14)}-${layout.slice(0, 8)}`;
 await rm(OUT, { recursive: true, force: true });
 await mkdir(path.join(OUT, 'd'), { recursive: true });

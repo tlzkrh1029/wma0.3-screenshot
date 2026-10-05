@@ -11,8 +11,9 @@ day and deploys a GitHub Pages site. The owner set these rules; keep to them.
   data commit is the only activity the repo relies on; if the schedule is ever disabled, the owner re-enables it by
   hand in the Actions tab (or with a commit that changes the cron line).
 - **Record every fixed coin match.** When a TradingView ticker (`manual` entry in `data/tickers.json`) or a CoinGecko
-  match (`ids` pin in `data/exclusions.json`) is corrected, add an entry to `data/mapping-log.json` and update its
-  `checkedAt`. The page shows this record at the top.
+  match (`ids` pin in `data/exclusions.json`) is corrected, or wrong history is dropped (`usdFrom` / `capFrom` on a
+  manual entry, kind `history`), add an entry to `data/mapping-log.json` and update its `checkedAt`. The page shows
+  this record at the top.
 - **Weekly universe refresh** (`.github/workflows/refresh-universe.yml`, Mondays 01:37 UTC, CoinGecko Demo key in
   the `COINGECKO_DEMO_KEY` secret). Coins are matched through CoinGecko's exchange tickers first. Unchanged coins and
   matches are committed directly; added, removed or re-matched coins go to a pull request for the owner's review (an

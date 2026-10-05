@@ -311,7 +311,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   <details class="panel maplog" id="maplog" hidden>
     <summary id="maplogSum"></summary>
     <div class="ml-body">
-      <p class="hint">거래소에 상장된 코인과 다른 코인에 짝지어져 있다가 바로잡은 기록입니다. TradingView 티커는 거래소 가격과 대조해서, CoinGecko 매칭은 거래소 가격과 CoinGecko 가격을 대조하거나 분류 검토로 찾았습니다.</p>
+      <p class="hint">거래소에 상장된 코인과 다른 코인에 짝지어져 있다가 바로잡은 기록입니다. TradingView 티커는 거래소 가격과 대조해서, CoinGecko 매칭은 거래소 가격과 CoinGecko 가격을 대조하거나 분류 검토로 찾았습니다. 이력 보정은 티커는 맞지만 일부 기간의 값이 잘못되어 그 기간을 계산에서 뺀 기록입니다.</p>
       <div class="ml-syms" id="maplogSyms"></div>
       <table class="ml"><thead><tr><th>구분</th><th>종목</th><th>이전 매핑</th><th>현재 매핑</th><th>근거</th><th>날짜</th></tr></thead><tbody id="maplogRows"></tbody></table>
     </div>
@@ -1322,7 +1322,7 @@ if (DATA.dir && DATA.dir.files >= DATA.dir.warnAt) {
     `${DATA.dir.limit.toLocaleString('en-US')}개를 넘기 전에 data/daily를 하위 폴더로 나눠야 합니다.`;
 }
 // record of coin matches that were found wrong and fixed (data/mapping-log.json)
-const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
+const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], history: ['TradingView 이력 보정', 'var(--warn-fg)', '이력 보정'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
 if (DATA.mapLog?.entries?.length) {
   const box = document.getElementById('maplog'), sum = document.getElementById('maplogSum'), syms = document.getElementById('maplogSyms'), rows = document.getElementById('maplogRows');
   const order = Object.keys(ML_KIND), entries = DATA.mapLog.entries.slice().sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
