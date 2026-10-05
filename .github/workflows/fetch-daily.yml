@@ -1,11 +1,19 @@
 name: Fetch daily closes
 
-# Daily 1D closes for every coin in data/tickers.json (CRYPTOCAP + CRYPTO USD tickers).
-# The other 19 timeframes are rebuilt from these closes, matching TradingView's own bars.
+# Daily 1D closes for every coin in data/tickers.json (CRYPTOCAP + CRYPTO USD tickers), one file per ticker in
+# data/daily. The other 19 timeframes are rebuilt from these closes, matching TradingView's own bars.
+# Most days fetch only the last 60 bars and merge them in (a new ticker gets its whole history); the Sunday run
+# fetches every ticker's whole history again, picking up any older revisions.
 on:
   schedule:
     - cron: '15 0 * * *'   # 00:15 UTC = 09:15 KST, after the daily candle closes
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'recent (last 60 bars) or full (whole history)'
+        type: choice
+        options: [recent, full]
+        default: recent
   push:
     branches: ['claude/**']
     paths:
@@ -22,6 +30,7 @@ concurrency:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
 
@@ -34,24 +43,35 @@ jobs:
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
+      - name: Pick mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then mode="${{ inputs.mode }}"
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%u)" = "7" ]; then mode=full
+          else mode=recent; fi
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "mode: $mode"
+
       - name: Fetch daily closes
         env:
           TV_SESSIONID: ${{ secrets.TV_SESSIONID }}
           TV_SESSIONID_SIGN: ${{ secrets.TV_SESSIONID_SIGN }}
           TICKERS_FILE: data/tickers.json
-          TV_TFS: 1D
-          OUT: data/tv-daily.json
+          OUT_DIR: data/daily
+          MODE: ${{ steps.mode.outputs.mode }}
         run: node scripts/fetch-tv.mjs
 
+      # Each ticker file is written only when its fetch succeeds, so even a failed run leaves consistent files.
       - name: Commit data
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
-          git add data/tv-daily.json
+          git add -A data/daily
           if git diff --cached --quiet; then
             echo "No data changes"
           else
-            git commit -m "Update daily closes ($(date -u +%F))"
+            git commit -q -m "Update daily closes ($(date -u +%F), ${{ steps.mode.outputs.mode }})"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
