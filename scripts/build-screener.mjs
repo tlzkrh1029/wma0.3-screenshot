@@ -75,11 +75,15 @@ async function pilotData() {
   const days = [];
   for (let d = last; d >= first; d -= SAMPLE_EVERY) days.push(d);
   days.reverse();
+  // Market cap and rank come from the latest TradingView CRYPTOCAP close (the series the CAP charts use, updated
+  // daily); the universe's CoinGecko rank only decides which coins are in the pilot.
   const coins = tickers.coins.map((c) => {
     const u = uni.get(c.sym);
     if (!u) throw new Error(`${c.sym} is in data/tickers.json but not in data/universe.json`);
-    return { r: u.rank, s: c.sym, n: u.name, k: u.ko || null, x: u.ex, mc: Math.round(u.mcap), cap: c.cap, usd: c.usd, tv: c.tvName };
-  }).sort((a, b) => a.r - b.r);
+    const mc = raw.series[c.cap]['1D'].c.at(-1);
+    return { r: 0, s: c.sym, n: u.name, k: u.ko || null, x: u.ex, mc: Math.round(mc), cap: c.cap, usd: c.usd, tv: c.tvName };
+  }).sort((a, b) => b.mc - a.mc);
+  coins.forEach((c, i) => { c.r = i + 1; });
   const json = JSON.stringify({ pilot: true, fetchedAt: raw.fetchedAt, universeAt: universe.fetchedAt, excluded: excludedCounts(), days, tfs: TFS,
     axis: { start: first, n: last - first + 1 }, daily, coins });
   return { json, coins: coins.length };
