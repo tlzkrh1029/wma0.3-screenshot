@@ -59,6 +59,29 @@ input { font: inherit; color: inherit; }
 [hidden] { display: none !important; }
 #scrBody { min-width: 0; }
 .banner.pilot { background: var(--accent-soft); color: var(--fg); }
+/* ticker-mapping record: one summary line, details on demand */
+.maplog > summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 8px 12px; font-size: 13px; }
+.maplog > summary::-webkit-details-marker { display: none; }
+.maplog > summary::before { content: '▸'; color: var(--muted); font-size: 11px; }
+.maplog[open] > summary::before { content: '▾'; }
+.maplog > summary > b { font-weight: 600; }
+.ml-k { display: inline-flex; align-items: baseline; gap: 5px; color: var(--muted); white-space: nowrap; }
+.ml-k b { color: var(--fg); font-family: var(--font-mono); font-weight: 600; }
+.ml-k i { width: 8px; height: 8px; border-radius: 2px; align-self: center; }
+.ml-date { margin-left: auto; color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+.ml-body { padding: 0 12px 12px; display: grid; gap: 8px; }
+.ml-syms { display: grid; gap: 4px; font-size: 12.5px; }
+.ml-syms div { display: flex; flex-wrap: wrap; gap: 2px 8px; }
+.ml-syms span:first-child { color: var(--muted); min-width: 150px; }
+.ml-syms a { font-family: var(--font-mono); font-weight: 600; color: var(--fg); }
+table.ml { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+table.ml th { text-align: left; font-size: 11.5px; color: var(--muted); font-weight: 600; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.ml td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.ml td.sym a { font-family: var(--font-mono); font-weight: 700; color: var(--fg); }
+table.ml td.tk { font-family: var(--font-mono); font-size: 12px; overflow-wrap: anywhere; }
+table.ml td.was { color: var(--muted); }
+table.ml td.date { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.ml-l { display: none; color: var(--muted); font-family: var(--font-sans); font-size: 11px; margin-right: 6px; }
 .zones { display: flex; flex-wrap: wrap; gap: 6px; }
 .zc { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px 2px 7px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--sunken); color: var(--fg); border: 1px solid var(--line); white-space: nowrap; }
 .zc i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
@@ -234,6 +257,13 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   .lines-cols { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 720px) {
+  /* mapping record rows become stacked cards */
+  table.ml thead { display: none; }
+  table.ml, table.ml tbody, table.ml tr, table.ml td { display: block; }
+  table.ml tr { padding: 8px 0; border-bottom: 1px solid var(--line); }
+  table.ml td { border: 0; padding: 1px 0; }
+  .ml-l { display: inline; }
+  .ml-date { margin-left: 0; }
   /* screener rows become stacked cards */
   table.scr { min-width: 0; }
   .scr thead { display: none; }
@@ -275,6 +305,15 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 
 <main class="wrap">
   <div class="banner pilot" id="banner"><span id="bannerText"></span><span id="exclNote"></span></div>
+  <div class="banner" id="dirNotice" role="status" hidden></div>
+  <details class="panel maplog" id="maplog" hidden>
+    <summary id="maplogSum"></summary>
+    <div class="ml-body">
+      <p class="hint">거래소에 상장된 코인과 다른 코인에 짝지어져 있다가 바로잡은 기록입니다. TradingView 티커는 거래소 가격과 대조해서, CoinGecko 매칭은 거래소 가격과 CoinGecko 가격을 대조하거나 분류 검토로 찾았습니다.</p>
+      <div class="ml-syms" id="maplogSyms"></div>
+      <table class="ml"><thead><tr><th>구분</th><th>종목</th><th>이전 매핑</th><th>현재 매핑</th><th>근거</th><th>날짜</th></tr></thead><tbody id="maplogRows"></tbody></table>
+    </div>
+  </details>
   <div class="zones" aria-label="신호 구간">
     <span class="zc"><i style="background:var(--zu2)"></i>0.3 이하 · 강한 저평가</span>
     <span class="zc"><i style="background:var(--zu1)"></i>0.4 이하 · 저평가</span>
@@ -497,7 +536,7 @@ function loadChunk(ch) {
 
 // ---------- state & routing ----------
 const state = { v: 2, screen: 'screener', coin: 'BTC', view: 'table', sort: 'under', rdir: 'asc', side: 'under', bside: 'under', tk: 'both', ex: [], zf: [], q: '',
-  br: 'all', bo: 'rank', method: 'lines', range: 'all', fb: true };
+  br: 'all', bo: 'rank', method: 'lines', range: 'all', fb: true, ml: false };
 try {
   const saved = JSON.parse(localStorage.getItem('wma-screener') || '{}'); delete saved.btk; delete saved.group; delete saved.band; delete saved.yshare; if (saved.sort === 'signal') saved.sort = 'under';
   if (saved.v !== 2) { delete saved.fb; saved.v = 2; } // reference values are on by default from v2 on
@@ -1258,6 +1297,37 @@ if (DATA.excluded) document.getElementById('exclNote').textContent = ` 종목 �
   const at = new Date(DATA.fetchedAt).toISOString().replace('T', ' ').slice(0, 16), none = COINS.filter((c) => !c.cap && !c.usd).length;
   document.getElementById('bannerText').textContent = `업비트·빗썸·바이낸스에 상장된 ${COINS.length}종의 배수와 신호는 모두 TradingView 일봉(${at} UTC 수집)에서 계산한 값입니다. 오늘 봉은 수집 시점까지 진행된 값입니다.` +
     (none ? ` TradingView에서 티커를 찾지 못한 ${none}종은 데이터 없음으로 표시합니다.` : '') + (DATA.failed ? ` 이번 수집에서 티커 ${DATA.failed}개는 받지 못해서 이전 값을 씁니다.` : '');
+}
+
+// GitHub recommends at most 3,000 entries per directory; the build counts the daily-close files
+if (DATA.dir && DATA.dir.files >= DATA.dir.warnAt) {
+  const n = document.getElementById('dirNotice'); n.hidden = false;
+  n.textContent = `주의: 일봉 파일이 ${DATA.dir.files.toLocaleString('en-US')}개로, GitHub가 권장하는 한 폴더 ${DATA.dir.limit.toLocaleString('en-US')}개의 ${Math.round(DATA.dir.files / DATA.dir.limit * 100)}%에 이르렀습니다. ` +
+    `${DATA.dir.limit.toLocaleString('en-US')}개를 넘기 전에 data/daily를 하위 폴더로 나눠야 합니다.`;
+}
+// record of coin matches that were found wrong and fixed (data/mapping-log.json)
+const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
+if (DATA.mapLog?.entries?.length) {
+  const box = document.getElementById('maplog'), sum = document.getElementById('maplogSum'), syms = document.getElementById('maplogSyms'), rows = document.getElementById('maplogRows');
+  const order = Object.keys(ML_KIND), entries = DATA.mapLog.entries.slice().sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  const symLink = (sym) => { const a = el('a', null, sym); a.href = '#coin-' + encodeURIComponent(sym); return a; };
+  sum.append(el('b', null, '티커 매핑 기록'));
+  for (const k of order) {
+    const list = entries.filter((e) => e.kind === k); if (!list.length) continue;
+    const chip = el('span', 'ml-k'); const i = el('i'); i.style.background = ML_KIND[k][1]; chip.append(i, document.createTextNode(ML_KIND[k][0] + ' '), el('b', null, `${list.length}종`)); sum.append(chip);
+    const line = el('div'); line.append(el('span', null, `${ML_KIND[k][0]} ${list.length}종`)); for (const e of list) line.append(symLink(e.sym)); syms.append(line);
+  }
+  sum.append(el('span', 'ml-date', `마지막 점검 ${DATA.mapLog.checkedAt}`));
+  for (const e of entries) {
+    const tr = el('tr'), cell = (cls, label, content) => { const td = el('td', cls); if (label) td.append(el('span', 'ml-l', label)); td.append(content); return td; };
+    const kind = el('span', 'ml-k'); const ki = el('i'); ki.style.background = ML_KIND[e.kind]?.[1] || 'var(--faint)'; kind.append(ki, document.createTextNode(ML_KIND[e.kind]?.[2] || e.kind));
+    tr.append(cell(null, null, kind), cell('sym', null, symLink(e.sym)),
+      cell('tk was', '이전', document.createTextNode(e.was)), cell('tk', '현재', document.createTextNode(e.now)),
+      cell(null, '근거', document.createTextNode(e.why)), cell('date', null, document.createTextNode(e.date)));
+    rows.append(tr);
+  }
+  box.open = !!state.ml; box.hidden = false;
+  box.addEventListener('toggle', () => { state.ml = box.open; save(); });
 }
 
 // summaries come precomputed from the build; decode them, then route

@@ -21,6 +21,7 @@ on:
     paths:
       - 'data/tickers.json'
       - 'data/universe.json'
+      - 'data/mapping-log.json'
       - 'dashboard/screener.html'
       - 'dashboard/engine.js'
       - 'scripts/build-site.mjs'

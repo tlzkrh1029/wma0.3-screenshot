@@ -32,6 +32,13 @@ const universe = JSON.parse(await readFile(path.join('data', 'universe.json'), '
 const tickers = JSON.parse(await readFile(TICKERS, 'utf8'));
 const template = await readFile(path.join('dashboard', 'screener.html'), 'utf8');
 const engineSrc = await readFile(path.join('dashboard', 'engine.js'), 'utf8');
+// record of fixed coin matches, shown at the top of the page
+let mapLog = null;
+try { mapLog = JSON.parse(await readFile(path.join('data', 'mapping-log.json'), 'utf8')); } catch (e) { if (e.code !== 'ENOENT') throw e; }
+// GitHub recommends at most 3,000 entries per directory; warn (in the Actions log and on the page) from 2,700
+const DIR_LIMIT = 3000, DIR_WARN = 2700;
+const dailyFiles = (await readdir(DAILY_DIR).catch(() => [])).filter((f) => f.endsWith('.json') && !f.startsWith('_')).length;
+if (dailyFiles >= DIR_WARN) console.log(`::warning::${DAILY_DIR} holds ${dailyFiles} files; GitHub recommends at most ${DIR_LIMIT} per directory. Time to split it into subfolders.`);
 let status = null;
 try { status = JSON.parse(await readFile(path.join(DAILY_DIR, '_status.json'), 'utf8')); } catch {}
 
@@ -124,6 +131,7 @@ for (let ch = 0; ch < nChunks; ch++) {
 }
 const excluded = universe.excluded ? Object.fromEntries(['stablecoin', 'security'].map((k) => [k, universe.excluded.filter((e) => e.kind === k).length])) : null;
 const data = JSON.stringify({ fetchedAt, universeAt: universe.fetchedAt, build, excluded, failed: status?.failed?.length ?? 0, missing: missing.length,
+  mapLog: mapLog && { checkedAt: mapLog.checkedAt, entries: mapLog.entries }, dir: { files: dailyFiles, limit: DIR_LIMIT, warnAt: DIR_WARN },
   days, tfs: TFS, axis: { start: first, n: last - first + 1 }, coins: rows.map((r) => r.coin) });
 
 for (const marker of ['/*__DATA__*/null', '/*__ENGINE__*/']) if (!template.includes(marker)) throw new Error(`template is missing ${marker}`);
