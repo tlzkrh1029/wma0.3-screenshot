@@ -1,5 +1,5 @@
 {
- "resolvedAt": "2026-10-05T09:08:40.614Z",
+ "resolvedAt": "2026-10-05T16:19:51.390Z",
  "coins": [
   {
    "rank": 1,
@@ -365,6 +365,21 @@
   },
   {
    "rank": 26,
+   "sym": "ENA",
+   "name": "Ethena",
+   "cg": "ethena",
+   "usd": "CRYPTO:ENAUSD",
+   "cap": "CRYPTOCAP:ENA",
+   "tvName": "Ethena",
+   "confidence": "high",
+   "alternatives": [
+    "USDEEUSD (Ethena USDe)",
+    "SUSDEUSD (Ethena Staked USDe)",
+    "USDTBUSD (Ethena Labs (USDTb))"
+   ]
+  },
+  {
+   "rank": 27,
    "sym": "PUMP",
    "name": "Pump.fun",
    "cg": "pump-fun",
@@ -379,7 +394,7 @@
    ]
   },
   {
-   "rank": 27,
+   "rank": 28,
    "sym": "AAVE",
    "name": "Aave",
    "cg": "aave",
@@ -391,21 +406,6 @@
     "GHSTUSD (Aavegotchi)",
     "AETHUSDTUSD (Aave Ethereum USDT)",
     "AETHWETHUSD (Aave Ethereum WETH)"
-   ]
-  },
-  {
-   "rank": 28,
-   "sym": "ENA",
-   "name": "Ethena",
-   "cg": "ethena",
-   "usd": "CRYPTO:ENAUSD",
-   "cap": "CRYPTOCAP:ENA",
-   "tvName": "Ethena",
-   "confidence": "high",
-   "alternatives": [
-    "USDEEUSD (Ethena USDe)",
-    "SUSDEUSD (Ethena Staked USDe)",
-    "USDTBUSD (Ethena Labs (USDTb))"
    ]
   },
   {
@@ -425,21 +425,6 @@
   },
   {
    "rank": 30,
-   "sym": "SKY",
-   "name": "Sky",
-   "cg": "sky",
-   "usd": "CRYPTO:SKY2USD",
-   "cap": "CRYPTOCAP:SKY2",
-   "tvName": "Sky",
-   "confidence": "high",
-   "alternatives": [
-    "SKYAI2USD (SKYAI)",
-    "SKYRIMUSD (Skyrim Finance)",
-    "COTSUSD (Children Of The Sky)"
-   ]
-  },
-  {
-   "rank": 31,
    "sym": "WLD",
    "name": "Worldcoin",
    "cg": "worldcoin-wld",
@@ -450,7 +435,7 @@
    "alternatives": []
   },
   {
-   "rank": 32,
+   "rank": 31,
    "sym": "MNT",
    "name": "Mantle",
    "cg": "mantle",
@@ -462,6 +447,21 @@
     "CMETHUSD (Mantle Restaked Ether)",
     "METHUSD (Mantle Staked Ether)",
     "MNTLUSD (AssetMantle)"
+   ]
+  },
+  {
+   "rank": 32,
+   "sym": "SKY",
+   "name": "Sky",
+   "cg": "sky",
+   "usd": "CRYPTO:SKY2USD",
+   "cap": "CRYPTOCAP:SKY2",
+   "tvName": "Sky",
+   "confidence": "high",
+   "alternatives": [
+    "SKYAI2USD (SKYAI)",
+    "SKYRIMUSD (Skyrim Finance)",
+    "COTSUSD (Children Of The Sky)"
    ]
   },
   {
@@ -567,21 +567,6 @@
   },
   {
    "rank": 40,
-   "sym": "VVV",
-   "name": "Venice Token",
-   "cg": "venice-token",
-   "usd": "CRYPTO:VVVUSD",
-   "cap": "CRYPTOCAP:VVV",
-   "tvName": "Venice Token",
-   "confidence": "high",
-   "alternatives": [
-    "CRVUSD (Curve DAO Token)",
-    "BATUSD (Basic Attention Token)",
-    "TWTUSD (Trust Wallet Token)"
-   ]
-  },
-  {
-   "rank": 41,
    "sym": "ARB",
    "name": "Arbitrum",
    "cg": "arbitrum",
@@ -593,6 +578,21 @@
     "ARBSUSD (Arbswap)",
     "ARBIPUSD (ArbiPad)",
     "GPTAUSD (ArbGPT)"
+   ]
+  },
+  {
+   "rank": 41,
+   "sym": "VVV",
+   "name": "Venice Token",
+   "cg": "venice-token",
+   "usd": "CRYPTO:VVVUSD",
+   "cap": "CRYPTOCAP:VVV",
+   "tvName": "Venice Token",
+   "confidence": "high",
+   "alternatives": [
+    "CRVUSD (Curve DAO Token)",
+    "BATUSD (Basic Attention Token)",
+    "TWTUSD (Trust Wallet Token)"
    ]
   },
   {
@@ -741,16 +741,14 @@
   },
   {
    "rank": 52,
-   "sym": "CAKE",
-   "name": "PancakeSwap",
-   "cg": "pancakeswap-token",
-   "usd": "CRYPTO:CAKEUSD",
-   "cap": "CRYPTOCAP:CAKE",
-   "tvName": "PancakeSwap",
+   "sym": "ZRO",
+   "name": "LayerZero",
+   "cg": "layerzero",
+   "usd": "CRYPTO:ZROLUSD",
+   "cap": "CRYPTOCAP:ZROL",
+   "tvName": "LayerZero",
    "confidence": "high",
-   "alternatives": [
-    "CKPCUSD (Cakepie)"
-   ]
+   "alternatives": []
   },
   {
    "rank": 53,
@@ -768,6 +766,30 @@
   },
   {
    "rank": 54,
+   "sym": "CAKE",
+   "name": "PancakeSwap",
+   "cg": "pancakeswap-token",
+   "usd": "CRYPTO:CAKEUSD",
+   "cap": "CRYPTOCAP:CAKE",
+   "tvName": "PancakeSwap",
+   "confidence": "high",
+   "alternatives": [
+    "CKPCUSD (Cakepie)"
+   ]
+  },
+  {
+   "rank": 55,
+   "sym": "INJ",
+   "name": "Injective",
+   "cg": "injective-protocol",
+   "usd": "CRYPTO:INJUSD",
+   "cap": "CRYPTOCAP:INJ",
+   "tvName": "Injective",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 56,
    "sym": "DASH",
    "name": "Dash",
    "cg": "dash",
@@ -782,7 +804,7 @@
    ]
   },
   {
-   "rank": 55,
+   "rank": 57,
    "sym": "VET",
    "name": "VeChain",
    "cg": "vechain",
@@ -795,48 +817,7 @@
    ]
   },
   {
-   "rank": 56,
-   "sym": "INJ",
-   "name": "Injective",
-   "cg": "injective-protocol",
-   "usd": "CRYPTO:INJUSD",
-   "cap": "CRYPTOCAP:INJ",
-   "tvName": "Injective",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 57,
-   "sym": "STX",
-   "name": "Stacks",
-   "cg": "blockstack",
-   "usd": "CRYPTO:STXSUSD",
-   "cap": "CRYPTOCAP:STXS",
-   "tvName": "Stacks",
-   "confidence": "high",
-   "alternatives": [
-    "STXUSD (Stox)",
-    "STXBUSD (Seagate Tokenized (bStocks))",
-    "STXONUSD (Seagate Tokenized Stock (Ondo))"
-   ]
-  },
-  {
    "rank": 58,
-   "sym": "STABLE",
-   "name": "​​Stable",
-   "cg": "stable-2",
-   "usd": "CRYPTO:STABLE3USD",
-   "cap": "CRYPTOCAP:STABLE3",
-   "tvName": "Stable",
-   "confidence": "high",
-   "alternatives": [
-    "USDSMSUSD (Stable Mint United States Dollar)",
-    "USDXMUSD (Stables Labs (USDX))",
-    "MTRUSD (Meter Stable)"
-   ]
-  },
-  {
-   "rank": 59,
    "sym": "ETHFI",
    "name": "Ether.fi",
    "cg": "ether-fi",
@@ -851,18 +832,22 @@
    ]
   },
   {
-   "rank": 60,
-   "sym": "ZRO",
-   "name": "LayerZero",
-   "cg": "layerzero",
-   "usd": "CRYPTO:ZROLUSD",
-   "cap": "CRYPTOCAP:ZROL",
-   "tvName": "LayerZero",
+   "rank": 59,
+   "sym": "STABLE",
+   "name": "​​Stable",
+   "cg": "stable-2",
+   "usd": "CRYPTO:STABLE3USD",
+   "cap": "CRYPTOCAP:STABLE3",
+   "tvName": "Stable",
    "confidence": "high",
-   "alternatives": []
+   "alternatives": [
+    "USDSMSUSD (Stable Mint United States Dollar)",
+    "USDXMUSD (Stables Labs (USDX))",
+    "MTRUSD (Meter Stable)"
+   ]
   },
   {
-   "rank": 61,
+   "rank": 60,
    "sym": "APT",
    "name": "Aptos",
    "cg": "aptos",
@@ -874,6 +859,21 @@
     "ALTAPUSD (AptosLaunch Token)",
     "TAPTUSD (Tortuga Finance Aptos)",
     "APTMUSD (Apertum)"
+   ]
+  },
+  {
+   "rank": 61,
+   "sym": "STX",
+   "name": "Stacks",
+   "cg": "blockstack",
+   "usd": "CRYPTO:STXSUSD",
+   "cap": "CRYPTOCAP:STXS",
+   "tvName": "Stacks",
+   "confidence": "high",
+   "alternatives": [
+    "STXUSD (Stox)",
+    "STXBUSD (Seagate Tokenized (bStocks))",
+    "STXONUSD (Seagate Tokenized Stock (Ondo))"
    ]
   },
   {
@@ -919,21 +919,6 @@
   },
   {
    "rank": 65,
-   "sym": "FET",
-   "name": "Artificial Superintelligence Alliance",
-   "cg": "fetch-ai",
-   "usd": "CRYPTO:FETUSD",
-   "cap": "CRYPTOCAP:FET",
-   "tvName": "Artificial Superintelligence Alliance",
-   "confidence": "high",
-   "alternatives": [
-    "AI4USD (AI4 | Recursive Superintelligence)",
-    "AIARTIFIUSD (Artificial Inu)",
-    "COALLUSD (Alliance Games)"
-   ]
-  },
-  {
-   "rank": 66,
    "sym": "CRV",
    "name": "Curve DAO",
    "cg": "curve-dao-token",
@@ -948,7 +933,7 @@
    ]
   },
   {
-   "rank": 67,
+   "rank": 66,
    "sym": "TRUMP",
    "name": "Official Trump",
    "cg": "official-trump",
@@ -963,20 +948,22 @@
    ]
   },
   {
-   "rank": 68,
-   "sym": "RAY",
-   "name": "Raydium",
-   "cg": "raydium",
-   "usd": "CRYPTO:RAYUSD",
-   "cap": "CRYPTOCAP:RAY",
-   "tvName": "Raydium",
+   "rank": 67,
+   "sym": "FET",
+   "name": "Artificial Superintelligence Alliance",
+   "cg": "fetch-ai",
+   "usd": "CRYPTO:FETUSD",
+   "cap": "CRYPTOCAP:FET",
+   "tvName": "Artificial Superintelligence Alliance",
    "confidence": "high",
    "alternatives": [
-    "RLSUSD (Rayls)"
+    "AI4USD (AI4 | Recursive Superintelligence)",
+    "AIARTIFIUSD (Artificial Inu)",
+    "COALLUSD (Alliance Games)"
    ]
   },
   {
-   "rank": 69,
+   "rank": 68,
    "sym": "VIRTUAL",
    "name": "Virtuals Protocol",
    "cg": "virtual-protocol",
@@ -991,22 +978,20 @@
    ]
   },
   {
-   "rank": 70,
-   "sym": "SEI",
-   "name": "Sei",
-   "cg": "sei-network",
-   "usd": "CRYPTO:SEIUSD",
-   "cap": "CRYPTOCAP:SEI",
-   "tvName": "Sei",
+   "rank": 69,
+   "sym": "RAY",
+   "name": "Raydium",
+   "cg": "raydium",
+   "usd": "CRYPTO:RAYUSD",
+   "cap": "CRYPTOCAP:RAY",
+   "tvName": "Raydium",
    "confidence": "high",
    "alternatives": [
-    "SEIYANUSD (Seiyan Token)",
-    "SHAREUSD (Seigniorage Shares)",
-    "SEILORUSD (Kryptonite)"
+    "RLSUSD (Rayls)"
    ]
   },
   {
-   "rank": 71,
+   "rank": 70,
    "sym": "币安人生",
    "name": "币安人生 (BinanceLife)",
    "cg": "bianrensheng",
@@ -1018,7 +1003,7 @@
    "note": "TradingView has no ticker for 币安人生"
   },
   {
-   "rank": 72,
+   "rank": 71,
    "sym": "GRASS",
    "name": "Grass",
    "cg": "grass",
@@ -1028,6 +1013,21 @@
    "confidence": "high",
    "alternatives": [
     "TGRASSUSD (Top Grass Club)"
+   ]
+  },
+  {
+   "rank": 72,
+   "sym": "SEI",
+   "name": "Sei",
+   "cg": "sei-network",
+   "usd": "CRYPTO:SEIUSD",
+   "cap": "CRYPTOCAP:SEI",
+   "tvName": "Sei",
+   "confidence": "high",
+   "alternatives": [
+    "SEIYANUSD (Seiyan Token)",
+    "SHAREUSD (Seigniorage Shares)",
+    "SEILORUSD (Kryptonite)"
    ]
   },
   {
@@ -1074,17 +1074,6 @@
   },
   {
    "rank": 76,
-   "sym": "DRV",
-   "name": "Derive",
-   "cg": "derive",
-   "usd": "CRYPTO:DRVDUSD",
-   "cap": "CRYPTOCAP:DRVD",
-   "tvName": "Derive",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 77,
    "sym": "SPX",
    "name": "SPX6900",
    "cg": "spx6900",
@@ -1097,20 +1086,7 @@
    ]
   },
   {
-   "rank": 78,
-   "sym": "STRK",
-   "name": "Starknet",
-   "cg": "starknet",
-   "usd": "CRYPTO:STRKSUSD",
-   "cap": "CRYPTOCAP:STRKS",
-   "tvName": "Starknet",
-   "confidence": "high",
-   "alternatives": [
-    "STRKUSD (Strike)"
-   ]
-  },
-  {
-   "rank": 79,
+   "rank": 77,
    "sym": "BSV",
    "name": "Bitcoin SV",
    "cg": "bitcoin-cash-sv",
@@ -1125,22 +1101,31 @@
    ]
   },
   {
-   "rank": 80,
-   "sym": "MON",
-   "name": "Monad",
-   "cg": "monad",
-   "usd": "CRYPTO:MONADUSD",
-   "cap": "CRYPTOCAP:MONAD",
-   "tvName": "Monad",
+   "rank": 78,
+   "sym": "DRV",
+   "name": "Derive",
+   "cg": "derive",
+   "usd": "CRYPTO:DRVDUSD",
+   "cap": "CRYPTOCAP:DRVD",
+   "tvName": "Derive",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 79,
+   "sym": "STRK",
+   "name": "Starknet",
+   "cg": "starknet",
+   "usd": "CRYPTO:STRKSUSD",
+   "cap": "CRYPTOCAP:STRKS",
+   "tvName": "Starknet",
    "confidence": "high",
    "alternatives": [
-    "MONPUSD (MON)",
-    "MONAUSD (MonaCoin)",
-    "MONGUSD (MongCoin)"
+    "STRKUSD (Strike)"
    ]
   },
   {
-   "rank": 81,
+   "rank": 80,
    "sym": "FF",
    "name": "Falcon Finance",
    "cg": "falcon-finance-ff",
@@ -1155,7 +1140,7 @@
    ]
   },
   {
-   "rank": 82,
+   "rank": 81,
    "sym": "LDO",
    "name": "Lido DAO",
    "cg": "lido-dao",
@@ -1167,6 +1152,21 @@
     "WSTETHUSD (Lido wstETH)",
     "STETHUSD (Lido Staked ETH)",
     "CRVUSD (Curve DAO Token)"
+   ]
+  },
+  {
+   "rank": 82,
+   "sym": "MON",
+   "name": "Monad",
+   "cg": "monad",
+   "usd": "CRYPTO:MONADUSD",
+   "cap": "CRYPTOCAP:MONAD",
+   "tvName": "Monad",
+   "confidence": "high",
+   "alternatives": [
+    "MONPUSD (MON)",
+    "MONAUSD (MonaCoin)",
+    "MONGUSD (MongCoin)"
    ]
   },
   {
@@ -1207,16 +1207,17 @@
   },
   {
    "rank": 86,
-   "sym": "KITE",
-   "name": "Kite",
-   "cg": "kite-2",
-   "usd": "CRYPTO:KITEUSD",
-   "cap": "CRYPTOCAP:KITE",
-   "tvName": "Kite",
+   "sym": "UB",
+   "name": "Unibase",
+   "cg": "unibase",
+   "usd": "CRYPTO:UBUNUSD",
+   "cap": "CRYPTOCAP:UBUN",
+   "tvName": "Unibase",
    "confidence": "high",
    "alternatives": [
-    "KITEAIUSD (KiteAI)",
-    "PKFUSD (Red Kite)"
+    "UBUUSD (UBU)",
+    "UBXUSD (UBIX.Network)",
+    "UBSNUSD (Silent Notary)"
    ]
   },
   {
@@ -1236,17 +1237,16 @@
   },
   {
    "rank": 88,
-   "sym": "UB",
-   "name": "Unibase",
-   "cg": "unibase",
-   "usd": "CRYPTO:UBUNUSD",
-   "cap": "CRYPTOCAP:UBUN",
-   "tvName": "Unibase",
+   "sym": "KITE",
+   "name": "Kite",
+   "cg": "kite-2",
+   "usd": "CRYPTO:KITEUSD",
+   "cap": "CRYPTOCAP:KITE",
+   "tvName": "Kite",
    "confidence": "high",
    "alternatives": [
-    "UBUUSD (UBU)",
-    "UBXUSD (UBIX.Network)",
-    "UBSNUSD (Silent Notary)"
+    "KITEAIUSD (KiteAI)",
+    "PKFUSD (Red Kite)"
    ]
   },
   {
@@ -1279,20 +1279,6 @@
   },
   {
    "rank": 91,
-   "sym": "GNO",
-   "name": "Gnosis",
-   "cg": "gnosis",
-   "usd": "CRYPTO:GNOUSD",
-   "cap": "CRYPTOCAP:GNO",
-   "tvName": "Gnosis",
-   "confidence": "high",
-   "alternatives": [
-    "GNOTGUSD (Gnoland)",
-    "GNONUSD (Numogram)"
-   ]
-  },
-  {
-   "rank": 92,
    "sym": "GRT",
    "name": "The Graph",
    "cg": "the-graph",
@@ -1304,6 +1290,20 @@
     "GAIGRUSD (GraphAI)",
     "GLQUSD (Graphlinq Chain)",
     "GPGRUSD (Graphite Protocol)"
+   ]
+  },
+  {
+   "rank": 92,
+   "sym": "GNO",
+   "name": "Gnosis",
+   "cg": "gnosis",
+   "usd": "CRYPTO:GNOUSD",
+   "cap": "CRYPTOCAP:GNO",
+   "tvName": "Gnosis",
+   "confidence": "high",
+   "alternatives": [
+    "GNOTGUSD (Gnoland)",
+    "GNONUSD (Numogram)"
    ]
   },
   {
@@ -1323,21 +1323,6 @@
   },
   {
    "rank": 94,
-   "sym": "SYRUP",
-   "name": "Maple Finance",
-   "cg": "syrup",
-   "usd": "CRYPTO:SYRUPUSD",
-   "cap": "CRYPTOCAP:SYRUP",
-   "tvName": "Maple Finance",
-   "confidence": "high",
-   "alternatives": [
-    "MPLUSD (Maple)",
-    "SYRUPUSDCUSD (Syrup USDC)",
-    "AERODUSD (Aerodrome Finance)"
-   ]
-  },
-  {
-   "rank": 95,
    "sym": "JTO",
    "name": "Jito",
    "cg": "jito-governance-token",
@@ -1350,7 +1335,7 @@
    ]
   },
   {
-   "rank": 96,
+   "rank": 95,
    "sym": "AR",
    "name": "Arweave",
    "cg": "arweave",
@@ -1365,7 +1350,7 @@
    ]
   },
   {
-   "rank": 97,
+   "rank": 96,
    "sym": "LUNC",
    "name": "Terra Luna Classic",
    "cg": "terra-luna",
@@ -1375,6 +1360,21 @@
    "confidence": "high",
    "manual": true,
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
+  },
+  {
+   "rank": 97,
+   "sym": "SYRUP",
+   "name": "Maple Finance",
+   "cg": "syrup",
+   "usd": "CRYPTO:SYRUPUSD",
+   "cap": "CRYPTOCAP:SYRUP",
+   "tvName": "Maple Finance",
+   "confidence": "high",
+   "alternatives": [
+    "MPLUSD (Maple)",
+    "SYRUPUSDCUSD (Syrup USDC)",
+    "AERODUSD (Aerodrome Finance)"
+   ]
   },
   {
    "rank": 98,
@@ -1404,28 +1404,6 @@
   },
   {
    "rank": 100,
-   "sym": "IOTA",
-   "name": "IOTA",
-   "cg": "iota",
-   "usd": "CRYPTO:IOTAUSD",
-   "cap": "CRYPTOCAP:IOTA",
-   "tvName": "IOTA",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 101,
-   "sym": "JASMY",
-   "name": "JasmyCoin",
-   "cg": "jasmycoin",
-   "usd": "CRYPTO:JASMYUSD",
-   "cap": "CRYPTOCAP:JASMY",
-   "tvName": "JasmyCoin",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 102,
    "sym": "FLOKI",
    "name": "FLOKI",
    "cg": "floki",
@@ -1438,7 +1416,40 @@
    ]
   },
   {
+   "rank": 101,
+   "sym": "IOTA",
+   "name": "IOTA",
+   "cg": "iota",
+   "usd": "CRYPTO:IOTAUSD",
+   "cap": "CRYPTOCAP:IOTA",
+   "tvName": "IOTA",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 102,
+   "sym": "KAIA",
+   "name": "Kaia",
+   "cg": "kaia",
+   "usd": "CRYPTO:KAIAUSD",
+   "cap": "CRYPTOCAP:KAIA",
+   "tvName": "Kaia",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
    "rank": 103,
+   "sym": "JASMY",
+   "name": "JasmyCoin",
+   "cg": "jasmycoin",
+   "usd": "CRYPTO:JASMYUSD",
+   "cap": "CRYPTOCAP:JASMY",
+   "tvName": "JasmyCoin",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 104,
    "sym": "RUNE",
    "name": "THORChain",
    "cg": "thorchain",
@@ -1453,37 +1464,7 @@
    ]
   },
   {
-   "rank": 104,
-   "sym": "EIGEN",
-   "name": "EigenCloud (prev. EigenLayer)",
-   "cg": "eigenlayer",
-   "usd": "CRYPTO:EIGENUSD",
-   "cap": "CRYPTOCAP:EIGEN",
-   "tvName": "EigenCloud",
-   "confidence": "high",
-   "alternatives": [
-    "EGPUSD (Eigenpie)",
-    "GRAMUSD (Gram (prev. Toncoin))",
-    "POLYGUSD (Polygon (prev. MATIC))"
-   ]
-  },
-  {
    "rank": 105,
-   "sym": "COMP",
-   "name": "Compound",
-   "cg": "compound-governance-token",
-   "usd": "CRYPTO:COMPUSD",
-   "cap": "CRYPTOCAP:COMP",
-   "tvName": "Compound",
-   "confidence": "high",
-   "alternatives": [
-    "ICPUSD (Internet Computer)",
-    "ARCAIRUSD (AI Rig Complex)",
-    "AICOMPUSD (AI Companions)"
-   ]
-  },
-  {
-   "rank": 106,
    "sym": "WIF",
    "name": "dogwifhat",
    "cg": "dogwifcoin",
@@ -1498,29 +1479,48 @@
    ]
   },
   {
-   "rank": 107,
-   "sym": "KAIA",
-   "name": "Kaia",
-   "cg": "kaia",
-   "usd": "CRYPTO:KAIAUSD",
-   "cap": "CRYPTOCAP:KAIA",
-   "tvName": "Kaia",
+   "rank": 106,
+   "sym": "EIGEN",
+   "name": "EigenCloud (prev. EigenLayer)",
+   "cg": "eigenlayer",
+   "usd": "CRYPTO:EIGENUSD",
+   "cap": "CRYPTOCAP:EIGEN",
+   "tvName": "EigenCloud",
    "confidence": "high",
-   "alternatives": []
+   "alternatives": [
+    "EGPUSD (Eigenpie)",
+    "GRAMUSD (Gram (prev. Toncoin))",
+    "POLYGUSD (Polygon (prev. MATIC))"
+   ]
+  },
+  {
+   "rank": 107,
+   "sym": "COMP",
+   "name": "Compound",
+   "cg": "compound-governance-token",
+   "usd": "CRYPTO:COMPUSD",
+   "cap": "CRYPTOCAP:COMP",
+   "tvName": "Compound",
+   "confidence": "high",
+   "alternatives": [
+    "ICPUSD (Internet Computer)",
+    "ARCAIRUSD (AI Rig Complex)",
+    "AICOMPUSD (AI Companions)"
+   ]
   },
   {
    "rank": 108,
-   "sym": "AXS",
-   "name": "Axie Infinity",
-   "cg": "axie-infinity",
-   "usd": "CRYPTO:AXSUSD",
-   "cap": "CRYPTOCAP:AXS",
-   "tvName": "Axie Infinity",
+   "sym": "TWT",
+   "name": "Trust Wallet",
+   "cg": "trust-wallet-token",
+   "usd": "CRYPTO:TWTUSD",
+   "cap": "CRYPTOCAP:TWT",
+   "tvName": "Trust Wallet Token",
    "confidence": "high",
    "alternatives": [
-    "AINIUSD (Infinity Ground)",
-    "INGIUSD (Infinity Games)",
-    "INFSUSD (SANCTUM INFINITY)"
+    "WALLETUSD (Ambire Wallet)",
+    "BESTWUSD (Best Wallet)",
+    "CTRLWUSD (Ctrl Wallet)"
    ]
   },
   {
@@ -1540,32 +1540,28 @@
   },
   {
    "rank": 110,
-   "sym": "USELESS",
-   "name": "Useless Coin",
-   "cg": "useless-3",
-   "usd": "CRYPTO:USELESSUSD",
-   "cap": "CRYPTOCAP:USELESS",
-   "tvName": "Useless Coin",
+   "sym": "KMNO",
+   "name": "Kamino",
+   "cg": "kamino",
+   "usd": "CRYPTO:KMNOUSD",
+   "cap": "CRYPTOCAP:KMNO",
+   "tvName": "Kamino",
    "confidence": "high",
-   "alternatives": [
-    "BONERUSD (Boner Coin)",
-    "ENJUSD (Enjin Coin)",
-    "MOGUSD (MOG Coin)"
-   ]
+   "alternatives": []
   },
   {
    "rank": 111,
-   "sym": "TWT",
-   "name": "Trust Wallet",
-   "cg": "trust-wallet-token",
-   "usd": "CRYPTO:TWTUSD",
-   "cap": "CRYPTOCAP:TWT",
-   "tvName": "Trust Wallet Token",
+   "sym": "THETA",
+   "name": "Theta Network",
+   "cg": "theta-token",
+   "usd": "CRYPTO:THETAUSD",
+   "cap": "CRYPTOCAP:THETA",
+   "tvName": "Theta Network",
    "confidence": "high",
    "alternatives": [
-    "WALLETUSD (Ambire Wallet)",
-    "BESTWUSD (Best Wallet)",
-    "CTRLWUSD (Ctrl Wallet)"
+    "TFUELUSD (Theta Fuel)",
+    "THGUSD (Thetan World)",
+    "TDROPUSD (ThetaDrop)"
    ]
   },
   {
@@ -1585,6 +1581,36 @@
   },
   {
    "rank": 113,
+   "sym": "USELESS",
+   "name": "Useless Coin",
+   "cg": "useless-3",
+   "usd": "CRYPTO:USELESSUSD",
+   "cap": "CRYPTOCAP:USELESS",
+   "tvName": "Useless Coin",
+   "confidence": "high",
+   "alternatives": [
+    "BONERUSD (Boner Coin)",
+    "ENJUSD (Enjin Coin)",
+    "MOGUSD (MOG Coin)"
+   ]
+  },
+  {
+   "rank": 114,
+   "sym": "AXS",
+   "name": "Axie Infinity",
+   "cg": "axie-infinity",
+   "usd": "CRYPTO:AXSUSD",
+   "cap": "CRYPTOCAP:AXS",
+   "tvName": "Axie Infinity",
+   "confidence": "high",
+   "alternatives": [
+    "AINIUSD (Infinity Ground)",
+    "INGIUSD (Infinity Games)",
+    "INFSUSD (SANCTUM INFINITY)"
+   ]
+  },
+  {
+   "rank": 115,
    "sym": "2Z",
    "name": "DoubleZero",
    "cg": "doublezero",
@@ -1595,48 +1621,7 @@
    "alternatives": []
   },
   {
-   "rank": 114,
-   "sym": "KMNO",
-   "name": "Kamino",
-   "cg": "kamino",
-   "usd": "CRYPTO:KMNOUSD",
-   "cap": "CRYPTOCAP:KMNO",
-   "tvName": "Kamino",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 115,
-   "sym": "THETA",
-   "name": "Theta Network",
-   "cg": "theta-token",
-   "usd": "CRYPTO:THETAUSD",
-   "cap": "CRYPTOCAP:THETA",
-   "tvName": "Theta Network",
-   "confidence": "high",
-   "alternatives": [
-    "TFUELUSD (Theta Fuel)",
-    "THGUSD (Thetan World)",
-    "TDROPUSD (ThetaDrop)"
-   ]
-  },
-  {
    "rank": 116,
-   "sym": "SAND",
-   "name": "The Sandbox",
-   "cg": "the-sandbox",
-   "usd": "CRYPTO:SANDUSD",
-   "cap": "CRYPTOCAP:SAND",
-   "tvName": "The Sandbox",
-   "confidence": "high",
-   "alternatives": [
-    "SNDKBUSD (SanDisk Tokenized bStocks)",
-    "SNDKONUSD (SanDisk Tokenized Stock (Ondo))",
-    "RSNDKUSD (SanDisk Tokenized Stock (Reality))"
-   ]
-  },
-  {
-   "rank": 117,
    "sym": "ZAMA",
    "name": "Zama",
    "cg": "zama",
@@ -1645,6 +1630,21 @@
    "tvName": "Zama",
    "confidence": "high",
    "alternatives": []
+  },
+  {
+   "rank": 117,
+   "sym": "MINA",
+   "name": "Mina Protocol",
+   "cg": "mina-protocol",
+   "usd": "CRYPTO:MINAUSD",
+   "cap": "CRYPTOCAP:MINA",
+   "tvName": "Mina",
+   "confidence": "high",
+   "alternatives": [
+    "MINARUSD (Miner Arena)",
+    "MNTCUSD (Minati Coin)",
+    "NEARUSD (NEAR Protocol)"
+   ]
   },
   {
    "rank": 118,
@@ -1663,21 +1663,6 @@
   },
   {
    "rank": 119,
-   "sym": "MINA",
-   "name": "Mina Protocol",
-   "cg": "mina-protocol",
-   "usd": "CRYPTO:MINAUSD",
-   "cap": "CRYPTOCAP:MINA",
-   "tvName": "Mina",
-   "confidence": "high",
-   "alternatives": [
-    "MINARUSD (Miner Arena)",
-    "MNTCUSD (Minati Coin)",
-    "NEARUSD (NEAR Protocol)"
-   ]
-  },
-  {
-   "rank": 120,
    "sym": "MANA",
    "name": "Decentraland",
    "cg": "decentraland",
@@ -1689,6 +1674,21 @@
     "UMXMUSD (Manadia)",
     "WMONWUSD (Waste Management Tokenized Stock (Ondo))",
     "APOONUSD (Apollo Global Management Tokenized Stock (Ondo))"
+   ]
+  },
+  {
+   "rank": 120,
+   "sym": "SAND",
+   "name": "The Sandbox",
+   "cg": "the-sandbox",
+   "usd": "CRYPTO:SANDUSD",
+   "cap": "CRYPTOCAP:SAND",
+   "tvName": "The Sandbox",
+   "confidence": "high",
+   "alternatives": [
+    "SNDKBUSD (SanDisk Tokenized bStocks)",
+    "SNDKONUSD (SanDisk Tokenized Stock (Ondo))",
+    "RSNDKUSD (SanDisk Tokenized Stock (Reality))"
    ]
   },
   {
@@ -1734,23 +1734,25 @@
   },
   {
    "rank": 124,
+   "sym": "FLUID",
+   "name": "Fluid",
+   "cg": "instadapp",
+   "usd": "CRYPTO:FLUID3USD",
+   "cap": "CRYPTOCAP:FLUID3",
+   "tvName": "Fluid",
+   "confidence": "high",
+   "alternatives": [
+    "FLDTUSD (FluidTokens)"
+   ]
+  },
+  {
+   "rank": 125,
    "sym": "CHZ",
    "name": "Chiliz",
    "cg": "chiliz",
    "usd": "CRYPTO:CHZUSD",
    "cap": "CRYPTOCAP:CHZ",
    "tvName": "Chiliz",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 125,
-   "sym": "IMX",
-   "name": "Immutable",
-   "cg": "immutable-x",
-   "usd": "CRYPTO:IMXUSD",
-   "cap": "CRYPTOCAP:IMX",
-   "tvName": "Immutable",
    "confidence": "high",
    "alternatives": []
   },
@@ -1771,47 +1773,6 @@
   },
   {
    "rank": 127,
-   "sym": "MET",
-   "name": "Meteora",
-   "cg": "meteora",
-   "usd": "CRYPTO:METEUSD",
-   "cap": "CRYPTOCAP:METE",
-   "tvName": "Meteora",
-   "confidence": "high",
-   "alternatives": [
-    "METUSD (Metronome)",
-    "METHUSD (Mantle Staked Ether)",
-    "METAUSD (Metadium)"
-   ]
-  },
-  {
-   "rank": 128,
-   "sym": "APE",
-   "name": "ApeCoin",
-   "cg": "apecoin",
-   "usd": "CRYPTO:APEUSD",
-   "cap": "CRYPTOCAP:APE",
-   "tvName": "ApeCoin",
-   "confidence": "high",
-   "alternatives": [
-    "APEXUSD (ApeX Protocol)",
-    "APEDUSD (APED)",
-    "APES2USD (APES)"
-   ]
-  },
-  {
-   "rank": 129,
-   "sym": "XEC",
-   "name": "eCash",
-   "cg": "ecash",
-   "usd": "CRYPTO:XECUSD",
-   "cap": "CRYPTOCAP:XEC",
-   "tvName": "eCash",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 130,
    "sym": "A",
    "name": "Vaulta",
    "cg": "vaulta",
@@ -1826,36 +1787,7 @@
    ]
   },
   {
-   "rank": 131,
-   "sym": "EDGEX",
-   "name": "edgeX",
-   "cg": "edgex",
-   "usd": "CRYPTO:EDGEXUSD",
-   "cap": "CRYPTOCAP:EDGEX",
-   "tvName": "edgeX",
-   "confidence": "high",
-   "alternatives": [
-    "EMCEDUSD (Edge Matrix Chain)",
-    "FASTEUSD (Edge Video AI)"
-   ]
-  },
-  {
-   "rank": 132,
-   "sym": "SUPER",
-   "name": "SuperVerse",
-   "cg": "superfarm",
-   "usd": "CRYPTO:SUPERUSD",
-   "cap": "CRYPTOCAP:SUPER",
-   "tvName": "SuperVerse",
-   "confidence": "high",
-   "alternatives": [
-    "SUPEUSD (SUPE)",
-    "SUPERPUSD (Superp)",
-    "SUPERCUSD (PeerMe)"
-   ]
-  },
-  {
-   "rank": 133,
+   "rank": 128,
    "sym": "S",
    "name": "Sonic",
    "cg": "sonic-3",
@@ -1870,22 +1802,73 @@
    ]
   },
   {
-   "rank": 134,
-   "sym": "CASHCAT",
-   "name": "Cash Cat",
-   "cg": "cash-cat",
-   "usd": "CRYPTO:CASHCATUSD",
-   "cap": "CRYPTOCAP:CASHCAT",
-   "tvName": "Cash Cat",
+   "rank": 129,
+   "sym": "APE",
+   "name": "ApeCoin",
+   "cg": "apecoin",
+   "usd": "CRYPTO:APEUSD",
+   "cap": "CRYPTOCAP:APE",
+   "tvName": "ApeCoin",
    "confidence": "high",
    "alternatives": [
-    "CASH2USD (Cash)",
-    "CASUSD (Cashaa)",
-    "BCHUSD (Bitcoin Cash)"
+    "APEXUSD (ApeX Protocol)",
+    "APEDUSD (APED)",
+    "APES2USD (APES)"
    ]
   },
   {
-   "rank": 135,
+   "rank": 130,
+   "sym": "IMX",
+   "name": "Immutable",
+   "cg": "immutable-x",
+   "usd": "CRYPTO:IMXUSD",
+   "cap": "CRYPTOCAP:IMX",
+   "tvName": "Immutable",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 131,
+   "sym": "MET",
+   "name": "Meteora",
+   "cg": "meteora",
+   "usd": "CRYPTO:METEUSD",
+   "cap": "CRYPTOCAP:METE",
+   "tvName": "Meteora",
+   "confidence": "high",
+   "alternatives": [
+    "METUSD (Metronome)",
+    "METHUSD (Mantle Staked Ether)",
+    "METAUSD (Metadium)"
+   ]
+  },
+  {
+   "rank": 132,
+   "sym": "XEC",
+   "name": "eCash",
+   "cg": "ecash",
+   "usd": "CRYPTO:XECUSD",
+   "cap": "CRYPTOCAP:XEC",
+   "tvName": "eCash",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 133,
+   "sym": "EDGEX",
+   "name": "edgeX",
+   "cg": "edgex",
+   "usd": "CRYPTO:EDGEXUSD",
+   "cap": "CRYPTOCAP:EDGEX",
+   "tvName": "edgeX",
+   "confidence": "high",
+   "alternatives": [
+    "EMCEDUSD (Edge Matrix Chain)",
+    "FASTEUSD (Edge Video AI)"
+   ]
+  },
+  {
+   "rank": 134,
    "sym": "BAT",
    "name": "Basic Attention",
    "cg": "basic-attention-token",
@@ -1900,7 +1883,37 @@
    ]
   },
   {
+   "rank": 135,
+   "sym": "CASHCAT",
+   "name": "Cash Cat",
+   "cg": "cash-cat",
+   "usd": "CRYPTO:CASHCATUSD",
+   "cap": "CRYPTOCAP:CASHCAT",
+   "tvName": "Cash Cat",
+   "confidence": "high",
+   "alternatives": [
+    "CASH2USD (Cash)",
+    "CASUSD (Cashaa)",
+    "BCHUSD (Bitcoin Cash)"
+   ]
+  },
+  {
    "rank": 136,
+   "sym": "SUPER",
+   "name": "SuperVerse",
+   "cg": "superfarm",
+   "usd": "CRYPTO:SUPERUSD",
+   "cap": "CRYPTOCAP:SUPER",
+   "tvName": "SuperVerse",
+   "confidence": "high",
+   "alternatives": [
+    "SUPEUSD (SUPE)",
+    "SUPERPUSD (Superp)",
+    "SUPERCUSD (PeerMe)"
+   ]
+  },
+  {
+   "rank": 137,
    "sym": "ATH",
    "name": "Aethir",
    "cg": "aethir",
@@ -1915,17 +1928,6 @@
    ]
   },
   {
-   "rank": 137,
-   "sym": "SFP",
-   "name": "SafePal",
-   "cg": "safepal",
-   "usd": "CRYPTO:SFPUSD",
-   "cap": "CRYPTOCAP:SFP",
-   "tvName": "SafePal",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
    "rank": 138,
    "sym": "1INCH",
    "name": "1INCH",
@@ -1938,6 +1940,17 @@
   },
   {
    "rank": 139,
+   "sym": "SFP",
+   "name": "SafePal",
+   "cg": "safepal",
+   "usd": "CRYPTO:SFPUSD",
+   "cap": "CRYPTOCAP:SFP",
+   "tvName": "SafePal",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 140,
    "sym": "SNX",
    "name": "Synthetix",
    "cg": "havven",
@@ -1950,46 +1963,7 @@
    ]
   },
   {
-   "rank": 140,
-   "sym": "FLUID",
-   "name": "Fluid",
-   "cg": "instadapp",
-   "usd": "CRYPTO:FLUID3USD",
-   "cap": "CRYPTOCAP:FLUID3",
-   "tvName": "Fluid",
-   "confidence": "high",
-   "alternatives": [
-    "FLDTUSD (FluidTokens)"
-   ]
-  },
-  {
    "rank": 141,
-   "sym": "GEOD",
-   "name": "Geodnet",
-   "cg": "geodnet",
-   "usd": "CRYPTO:GEODNUSD",
-   "cap": "CRYPTOCAP:GEODN",
-   "tvName": "GEODNET",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 142,
-   "sym": "META2",
-   "name": "MetaDAO",
-   "cg": "meta-2-2",
-   "usd": "CRYPTO:METADUSD",
-   "cap": "CRYPTOCAP:METAD",
-   "tvName": "MetaDAO (new)",
-   "confidence": "high",
-   "alternatives": [
-    "MTLUSD (Metal DAO)",
-    "METALBUSD (Metal Blockchain)",
-    "METANUSD (Metan Evolutions)"
-   ]
-  },
-  {
-   "rank": 143,
    "sym": "AIOZ",
    "name": "AIOZ Network",
    "cg": "aioz-network",
@@ -2004,7 +1978,46 @@
    ]
   },
   {
+   "rank": 142,
+   "sym": "GEOD",
+   "name": "Geodnet",
+   "cg": "geodnet",
+   "usd": "CRYPTO:GEODNUSD",
+   "cap": "CRYPTOCAP:GEODN",
+   "tvName": "GEODNET",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 143,
+   "sym": "EGLD",
+   "name": "MultiversX",
+   "cg": "elrond-erd-2",
+   "usd": "CRYPTO:EGLDUSD",
+   "cap": "CRYPTOCAP:EGLD",
+   "tvName": "MultiversX",
+   "confidence": "high",
+   "alternatives": [
+    "WEGLDUSD (Wrapped EGLD)"
+   ]
+  },
+  {
    "rank": 144,
+   "sym": "META2",
+   "name": "MetaDAO",
+   "cg": "meta-2-2",
+   "usd": "CRYPTO:METADUSD",
+   "cap": "CRYPTOCAP:METAD",
+   "tvName": "MetaDAO (new)",
+   "confidence": "high",
+   "alternatives": [
+    "MTLUSD (Metal DAO)",
+    "METALBUSD (Metal Blockchain)",
+    "METANUSD (Metan Evolutions)"
+   ]
+  },
+  {
+   "rank": 145,
    "sym": "ZK",
    "name": "ZKsync",
    "cg": "zksync",
@@ -2019,20 +2032,18 @@
    ]
   },
   {
-   "rank": 145,
-   "sym": "EGLD",
-   "name": "MultiversX",
-   "cg": "elrond-erd-2",
-   "usd": "CRYPTO:EGLDUSD",
-   "cap": "CRYPTOCAP:EGLD",
-   "tvName": "MultiversX",
+   "rank": 146,
+   "sym": "PLUME",
+   "name": "Plume",
+   "cg": "plume",
+   "usd": "CRYPTO:PLUMEUSD",
+   "cap": "CRYPTOCAP:PLUME",
+   "tvName": "Plume",
    "confidence": "high",
-   "alternatives": [
-    "WEGLDUSD (Wrapped EGLD)"
-   ]
+   "alternatives": []
   },
   {
-   "rank": 146,
+   "rank": 147,
    "sym": "AWE",
    "name": "AWE Network",
    "cg": "stp-network",
@@ -2047,7 +2058,7 @@
    ]
   },
   {
-   "rank": 147,
+   "rank": 148,
    "sym": "BEAM",
    "name": "Beam",
    "cg": "beam-2",
@@ -2057,21 +2068,6 @@
    "confidence": "high",
    "manual": true,
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
-  },
-  {
-   "rank": 148,
-   "sym": "GALA",
-   "name": "GALA",
-   "cg": "gala",
-   "usd": "CRYPTO:GALAUSD",
-   "cap": "CRYPTOCAP:GALA",
-   "tvName": "Gala",
-   "confidence": "high",
-   "alternatives": [
-    "GALATUSD (Galatasaray Fan Token)",
-    "GALAXISUSD (GALAXIS Token)",
-    "GXAUSD (GALAXIA)"
-   ]
   },
   {
    "rank": 149,
@@ -2117,14 +2113,18 @@
   },
   {
    "rank": 152,
-   "sym": "PLUME",
-   "name": "Plume",
-   "cg": "plume",
-   "usd": "CRYPTO:PLUMEUSD",
-   "cap": "CRYPTOCAP:PLUME",
-   "tvName": "Plume",
+   "sym": "GALA",
+   "name": "GALA",
+   "cg": "gala",
+   "usd": "CRYPTO:GALAUSD",
+   "cap": "CRYPTOCAP:GALA",
+   "tvName": "Gala",
    "confidence": "high",
-   "alternatives": []
+   "alternatives": [
+    "GALATUSD (Galatasaray Fan Token)",
+    "GALAXISUSD (GALAXIS Token)",
+    "GXAUSD (GALAXIA)"
+   ]
   },
   {
    "rank": 153,
@@ -2141,17 +2141,6 @@
   },
   {
    "rank": 154,
-   "sym": "SOON",
-   "name": "SOON",
-   "cg": "soon-2",
-   "usd": "CRYPTO:SOON2USD",
-   "cap": "CRYPTOCAP:SOON2",
-   "tvName": "SOON",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 155,
    "sym": "ORCA",
    "name": "Orca",
    "cg": "orca",
@@ -2164,18 +2153,18 @@
    ]
   },
   {
-   "rank": 156,
-   "sym": "PEAQ",
-   "name": "peaq",
-   "cg": "peaq-2",
-   "usd": "CRYPTO:PEAQUSD",
-   "cap": "CRYPTOCAP:PEAQ",
-   "tvName": "peaq",
+   "rank": 155,
+   "sym": "SOON",
+   "name": "SOON",
+   "cg": "soon-2",
+   "usd": "CRYPTO:SOON2USD",
+   "cap": "CRYPTOCAP:SOON2",
+   "tvName": "SOON",
    "confidence": "high",
    "alternatives": []
   },
   {
-   "rank": 157,
+   "rank": 156,
    "sym": "DBR",
    "name": "deBridge",
    "cg": "debridge",
@@ -2186,7 +2175,7 @@
    "alternatives": []
   },
   {
-   "rank": 158,
+   "rank": 157,
    "sym": "PROM",
    "name": "Prom",
    "cg": "prometeus",
@@ -2201,63 +2190,46 @@
    ]
   },
   {
-   "rank": 159,
-   "sym": "PROS",
-   "name": "Pharos",
-   "cg": "pharos-network",
-   "usd": "CRYPTO:PROSPHUSD",
-   "cap": "CRYPTOCAP:PROSPH",
-   "tvName": "Pharos",
+   "rank": 158,
+   "sym": "GENIUS",
+   "name": "Genius",
+   "cg": "genius-3",
+   "usd": "CRYPTO:GENIUSUSD",
+   "cap": "CRYPTOCAP:GENIUS",
+   "tvName": "Genius Terminal",
    "confidence": "high",
    "alternatives": [
-    "PROSUSD (Prosper)",
-    "PROSPUSD (Prospective)",
-    "TQQQBUSD (ProShares UltraPro QQQ Tokenized bStocks)"
+    "GNUSUSD (GENIUS AI)"
+   ]
+  },
+  {
+   "rank": 159,
+   "sym": "CAP",
+   "name": "Cap",
+   "cg": "cap-4",
+   "usd": "CRYPTO:CAP7USD",
+   "cap": "CRYPTOCAP:CAP7",
+   "tvName": "Cap",
+   "confidence": "high",
+   "alternatives": [
+    "CAPVUSD (CAP INFRA)",
+    "CAPYBARUSD (Capybara)",
+    "CAPTAINBNBUSD (CAPTAINBNB)"
    ]
   },
   {
    "rank": 160,
-   "sym": "MARSCOIN",
-   "name": "MarsCoin",
-   "cg": "marscoin-4",
-   "usd": "CRYPTO:MARSCOIN6USD",
-   "cap": "CRYPTOCAP:MARSCOIN6",
-   "tvName": "MarsCoin",
+   "sym": "PEAQ",
+   "name": "peaq",
+   "cg": "peaq-2",
+   "usd": "CRYPTO:PEAQUSD",
+   "cap": "CRYPTOCAP:PEAQ",
+   "tvName": "peaq",
    "confidence": "high",
    "alternatives": []
   },
   {
    "rank": 161,
-   "sym": "RSR",
-   "name": "Reserve Rights",
-   "cg": "reserve-rights-token",
-   "usd": "CRYPTO:RSRUSD",
-   "cap": "CRYPTOCAP:RSR",
-   "tvName": "Reserve Rights",
-   "confidence": "high",
-   "alternatives": [
-    "EFRUSD (End Federal Reserve)",
-    "SBRSUSD (STRATEGIC BITCOIN RESERVE)",
-    "AMR2USD (Advanced Mortgage & Reserve)"
-   ]
-  },
-  {
-   "rank": 162,
-   "sym": "ZRX",
-   "name": "0x Protocol",
-   "cg": "0x",
-   "usd": "CRYPTO:ZRXUSD",
-   "cap": "CRYPTOCAP:ZRX",
-   "tvName": "0x Protocol",
-   "confidence": "high",
-   "alternatives": [
-    "POTXUSD (X Protocol)",
-    "NEARUSD (NEAR Protocol)",
-    "VIRTUALUSD (Virtuals Protocol)"
-   ]
-  },
-  {
-   "rank": 163,
    "sym": "FORM",
    "name": "Four",
    "cg": "four",
@@ -2272,17 +2244,45 @@
    ]
   },
   {
-   "rank": 164,
-   "sym": "GENIUS",
-   "name": "Genius",
-   "cg": "genius-3",
-   "usd": "CRYPTO:GENIUSUSD",
-   "cap": "CRYPTOCAP:GENIUS",
-   "tvName": "Genius Terminal",
+   "rank": 162,
+   "sym": "RSR",
+   "name": "Reserve Rights",
+   "cg": "reserve-rights-token",
+   "usd": "CRYPTO:RSRUSD",
+   "cap": "CRYPTOCAP:RSR",
+   "tvName": "Reserve Rights",
    "confidence": "high",
    "alternatives": [
-    "GNUSUSD (GENIUS AI)"
+    "EFRUSD (End Federal Reserve)",
+    "SBRSUSD (STRATEGIC BITCOIN RESERVE)",
+    "AMR2USD (Advanced Mortgage & Reserve)"
    ]
+  },
+  {
+   "rank": 163,
+   "sym": "ZRX",
+   "name": "0x Protocol",
+   "cg": "0x",
+   "usd": "CRYPTO:ZRXUSD",
+   "cap": "CRYPTOCAP:ZRX",
+   "tvName": "0x Protocol",
+   "confidence": "high",
+   "alternatives": [
+    "POTXUSD (X Protocol)",
+    "NEARUSD (NEAR Protocol)",
+    "VIRTUALUSD (Virtuals Protocol)"
+   ]
+  },
+  {
+   "rank": 164,
+   "sym": "MARSCOIN",
+   "name": "MarsCoin",
+   "cg": "marscoin-4",
+   "usd": "CRYPTO:MARSCOIN6USD",
+   "cap": "CRYPTOCAP:MARSCOIN6",
+   "tvName": "MarsCoin",
+   "confidence": "high",
+   "alternatives": []
   },
   {
    "rank": 165,
@@ -2311,6 +2311,21 @@
   },
   {
    "rank": 167,
+   "sym": "PROS",
+   "name": "Pharos",
+   "cg": "pharos-network",
+   "usd": "CRYPTO:PROSPHUSD",
+   "cap": "CRYPTOCAP:PROSPH",
+   "tvName": "Pharos",
+   "confidence": "high",
+   "alternatives": [
+    "PROSUSD (Prosper)",
+    "PROSPUSD (Prospective)",
+    "TQQQBUSD (ProShares UltraPro QQQ Tokenized bStocks)"
+   ]
+  },
+  {
+   "rank": 168,
    "sym": "Q",
    "name": "Quack AI",
    "cg": "quack-ai",
@@ -2325,35 +2340,7 @@
    ]
   },
   {
-   "rank": 168,
-   "sym": "CAP",
-   "name": "Cap",
-   "cg": "cap-4",
-   "usd": "CRYPTO:CAP7USD",
-   "cap": "CRYPTOCAP:CAP7",
-   "tvName": "Cap",
-   "confidence": "high",
-   "alternatives": [
-    "CAPVUSD (CAP INFRA)",
-    "CAPYBARUSD (Capybara)",
-    "CAPTAINBNBUSD (CAPTAINBNB)"
-   ]
-  },
-  {
    "rank": 169,
-   "sym": "KSM",
-   "name": "Kusama",
-   "cg": "kusama",
-   "usd": "CRYPTO:KSMUSD",
-   "cap": "CRYPTOCAP:KSM",
-   "tvName": "Kusama",
-   "confidence": "high",
-   "alternatives": [
-    "SHYUSD (Shytoshi Kusama)"
-   ]
-  },
-  {
-   "rank": 170,
    "sym": "CHIP",
    "name": "USD.AI",
    "cg": "chip-2",
@@ -2368,52 +2355,20 @@
    ]
   },
   {
+   "rank": 170,
+   "sym": "KSM",
+   "name": "Kusama",
+   "cg": "kusama",
+   "usd": "CRYPTO:KSMUSD",
+   "cap": "CRYPTOCAP:KSM",
+   "tvName": "Kusama",
+   "confidence": "high",
+   "alternatives": [
+    "SHYUSD (Shytoshi Kusama)"
+   ]
+  },
+  {
    "rank": 171,
-   "sym": "WAL",
-   "name": "Walrus",
-   "cg": "walrus-2",
-   "usd": "CRYPTO:WALRUSD",
-   "cap": "CRYPTOCAP:WALR",
-   "tvName": "Walrus",
-   "confidence": "high",
-   "alternatives": [
-    "WALKUSD (Walk Token)",
-    "WALVUSD (Wrapped Alvey Chain)",
-    "WALLETUSD (Ambire Wallet)"
-   ]
-  },
-  {
-   "rank": 172,
-   "sym": "YFI",
-   "name": "yearn.finance",
-   "cg": "yearn-finance",
-   "usd": "CRYPTO:YFIUSD",
-   "cap": "CRYPTOCAP:YFI",
-   "tvName": "Yearn",
-   "confidence": "high",
-   "alternatives": [
-    "YFIIUSD (DFI.Money)",
-    "AERODUSD (Aerodrome Finance)",
-    "SYRUPUSD (Maple Finance)"
-   ]
-  },
-  {
-   "rank": 173,
-   "sym": "W",
-   "name": "Wormhole",
-   "cg": "wormhole",
-   "usd": "CRYPTO:WUSD",
-   "cap": "CRYPTOCAP:W",
-   "tvName": "Wormhole",
-   "confidence": "high",
-   "alternatives": [
-    "WIFUSD (dogwifhat)",
-    "WLDWUSD (Worldcoin)",
-    "WXUSD (WX Token)"
-   ]
-  },
-  {
-   "rank": 174,
    "sym": "ORDI",
    "name": "ORDI",
    "cg": "ordinals",
@@ -2428,7 +2383,7 @@
    ]
   },
   {
-   "rank": 175,
+   "rank": 172,
    "sym": "ARKM",
    "name": "Arkham",
    "cg": "arkham",
@@ -2439,7 +2394,37 @@
    "alternatives": []
   },
   {
-   "rank": 176,
+   "rank": 173,
+   "sym": "WAL",
+   "name": "Walrus",
+   "cg": "walrus-2",
+   "usd": "CRYPTO:WALRUSD",
+   "cap": "CRYPTOCAP:WALR",
+   "tvName": "Walrus",
+   "confidence": "high",
+   "alternatives": [
+    "WALKUSD (Walk Token)",
+    "WALVUSD (Wrapped Alvey Chain)",
+    "WALLETUSD (Ambire Wallet)"
+   ]
+  },
+  {
+   "rank": 174,
+   "sym": "W",
+   "name": "Wormhole",
+   "cg": "wormhole",
+   "usd": "CRYPTO:WUSD",
+   "cap": "CRYPTOCAP:W",
+   "tvName": "Wormhole",
+   "confidence": "high",
+   "alternatives": [
+    "WIFUSD (dogwifhat)",
+    "WLDWUSD (Worldcoin)",
+    "WXUSD (WX Token)"
+   ]
+  },
+  {
+   "rank": 175,
    "sym": "GAS",
    "name": "Gas",
    "cg": "gas",
@@ -2454,7 +2439,45 @@
    ]
   },
   {
+   "rank": 176,
+   "sym": "GMX",
+   "name": "GMX",
+   "cg": "gmx",
+   "usd": "CRYPTO:GMXUSD",
+   "cap": "CRYPTOCAP:GMX",
+   "tvName": "GMX",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
    "rank": 177,
+   "sym": "YFI",
+   "name": "yearn.finance",
+   "cg": "yearn-finance",
+   "usd": "CRYPTO:YFIUSD",
+   "cap": "CRYPTOCAP:YFI",
+   "tvName": "Yearn",
+   "confidence": "high",
+   "alternatives": [
+    "YFIIUSD (DFI.Money)",
+    "AERODUSD (Aerodrome Finance)",
+    "SYRUPUSD (Maple Finance)"
+   ]
+  },
+  {
+   "rank": 178,
+   "sym": "SAFE",
+   "name": "Safe",
+   "cg": "safe",
+   "usd": "CRYPTO:SAFE3USD",
+   "cap": "CRYPTOCAP:SAFE3",
+   "tvName": "Safe",
+   "confidence": "high",
+   "manual": true,
+   "note": "checked against exchange prices (scripts/check-tickers.mjs)"
+  },
+  {
+   "rank": 179,
    "sym": "RED",
    "name": "RedStone",
    "cg": "redstone-oracles",
@@ -2469,7 +2492,7 @@
    ]
   },
   {
-   "rank": 178,
+   "rank": 180,
    "sym": "COW",
    "name": "CoW Protocol",
    "cg": "cow-protocol",
@@ -2482,29 +2505,6 @@
     "NEARUSD (NEAR Protocol)",
     "VIRTUALUSD (Virtuals Protocol)"
    ]
-  },
-  {
-   "rank": 179,
-   "sym": "GMX",
-   "name": "GMX",
-   "cg": "gmx",
-   "usd": "CRYPTO:GMXUSD",
-   "cap": "CRYPTOCAP:GMX",
-   "tvName": "GMX",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 180,
-   "sym": "SAFE",
-   "name": "Safe",
-   "cg": "safe",
-   "usd": "CRYPTO:SAFE3USD",
-   "cap": "CRYPTOCAP:SAFE3",
-   "tvName": "Safe",
-   "confidence": "high",
-   "manual": true,
-   "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
    "rank": 181,
@@ -2545,19 +2545,6 @@
   },
   {
    "rank": 184,
-   "sym": "KAITO",
-   "name": "KAITO",
-   "cg": "kaito",
-   "usd": "CRYPTO:KAITOUSD",
-   "cap": "CRYPTOCAP:KAITO",
-   "tvName": "KAITO",
-   "confidence": "high",
-   "alternatives": [
-    "KAIOUSD (KAIO)"
-   ]
-  },
-  {
-   "rank": 185,
    "sym": "ZETA",
    "name": "ZetaChain",
    "cg": "zetachain",
@@ -2570,22 +2557,7 @@
    ]
   },
   {
-   "rank": 186,
-   "sym": "RE",
-   "name": "RE",
-   "cg": "re",
-   "usd": "CRYPTO:REUSD",
-   "cap": "CRYPTOCAP:RE",
-   "tvName": "Re",
-   "confidence": "high",
-   "alternatives": [
-    "RENDERUSD (Render)",
-    "REZUSD (Renzo)",
-    "REQUSD (Request)"
-   ]
-  },
-  {
-   "rank": 187,
+   "rank": 185,
    "sym": "RIF",
    "name": "Rootstock Infrastructure Framework",
    "cg": "rif-token",
@@ -2600,7 +2572,20 @@
    ]
   },
   {
-   "rank": 188,
+   "rank": 186,
+   "sym": "KAITO",
+   "name": "KAITO",
+   "cg": "kaito",
+   "usd": "CRYPTO:KAITOUSD",
+   "cap": "CRYPTOCAP:KAITO",
+   "tvName": "KAITO",
+   "confidence": "high",
+   "alternatives": [
+    "KAIOUSD (KAIO)"
+   ]
+  },
+  {
+   "rank": 187,
    "sym": "O",
    "name": "o1.exchange",
    "cg": "o1-exchange",
@@ -2615,7 +2600,7 @@
    ]
   },
   {
-   "rank": 189,
+   "rank": 188,
    "sym": "HOT",
    "name": "Holo",
    "cg": "holotoken",
@@ -2630,7 +2615,7 @@
    ]
   },
   {
-   "rank": 190,
+   "rank": 189,
    "sym": "牛来",
    "name": "牛来 (Niu Lai)",
    "cg": "niu-lai",
@@ -2642,6 +2627,21 @@
     "WOTAMALAILIAOUSD (Wo Ta Ma Lai Liao)",
     "LAIKA3USD (Laika)",
     "LKILUSD (Laika AI)"
+   ]
+  },
+  {
+   "rank": 190,
+   "sym": "RE",
+   "name": "RE",
+   "cg": "re",
+   "usd": "CRYPTO:REUSD",
+   "cap": "CRYPTOCAP:RE",
+   "tvName": "Re",
+   "confidence": "high",
+   "alternatives": [
+    "RENDERUSD (Render)",
+    "REZUSD (Renzo)",
+    "REQUSD (Request)"
    ]
   },
   {
@@ -2683,6 +2683,32 @@
   },
   {
    "rank": 194,
+   "sym": "ESP",
+   "name": "Espresso",
+   "cg": "espresso",
+   "usd": "CRYPTO:ESPRESUSD",
+   "cap": "CRYPTOCAP:ESPRES",
+   "tvName": "Espresso",
+   "confidence": "high",
+   "alternatives": [
+    "ESPORTSUSD (Yooldo)"
+   ]
+  },
+  {
+   "rank": 195,
+   "sym": "MUBARAK",
+   "name": "Mubarak",
+   "cg": "mubarak",
+   "usd": "CRYPTO:MUBARAKUSD",
+   "cap": "CRYPTOCAP:MUBARAK",
+   "tvName": "Mubarak",
+   "confidence": "high",
+   "alternatives": [
+    "MUBARAKAHUSD (Mubarakah)"
+   ]
+  },
+  {
+   "rank": 196,
    "sym": "DATA",
    "name": "Data Network",
    "cg": "story-2",
@@ -2697,7 +2723,7 @@
    ]
   },
   {
-   "rank": 195,
+   "rank": 197,
    "sym": "BANANAS31",
    "name": "Banana For Scale",
    "cg": "banana-for-scale-2",
@@ -2712,7 +2738,7 @@
    ]
   },
   {
-   "rank": 196,
+   "rank": 198,
    "sym": "KAVA",
    "name": "Kava",
    "cg": "kava",
@@ -2725,20 +2751,7 @@
    ]
   },
   {
-   "rank": 197,
-   "sym": "ESP",
-   "name": "Espresso",
-   "cg": "espresso",
-   "usd": "CRYPTO:ESPRESUSD",
-   "cap": "CRYPTOCAP:ESPRES",
-   "tvName": "Espresso",
-   "confidence": "high",
-   "alternatives": [
-    "ESPORTSUSD (Yooldo)"
-   ]
-  },
-  {
-   "rank": 198,
+   "rank": 199,
    "sym": "NXPC",
    "name": "Nexpace",
    "cg": "nexpace",
@@ -2749,7 +2762,7 @@
    "alternatives": []
   },
   {
-   "rank": 199,
+   "rank": 200,
    "sym": "SUSHI",
    "name": "Sushi",
    "cg": "sushi",
@@ -2760,7 +2773,7 @@
    "alternatives": []
   },
   {
-   "rank": 200,
+   "rank": 201,
    "sym": "TURBO",
    "name": "Turbo",
    "cg": "turbo",
@@ -2773,31 +2786,19 @@
    ]
   },
   {
-   "rank": 201,
-   "sym": "IO",
-   "name": "io.net",
-   "cg": "io",
-   "usd": "CRYPTO:IONEUSD",
-   "cap": "CRYPTOCAP:IONE",
-   "tvName": "io.net",
+   "rank": 202,
+   "sym": "BOME",
+   "name": "BOOK OF MEME",
+   "cg": "book-of-meme",
+   "usd": "CRYPTO:BOMEUSD",
+   "cap": "CRYPTOCAP:BOME",
+   "tvName": "BOOK OF MEME",
    "confidence": "high",
    "alternatives": [
-    "ARIOUSD (The Ar.io Network)",
-    "RIOUSD (Realio Network)",
-    "IOTAUSD (IOTA)"
+    "MEME2USD (meme (Ordinals))",
+    "GOMEUSD (Game of Memes)",
+    "LIONKUSD (King Of Meme)"
    ]
-  },
-  {
-   "rank": 202,
-   "sym": "POD",
-   "name": "Dolphin",
-   "cg": "dolphin-2",
-   "usd": null,
-   "cap": null,
-   "tvName": null,
-   "confidence": "none",
-   "manual": true,
-   "note": "TradingView has no ticker for Dolphin (POD)"
   },
   {
    "rank": 203,
@@ -2815,34 +2816,6 @@
   },
   {
    "rank": 204,
-   "sym": "BOME",
-   "name": "BOOK OF MEME",
-   "cg": "book-of-meme",
-   "usd": "CRYPTO:BOMEUSD",
-   "cap": "CRYPTOCAP:BOME",
-   "tvName": "BOOK OF MEME",
-   "confidence": "high",
-   "alternatives": [
-    "MEME2USD (meme (Ordinals))",
-    "GOMEUSD (Game of Memes)",
-    "LIONKUSD (King Of Meme)"
-   ]
-  },
-  {
-   "rank": 205,
-   "sym": "MUBARAK",
-   "name": "Mubarak",
-   "cg": "mubarak",
-   "usd": "CRYPTO:MUBARAKUSD",
-   "cap": "CRYPTOCAP:MUBARAK",
-   "tvName": "Mubarak",
-   "confidence": "high",
-   "alternatives": [
-    "MUBARAKAHUSD (Mubarakah)"
-   ]
-  },
-  {
-   "rank": 206,
    "sym": "ZIL",
    "name": "Zilliqa",
    "cg": "zilliqa",
@@ -2855,33 +2828,50 @@
    ]
   },
   {
-   "rank": 207,
-   "sym": "ROSE",
-   "name": "Oasis",
-   "cg": "oasis-network",
-   "usd": "CRYPTO:ROSEUSD",
-   "cap": "CRYPTOCAP:ROSE",
-   "tvName": "Oasis",
+   "rank": 205,
+   "sym": "IO",
+   "name": "io.net",
+   "cg": "io",
+   "usd": "CRYPTO:IONEUSD",
+   "cap": "CRYPTOCAP:IONE",
+   "tvName": "io.net",
    "confidence": "high",
    "alternatives": [
-    "ROSXUSD (Roseon)",
-    "MARIEUSD (Marie Rose)",
-    "BGEOUSD (BGEO(Bitcoin Global Eternal Oasis))"
+    "ARIOUSD (The Ar.io Network)",
+    "RIOUSD (Realio Network)",
+    "IOTAUSD (IOTA)"
+   ]
+  },
+  {
+   "rank": 206,
+   "sym": "BIO",
+   "name": "Bio Protocol",
+   "cg": "bio-protocol",
+   "usd": "CRYPTO:BIOPRUSD",
+   "cap": "CRYPTOCAP:BIOPR",
+   "tvName": "Bio Protocol",
+   "confidence": "high",
+   "alternatives": [
+    "BIOPUSD (Biop)",
+    "BIOTUSD (BioPassport Token)",
+    "BIOFIUSD (Biometric Financial)"
+   ]
+  },
+  {
+   "rank": 207,
+   "sym": "AXL",
+   "name": "Axelar",
+   "cg": "axelar",
+   "usd": "CRYPTO:AXLUSD",
+   "cap": "CRYPTOCAP:AXL",
+   "tvName": "Axelar",
+   "confidence": "high",
+   "alternatives": [
+    "AXLIUSD (Axl Inu)"
    ]
   },
   {
    "rank": 208,
-   "sym": "VTHO",
-   "name": "VeThor",
-   "cg": "vethor-token",
-   "usd": "CRYPTO:VTHOUSD",
-   "cap": "CRYPTOCAP:VTHO",
-   "tvName": "VeThor Token",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 209,
    "sym": "XPR",
    "name": "XPR Network",
    "cg": "proton",
@@ -2896,19 +2886,31 @@
    ]
   },
   {
-   "rank": 210,
-   "sym": "ASTR",
-   "name": "Astar",
-   "cg": "astar",
-   "usd": "CRYPTO:ASTRUSD",
-   "cap": "CRYPTOCAP:ASTR",
-   "tvName": "Astar",
+   "rank": 209,
+   "sym": "MERL",
+   "name": "Merlin Chain",
+   "cg": "merlin-chain",
+   "usd": "CRYPTO:MERLUSD",
+   "cap": "CRYPTOCAP:MERL",
+   "tvName": "Merlin Chain",
    "confidence": "high",
    "alternatives": [
-    "ASTRAUSD (ASTRA)",
-    "ASTROUSD (AstroSwap)",
-    "ASTRAAUSD (AstraAI)"
+    "MRLNUSD (Project Merlin)",
+    "ARRRUSD (Pirate Chain)",
+    "LINKUSD (Chainlink)"
    ]
+  },
+  {
+   "rank": 210,
+   "sym": "POD",
+   "name": "Dolphin",
+   "cg": "dolphin-2",
+   "usd": null,
+   "cap": null,
+   "tvName": null,
+   "confidence": "none",
+   "manual": true,
+   "note": "TradingView has no ticker for Dolphin (POD)"
   },
   {
    "rank": 211,
@@ -2927,14 +2929,18 @@
   },
   {
    "rank": 212,
-   "sym": "DEXE",
-   "name": "DeXe",
-   "cg": "dexe",
-   "usd": "CRYPTO:DEXEUSD",
-   "cap": "CRYPTOCAP:DEXE",
-   "tvName": "DeXe",
+   "sym": "ROSE",
+   "name": "Oasis",
+   "cg": "oasis-network",
+   "usd": "CRYPTO:ROSEUSD",
+   "cap": "CRYPTOCAP:ROSE",
+   "tvName": "Oasis",
    "confidence": "high",
-   "alternatives": []
+   "alternatives": [
+    "ROSXUSD (Roseon)",
+    "MARIEUSD (Marie Rose)",
+    "BGEOUSD (BGEO(Bitcoin Global Eternal Oasis))"
+   ]
   },
   {
    "rank": 213,
@@ -2952,64 +2958,6 @@
   },
   {
    "rank": 214,
-   "sym": "AXL",
-   "name": "Axelar",
-   "cg": "axelar",
-   "usd": "CRYPTO:AXLUSD",
-   "cap": "CRYPTOCAP:AXL",
-   "tvName": "Axelar",
-   "confidence": "high",
-   "alternatives": [
-    "AXLIUSD (Axl Inu)"
-   ]
-  },
-  {
-   "rank": 215,
-   "sym": "BABY",
-   "name": "Babylon",
-   "cg": "babylon",
-   "usd": "CRYPTO:BABYLUSD",
-   "cap": "CRYPTOCAP:BABYL",
-   "tvName": "Babylon",
-   "confidence": "high",
-   "alternatives": [
-    "BABIUSD (Babylons)",
-    "BABYUSD (BabySwap)",
-    "BABYDOGEUSD (Baby Doge Coin)"
-   ]
-  },
-  {
-   "rank": 216,
-   "sym": "MERL",
-   "name": "Merlin Chain",
-   "cg": "merlin-chain",
-   "usd": "CRYPTO:MERLUSD",
-   "cap": "CRYPTOCAP:MERL",
-   "tvName": "Merlin Chain",
-   "confidence": "high",
-   "alternatives": [
-    "MRLNUSD (Project Merlin)",
-    "ARRRUSD (Pirate Chain)",
-    "LINKUSD (Chainlink)"
-   ]
-  },
-  {
-   "rank": 217,
-   "sym": "BIO",
-   "name": "Bio Protocol",
-   "cg": "bio-protocol",
-   "usd": "CRYPTO:BIOPRUSD",
-   "cap": "CRYPTOCAP:BIOPR",
-   "tvName": "Bio Protocol",
-   "confidence": "high",
-   "alternatives": [
-    "BIOPUSD (Biop)",
-    "BIOTUSD (BioPassport Token)",
-    "BIOFIUSD (Biometric Financial)"
-   ]
-  },
-  {
-   "rank": 218,
    "sym": "CKB",
    "name": "Nervos Network",
    "cg": "nervos-network",
@@ -3024,7 +2972,108 @@
    ]
   },
   {
+   "rank": 215,
+   "sym": "DEXE",
+   "name": "DeXe",
+   "cg": "dexe",
+   "usd": "CRYPTO:DEXEUSD",
+   "cap": "CRYPTOCAP:DEXE",
+   "tvName": "DeXe",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 216,
+   "sym": "BABY",
+   "name": "Babylon",
+   "cg": "babylon",
+   "usd": "CRYPTO:BABYLUSD",
+   "cap": "CRYPTOCAP:BABYL",
+   "tvName": "Babylon",
+   "confidence": "high",
+   "alternatives": [
+    "BABIUSD (Babylons)",
+    "BABYUSD (BabySwap)",
+    "BABYDOGEUSD (Baby Doge Coin)"
+   ]
+  },
+  {
+   "rank": 217,
+   "sym": "ASTR",
+   "name": "Astar",
+   "cg": "astar",
+   "usd": "CRYPTO:ASTRUSD",
+   "cap": "CRYPTOCAP:ASTR",
+   "tvName": "Astar",
+   "confidence": "high",
+   "alternatives": [
+    "ASTRAUSD (ASTRA)",
+    "ASTROUSD (AstroSwap)",
+    "ASTRAAUSD (AstraAI)"
+   ]
+  },
+  {
+   "rank": 218,
+   "sym": "VTHO",
+   "name": "VeThor",
+   "cg": "vethor-token",
+   "usd": "CRYPTO:VTHOUSD",
+   "cap": "CRYPTOCAP:VTHO",
+   "tvName": "VeThor Token",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
    "rank": 219,
+   "sym": "0G",
+   "name": "0G",
+   "cg": "zero-gravity",
+   "usd": "CRYPTO:0GUSD",
+   "cap": "CRYPTOCAP:0G",
+   "tvName": "0G",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 220,
+   "sym": "GPS",
+   "name": "GoPlus Security",
+   "cg": "goplus-security",
+   "usd": "CRYPTO:GPSUSD",
+   "cap": "CRYPTOCAP:GPS",
+   "tvName": "GoPlus Security",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 221,
+   "sym": "CELO",
+   "name": "Celo",
+   "cg": "celo",
+   "usd": "CRYPTO:CELOUSD",
+   "cap": "CRYPTOCAP:CELO",
+   "tvName": "Celo",
+   "confidence": "high",
+   "alternatives": [
+    "CEURUSD (Celo Euro)",
+    "CUSDUSD (Celo Dollar)"
+   ]
+  },
+  {
+   "rank": 222,
+   "sym": "ELF",
+   "name": "aelf",
+   "cg": "aelf",
+   "usd": "CRYPTO:ELFUSD",
+   "cap": "CRYPTOCAP:ELF",
+   "tvName": "aelf",
+   "confidence": "high",
+   "alternatives": [
+    "ELFTUSD (THE LAND ELF Crossing)"
+   ]
+  },
+  {
+   "rank": 223,
    "sym": "PHA",
    "name": "PHALA",
    "cg": "pha",
@@ -3039,42 +3088,7 @@
    ]
   },
   {
-   "rank": 220,
-   "sym": "ELF",
-   "name": "aelf",
-   "cg": "aelf",
-   "usd": "CRYPTO:ELFUSD",
-   "cap": "CRYPTOCAP:ELF",
-   "tvName": "aelf",
-   "confidence": "high",
-   "alternatives": [
-    "ELFTUSD (THE LAND ELF Crossing)"
-   ]
-  },
-  {
-   "rank": 221,
-   "sym": "BLUR",
-   "name": "Blur",
-   "cg": "blur",
-   "usd": "CRYPTO:BLURUSD",
-   "cap": "CRYPTOCAP:BLUR",
-   "tvName": "Blur",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 222,
-   "sym": "0G",
-   "name": "0G",
-   "cg": "zero-gravity",
-   "usd": "CRYPTO:0GUSD",
-   "cap": "CRYPTOCAP:0G",
-   "tvName": "0G",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 223,
+   "rank": 224,
    "sym": "CTC",
    "name": "Creditcoin",
    "cg": "creditcoin-2",
@@ -3085,17 +3099,6 @@
    "alternatives": [
     "CTCHUSD (Challenge)"
    ]
-  },
-  {
-   "rank": 224,
-   "sym": "GPS",
-   "name": "GoPlus Security",
-   "cg": "goplus-security",
-   "usd": "CRYPTO:GPSUSD",
-   "cap": "CRYPTOCAP:GPS",
-   "tvName": "GoPlus Security",
-   "confidence": "high",
-   "alternatives": []
   },
   {
    "rank": 225,
@@ -3114,20 +3117,41 @@
   },
   {
    "rank": 226,
-   "sym": "CELO",
-   "name": "Celo",
-   "cg": "celo",
-   "usd": "CRYPTO:CELOUSD",
-   "cap": "CRYPTOCAP:CELO",
-   "tvName": "Celo",
+   "sym": "ONT",
+   "name": "Ontology",
+   "cg": "ontology",
+   "usd": "CRYPTO:ONTUSD",
+   "cap": "CRYPTOCAP:ONT",
+   "tvName": "Ontology",
    "confidence": "high",
    "alternatives": [
-    "CEURUSD (Celo Euro)",
-    "CUSDUSD (Celo Dollar)"
+    "ONGUSD (Ontology Gas)"
    ]
   },
   {
    "rank": 227,
+   "sym": "BLUR",
+   "name": "Blur",
+   "cg": "blur",
+   "usd": "CRYPTO:BLURUSD",
+   "cap": "CRYPTOCAP:BLUR",
+   "tvName": "Blur",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 228,
+   "sym": "LSK",
+   "name": "Lisk",
+   "cg": "lisk",
+   "usd": "CRYPTO:LSKUSD",
+   "cap": "CRYPTOCAP:LSK",
+   "tvName": "Lisk",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 229,
    "sym": "DEEP",
    "name": "DeepBook",
    "cg": "deep",
@@ -3142,35 +3166,20 @@
    ]
   },
   {
-   "rank": 228,
-   "sym": "HUMA",
-   "name": "Huma Finance",
-   "cg": "huma-finance",
-   "usd": "CRYPTO:HUMAUSD",
-   "cap": "CRYPTOCAP:HUMA",
-   "tvName": "Huma Finance",
-   "confidence": "high",
-   "alternatives": [
-    "HUSD (Humanity)",
-    "HMTUSD (Human)",
-    "HEARTUSD (Humans.ai)"
-   ]
-  },
-  {
-   "rank": 229,
-   "sym": "ONT",
-   "name": "Ontology",
-   "cg": "ontology",
-   "usd": "CRYPTO:ONTUSD",
-   "cap": "CRYPTOCAP:ONT",
-   "tvName": "Ontology",
-   "confidence": "high",
-   "alternatives": [
-    "ONGUSD (Ontology Gas)"
-   ]
-  },
-  {
    "rank": 230,
+   "sym": "CFG",
+   "name": "Centrifuge",
+   "cg": "centrifuge-2",
+   "usd": "CRYPTO:CFGUSD",
+   "cap": "CRYPTOCAP:CFG",
+   "tvName": "Centrifuge",
+   "confidence": "high",
+   "alternatives": [
+    "WCFGUSD (Wrapped Centrifuge)"
+   ]
+  },
+  {
+   "rank": 231,
    "sym": "BRETT",
    "name": "Brett",
    "cg": "based-brett",
@@ -3182,7 +3191,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 231,
+   "rank": 232,
    "sym": "ALT",
    "name": "AltLayer",
    "cg": "altlayer",
@@ -3197,68 +3206,22 @@
    ]
   },
   {
-   "rank": 232,
-   "sym": "ARX",
-   "name": "Arcium",
-   "cg": "arcium",
-   "usd": "CRYPTO:ARXARCIUM2USD",
-   "cap": "CRYPTOCAP:ARXARCIUM2",
-   "tvName": "Arcium",
-   "confidence": "high",
-   "alternatives": [
-    "ARXUSD (ARCS)"
-   ]
-  },
-  {
    "rank": 233,
-   "sym": "XVS",
-   "name": "Venus",
-   "cg": "venus",
-   "usd": "CRYPTO:XVSUSD",
-   "cap": "CRYPTOCAP:XVS",
-   "tvName": "Venus",
+   "sym": "AMP",
+   "name": "Amp",
+   "cg": "amp-token",
+   "usd": "CRYPTO:AMP2USD",
+   "cap": "CRYPTOCAP:AMP2",
+   "tvName": "Amp",
    "confidence": "high",
    "alternatives": [
-    "VRTUSD (Venus Reward Token)"
+    "AMPLUSD (Ampleforth)",
+    "FORTHUSD (Ampleforth Governance Token)",
+    "APHONUSD (Amphenol Tokenized Stock (Ondo))"
    ]
   },
   {
    "rank": 234,
-   "sym": "LSK",
-   "name": "Lisk",
-   "cg": "lisk",
-   "usd": "CRYPTO:LSKUSD",
-   "cap": "CRYPTOCAP:LSK",
-   "tvName": "Lisk",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 235,
-   "sym": "CFG",
-   "name": "Centrifuge",
-   "cg": "centrifuge-2",
-   "usd": "CRYPTO:CFGUSD",
-   "cap": "CRYPTOCAP:CFG",
-   "tvName": "Centrifuge",
-   "confidence": "high",
-   "alternatives": [
-    "WCFGUSD (Wrapped Centrifuge)"
-   ]
-  },
-  {
-   "rank": 236,
-   "sym": "TRB",
-   "name": "Tellor Tributes",
-   "cg": "tellor",
-   "usd": "CRYPTO:TRBUSD",
-   "cap": "CRYPTOCAP:TRB",
-   "tvName": "Tellor",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 237,
    "sym": "ID",
    "name": "SPACE ID",
    "cg": "space-id",
@@ -3273,18 +3236,57 @@
    ]
   },
   {
-   "rank": 238,
-   "sym": "AMP",
-   "name": "Amp",
-   "cg": "amp-token",
-   "usd": "CRYPTO:AMP2USD",
-   "cap": "CRYPTOCAP:AMP2",
-   "tvName": "Amp",
+   "rank": 235,
+   "sym": "HUMA",
+   "name": "Huma Finance",
+   "cg": "huma-finance",
+   "usd": "CRYPTO:HUMAUSD",
+   "cap": "CRYPTOCAP:HUMA",
+   "tvName": "Huma Finance",
    "confidence": "high",
    "alternatives": [
-    "AMPLUSD (Ampleforth)",
-    "FORTHUSD (Ampleforth Governance Token)",
-    "APHONUSD (Amphenol Tokenized Stock (Ondo))"
+    "HUSD (Humanity)",
+    "HMTUSD (Human)",
+    "HEARTUSD (Humans.ai)"
+   ]
+  },
+  {
+   "rank": 236,
+   "sym": "XVS",
+   "name": "Venus",
+   "cg": "venus",
+   "usd": "CRYPTO:XVSUSD",
+   "cap": "CRYPTOCAP:XVS",
+   "tvName": "Venus",
+   "confidence": "high",
+   "alternatives": [
+    "VRTUSD (Venus Reward Token)"
+   ]
+  },
+  {
+   "rank": 237,
+   "sym": "TRB",
+   "name": "Tellor Tributes",
+   "cg": "tellor",
+   "usd": "CRYPTO:TRBUSD",
+   "cap": "CRYPTOCAP:TRB",
+   "tvName": "Tellor",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 238,
+   "sym": "MEGA",
+   "name": "MegaETH",
+   "cg": "megaeth",
+   "usd": "CRYPTO:MEGAEUSD",
+   "cap": "CRYPTOCAP:MEGAE",
+   "tvName": "MegaETH",
+   "confidence": "high",
+   "alternatives": [
+    "MEGAUSD (Megaton Finance)",
+    "MEGAHEROUSD (MegaHero)",
+    "MEGALANDUSD (Metagalaxy Land)"
    ]
   },
   {
@@ -3300,30 +3302,30 @@
   },
   {
    "rank": 240,
-   "sym": "MEGA",
-   "name": "MegaETH",
-   "cg": "megaeth",
-   "usd": "CRYPTO:MEGAEUSD",
-   "cap": "CRYPTOCAP:MEGAE",
-   "tvName": "MegaETH",
+   "sym": "XYO",
+   "name": "XYO Network",
+   "cg": "xyo-network",
+   "usd": "CRYPTO:XYOUSD",
+   "cap": "CRYPTOCAP:XYO",
+   "tvName": "XYO",
    "confidence": "high",
    "alternatives": [
-    "MEGAUSD (Megaton Finance)",
-    "MEGAHEROUSD (MegaHero)",
-    "MEGALANDUSD (Metagalaxy Land)"
+    "AKTUSD (Akash Network)",
+    "ZBCNUSD (Zebec Network)",
+    "XDCUSD (XDC Network)"
    ]
   },
   {
    "rank": 241,
-   "sym": "FLOW",
-   "name": "Flow",
-   "cg": "flow",
-   "usd": "CRYPTO:FLOWUSD",
-   "cap": "CRYPTOCAP:FLOW",
-   "tvName": "Flow",
+   "sym": "ARX",
+   "name": "Arcium",
+   "cg": "arcium",
+   "usd": "CRYPTO:ARXARCIUM2USD",
+   "cap": "CRYPTOCAP:ARXARCIUM2",
+   "tvName": "Arcium",
    "confidence": "high",
    "alternatives": [
-    "FLOWERUSD (FlowerAI)"
+    "ARXUSD (ARCS)"
    ]
   },
   {
@@ -3343,42 +3345,36 @@
   },
   {
    "rank": 243,
-   "sym": "RON",
-   "name": "Ronin",
-   "cg": "ronin",
-   "usd": "CRYPTO:RONUSD",
-   "cap": "CRYPTOCAP:RON",
-   "tvName": "Ronin",
+   "sym": "FLOW",
+   "name": "Flow",
+   "cg": "flow",
+   "usd": "CRYPTO:FLOWUSD",
+   "cap": "CRYPTOCAP:FLOW",
+   "tvName": "Flow",
    "confidence": "high",
    "alternatives": [
-    "WRONUSD (Wrapped Ronin)",
-    "RONDUSD (ROND)",
-    "RONDSUSD (Ondas Tokenized Stock (Reality))"
+    "FLOWERUSD (FlowerAI)"
    ]
   },
   {
    "rank": 244,
-   "sym": "XYO",
-   "name": "XYO Network",
-   "cg": "xyo-network",
-   "usd": "CRYPTO:XYOUSD",
-   "cap": "CRYPTOCAP:XYO",
-   "tvName": "XYO",
-   "confidence": "high",
-   "alternatives": [
-    "AKTUSD (Akash Network)",
-    "ZBCNUSD (Zebec Network)",
-    "XDCUSD (XDC Network)"
-   ]
-  },
-  {
-   "rank": 245,
    "sym": "POPCAT",
    "name": "Popcat",
    "cg": "popcat",
    "usd": "CRYPTO:POPCAT2USD",
    "cap": "CRYPTOCAP:POPCAT2",
    "tvName": "Popcat (SOL)",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 245,
+   "sym": "NIL",
+   "name": "Nillion",
+   "cg": "nillion",
+   "usd": "CRYPTO:NILUSD",
+   "cap": "CRYPTOCAP:NIL",
+   "tvName": "Nillion",
    "confidence": "high",
    "alternatives": []
   },
@@ -3406,17 +3402,17 @@
   },
   {
    "rank": 248,
-   "sym": "SC",
-   "name": "Siacoin",
-   "cg": "siacoin",
-   "usd": "CRYPTO:SCUSD",
-   "cap": "CRYPTOCAP:SC",
-   "tvName": "Siacoin",
+   "sym": "RON",
+   "name": "Ronin",
+   "cg": "ronin",
+   "usd": "CRYPTO:RONUSD",
+   "cap": "CRYPTOCAP:RON",
+   "tvName": "Ronin",
    "confidence": "high",
    "alternatives": [
-    "SCTUSD (SuperCells Token)",
-    "SCMUSD (ScamFari token)",
-    "SCYUSD (Synchrony)"
+    "WRONUSD (Wrapped Ronin)",
+    "RONDUSD (ROND)",
+    "RONDSUSD (Ondas Tokenized Stock (Reality))"
    ]
   },
   {
@@ -3436,17 +3432,6 @@
   },
   {
    "rank": 250,
-   "sym": "DUSK",
-   "name": "DUSK",
-   "cg": "dusk-network",
-   "usd": "CRYPTO:DUSKUSD",
-   "cap": "CRYPTOCAP:DUSK",
-   "tvName": "Dusk",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 251,
    "sym": "AZTEC",
    "name": "Aztec",
    "cg": "aztec",
@@ -3457,52 +3442,33 @@
    "alternatives": []
   },
   {
+   "rank": 251,
+   "sym": "DUSK",
+   "name": "DUSK",
+   "cg": "dusk-network",
+   "usd": "CRYPTO:DUSKUSD",
+   "cap": "CRYPTOCAP:DUSK",
+   "tvName": "Dusk",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
    "rank": 252,
-   "sym": "NOT",
-   "name": "Notcoin",
-   "cg": "notcoin",
-   "usd": "CRYPTO:NOTUSD",
-   "cap": "CRYPTOCAP:NOT",
-   "tvName": "Notcoin",
+   "sym": "SC",
+   "name": "Siacoin",
+   "cg": "siacoin",
+   "usd": "CRYPTO:SCUSD",
+   "cap": "CRYPTOCAP:SC",
+   "tvName": "Siacoin",
    "confidence": "high",
    "alternatives": [
-    "NOTAIUSD (NOTAI)",
-    "NOTDOGUSD (NOTDOG)",
-    "NOTIFAIUSD (NotifAi News)"
+    "SCTUSD (SuperCells Token)",
+    "SCMUSD (ScamFari token)",
+    "SCYUSD (Synchrony)"
    ]
   },
   {
    "rank": 253,
-   "sym": "MASK",
-   "name": "Mask Network",
-   "cg": "mask-network",
-   "usd": "CRYPTO:MASKUSD",
-   "cap": "CRYPTOCAP:MASK",
-   "tvName": "Mask Network",
-   "confidence": "high",
-   "alternatives": [
-    "MASKCUSD (catwifmask)",
-    "SKIMUSD (Ski Mask Dog)",
-    "SKICATUSD (Ski Mask Cat)"
-   ]
-  },
-  {
-   "rank": 254,
-   "sym": "ANKR",
-   "name": "Ankr Network",
-   "cg": "ankr",
-   "usd": "CRYPTO:ANKRUSD",
-   "cap": "CRYPTOCAP:ANKR",
-   "tvName": "Ankr",
-   "confidence": "high",
-   "alternatives": [
-    "AKTUSD (Akash Network)",
-    "ZBCNUSD (Zebec Network)",
-    "XDCUSD (XDC Network)"
-   ]
-  },
-  {
-   "rank": 255,
    "sym": "NEX",
    "name": "Nexus",
    "cg": "nexus-4",
@@ -3514,7 +3480,22 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 256,
+   "rank": 254,
+   "sym": "VELODROME",
+   "name": "Velodrome Finance",
+   "cg": "velodrome-finance",
+   "usd": "CRYPTO:VELODUSD",
+   "cap": "CRYPTOCAP:VELOD",
+   "tvName": "Velodrome Finance",
+   "confidence": "high",
+   "alternatives": [
+    "AERODUSD (Aerodrome Finance)",
+    "RHEAUSD (RHEA Finance)",
+    "CVXUSD (Convex Finance)"
+   ]
+  },
+  {
+   "rank": 255,
    "sym": "WIN",
    "name": "WINkLink",
    "cg": "wink",
@@ -3526,6 +3507,21 @@
     "WINKUSD (Wink)",
     "WINGUSD (Wing Finance)",
     "WINRUSD (WINR Protocol)"
+   ]
+  },
+  {
+   "rank": 256,
+   "sym": "NOT",
+   "name": "Notcoin",
+   "cg": "notcoin",
+   "usd": "CRYPTO:NOTUSD",
+   "cap": "CRYPTOCAP:NOT",
+   "tvName": "Notcoin",
+   "confidence": "high",
+   "alternatives": [
+    "NOTAIUSD (NOTAI)",
+    "NOTDOGUSD (NOTDOG)",
+    "NOTIFAIUSD (NotifAi News)"
    ]
   },
   {
@@ -3543,70 +3539,12 @@
   },
   {
    "rank": 258,
-   "sym": "XNO",
-   "name": "Nano",
-   "cg": "nano",
-   "usd": "CRYPTO:XNONUSD",
-   "cap": "CRYPTOCAP:XNON",
-   "tvName": "Nano",
-   "confidence": "high",
-   "alternatives": [
-    "NBTUSD (NanoByte Token)",
-    "XNOUSD (Xeno Token)"
-   ]
-  },
-  {
-   "rank": 259,
-   "sym": "ME",
-   "name": "Magic Eden",
-   "cg": "magic-eden",
-   "usd": "CRYPTO:ME2USD",
-   "cap": "CRYPTOCAP:ME2",
-   "tvName": "Magic Eden",
-   "confidence": "high",
-   "alternatives": [
-    "EDENUSD (Eden)",
-    "MEWUSD (cat in a dogs world)",
-    "MEEUSD (Medieval Empires)"
-   ]
-  },
-  {
-   "rank": 260,
-   "sym": "MEW",
-   "name": "cat in a dogs world",
-   "cg": "cat-in-a-dogs-world",
-   "usd": "CRYPTO:MEWUSD",
-   "cap": "CRYPTOCAP:MEW",
-   "tvName": "cat in a dogs world",
-   "confidence": "high",
-   "alternatives": [
-    "DOGS2USD (DOGS)",
-    "PEWUSD (pepe in a memes world)",
-    "MDOGSUSD (Money Dogs)"
-   ]
-  },
-  {
-   "rank": 261,
-   "sym": "MOVE",
-   "name": "Movement",
-   "cg": "movement",
-   "usd": "CRYPTO:MOVEMUSD",
-   "cap": "CRYPTOCAP:MOVEM",
-   "tvName": "Movement",
-   "confidence": "high",
-   "alternatives": [
-    "MOVEBUSD (BlueMove)",
-    "MOVEZUSD (MOVEZ)"
-   ]
-  },
-  {
-   "rank": 262,
-   "sym": "SSV",
-   "name": "SSV Network",
-   "cg": "ssv-network",
-   "usd": "CRYPTO:SSVUSD",
-   "cap": "CRYPTOCAP:SSV",
-   "tvName": "ssv.network",
+   "sym": "ANKR",
+   "name": "Ankr Network",
+   "cg": "ankr",
+   "usd": "CRYPTO:ANKRUSD",
+   "cap": "CRYPTOCAP:ANKR",
+   "tvName": "Ankr",
    "confidence": "high",
    "alternatives": [
     "AKTUSD (Akash Network)",
@@ -3615,100 +3553,7 @@
    ]
   },
   {
-   "rank": 263,
-   "sym": "MOODENG",
-   "name": "Moo Deng",
-   "cg": "moo-deng",
-   "usd": "CRYPTO:MOODENGUSD",
-   "cap": "CRYPTOCAP:MOODENG",
-   "tvName": "Moo Deng",
-   "confidence": "high",
-   "alternatives": [
-    "MOODENG2USD (MOO DENG)",
-    "MOOMOOUSD (MOO MOO)",
-    "MOOMEUSD (Memory cow Moo)"
-   ]
-  },
-  {
-   "rank": 264,
-   "sym": "PEOPLE",
-   "name": "ConstitutionDAO",
-   "cg": "constitutiondao",
-   "usd": "CRYPTO:PEOPLEUSD",
-   "cap": "CRYPTOCAP:PEOPLE",
-   "tvName": "ConstitutionDAO",
-   "confidence": "high",
-   "alternatives": [
-    "BCPBUSD (Block Chain People)",
-    "SBAEUSD (Salt Bae For The People)",
-    "PURPEUSD (Purple Pepe)"
-   ]
-  },
-  {
-   "rank": 265,
-   "sym": "NIL",
-   "name": "Nillion",
-   "cg": "nillion",
-   "usd": "CRYPTO:NILUSD",
-   "cap": "CRYPTOCAP:NIL",
-   "tvName": "Nillion",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 266,
-   "sym": "AVNT",
-   "name": "Veranta",
-   "cg": "avantis",
-   "usd": "CRYPTO:AVNTUSD",
-   "cap": "CRYPTOCAP:AVNT",
-   "tvName": "Avantis",
-   "confidence": "check",
-   "alternatives": []
-  },
-  {
-   "rank": 267,
-   "sym": "CSPR",
-   "name": "Casper Network",
-   "cg": "casper-network",
-   "usd": "CRYPTO:CSPRUSD",
-   "cap": "CRYPTOCAP:CSPR",
-   "tvName": "Casper",
-   "confidence": "high",
-   "alternatives": [
-    "AIAGENTUSD (Casper AI)",
-    "AKTUSD (Akash Network)",
-    "ZBCNUSD (Zebec Network)"
-   ]
-  },
-  {
-   "rank": 268,
-   "sym": "REQ",
-   "name": "Request",
-   "cg": "request-network",
-   "usd": "CRYPTO:REQUSD",
-   "cap": "CRYPTOCAP:REQ",
-   "tvName": "Request",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 269,
-   "sym": "SXT",
-   "name": "Space and Time",
-   "cg": "space-and-time",
-   "usd": "CRYPTO:SXTUSD",
-   "cap": "CRYPTOCAP:SXT",
-   "tvName": "Space and Time",
-   "confidence": "high",
-   "alternatives": [
-    "SPCSPUSD (Space)",
-    "TIME4USD (TIME)",
-    "BIGTIMEUSD (Big Time)"
-   ]
-  },
-  {
-   "rank": 270,
+   "rank": 259,
    "sym": "EDU",
    "name": "Open Campus",
    "cg": "edu-coin",
@@ -3723,22 +3568,195 @@
    ]
   },
   {
-   "rank": 271,
-   "sym": "ARK",
-   "name": "ARK",
-   "cg": "ark",
-   "usd": "CRYPTO:ARKUSD",
-   "cap": "CRYPTOCAP:ARK",
-   "tvName": "Ark",
+   "rank": 260,
+   "sym": "XNO",
+   "name": "Nano",
+   "cg": "nano",
+   "usd": "CRYPTO:XNONUSD",
+   "cap": "CRYPTOCAP:XNON",
+   "tvName": "Nano",
    "confidence": "high",
    "alternatives": [
-    "ARKMUSD (Arkham)",
-    "ARKERUSD (Arker)",
-    "AOPUSD (Ark of Panda)"
+    "NBTUSD (NanoByte Token)",
+    "XNOUSD (Xeno Token)"
+   ]
+  },
+  {
+   "rank": 261,
+   "sym": "MASK",
+   "name": "Mask Network",
+   "cg": "mask-network",
+   "usd": "CRYPTO:MASKUSD",
+   "cap": "CRYPTOCAP:MASK",
+   "tvName": "Mask Network",
+   "confidence": "high",
+   "alternatives": [
+    "MASKCUSD (catwifmask)",
+    "SKIMUSD (Ski Mask Dog)",
+    "SKICATUSD (Ski Mask Cat)"
+   ]
+  },
+  {
+   "rank": 262,
+   "sym": "RLC",
+   "name": "iExec RLC",
+   "cg": "iexec-rlc",
+   "usd": "CRYPTO:RLCUSD",
+   "cap": "CRYPTOCAP:RLC",
+   "tvName": "iExec RLC",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 263,
+   "sym": "AVNT",
+   "name": "Veranta",
+   "cg": "avantis",
+   "usd": "CRYPTO:AVNTUSD",
+   "cap": "CRYPTOCAP:AVNT",
+   "tvName": "Avantis",
+   "confidence": "check",
+   "alternatives": []
+  },
+  {
+   "rank": 264,
+   "sym": "ME",
+   "name": "Magic Eden",
+   "cg": "magic-eden",
+   "usd": "CRYPTO:ME2USD",
+   "cap": "CRYPTOCAP:ME2",
+   "tvName": "Magic Eden",
+   "confidence": "high",
+   "alternatives": [
+    "EDENUSD (Eden)",
+    "MEWUSD (cat in a dogs world)",
+    "MEEUSD (Medieval Empires)"
+   ]
+  },
+  {
+   "rank": 265,
+   "sym": "MEW",
+   "name": "cat in a dogs world",
+   "cg": "cat-in-a-dogs-world",
+   "usd": "CRYPTO:MEWUSD",
+   "cap": "CRYPTOCAP:MEW",
+   "tvName": "cat in a dogs world",
+   "confidence": "high",
+   "alternatives": [
+    "DOGS2USD (DOGS)",
+    "PEWUSD (pepe in a memes world)",
+    "MDOGSUSD (Money Dogs)"
+   ]
+  },
+  {
+   "rank": 266,
+   "sym": "CATI",
+   "name": "Catizen",
+   "cg": "catizen",
+   "usd": "CRYPTO:CATIZUSD",
+   "cap": "CRYPTOCAP:CATIZ",
+   "tvName": "Catizen",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 267,
+   "sym": "MOODENG",
+   "name": "Moo Deng",
+   "cg": "moo-deng",
+   "usd": "CRYPTO:MOODENGUSD",
+   "cap": "CRYPTOCAP:MOODENG",
+   "tvName": "Moo Deng",
+   "confidence": "high",
+   "alternatives": [
+    "MOODENG2USD (MOO DENG)",
+    "MOOMOOUSD (MOO MOO)",
+    "MOOMEUSD (Memory cow Moo)"
+   ]
+  },
+  {
+   "rank": 268,
+   "sym": "SSV",
+   "name": "SSV Network",
+   "cg": "ssv-network",
+   "usd": "CRYPTO:SSVUSD",
+   "cap": "CRYPTOCAP:SSV",
+   "tvName": "ssv.network",
+   "confidence": "high",
+   "alternatives": [
+    "AKTUSD (Akash Network)",
+    "ZBCNUSD (Zebec Network)",
+    "XDCUSD (XDC Network)"
+   ]
+  },
+  {
+   "rank": 269,
+   "sym": "REQ",
+   "name": "Request",
+   "cg": "request-network",
+   "usd": "CRYPTO:REQUSD",
+   "cap": "CRYPTOCAP:REQ",
+   "tvName": "Request",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 270,
+   "sym": "MOVE",
+   "name": "Movement",
+   "cg": "movement",
+   "usd": "CRYPTO:MOVEMUSD",
+   "cap": "CRYPTOCAP:MOVEM",
+   "tvName": "Movement",
+   "confidence": "high",
+   "alternatives": [
+    "MOVEBUSD (BlueMove)",
+    "MOVEZUSD (MOVEZ)"
+   ]
+  },
+  {
+   "rank": 271,
+   "sym": "PEOPLE",
+   "name": "ConstitutionDAO",
+   "cg": "constitutiondao",
+   "usd": "CRYPTO:PEOPLEUSD",
+   "cap": "CRYPTOCAP:PEOPLE",
+   "tvName": "ConstitutionDAO",
+   "confidence": "high",
+   "alternatives": [
+    "BCPBUSD (Block Chain People)",
+    "SBAEUSD (Salt Bae For The People)",
+    "PURPEUSD (Purple Pepe)"
    ]
   },
   {
    "rank": 272,
+   "sym": "SXT",
+   "name": "Space and Time",
+   "cg": "space-and-time",
+   "usd": "CRYPTO:SXTUSD",
+   "cap": "CRYPTOCAP:SXT",
+   "tvName": "Space and Time",
+   "confidence": "high",
+   "alternatives": [
+    "SPCSPUSD (Space)",
+    "TIME4USD (TIME)",
+    "BIGTIMEUSD (Big Time)"
+   ]
+  },
+  {
+   "rank": 273,
+   "sym": "API3",
+   "name": "Api3",
+   "cg": "api3",
+   "usd": "CRYPTO:API3USD",
+   "cap": "CRYPTOCAP:API3",
+   "tvName": "API3",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 274,
    "sym": "RPL",
    "name": "Rocket Pool",
    "cg": "rocket-pool",
@@ -3753,7 +3771,37 @@
    ]
   },
   {
-   "rank": 273,
+   "rank": 275,
+   "sym": "ARK",
+   "name": "ARK",
+   "cg": "ark",
+   "usd": "CRYPTO:ARKUSD",
+   "cap": "CRYPTOCAP:ARK",
+   "tvName": "Ark",
+   "confidence": "high",
+   "alternatives": [
+    "ARKMUSD (Arkham)",
+    "ARKERUSD (Arker)",
+    "AOPUSD (Ark of Panda)"
+   ]
+  },
+  {
+   "rank": 276,
+   "sym": "CSPR",
+   "name": "Casper Network",
+   "cg": "casper-network",
+   "usd": "CRYPTO:CSPRUSD",
+   "cap": "CRYPTOCAP:CSPR",
+   "tvName": "Casper",
+   "confidence": "high",
+   "alternatives": [
+    "AIAGENTUSD (Casper AI)",
+    "AKTUSD (Akash Network)",
+    "ZBCNUSD (Zebec Network)"
+   ]
+  },
+  {
+   "rank": 277,
    "sym": "MOCA",
    "name": "Moca Network",
    "cg": "mocaverse",
@@ -3768,18 +3816,7 @@
    ]
   },
   {
-   "rank": 274,
-   "sym": "API3",
-   "name": "Api3",
-   "cg": "api3",
-   "usd": "CRYPTO:API3USD",
-   "cap": "CRYPTOCAP:API3",
-   "tvName": "API3",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 275,
+   "rank": 278,
    "sym": "ONG",
    "name": "Ontology Gas",
    "cg": "ong",
@@ -3794,70 +3831,7 @@
    ]
   },
   {
-   "rank": 276,
-   "sym": "DOS",
-   "name": "DAPPOS",
-   "cg": "dappos",
-   "usd": "CRYPTO:DOSDAUSD",
-   "cap": "CRYPTOCAP:DOSDA",
-   "tvName": "DAPPOS",
-   "confidence": "high",
-   "alternatives": [
-    "DOSEUSD (DOSE)"
-   ]
-  },
-  {
-   "rank": 277,
-   "sym": "CATI",
-   "name": "Catizen",
-   "cg": "catizen",
-   "usd": "CRYPTO:CATIZUSD",
-   "cap": "CRYPTOCAP:CATIZ",
-   "tvName": "Catizen",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 278,
-   "sym": "GWEI",
-   "name": "ETHGas",
-   "cg": "ethgas-2",
-   "usd": "CRYPTO:GWEIUSD",
-   "cap": "CRYPTOCAP:GWEI",
-   "tvName": "ETHGas",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
    "rank": 279,
-   "sym": "US",
-   "name": "Talus",
-   "cg": "talus",
-   "usd": "CRYPTO:USUSD",
-   "cap": "CRYPTOCAP:US",
-   "tvName": "Talus",
-   "confidence": "high",
-   "alternatives": [
-    "USDTUSD (Tether USDt)",
-    "USDCUSD (USDC)",
-    "USCUSD (Orby Network (USC))"
-   ]
-  },
-  {
-   "rank": 280,
-   "sym": "COTI",
-   "name": "COTI",
-   "cg": "coti",
-   "usd": "CRYPTO:COTIUSD",
-   "cap": "CRYPTOCAP:COTI",
-   "tvName": "COTI",
-   "confidence": "high",
-   "alternatives": [
-    "GCOTIUSD (COTI Governance Token)"
-   ]
-  },
-  {
-   "rank": 281,
    "sym": "BAND",
    "name": "Band",
    "cg": "band-protocol",
@@ -3870,17 +3844,40 @@
    ]
   },
   {
-   "rank": 282,
-   "sym": "SNT",
-   "name": "Status",
-   "cg": "status",
-   "usd": "CRYPTO:SNTUSD",
-   "cap": "CRYPTOCAP:SNT",
-   "tvName": "Status",
+   "rank": 280,
+   "sym": "DOS",
+   "name": "DAPPOS",
+   "cg": "dappos",
+   "usd": "CRYPTO:DOSDAUSD",
+   "cap": "CRYPTOCAP:DOSDA",
+   "tvName": "DAPPOS",
    "confidence": "high",
    "alternatives": [
-    "STATUSD (STAT)",
-    "SNTRUSD (Sentre Protocol)"
+    "DOSEUSD (DOSE)"
+   ]
+  },
+  {
+   "rank": 281,
+   "sym": "GWEI",
+   "name": "ETHGas",
+   "cg": "ethgas-2",
+   "usd": "CRYPTO:GWEIUSD",
+   "cap": "CRYPTOCAP:GWEI",
+   "tvName": "ETHGas",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 282,
+   "sym": "COTI",
+   "name": "COTI",
+   "cg": "coti",
+   "usd": "CRYPTO:COTIUSD",
+   "cap": "CRYPTOCAP:COTI",
+   "tvName": "COTI",
+   "confidence": "high",
+   "alternatives": [
+    "GCOTIUSD (COTI Governance Token)"
    ]
   },
   {
@@ -3896,6 +3893,44 @@
   },
   {
    "rank": 284,
+   "sym": "RVN",
+   "name": "Ravencoin",
+   "cg": "ravencoin",
+   "usd": "CRYPTO:RVNUSD",
+   "cap": "CRYPTOCAP:RVN",
+   "tvName": "Ravencoin",
+   "confidence": "high",
+   "alternatives": [
+    "RVCUSD (Ravencoin Classic)"
+   ]
+  },
+  {
+   "rank": 285,
+   "sym": "SNT",
+   "name": "Status",
+   "cg": "status",
+   "usd": "CRYPTO:SNTUSD",
+   "cap": "CRYPTOCAP:SNT",
+   "tvName": "Status",
+   "confidence": "high",
+   "alternatives": [
+    "STATUSD (STAT)",
+    "SNTRUSD (Sentre Protocol)"
+   ]
+  },
+  {
+   "rank": 286,
+   "sym": "PCI",
+   "name": "Paycoin",
+   "cg": "pay-coin",
+   "usd": "CRYPTO:PCIUSD",
+   "cap": "CRYPTOCAP:PCI",
+   "tvName": "Paycoin",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 287,
    "sym": "SYN",
    "name": "Synapse",
    "cg": "synapse-2",
@@ -3910,18 +3945,7 @@
    ]
   },
   {
-   "rank": 285,
-   "sym": "PCI",
-   "name": "Paycoin",
-   "cg": "pay-coin",
-   "usd": "CRYPTO:PCIUSD",
-   "cap": "CRYPTOCAP:PCI",
-   "tvName": "Paycoin",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 286,
+   "rank": 288,
    "sym": "MEME",
    "name": "Memecoin",
    "cg": "memecoin-2",
@@ -3936,7 +3960,7 @@
    ]
   },
   {
-   "rank": 287,
+   "rank": 289,
    "sym": "SAHARA",
    "name": "Sahara AI",
    "cg": "sahara-ai",
@@ -3949,28 +3973,6 @@
     "CHIPUSUSD (USD.AI)",
     "0X0USD (0x0.ai)"
    ]
-  },
-  {
-   "rank": 288,
-   "sym": "CPOOL",
-   "name": "Clearpool",
-   "cg": "clearpool",
-   "usd": "CRYPTO:CPOOLUSD",
-   "cap": "CRYPTOCAP:CPOOL",
-   "tvName": "Clearpool",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 289,
-   "sym": "POWR",
-   "name": "Powerledger",
-   "cg": "power-ledger",
-   "usd": "CRYPTO:POWRUSD",
-   "cap": "CRYPTOCAP:POWR",
-   "tvName": "Powerledger",
-   "confidence": "high",
-   "alternatives": []
   },
   {
    "rank": 290,
@@ -3989,6 +3991,29 @@
   },
   {
    "rank": 291,
+   "sym": "UMA",
+   "name": "UMA",
+   "cg": "uma",
+   "usd": "CRYPTO:UMAUSD",
+   "cap": "CRYPTOCAP:UMA",
+   "tvName": "UMA",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 292,
+   "sym": "NEIRO",
+   "name": "Neiro",
+   "cg": "neiro-3",
+   "usd": "CRYPTO:NEIROFUSD",
+   "cap": "CRYPTOCAP:NEIROF",
+   "tvName": "Neiro",
+   "confidence": "high",
+   "manual": true,
+   "note": "checked against exchange prices (scripts/check-tickers.mjs)"
+  },
+  {
+   "rank": 293,
    "sym": "BFC",
    "name": "Bifrost",
    "cg": "bifrost",
@@ -4001,7 +4026,7 @@
    ]
   },
   {
-   "rank": 292,
+   "rank": 294,
    "sym": "GIGGLE",
    "name": "Giggle Fund",
    "cg": "giggle-fund",
@@ -4016,81 +4041,7 @@
    ]
   },
   {
-   "rank": 293,
-   "sym": "RVN",
-   "name": "Ravencoin",
-   "cg": "ravencoin",
-   "usd": "CRYPTO:RVNUSD",
-   "cap": "CRYPTOCAP:RVN",
-   "tvName": "Ravencoin",
-   "confidence": "high",
-   "alternatives": [
-    "RVCUSD (Ravencoin Classic)"
-   ]
-  },
-  {
-   "rank": 294,
-   "sym": "NEIRO",
-   "name": "Neiro",
-   "cg": "neiro-3",
-   "usd": "CRYPTO:NEIROFUSD",
-   "cap": "CRYPTOCAP:NEIROF",
-   "tvName": "Neiro",
-   "confidence": "high",
-   "manual": true,
-   "note": "checked against exchange prices (scripts/check-tickers.mjs)"
-  },
-  {
    "rank": 295,
-   "sym": "MMT",
-   "name": "Momentum",
-   "cg": "momentum-3",
-   "usd": "CRYPTO:MMTMOUSD",
-   "cap": "CRYPTOCAP:MMTMO",
-   "tvName": "Momentum",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 296,
-   "sym": "REZ",
-   "name": "Renzo",
-   "cg": "renzo",
-   "usd": "CRYPTO:REZUSD",
-   "cap": "CRYPTOCAP:REZ",
-   "tvName": "Renzo",
-   "confidence": "high",
-   "alternatives": [
-    "EZETHUSD (Renzo Restaked ETH)",
-    "RZRRUSD (Rezor)"
-   ]
-  },
-  {
-   "rank": 297,
-   "sym": "DEBIT",
-   "name": "Teller",
-   "cg": "teller",
-   "usd": "CRYPTO:DEBITUSD",
-   "cap": "CRYPTOCAP:DEBIT",
-   "tvName": "DEBIT",
-   "confidence": "check",
-   "alternatives": [
-    "FUDUSD (FTX Users' Debt)"
-   ]
-  },
-  {
-   "rank": 298,
-   "sym": "UMA",
-   "name": "UMA",
-   "cg": "uma",
-   "usd": "CRYPTO:UMAUSD",
-   "cap": "CRYPTOCAP:UMA",
-   "tvName": "UMA",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 299,
    "sym": "OCEAN",
    "name": "Ocean Protocol",
    "cg": "ocean-protocol",
@@ -4105,13 +4056,60 @@
    ]
   },
   {
-   "rank": 300,
+   "rank": 296,
+   "sym": "POWR",
+   "name": "Powerledger",
+   "cg": "power-ledger",
+   "usd": "CRYPTO:POWRUSD",
+   "cap": "CRYPTOCAP:POWR",
+   "tvName": "Powerledger",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 297,
+   "sym": "MMT",
+   "name": "Momentum",
+   "cg": "momentum-3",
+   "usd": "CRYPTO:MMTMOUSD",
+   "cap": "CRYPTOCAP:MMTMO",
+   "tvName": "Momentum",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 298,
+   "sym": "REZ",
+   "name": "Renzo",
+   "cg": "renzo",
+   "usd": "CRYPTO:REZUSD",
+   "cap": "CRYPTOCAP:REZ",
+   "tvName": "Renzo",
+   "confidence": "high",
+   "alternatives": [
+    "EZETHUSD (Renzo Restaked ETH)",
+    "RZRRUSD (Rezor)"
+   ]
+  },
+  {
+   "rank": 299,
    "sym": "ORBS",
    "name": "Orbs",
    "cg": "orbs",
    "usd": "CRYPTO:ORBSUSD",
    "cap": "CRYPTOCAP:ORBS",
    "tvName": "Orbs",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 300,
+   "sym": "CPOOL",
+   "name": "Clearpool",
+   "cg": "clearpool",
+   "usd": "CRYPTO:CPOOLUSD",
+   "cap": "CRYPTOCAP:CPOOL",
+   "tvName": "Clearpool",
    "confidence": "high",
    "alternatives": []
   },
@@ -4147,6 +4145,19 @@
   },
   {
    "rank": 303,
+   "sym": "DEBIT",
+   "name": "Teller",
+   "cg": "teller",
+   "usd": "CRYPTO:DEBITUSD",
+   "cap": "CRYPTOCAP:DEBIT",
+   "tvName": "DEBIT",
+   "confidence": "check",
+   "alternatives": [
+    "FUDUSD (FTX Users' Debt)"
+   ]
+  },
+  {
+   "rank": 304,
    "sym": "SIGN",
    "name": "Sign",
    "cg": "sign-global",
@@ -4156,19 +4167,6 @@
    "confidence": "high",
    "alternatives": [
     "SIGNAUSD (Signum)"
-   ]
-  },
-  {
-   "rank": 304,
-   "sym": "STEEM",
-   "name": "Steem",
-   "cg": "steem",
-   "usd": "CRYPTO:STEEMUSD",
-   "cap": "CRYPTOCAP:STEEM",
-   "tvName": "Steem",
-   "confidence": "high",
-   "alternatives": [
-    "SBDUSD (Steem Dollars)"
    ]
   },
   {
@@ -4188,32 +4186,19 @@
   },
   {
    "rank": 306,
-   "sym": "G",
-   "name": "Gravity (by Galxe)",
-   "cg": "g-token",
-   "usd": "CRYPTO:GGRAUSD",
-   "cap": "CRYPTOCAP:GGRA",
-   "tvName": "Gravity",
+   "sym": "STEEM",
+   "name": "Steem",
+   "cg": "steem",
+   "usd": "CRYPTO:STEEMUSD",
+   "cap": "CRYPTOCAP:STEEM",
+   "tvName": "Steem",
    "confidence": "high",
    "alternatives": [
-    "GRAMUSD (Gram (prev. Toncoin))",
-    "GALAUSD (Gala)",
-    "GRTUSD (The Graph)"
+    "SBDUSD (Steem Dollars)"
    ]
   },
   {
    "rank": 307,
-   "sym": "ZORA",
-   "name": "Zora",
-   "cg": "zora",
-   "usd": "CRYPTO:ZORA2USD",
-   "cap": "CRYPTOCAP:ZORA2",
-   "tvName": "ZORA",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 308,
    "sym": "EUL",
    "name": "Euler",
    "cg": "euler",
@@ -4224,18 +4209,7 @@
    "alternatives": []
   },
   {
-   "rank": 309,
-   "sym": "ILV",
-   "name": "Illuvium",
-   "cg": "illuvium",
-   "usd": "CRYPTO:ILVUSD",
-   "cap": "CRYPTOCAP:ILV",
-   "tvName": "Illuvium",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 310,
+   "rank": 308,
    "sym": "BNT",
    "name": "Bancor Network",
    "cg": "bancor",
@@ -4250,18 +4224,59 @@
    ]
   },
   {
-   "rank": 311,
-   "sym": "SOMI",
-   "name": "Somnia",
-   "cg": "somnia",
-   "usd": "CRYPTO:SOMIUSD",
-   "cap": "CRYPTOCAP:SOMI",
-   "tvName": "Somnia",
+   "rank": 309,
+   "sym": "ZORA",
+   "name": "Zora",
+   "cg": "zora",
+   "usd": "CRYPTO:ZORA2USD",
+   "cap": "CRYPTOCAP:ZORA2",
+   "tvName": "ZORA",
    "confidence": "high",
    "alternatives": []
   },
   {
+   "rank": 310,
+   "sym": "CARV",
+   "name": "CARV",
+   "cg": "carv",
+   "usd": "CRYPTO:CARVUSD",
+   "cap": "CRYPTOCAP:CARV",
+   "tvName": "CARV",
+   "confidence": "high",
+   "alternatives": [
+    "CVNAONUSD (Carvana Tokenized Stock (Ondo))"
+   ]
+  },
+  {
+   "rank": 311,
+   "sym": "G",
+   "name": "Gravity (by Galxe)",
+   "cg": "g-token",
+   "usd": "CRYPTO:GGRAUSD",
+   "cap": "CRYPTOCAP:GGRA",
+   "tvName": "Gravity",
+   "confidence": "high",
+   "alternatives": [
+    "GRAMUSD (Gram (prev. Toncoin))",
+    "GALAUSD (Gala)",
+    "GRTUSD (The Graph)"
+   ]
+  },
+  {
    "rank": 312,
+   "sym": "FLUX",
+   "name": "Flux",
+   "cg": "zelcash",
+   "usd": "CRYPTO:FLUX2USD",
+   "cap": "CRYPTOCAP:FLUX2",
+   "tvName": "Flux",
+   "confidence": "high",
+   "alternatives": [
+    "FLUXBUSD (Fluxbot)"
+   ]
+  },
+  {
+   "rank": 313,
    "sym": "IOTX",
    "name": "IoTeX",
    "cg": "iotex",
@@ -4272,7 +4287,18 @@
    "alternatives": []
   },
   {
-   "rank": 313,
+   "rank": 314,
+   "sym": "SOMI",
+   "name": "Somnia",
+   "cg": "somnia",
+   "usd": "CRYPTO:SOMIUSD",
+   "cap": "CRYPTOCAP:SOMI",
+   "tvName": "Somnia",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 315,
    "sym": "MANTA",
    "name": "Manta Network",
    "cg": "manta-network",
@@ -4287,7 +4313,29 @@
    ]
   },
   {
-   "rank": 314,
+   "rank": 316,
+   "sym": "BORA",
+   "name": "BORA",
+   "cg": "bora",
+   "usd": "CRYPTO:BORAUSD",
+   "cap": "CRYPTOCAP:BORA",
+   "tvName": "BORA",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 317,
+   "sym": "ILV",
+   "name": "Illuvium",
+   "cg": "illuvium",
+   "usd": "CRYPTO:ILVUSD",
+   "cap": "CRYPTOCAP:ILV",
+   "tvName": "Illuvium",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 318,
    "sym": "VANA",
    "name": "Vana",
    "cg": "vana",
@@ -4300,7 +4348,7 @@
    ]
   },
   {
-   "rank": 315,
+   "rank": 319,
    "sym": "SPACE",
    "name": "Spacecoin",
    "cg": "spacecoin-2",
@@ -4315,33 +4363,7 @@
    ]
   },
   {
-   "rank": 316,
-   "sym": "EDGE",
-   "name": "Definitive",
-   "cg": "definitive",
-   "usd": "CRYPTO:EDGEDUSD",
-   "cap": "CRYPTOCAP:EDGED",
-   "tvName": "Definitive",
-   "confidence": "high",
-   "alternatives": [
-    "EDGEXUSD (edgeX)",
-    "EDGENUSD (LayerEdge)",
-    "EDGEWUSD (Edgeware)"
-   ]
-  },
-  {
-   "rank": 317,
-   "sym": "BORA",
-   "name": "BORA",
-   "cg": "bora",
-   "usd": "CRYPTO:BORAUSD",
-   "cap": "CRYPTOCAP:BORA",
-   "tvName": "BORA",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 318,
+   "rank": 320,
    "sym": "CORE",
    "name": "Core",
    "cg": "coredaoorg",
@@ -4353,34 +4375,6 @@
     "COREUMUSD (Coreum)",
     "CSTRUSD (CoreStarter)",
     "CRXCOUSD (COREx Network)"
-   ]
-  },
-  {
-   "rank": 319,
-   "sym": "FLUX",
-   "name": "Flux",
-   "cg": "zelcash",
-   "usd": "CRYPTO:FLUX2USD",
-   "cap": "CRYPTOCAP:FLUX2",
-   "tvName": "Flux",
-   "confidence": "high",
-   "alternatives": [
-    "FLUXBUSD (Fluxbot)"
-   ]
-  },
-  {
-   "rank": 320,
-   "sym": "PUNDIX",
-   "name": "Pundi X",
-   "cg": "pundi-x-2",
-   "usd": "CRYPTO:PUNDIXUSD",
-   "cap": "CRYPTOCAP:PUNDIX",
-   "tvName": "Pundi X (New)",
-   "confidence": "high",
-   "alternatives": [
-    "PURSEUSD (Pundi X PURSE)",
-    "PUNDIAIUSD (Pundi AI)",
-    "PLXPUUSD (Pullix)"
    ]
   },
   {
@@ -4396,6 +4390,35 @@
   },
   {
    "rank": 322,
+   "sym": "FLOCK",
+   "name": "FLOCK",
+   "cg": "flock-2",
+   "usd": "CRYPTO:FLOCKUSD",
+   "cap": "CRYPTOCAP:FLOCK",
+   "tvName": "Flock.io",
+   "confidence": "high",
+   "alternatives": [
+    "FLORK6USD (FLORK)",
+    "FLORKCUSD (flork cto)"
+   ]
+  },
+  {
+   "rank": 323,
+   "sym": "PUNDIX",
+   "name": "Pundi X",
+   "cg": "pundi-x-2",
+   "usd": "CRYPTO:PUNDIXUSD",
+   "cap": "CRYPTOCAP:PUNDIX",
+   "tvName": "Pundi X (New)",
+   "confidence": "high",
+   "alternatives": [
+    "PURSEUSD (Pundi X PURSE)",
+    "PUNDIAIUSD (Pundi AI)",
+    "PLXPUUSD (Pullix)"
+   ]
+  },
+  {
+   "rank": 324,
    "sym": "HIVE",
    "name": "Hive",
    "cg": "hive",
@@ -4410,18 +4433,22 @@
    ]
   },
   {
-   "rank": 323,
-   "sym": "RLC",
-   "name": "iExec RLC",
-   "cg": "iexec-rlc",
-   "usd": "CRYPTO:RLCUSD",
-   "cap": "CRYPTOCAP:RLC",
-   "tvName": "iExec RLC",
+   "rank": 325,
+   "sym": "US",
+   "name": "Talus",
+   "cg": "talus",
+   "usd": "CRYPTO:USUSD",
+   "cap": "CRYPTOCAP:US",
+   "tvName": "Talus",
    "confidence": "high",
-   "alternatives": []
+   "alternatives": [
+    "USDTUSD (Tether USDt)",
+    "USDCUSD (USDC)",
+    "USCUSD (Orby Network (USC))"
+   ]
   },
   {
-   "rank": 324,
+   "rank": 326,
    "sym": "MVL",
    "name": "MVL",
    "cg": "mass-vehicle-ledger",
@@ -4434,41 +4461,18 @@
    ]
   },
   {
-   "rank": 325,
-   "sym": "OPG",
-   "name": "OpenGradient",
-   "cg": "opengradient",
-   "usd": "CRYPTO:OPGOPEUSD",
-   "cap": "CRYPTOCAP:OPGOPE",
-   "tvName": "OpenGradient",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 326,
-   "sym": "FLOCK",
-   "name": "FLOCK",
-   "cg": "flock-2",
-   "usd": "CRYPTO:FLOCKUSD",
-   "cap": "CRYPTOCAP:FLOCK",
-   "tvName": "Flock.io",
-   "confidence": "high",
-   "alternatives": [
-    "FLORK6USD (FLORK)",
-    "FLORKCUSD (flork cto)"
-   ]
-  },
-  {
    "rank": 327,
-   "sym": "XAN",
-   "name": "Anoma",
-   "cg": "anoma",
-   "usd": "CRYPTO:XANAUSD",
-   "cap": "CRYPTOCAP:XANA",
-   "tvName": "Anoma",
+   "sym": "EDGE",
+   "name": "Definitive",
+   "cg": "definitive",
+   "usd": "CRYPTO:EDGEDUSD",
+   "cap": "CRYPTOCAP:EDGED",
+   "tvName": "Definitive",
    "confidence": "high",
    "alternatives": [
-    "XETAUSD (XANA)"
+    "EDGEXUSD (edgeX)",
+    "EDGENUSD (LayerEdge)",
+    "EDGEWUSD (Edgeware)"
    ]
   },
   {
@@ -4488,6 +4492,65 @@
   },
   {
    "rank": 329,
+   "sym": "OPG",
+   "name": "OpenGradient",
+   "cg": "opengradient",
+   "usd": "CRYPTO:OPGOPEUSD",
+   "cap": "CRYPTOCAP:OPGOPE",
+   "tvName": "OpenGradient",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 330,
+   "sym": "IOST",
+   "name": "IOST",
+   "cg": "iostoken",
+   "usd": "CRYPTO:IOSTUSD",
+   "cap": "CRYPTOCAP:IOST",
+   "tvName": "IOST",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 331,
+   "sym": "CVC",
+   "name": "Civic",
+   "cg": "civic",
+   "usd": "CRYPTO:CVCUSD",
+   "cap": "CRYPTOCAP:CVC",
+   "tvName": "Civic",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 332,
+   "sym": "XAN",
+   "name": "Anoma",
+   "cg": "anoma",
+   "usd": "CRYPTO:XANAUSD",
+   "cap": "CRYPTOCAP:XANA",
+   "tvName": "Anoma",
+   "confidence": "high",
+   "alternatives": [
+    "XETAUSD (XANA)"
+   ]
+  },
+  {
+   "rank": 333,
+   "sym": "WAVES",
+   "name": "Waves",
+   "cg": "waves",
+   "usd": "CRYPTO:WAVESUSD",
+   "cap": "CRYPTOCAP:WAVES",
+   "tvName": "Waves",
+   "confidence": "high",
+   "alternatives": [
+    "WESTUSD (Waves Enterprise)"
+   ]
+  },
+  {
+   "rank": 334,
    "sym": "AT",
    "name": "Apro",
    "cg": "apro",
@@ -4502,57 +4565,22 @@
    ]
   },
   {
-   "rank": 330,
-   "sym": "CVC",
-   "name": "Civic",
-   "cg": "civic",
-   "usd": "CRYPTO:CVCUSD",
-   "cap": "CRYPTOCAP:CVC",
-   "tvName": "Civic",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 331,
-   "sym": "WAVES",
-   "name": "Waves",
-   "cg": "waves",
-   "usd": "CRYPTO:WAVESUSD",
-   "cap": "CRYPTOCAP:WAVES",
-   "tvName": "Waves",
+   "rank": 335,
+   "sym": "MTL",
+   "name": "Metal DAO",
+   "cg": "metal",
+   "usd": "CRYPTO:MTLUSD",
+   "cap": "CRYPTOCAP:MTL",
+   "tvName": "Metal DAO",
    "confidence": "high",
    "alternatives": [
-    "WESTUSD (Waves Enterprise)"
+    "CRVUSD (Curve DAO Token)",
+    "LDOUSD (Lido DAO)",
+    "ROCKUSD (Rock Dao)"
    ]
   },
   {
-   "rank": 332,
-   "sym": "IOST",
-   "name": "IOST",
-   "cg": "iostoken",
-   "usd": "CRYPTO:IOSTUSD",
-   "cap": "CRYPTOCAP:IOST",
-   "tvName": "IOST",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 333,
-   "sym": "MANTRA",
-   "name": "MANTRA",
-   "cg": "mantra",
-   "usd": "CRYPTO:MANTRAUSD",
-   "cap": "CRYPTOCAP:MANTRA",
-   "tvName": "MANTRA",
-   "confidence": "high",
-   "alternatives": [
-    "OMUSD (MANTRA (old))",
-    "MANTAUSD (Manta Network)",
-    "MNTUSD (Mantle)"
-   ]
-  },
-  {
-   "rank": 334,
+   "rank": 336,
    "sym": "KNC",
    "name": "Kyber Network Crystal",
    "cg": "kyber-network-crystal",
@@ -4567,42 +4595,18 @@
    ]
   },
   {
-   "rank": 335,
-   "sym": "CARV",
-   "name": "CARV",
-   "cg": "carv",
-   "usd": "CRYPTO:CARVUSD",
-   "cap": "CRYPTOCAP:CARV",
-   "tvName": "CARV",
-   "confidence": "high",
-   "alternatives": [
-    "CVNAONUSD (Carvana Tokenized Stock (Ondo))"
-   ]
-  },
-  {
-   "rank": 336,
-   "sym": "WAXP",
-   "name": "WAX",
-   "cg": "wax",
-   "usd": "CRYPTO:WAXPUSD",
-   "cap": "CRYPTOCAP:WAXP",
-   "tvName": "WAX",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
    "rank": 337,
-   "sym": "MTL",
-   "name": "Metal DAO",
-   "cg": "metal",
-   "usd": "CRYPTO:MTLUSD",
-   "cap": "CRYPTOCAP:MTL",
-   "tvName": "Metal DAO",
+   "sym": "MANTRA",
+   "name": "MANTRA",
+   "cg": "mantra",
+   "usd": "CRYPTO:MANTRAUSD",
+   "cap": "CRYPTOCAP:MANTRA",
+   "tvName": "MANTRA",
    "confidence": "high",
    "alternatives": [
-    "CRVUSD (Curve DAO Token)",
-    "LDOUSD (Lido DAO)",
-    "ROCKUSD (Rock Dao)"
+    "OMUSD (MANTRA (old))",
+    "MANTAUSD (Manta Network)",
+    "MNTUSD (Mantle)"
    ]
   },
   {
@@ -4620,50 +4624,28 @@
   },
   {
    "rank": 339,
-   "sym": "MPLX",
-   "name": "Metaplex",
-   "cg": "metaplex",
-   "usd": "CRYPTO:MPLXUSD",
-   "cap": "CRYPTOCAP:MPLX",
-   "tvName": "Metaplex",
+   "sym": "WAXP",
+   "name": "WAX",
+   "cg": "wax",
+   "usd": "CRYPTO:WAXPUSD",
+   "cap": "CRYPTOCAP:WAXP",
+   "tvName": "WAX",
    "confidence": "high",
    "alternatives": []
   },
   {
    "rank": 340,
-   "sym": "CTSI",
-   "name": "Cartesi",
-   "cg": "cartesi",
-   "usd": "CRYPTO:CTSIUSD",
-   "cap": "CRYPTOCAP:CTSI",
-   "tvName": "Cartesi",
+   "sym": "FOGO",
+   "name": "Fogo",
+   "cg": "fogo",
+   "usd": "CRYPTO:FOGOUSD",
+   "cap": "CRYPTOCAP:FOGO",
+   "tvName": "Fogo",
    "confidence": "high",
    "alternatives": []
   },
   {
    "rank": 341,
-   "sym": "GMT",
-   "name": "GMT",
-   "cg": "stepn",
-   "usd": "CRYPTO:GMTUSD",
-   "cap": "CRYPTOCAP:GMT",
-   "tvName": "GMT",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 342,
-   "sym": "ARDR",
-   "name": "Ardor",
-   "cg": "ardor",
-   "usd": "CRYPTO:ARDRUSD",
-   "cap": "CRYPTOCAP:ARDR",
-   "tvName": "Ardor",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 343,
    "sym": "SKL",
    "name": "SKALE",
    "cg": "skale",
@@ -4675,6 +4657,28 @@
     "SKATEUSD (Skate)",
     "BANANAFOUSD (Banana For Scale)"
    ]
+  },
+  {
+   "rank": 342,
+   "sym": "MPLX",
+   "name": "Metaplex",
+   "cg": "metaplex",
+   "usd": "CRYPTO:MPLXUSD",
+   "cap": "CRYPTOCAP:MPLX",
+   "tvName": "Metaplex",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 343,
+   "sym": "CTSI",
+   "name": "Cartesi",
+   "cg": "cartesi",
+   "usd": "CRYPTO:CTSIUSD",
+   "cap": "CRYPTOCAP:CTSI",
+   "tvName": "Cartesi",
+   "confidence": "high",
+   "alternatives": []
   },
   {
    "rank": 344,
@@ -4689,17 +4693,6 @@
   },
   {
    "rank": 345,
-   "sym": "ZBT",
-   "name": "ZEROBASE",
-   "cg": "zerobase",
-   "usd": "CRYPTO:ZBTZUSD",
-   "cap": "CRYPTOCAP:ZBTZ",
-   "tvName": "ZEROBASE",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 346,
    "sym": "AUCTION",
    "name": "Bounce",
    "cg": "auction",
@@ -4711,6 +4704,17 @@
     "BBBOUUSD (BounceBit)",
     "ACLUSD (Auction Light)"
    ]
+  },
+  {
+   "rank": 346,
+   "sym": "METIS",
+   "name": "Metis",
+   "cg": "metis-token",
+   "usd": "CRYPTO:METISUSD",
+   "cap": "CRYPTOCAP:METIS",
+   "tvName": "Metis",
+   "confidence": "high",
+   "alternatives": []
   },
   {
    "rank": 347,
@@ -4729,6 +4733,28 @@
   },
   {
    "rank": 348,
+   "sym": "ZBT",
+   "name": "ZEROBASE",
+   "cg": "zerobase",
+   "usd": "CRYPTO:ZBTZUSD",
+   "cap": "CRYPTOCAP:ZBTZ",
+   "tvName": "ZEROBASE",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 349,
+   "sym": "GMT",
+   "name": "GMT",
+   "cg": "stepn",
+   "usd": "CRYPTO:GMTUSD",
+   "cap": "CRYPTOCAP:GMT",
+   "tvName": "GMT",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 350,
    "sym": "BILL",
    "name": "Billions Network",
    "cg": "billions-network",
@@ -4743,44 +4769,7 @@
    ]
   },
   {
-   "rank": 349,
-   "sym": "METIS",
-   "name": "Metis",
-   "cg": "metis-token",
-   "usd": "CRYPTO:METISUSD",
-   "cap": "CRYPTOCAP:METIS",
-   "tvName": "Metis",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 350,
-   "sym": "FOGO",
-   "name": "Fogo",
-   "cg": "fogo",
-   "usd": "CRYPTO:FOGOUSD",
-   "cap": "CRYPTOCAP:FOGO",
-   "tvName": "Fogo",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
    "rank": 351,
-   "sym": "AI",
-   "name": "Gensyn",
-   "cg": "gensyn",
-   "usd": "CRYPTO:AIGENUSD",
-   "cap": "CRYPTOCAP:AIGEN",
-   "tvName": "Gensyn",
-   "confidence": "high",
-   "alternatives": [
-    "AIOUSD (OLAXBT)",
-    "AINUSD (AI Network)",
-    "AI4USD (AI4 | Recursive Superintelligence)"
-   ]
-  },
-  {
-   "rank": 352,
    "sym": "CETUS",
    "name": "Cetus Protocol",
    "cg": "cetus-protocol",
@@ -4795,7 +4784,33 @@
    ]
   },
   {
+   "rank": 352,
+   "sym": "AI",
+   "name": "Gensyn",
+   "cg": "gensyn",
+   "usd": "CRYPTO:AIGENUSD",
+   "cap": "CRYPTOCAP:AIGEN",
+   "tvName": "Gensyn",
+   "confidence": "high",
+   "alternatives": [
+    "AIOUSD (OLAXBT)",
+    "AINUSD (AI Network)",
+    "AI4USD (AI4 | Recursive Superintelligence)"
+   ]
+  },
+  {
    "rank": 353,
+   "sym": "ARDR",
+   "name": "Ardor",
+   "cg": "ardor",
+   "usd": "CRYPTO:ARDRUSD",
+   "cap": "CRYPTOCAP:ARDR",
+   "tvName": "Ardor",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 354,
    "sym": "BIGTIME",
    "name": "Big Time",
    "cg": "big-time",
@@ -4810,37 +4825,7 @@
    ]
   },
   {
-   "rank": 354,
-   "sym": "WOO",
-   "name": "WOO",
-   "cg": "woo-network",
-   "usd": "CRYPTO:WOOUSD",
-   "cap": "CRYPTOCAP:WOO",
-   "tvName": "WOO",
-   "confidence": "high",
-   "alternatives": [
-    "WOOPUSD (Woonkly)",
-    "WOOF2USD (WOOF)",
-    "WOOFWUSD (WoofWork.io)"
-   ]
-  },
-  {
    "rank": 355,
-   "sym": "SLP",
-   "name": "Smooth Love Potion",
-   "cg": "smooth-love-potion",
-   "usd": "CRYPTO:SLPUSD",
-   "cap": "CRYPTOCAP:SLP",
-   "tvName": "Smooth Love Potion",
-   "confidence": "high",
-   "alternatives": [
-    "LOVEMUSD (Love Monster)",
-    "LOVESNOOPYUSD (I LOVE SNOOPY)",
-    "TITSUSD (We Love Tits)"
-   ]
-  },
-  {
-   "rank": 356,
    "sym": "CYS",
    "name": "Cysic",
    "cg": "cysic",
@@ -4853,7 +4838,7 @@
    ]
   },
   {
-   "rank": 357,
+   "rank": 356,
    "sym": "OPEN",
    "name": "OpenLedger",
    "cg": "openledger-2",
@@ -4868,18 +4853,33 @@
    ]
   },
   {
-   "rank": 358,
-   "sym": "GRVT",
-   "name": "GRVT Token",
-   "cg": "grvt",
-   "usd": "CRYPTO:GRVTUSD",
-   "cap": "CRYPTOCAP:GRVT",
-   "tvName": "Grvt",
+   "rank": 357,
+   "sym": "BROCCOLI714",
+   "name": "CZ's Dog",
+   "cg": "czs-dog",
+   "usd": "CRYPTO:BROCCOLIUSD",
+   "cap": "CRYPTOCAP:BROCCOLI",
+   "tvName": "CZ'S Dog",
    "confidence": "high",
    "alternatives": [
-    "VVVUSD (Venice Token)",
-    "CRVUSD (Curve DAO Token)",
-    "BATUSD (Basic Attention Token)"
+    "DOGGUSD (Dog (Bitcoin))",
+    "DOGEUSD (Dogecoin)",
+    "ZEUSPUSD (Pepes Dog)"
+   ]
+  },
+  {
+   "rank": 358,
+   "sym": "EDEN",
+   "name": "OpenEden",
+   "cg": "openeden",
+   "usd": "CRYPTO:EDENOUSD",
+   "cap": "CRYPTOCAP:EDENO",
+   "tvName": "OpenEden",
+   "confidence": "high",
+   "alternatives": [
+    "EDENUSD (Eden)",
+    "EDENAUSD (EDENA)",
+    "ME2USD (Magic Eden)"
    ]
   },
   {
@@ -4897,17 +4897,17 @@
   },
   {
    "rank": 360,
-   "sym": "MLK",
-   "name": "MiL.k",
-   "cg": "milk-alliance",
-   "usd": "CRYPTO:MLKUSD",
-   "cap": "CRYPTOCAP:MLK",
-   "tvName": "MiL.k",
+   "sym": "GRVT",
+   "name": "GRVT Token",
+   "cg": "grvt",
+   "usd": "CRYPTO:GRVTUSD",
+   "cap": "CRYPTOCAP:GRVT",
+   "tvName": "Grvt",
    "confidence": "high",
    "alternatives": [
-    "MILKYWUSD (MilkyWay)",
-    "MILLIUSD (MILLI)",
-    "MILOUSD (Milo Inu)"
+    "VVVUSD (Venice Token)",
+    "CRVUSD (Curve DAO Token)",
+    "BATUSD (Basic Attention Token)"
    ]
   },
   {
@@ -4927,71 +4927,21 @@
   },
   {
    "rank": 362,
-   "sym": "IQ",
-   "name": "IQ",
-   "cg": "everipedia",
-   "usd": "CRYPTO:IQUSD",
-   "cap": "CRYPTOCAP:IQ",
-   "tvName": "IQ",
+   "sym": "WOO",
+   "name": "WOO",
+   "cg": "woo-network",
+   "usd": "CRYPTO:WOOUSD",
+   "cap": "CRYPTOCAP:WOO",
+   "tvName": "WOO",
    "confidence": "high",
    "alternatives": [
-    "IQ50USD (IQ50)",
-    "IQTUSD (IQ Protocol)"
+    "WOOPUSD (Woonkly)",
+    "WOOF2USD (WOOF)",
+    "WOOFWUSD (WoofWork.io)"
    ]
   },
   {
    "rank": 363,
-   "sym": "STRAX",
-   "name": "Xertra",
-   "cg": "stratis",
-   "usd": "CRYPTO:STRAXUSD",
-   "cap": "CRYPTOCAP:STRAX",
-   "tvName": "Xertra",
-   "confidence": "high",
-   "alternatives": [
-    "STRAXOLDUSD (Stratis [Old])",
-    "STRAYDOGUSD (Stray Dog)"
-   ]
-  },
-  {
-   "rank": 364,
-   "sym": "HEMI",
-   "name": "Hemi",
-   "cg": "hemi",
-   "usd": "CRYPTO:HEMIUSD",
-   "cap": "CRYPTOCAP:HEMI",
-   "tvName": "Hemi",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 365,
-   "sym": "EDEN",
-   "name": "OpenEden",
-   "cg": "openeden",
-   "usd": "CRYPTO:EDENOUSD",
-   "cap": "CRYPTOCAP:EDENO",
-   "tvName": "OpenEden",
-   "confidence": "high",
-   "alternatives": [
-    "EDENUSD (Eden)",
-    "EDENAUSD (EDENA)",
-    "ME2USD (Magic Eden)"
-   ]
-  },
-  {
-   "rank": 366,
-   "sym": "AEVO",
-   "name": "Aevo",
-   "cg": "aevo-exchange",
-   "usd": "CRYPTO:AEVOUSD",
-   "cap": "CRYPTOCAP:AEVO",
-   "tvName": "Aevo",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 367,
    "sym": "ICNT",
    "name": "Impossible Cloud Network Token",
    "cg": "impossible-cloud-network-token",
@@ -5006,31 +4956,83 @@
    ]
   },
   {
-   "rank": 368,
-   "sym": "DOGS",
-   "name": "Dogs",
-   "cg": "dogs-2",
-   "usd": "CRYPTO:DOGS2USD",
-   "cap": "CRYPTOCAP:DOGS2",
-   "tvName": "DOGS",
+   "rank": 364,
+   "sym": "IQ",
+   "name": "IQ",
+   "cg": "everipedia",
+   "usd": "CRYPTO:IQUSD",
+   "cap": "CRYPTOCAP:IQ",
+   "tvName": "IQ",
    "confidence": "high",
    "alternatives": [
-    "MDOGSUSD (Money Dogs)",
-    "0DOGUSD (Bitcoin Dogs)",
-    "MEWUSD (cat in a dogs world)"
+    "IQ50USD (IQ50)",
+    "IQTUSD (IQ Protocol)"
+   ]
+  },
+  {
+   "rank": 365,
+   "sym": "MLK",
+   "name": "MiL.k",
+   "cg": "milk-alliance",
+   "usd": "CRYPTO:MLKUSD",
+   "cap": "CRYPTOCAP:MLK",
+   "tvName": "MiL.k",
+   "confidence": "high",
+   "alternatives": [
+    "MILKYWUSD (MilkyWay)",
+    "MILLIUSD (MILLI)",
+    "MILOUSD (Milo Inu)"
+   ]
+  },
+  {
+   "rank": 366,
+   "sym": "MOVR",
+   "name": "Moonriver",
+   "cg": "moonriver",
+   "usd": "CRYPTO:MOVRUSD",
+   "cap": "CRYPTOCAP:MOVR",
+   "tvName": "Moonriver",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 367,
+   "sym": "HEMI",
+   "name": "Hemi",
+   "cg": "hemi",
+   "usd": "CRYPTO:HEMIUSD",
+   "cap": "CRYPTOCAP:HEMI",
+   "tvName": "Hemi",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 368,
+   "sym": "STRAX",
+   "name": "Xertra",
+   "cg": "stratis",
+   "usd": "CRYPTO:STRAXUSD",
+   "cap": "CRYPTOCAP:STRAX",
+   "tvName": "Xertra",
+   "confidence": "high",
+   "alternatives": [
+    "STRAXOLDUSD (Stratis [Old])",
+    "STRAYDOGUSD (Stray Dog)"
    ]
   },
   {
    "rank": 369,
-   "sym": "INIT",
-   "name": "Initia",
-   "cg": "initia",
-   "usd": "CRYPTO:INITUSD",
-   "cap": "CRYPTOCAP:INIT",
-   "tvName": "Initia",
+   "sym": "SLP",
+   "name": "Smooth Love Potion",
+   "cg": "smooth-love-potion",
+   "usd": "CRYPTO:SLPUSD",
+   "cap": "CRYPTOCAP:SLP",
+   "tvName": "Smooth Love Potion",
    "confidence": "high",
    "alternatives": [
-    "INIUSD (InitVerse)"
+    "LOVEMUSD (Love Monster)",
+    "LOVESNOOPYUSD (I LOVE SNOOPY)",
+    "TITSUSD (We Love Tits)"
    ]
   },
   {
@@ -5058,36 +5060,60 @@
   },
   {
    "rank": 372,
-   "sym": "SOLV",
-   "name": "Solv Protocol",
-   "cg": "solv-protocol",
-   "usd": "CRYPTO:SOLVUSD",
-   "cap": "CRYPTOCAP:SOLV",
-   "tvName": "Solv Protocol",
+   "sym": "TOKAMAK",
+   "name": "Tokamak Network",
+   "cg": "tokamak-network",
+   "usd": "CRYPTO:TOKAMAKUSD",
+   "cap": "CRYPTOCAP:TOKAMAK",
+   "tvName": "Tokamak Network",
    "confidence": "high",
    "alternatives": [
-    "SOLVEUSD (SOLVE)",
-    "SOLVEXUSD (Solvex Network)",
-    "SOLVEXNUSD (SOLVEX NETWORK)"
+    "TOKEUSD (Tokemak)",
+    "AKTUSD (Akash Network)",
+    "ZBCNUSD (Zebec Network)"
    ]
   },
   {
    "rank": 373,
-   "sym": "BSB",
-   "name": "Block Street",
-   "cg": "block-street",
-   "usd": "CRYPTO:BSBBLUSD",
-   "cap": "CRYPTOCAP:BSBBL",
-   "tvName": "Block Street",
+   "sym": "CGPT",
+   "name": "ChainGPT",
+   "cg": "chaingpt",
+   "usd": "CRYPTO:CGPTUSD",
+   "cap": "CRYPTOCAP:CGPT",
+   "tvName": "ChainGPT",
    "confidence": "high",
    "alternatives": [
-    "BLOCK4USD (Block)",
-    "BLOCK3USD (Block)",
-    "LBLOCKLUSD (Lucky Block (V2))"
+    "CGPTCUSD (CRYPGPT)"
    ]
   },
   {
    "rank": 374,
+   "sym": "DOGS",
+   "name": "Dogs",
+   "cg": "dogs-2",
+   "usd": "CRYPTO:DOGS2USD",
+   "cap": "CRYPTOCAP:DOGS2",
+   "tvName": "DOGS",
+   "confidence": "high",
+   "alternatives": [
+    "MDOGSUSD (Money Dogs)",
+    "0DOGUSD (Bitcoin Dogs)",
+    "MEWUSD (cat in a dogs world)"
+   ]
+  },
+  {
+   "rank": 375,
+   "sym": "AEVO",
+   "name": "Aevo",
+   "cg": "aevo-exchange",
+   "usd": "CRYPTO:AEVOUSD",
+   "cap": "CRYPTOCAP:AEVO",
+   "tvName": "Aevo",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 376,
    "sym": "HYPER",
    "name": "Hyperlane",
    "cg": "hyperlane",
@@ -5102,7 +5128,7 @@
    ]
   },
   {
-   "rank": 375,
+   "rank": 377,
    "sym": "CELR",
    "name": "Celer Network",
    "cg": "celer-network",
@@ -5117,20 +5143,37 @@
    ]
   },
   {
-   "rank": 376,
-   "sym": "CGPT",
-   "name": "ChainGPT",
-   "cg": "chaingpt",
-   "usd": "CRYPTO:CGPTUSD",
-   "cap": "CRYPTOCAP:CGPT",
-   "tvName": "ChainGPT",
+   "rank": 378,
+   "sym": "SOLV",
+   "name": "Solv Protocol",
+   "cg": "solv-protocol",
+   "usd": "CRYPTO:SOLVUSD",
+   "cap": "CRYPTOCAP:SOLV",
+   "tvName": "Solv Protocol",
    "confidence": "high",
    "alternatives": [
-    "CGPTCUSD (CRYPGPT)"
+    "SOLVEUSD (SOLVE)",
+    "SOLVEXUSD (Solvex Network)",
+    "SOLVEXNUSD (SOLVEX NETWORK)"
    ]
   },
   {
-   "rank": 377,
+   "rank": 379,
+   "sym": "BSB",
+   "name": "Block Street",
+   "cg": "block-street",
+   "usd": "CRYPTO:BSBBLUSD",
+   "cap": "CRYPTOCAP:BSBBL",
+   "tvName": "Block Street",
+   "confidence": "high",
+   "alternatives": [
+    "BLOCK4USD (Block)",
+    "BLOCK3USD (Block)",
+    "LBLOCKLUSD (Lucky Block (V2))"
+   ]
+  },
+  {
+   "rank": 380,
    "sym": "FOLD",
    "name": "The Interfold",
    "cg": "interfold",
@@ -5145,7 +5188,20 @@
    ]
   },
   {
-   "rank": 378,
+   "rank": 381,
+   "sym": "INIT",
+   "name": "Initia",
+   "cg": "initia",
+   "usd": "CRYPTO:INITUSD",
+   "cap": "CRYPTOCAP:INIT",
+   "tvName": "Initia",
+   "confidence": "high",
+   "alternatives": [
+    "INIUSD (InitVerse)"
+   ]
+  },
+  {
+   "rank": 382,
    "sym": "LQTY",
    "name": "Liquity",
    "cg": "liquity",
@@ -5158,7 +5214,7 @@
    ]
   },
   {
-   "rank": 379,
+   "rank": 383,
    "sym": "AIXBT",
    "name": "aixbt",
    "cg": "aixbt",
@@ -5171,22 +5227,7 @@
    ]
   },
   {
-   "rank": 380,
-   "sym": "CHR",
-   "name": "Chromia",
-   "cg": "chromaway",
-   "usd": "CRYPTO:CHRUSD",
-   "cap": "CRYPTOCAP:CHR",
-   "tvName": "Chromia",
-   "confidence": "high",
-   "alternatives": [
-    "CHRPUSD (Chirpley)",
-    "XNLUSD (Chronicle)",
-    "TIMEUSD (Chrono.tech)"
-   ]
-  },
-  {
-   "rank": 381,
+   "rank": 384,
    "sym": "YB",
    "name": "Yield Basis",
    "cg": "yield-basis",
@@ -5201,7 +5242,7 @@
    ]
   },
   {
-   "rank": 382,
+   "rank": 385,
    "sym": "BANK",
    "name": "Lorenzo Protocol",
    "cg": "lorenzo-protocol",
@@ -5216,51 +5257,18 @@
    ]
   },
   {
-   "rank": 383,
-   "sym": "MOVR",
-   "name": "Moonriver",
-   "cg": "moonriver",
-   "usd": "CRYPTO:MOVRUSD",
-   "cap": "CRYPTOCAP:MOVR",
-   "tvName": "Moonriver",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 384,
-   "sym": "CBK",
-   "name": "Cobak",
-   "cg": "cobak-token",
-   "usd": "CRYPTO:CBKUSD",
-   "cap": "CRYPTOCAP:CBK",
-   "tvName": "Cobak Token",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 385,
-   "sym": "BICO",
-   "name": "Biconomy",
-   "cg": "biconomy",
-   "usd": "CRYPTO:BICOUSD",
-   "cap": "CRYPTOCAP:BICO",
-   "tvName": "Biconomy",
-   "confidence": "high",
-   "alternatives": [
-    "BITBIUSD (Biconomy Exchange Token)"
-   ]
-  },
-  {
    "rank": 386,
-   "sym": "FIDA",
-   "name": "Bonfida",
-   "cg": "bonfida",
-   "usd": "CRYPTO:FIDAUSD",
-   "cap": "CRYPTOCAP:FIDA",
-   "tvName": "Bonfida",
+   "sym": "CHR",
+   "name": "Chromia",
+   "cg": "chromaway",
+   "usd": "CRYPTO:CHRUSD",
+   "cap": "CRYPTOCAP:CHR",
+   "tvName": "Chromia",
    "confidence": "high",
    "alternatives": [
-    "FDCUSD (Fidance)"
+    "CHRPUSD (Chirpley)",
+    "XNLUSD (Chronicle)",
+    "TIMEUSD (Chrono.tech)"
    ]
   },
   {
@@ -5276,17 +5284,6 @@
   },
   {
    "rank": 388,
-   "sym": "DKA",
-   "name": "dKargo",
-   "cg": "dkargo",
-   "usd": "CRYPTO:DKAUSD",
-   "cap": "CRYPTOCAP:DKA",
-   "tvName": "dKargo",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 389,
    "sym": "ACE",
    "name": "Fusionist",
    "cg": "endurance",
@@ -5300,48 +5297,18 @@
    ]
   },
   {
-   "rank": 390,
-   "sym": "CTK",
-   "name": "Shentu",
-   "cg": "certik",
-   "usd": "CRYPTO:CTKUSD",
-   "cap": "CRYPTOCAP:CTK",
-   "tvName": "Shentu",
+   "rank": 389,
+   "sym": "CBK",
+   "name": "Cobak",
+   "cg": "cobak-token",
+   "usd": "CRYPTO:CBKUSD",
+   "cap": "CRYPTOCAP:CBK",
+   "tvName": "Cobak Token",
    "confidence": "high",
    "alternatives": []
   },
   {
-   "rank": 391,
-   "sym": "POKT",
-   "name": "Pocket Network",
-   "cg": "pocket-network",
-   "usd": "CRYPTO:POKTUSD",
-   "cap": "CRYPTOCAP:POKT",
-   "tvName": "Pocket Network",
-   "confidence": "high",
-   "alternatives": [
-    "CANDYUSD (Candy Pocket)",
-    "SPSMUSD (Smart Pocket)",
-    "AKTUSD (Akash Network)"
-   ]
-  },
-  {
-   "rank": 392,
-   "sym": "QI",
-   "name": "BENQI",
-   "cg": "benqi",
-   "usd": "CRYPTO:QIUSD",
-   "cap": "CRYPTOCAP:QI",
-   "tvName": "BENQI",
-   "confidence": "high",
-   "alternatives": [
-    "QIEUSD (QIE Blockchain)",
-    "QISUSD (QiSwap)",
-    "QTCUSD (Qitcoin)"
-   ]
-  },
-  {
-   "rank": 393,
+   "rank": 390,
    "sym": "STG",
    "name": "Stargate Finance",
    "cg": "stargate-finance",
@@ -5356,51 +5323,57 @@
    ]
   },
   {
-   "rank": 394,
-   "sym": "XAI",
-   "name": "Xai",
-   "cg": "xai-blockchain",
-   "usd": "CRYPTO:XAI7USD",
-   "cap": "CRYPTOCAP:XAI7",
-   "tvName": "Xai",
-   "confidence": "check",
+   "rank": 391,
+   "sym": "FIDA",
+   "name": "Bonfida",
+   "cg": "bonfida",
+   "usd": "CRYPTO:FIDAUSD",
+   "cap": "CRYPTOCAP:FIDA",
+   "tvName": "Bonfida",
+   "confidence": "high",
    "alternatives": [
-    "XAI2USD (XAI)",
-    "GORKUSD (New XAI gork)"
+    "FDCUSD (Fidance)"
    ]
+  },
+  {
+   "rank": 392,
+   "sym": "POKT",
+   "name": "Pocket Network",
+   "cg": "pocket-network",
+   "usd": "CRYPTO:POKTUSD",
+   "cap": "CRYPTOCAP:POKT",
+   "tvName": "Pocket Network",
+   "confidence": "high",
+   "alternatives": [
+    "CANDYUSD (Candy Pocket)",
+    "SPSMUSD (Smart Pocket)",
+    "AKTUSD (Akash Network)"
+   ]
+  },
+  {
+   "rank": 393,
+   "sym": "DKA",
+   "name": "dKargo",
+   "cg": "dkargo",
+   "usd": "CRYPTO:DKAUSD",
+   "cap": "CRYPTOCAP:DKA",
+   "tvName": "dKargo",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 394,
+   "sym": "CTK",
+   "name": "Shentu",
+   "cg": "certik",
+   "usd": "CRYPTO:CTKUSD",
+   "cap": "CRYPTOCAP:CTK",
+   "tvName": "Shentu",
+   "confidence": "high",
+   "alternatives": []
   },
   {
    "rank": 395,
-   "sym": "MED",
-   "name": "Medibloc",
-   "cg": "medibloc",
-   "usd": "CRYPTO:MEDUSD",
-   "cap": "CRYPTOCAP:MED",
-   "tvName": "MediBloc",
-   "confidence": "high",
-   "alternatives": [
-    "MEDIAUSD (Media Network)",
-    "MEDUSAUSD (MEDUSA)",
-    "FAKTUSD (Medifakt)"
-   ]
-  },
-  {
-   "rank": 396,
-   "sym": "HUNT",
-   "name": "Hunt",
-   "cg": "hunt-token",
-   "usd": "CRYPTO:HUNTUSD",
-   "cap": "CRYPTOCAP:HUNT",
-   "tvName": "Hunt Town",
-   "confidence": "high",
-   "alternatives": [
-    "LAPTOPHUNTEUSD (Hunter Biden's Laptop)",
-    "JAGERUSD (Jager Hunter)",
-    "TITAUSD (Titan Hunters)"
-   ]
-  },
-  {
-   "rank": 397,
    "sym": "LUMIA",
    "name": "Lumia",
    "cg": "lumia",
@@ -5411,18 +5384,7 @@
    "alternatives": []
   },
   {
-   "rank": 398,
-   "sym": "ENSO",
-   "name": "Enso",
-   "cg": "enso",
-   "usd": "CRYPTO:ENSOUSD",
-   "cap": "CRYPTOCAP:ENSO",
-   "tvName": "Enso",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 399,
+   "rank": 396,
    "sym": "MAGIC",
    "name": "Treasure",
    "cg": "magic",
@@ -5437,18 +5399,20 @@
    ]
   },
   {
-   "rank": 400,
-   "sym": "QKC",
-   "name": "QuarkChain",
-   "cg": "quark-chain",
-   "usd": "CRYPTO:QKCUSD",
-   "cap": "CRYPTOCAP:QKC",
-   "tvName": "QuarkChain",
+   "rank": 397,
+   "sym": "BICO",
+   "name": "Biconomy",
+   "cg": "biconomy",
+   "usd": "CRYPTO:BICOUSD",
+   "cap": "CRYPTOCAP:BICO",
+   "tvName": "Biconomy",
    "confidence": "high",
-   "alternatives": []
+   "alternatives": [
+    "BITBIUSD (Biconomy Exchange Token)"
+   ]
   },
   {
-   "rank": 401,
+   "rank": 398,
    "sym": "TUT",
    "name": "Tutorial",
    "cg": "tutorial",
@@ -5461,129 +5425,32 @@
    ]
   },
   {
-   "rank": 402,
-   "sym": "PRL",
-   "name": "Perle",
-   "cg": "perle",
-   "usd": "CRYPTO:PRLPUSD",
-   "cap": "CRYPTOCAP:PRLP",
-   "tvName": "Perle",
+   "rank": 399,
+   "sym": "ENSO",
+   "name": "Enso",
+   "cg": "enso",
+   "usd": "CRYPTO:ENSOUSD",
+   "cap": "CRYPTOCAP:ENSO",
+   "tvName": "Enso",
    "confidence": "high",
    "alternatives": []
   },
   {
-   "rank": 403,
-   "sym": "TAIKO",
-   "name": "Taiko",
-   "cg": "taiko",
-   "usd": "CRYPTO:TAIKOUSD",
-   "cap": "CRYPTOCAP:TAIKO",
-   "tvName": "Taiko",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 404,
-   "sym": "WCT",
-   "name": "WalletConnect Token",
-   "cg": "connect-token-wct",
-   "usd": "CRYPTO:WCTWUSD",
-   "cap": "CRYPTOCAP:WCTW",
-   "tvName": "WalletConnect Token",
-   "confidence": "high",
+   "rank": 400,
+   "sym": "XAI",
+   "name": "Xai",
+   "cg": "xai-blockchain",
+   "usd": "CRYPTO:XAI7USD",
+   "cap": "CRYPTOCAP:XAI7",
+   "tvName": "Xai",
+   "confidence": "check",
    "alternatives": [
-    "VVVUSD (Venice Token)",
-    "CRVUSD (Curve DAO Token)",
-    "BATUSD (Basic Attention Token)"
+    "XAI2USD (XAI)",
+    "GORKUSD (New XAI gork)"
    ]
   },
   {
-   "rank": 405,
-   "sym": "ARPA",
-   "name": "ARPA",
-   "cg": "arpa",
-   "usd": "CRYPTO:ARPAUSD",
-   "cap": "CRYPTOCAP:ARPA",
-   "tvName": "ARPA",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 406,
-   "sym": "ROBO",
-   "name": "Fabric Protocol",
-   "cg": "robo-token-2",
-   "usd": "CRYPTO:ROBOTOUSD",
-   "cap": "CRYPTOCAP:ROBOTO",
-   "tvName": "Fabric Protocol",
-   "confidence": "high",
-   "alternatives": [
-    "ROBOUSD (RoboHero)",
-    "VICSUSD (RoboFi)",
-    "KIDENUSD (RoboKiden)"
-   ]
-  },
-  {
-   "rank": 407,
-   "sym": "AGLD",
-   "name": "Adventure Gold",
-   "cg": "adventure-gold",
-   "usd": "CRYPTO:AGLDUSD",
-   "cap": "CRYPTOCAP:AGLD",
-   "tvName": "Adventure Gold",
-   "confidence": "high",
-   "alternatives": [
-    "GOLDPUSD (GOLD)",
-    "PAXGUSD (PAX Gold)",
-    "XAUTUSD (Tether Gold)"
-   ]
-  },
-  {
-   "rank": 408,
-   "sym": "AVA",
-   "name": "AVA (Travala)",
-   "cg": "concierge-io",
-   "usd": "CRYPTO:AVAUSD",
-   "cap": "CRYPTOCAP:AVA",
-   "tvName": "AVA (Travala)",
-   "confidence": "high",
-   "alternatives": [
-    "AVA2USD (AVA)",
-    "AVAXUSD (Avalanche)",
-    "AVAILUSD (Avail)"
-   ]
-  },
-  {
-   "rank": 409,
-   "sym": "CTR",
-   "name": "Citrea",
-   "cg": "citrea",
-   "usd": "CRYPTO:CTRCITUSD",
-   "cap": "CRYPTOCAP:CTRCIT",
-   "tvName": "Citrea",
-   "confidence": "high",
-   "alternatives": [
-    "CTRUSD (Creator Platform)",
-    "CTRLWUSD (Ctrl Wallet)"
-   ]
-  },
-  {
-   "rank": 410,
-   "sym": "CYBER",
-   "name": "CYBER",
-   "cg": "cyberconnect",
-   "usd": "CRYPTO:CYBERCUSD",
-   "cap": "CRYPTOCAP:CYBERC",
-   "tvName": "Cyber",
-   "confidence": "high",
-   "alternatives": [
-    "CYBERUSD (Cyberpunk City)",
-    "CYBERLEEKUSD (CyberLeek)",
-    "CATCYUSD (Cyber Arena)"
-   ]
-  },
-  {
-   "rank": 411,
+   "rank": 401,
    "sym": "DIA",
    "name": "DIA",
    "cg": "dia-data",
@@ -5598,7 +5465,186 @@
    ]
   },
   {
+   "rank": 402,
+   "sym": "HUNT",
+   "name": "Hunt",
+   "cg": "hunt-token",
+   "usd": "CRYPTO:HUNTUSD",
+   "cap": "CRYPTOCAP:HUNT",
+   "tvName": "Hunt Town",
+   "confidence": "high",
+   "alternatives": [
+    "LAPTOPHUNTEUSD (Hunter Biden's Laptop)",
+    "JAGERUSD (Jager Hunter)",
+    "TITAUSD (Titan Hunters)"
+   ]
+  },
+  {
+   "rank": 403,
+   "sym": "QI",
+   "name": "BENQI",
+   "cg": "benqi",
+   "usd": "CRYPTO:QIUSD",
+   "cap": "CRYPTOCAP:QI",
+   "tvName": "BENQI",
+   "confidence": "high",
+   "alternatives": [
+    "QIEUSD (QIE Blockchain)",
+    "QISUSD (QiSwap)",
+    "QTCUSD (Qitcoin)"
+   ]
+  },
+  {
+   "rank": 404,
+   "sym": "MED",
+   "name": "Medibloc",
+   "cg": "medibloc",
+   "usd": "CRYPTO:MEDUSD",
+   "cap": "CRYPTOCAP:MED",
+   "tvName": "MediBloc",
+   "confidence": "high",
+   "alternatives": [
+    "MEDIAUSD (Media Network)",
+    "MEDUSAUSD (MEDUSA)",
+    "FAKTUSD (Medifakt)"
+   ]
+  },
+  {
+   "rank": 405,
+   "sym": "QKC",
+   "name": "QuarkChain",
+   "cg": "quark-chain",
+   "usd": "CRYPTO:QKCUSD",
+   "cap": "CRYPTOCAP:QKC",
+   "tvName": "QuarkChain",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 406,
+   "sym": "ARPA",
+   "name": "ARPA",
+   "cg": "arpa",
+   "usd": "CRYPTO:ARPAUSD",
+   "cap": "CRYPTOCAP:ARPA",
+   "tvName": "ARPA",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 407,
+   "sym": "WCT",
+   "name": "WalletConnect Token",
+   "cg": "connect-token-wct",
+   "usd": "CRYPTO:WCTWUSD",
+   "cap": "CRYPTOCAP:WCTW",
+   "tvName": "WalletConnect Token",
+   "confidence": "high",
+   "alternatives": [
+    "VVVUSD (Venice Token)",
+    "CRVUSD (Curve DAO Token)",
+    "BATUSD (Basic Attention Token)"
+   ]
+  },
+  {
+   "rank": 408,
+   "sym": "TAIKO",
+   "name": "Taiko",
+   "cg": "taiko",
+   "usd": "CRYPTO:TAIKOUSD",
+   "cap": "CRYPTOCAP:TAIKO",
+   "tvName": "Taiko",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 409,
+   "sym": "PRL",
+   "name": "Perle",
+   "cg": "perle",
+   "usd": "CRYPTO:PRLPUSD",
+   "cap": "CRYPTOCAP:PRLP",
+   "tvName": "Perle",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 410,
+   "sym": "RAD",
+   "name": "Radworks",
+   "cg": "radicle",
+   "usd": "CRYPTO:RADUSD",
+   "cap": "CRYPTOCAP:RAD",
+   "tvName": "Radworks",
+   "confidence": "high",
+   "alternatives": [
+    "RADARUSD (DappRadar)",
+    "RADR2USD (Radr)",
+    "XRDUSD (Radix)"
+   ]
+  },
+  {
+   "rank": 411,
+   "sym": "GAME2",
+   "name": "GameBuild",
+   "cg": "gamebuild",
+   "usd": "CRYPTO:GAMEBUSD",
+   "cap": "CRYPTOCAP:GAMEB",
+   "tvName": "GameBuild",
+   "confidence": "high",
+   "alternatives": [
+    "GMEEUSD (GAMEE)",
+    "G7USD (Game7)",
+    "GMRUSD (GAMER)"
+   ]
+  },
+  {
    "rank": 412,
+   "sym": "CYBER",
+   "name": "CYBER",
+   "cg": "cyberconnect",
+   "usd": "CRYPTO:CYBERCUSD",
+   "cap": "CRYPTOCAP:CYBERC",
+   "tvName": "Cyber",
+   "confidence": "high",
+   "alternatives": [
+    "CYBERUSD (Cyberpunk City)",
+    "CYBERLEEKUSD (CyberLeek)",
+    "CATCYUSD (Cyber Arena)"
+   ]
+  },
+  {
+   "rank": 413,
+   "sym": "AGLD",
+   "name": "Adventure Gold",
+   "cg": "adventure-gold",
+   "usd": "CRYPTO:AGLDUSD",
+   "cap": "CRYPTOCAP:AGLD",
+   "tvName": "Adventure Gold",
+   "confidence": "high",
+   "alternatives": [
+    "GOLDPUSD (GOLD)",
+    "PAXGUSD (PAX Gold)",
+    "XAUTUSD (Tether Gold)"
+   ]
+  },
+  {
+   "rank": 414,
+   "sym": "ROBO",
+   "name": "Fabric Protocol",
+   "cg": "robo-token-2",
+   "usd": "CRYPTO:ROBOTOUSD",
+   "cap": "CRYPTOCAP:ROBOTO",
+   "tvName": "Fabric Protocol",
+   "confidence": "high",
+   "alternatives": [
+    "ROBOUSD (RoboHero)",
+    "VICSUSD (RoboFi)",
+    "KIDENUSD (RoboKiden)"
+   ]
+  },
+  {
+   "rank": 415,
    "sym": "NCT",
    "name": "PolySwarm",
    "cg": "polyswarm",
@@ -5611,7 +5657,21 @@
    ]
   },
   {
-   "rank": 413,
+   "rank": 416,
+   "sym": "CTR",
+   "name": "Citrea",
+   "cg": "citrea",
+   "usd": "CRYPTO:CTRCITUSD",
+   "cap": "CRYPTOCAP:CTRCIT",
+   "tvName": "Citrea",
+   "confidence": "high",
+   "alternatives": [
+    "CTRUSD (Creator Platform)",
+    "CTRLWUSD (Ctrl Wallet)"
+   ]
+  },
+  {
+   "rank": 417,
    "sym": "SOPH",
    "name": "Sophon",
    "cg": "sophon",
@@ -5624,45 +5684,7 @@
    ]
   },
   {
-   "rank": 414,
-   "sym": "DODO",
-   "name": "DODO",
-   "cg": "dodo",
-   "usd": "CRYPTO:DODOUSD",
-   "cap": "CRYPTOCAP:DODO",
-   "tvName": "DODO",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 415,
-   "sym": "ANIME",
-   "name": "Animecoin",
-   "cg": "anime",
-   "usd": "CRYPTO:ANIMECUSD",
-   "cap": "CRYPTOCAP:ANIMEC",
-   "tvName": "Animecoin",
-   "confidence": "high",
-   "alternatives": [
-    "ANOMEUSD (Anome)"
-   ]
-  },
-  {
-   "rank": 416,
-   "sym": "MIRA",
-   "name": "Mira",
-   "cg": "mira-3",
-   "usd": "CRYPTO:MIRANUSD",
-   "cap": "CRYPTOCAP:MIRAN",
-   "tvName": "Mira",
-   "confidence": "high",
-   "alternatives": [
-    "MPTMUSD (Miracle Play)",
-    "MIRAIPUSD (Project MIRAI)"
-   ]
-  },
-  {
-   "rank": 417,
+   "rank": 418,
    "sym": "JOE",
    "name": "JOE",
    "cg": "joe",
@@ -5676,7 +5698,74 @@
    ]
   },
   {
-   "rank": 418,
+   "rank": 419,
+   "sym": "DODO",
+   "name": "DODO",
+   "cg": "dodo",
+   "usd": "CRYPTO:DODOUSD",
+   "cap": "CRYPTOCAP:DODO",
+   "tvName": "DODO",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 420,
+   "sym": "MIRA",
+   "name": "Mira",
+   "cg": "mira-3",
+   "usd": "CRYPTO:MIRANUSD",
+   "cap": "CRYPTOCAP:MIRAN",
+   "tvName": "Mira",
+   "confidence": "high",
+   "alternatives": [
+    "MPTMUSD (Miracle Play)",
+    "MIRAIPUSD (Project MIRAI)"
+   ]
+  },
+  {
+   "rank": 421,
+   "sym": "ANIME",
+   "name": "Animecoin",
+   "cg": "anime",
+   "usd": "CRYPTO:ANIMECUSD",
+   "cap": "CRYPTOCAP:ANIMEC",
+   "tvName": "Animecoin",
+   "confidence": "high",
+   "alternatives": [
+    "ANOMEUSD (Anome)"
+   ]
+  },
+  {
+   "rank": 422,
+   "sym": "GTC",
+   "name": "Gitcoin",
+   "cg": "gitcoin",
+   "usd": "CRYPTO:GTCGUSD",
+   "cap": "CRYPTOCAP:GTCG",
+   "tvName": "Gitcoin",
+   "confidence": "high",
+   "alternatives": [
+    "GTCUSD (Game.com)",
+    "GTCOINUSD (GAMETREE)"
+   ]
+  },
+  {
+   "rank": 423,
+   "sym": "AVA",
+   "name": "AVA (Travala)",
+   "cg": "concierge-io",
+   "usd": "CRYPTO:AVAUSD",
+   "cap": "CRYPTOCAP:AVA",
+   "tvName": "AVA (Travala)",
+   "confidence": "high",
+   "alternatives": [
+    "AVA2USD (AVA)",
+    "AVAXUSD (Avalanche)",
+    "AVAILUSD (Avail)"
+   ]
+  },
+  {
+   "rank": 424,
    "sym": "BIRB",
    "name": "Moonbirds",
    "cg": "moonbirds",
@@ -5687,66 +5776,7 @@
    "alternatives": []
   },
   {
-   "rank": 419,
-   "sym": "AGI",
-   "name": "Delysium",
-   "cg": "delysium",
-   "usd": "CRYPTO:AGIUSD",
-   "cap": "CRYPTOCAP:AGI",
-   "tvName": "Delysium",
-   "confidence": "high",
-   "alternatives": [
-    "AGIIUSD (AGII)",
-    "AGIALPHAUSD (AGI ALPHA AGENT)",
-    "AGIXBTUSD (AGIXBT by Virtuals)"
-   ]
-  },
-  {
-   "rank": 420,
-   "sym": "SAPIEN",
-   "name": "Sapien",
-   "cg": "sapien-2",
-   "usd": "CRYPTO:SAPIENUSD",
-   "cap": "CRYPTOCAP:SAPIEN",
-   "tvName": "Sapien",
-   "confidence": "high",
-   "alternatives": [
-    "SPNSAUSD (Sapiens AI)",
-    "SNUSD (SpaceN)"
-   ]
-  },
-  {
-   "rank": 421,
-   "sym": "EPIC",
-   "name": "Epic Chain",
-   "cg": "epic-chain",
-   "usd": "CRYPTO:EPICCUSD",
-   "cap": "CRYPTOCAP:EPICC",
-   "tvName": "Epic Chain",
-   "confidence": "high",
-   "alternatives": [
-    "ARRRUSD (Pirate Chain)",
-    "LINKUSD (Chainlink)",
-    "XDBUSD (XDB CHAIN)"
-   ]
-  },
-  {
-   "rank": 422,
-   "sym": "TST",
-   "name": "Test",
-   "cg": "test-3",
-   "usd": "CRYPTO:TSTTEUSD",
-   "cap": "CRYPTOCAP:TSTTE",
-   "tvName": "Test",
-   "confidence": "high",
-   "alternatives": [
-    "AEHRONUSD (Aehr Test Systems Tokenized Stock (Ondo))",
-    "TSTTUSD (Teleport System Token)",
-    "TESTIUSD (Titan Trading Platform)"
-   ]
-  },
-  {
-   "rank": 423,
+   "rank": 425,
    "sym": "ALICE",
    "name": "My Neighbor Alice",
    "cg": "my-neighbor-alice",
@@ -5761,89 +5791,62 @@
    ]
   },
   {
-   "rank": 424,
-   "sym": "CP",
-   "name": "Cluster Protocol",
-   "cg": "cluster-protocol",
-   "usd": "CRYPTO:CPCLUUSD",
-   "cap": "CRYPTOCAP:CPCLU",
-   "tvName": "Cluster Protocol",
-   "confidence": "high",
-   "alternatives": [
-    "CPCOUSD (CPCoin)",
-    "CPUUSD (CPUcoin)",
-    "CPHUSD (Cypherium)"
-   ]
-  },
-  {
-   "rank": 425,
-   "sym": "SPELL",
-   "name": "Spell",
-   "cg": "spell-token",
-   "usd": "CRYPTO:SPELLUSD",
-   "cap": "CRYPTOCAP:SPELL",
-   "tvName": "Spell Token",
-   "confidence": "high",
-   "alternatives": [
-    "SPELLFIREUSD (Spellfire)",
-    "SWELLUSD (Swell Network)",
-    "SMLSUSD (Smell Token)"
-   ]
-  },
-  {
    "rank": 426,
-   "sym": "F",
-   "name": "SynFutures",
-   "cg": "synfutures",
-   "usd": "CRYPTO:FUSD",
-   "cap": "CRYPTOCAP:F",
-   "tvName": "SynFutures",
+   "sym": "SAPIEN",
+   "name": "Sapien",
+   "cg": "sapien-2",
+   "usd": "CRYPTO:SAPIENUSD",
+   "cap": "CRYPTOCAP:SAPIEN",
+   "tvName": "Sapien",
    "confidence": "high",
    "alternatives": [
-    "F2USD (F)",
-    "FETUSD (Artificial Superintelligence Alliance)",
-    "FILUSD (Filecoin)"
+    "SPNSAUSD (Sapiens AI)",
+    "SNUSD (SpaceN)"
    ]
   },
   {
    "rank": 427,
-   "sym": "BOB",
-   "name": "BOB (Build on Bitcoin)",
-   "cg": "bob-build-on-bitcoin",
-   "usd": "CRYPTO:BOBBUILUSD",
-   "cap": "CRYPTOCAP:BOBBUIL",
-   "tvName": "BOB (Build on Bitcoin)",
+   "sym": "TST",
+   "name": "Test",
+   "cg": "test-3",
+   "usd": "CRYPTO:TSTTEUSD",
+   "cap": "CRYPTOCAP:TSTTE",
+   "tvName": "Test",
    "confidence": "high",
-   "manual": true,
-   "note": "checked against exchange prices (scripts/check-tickers.mjs)"
+   "alternatives": [
+    "AEHRONUSD (Aehr Test Systems Tokenized Stock (Ondo))",
+    "TSTTUSD (Teleport System Token)",
+    "TESTIUSD (Titan Trading Platform)"
+   ]
   },
   {
    "rank": 428,
-   "sym": "LAYER",
-   "name": "Solayer",
-   "cg": "solayer",
-   "usd": "CRYPTO:LAYERSUSD",
-   "cap": "CRYPTOCAP:LAYERS",
-   "tvName": "Solayer",
+   "sym": "AGI",
+   "name": "Delysium",
+   "cg": "delysium",
+   "usd": "CRYPTO:AGIUSD",
+   "cap": "CRYPTOCAP:AGI",
+   "tvName": "Delysium",
    "confidence": "high",
    "alternatives": [
-    "LAYERUSD (UniLayer)",
-    "L1XUSD (Layer One X)",
-    "42SUSD (Semantic Layer)"
+    "AGIIUSD (AGII)",
+    "AGIALPHAUSD (AGI ALPHA AGENT)",
+    "AGIXBTUSD (AGIXBT by Virtuals)"
    ]
   },
   {
    "rank": 429,
-   "sym": "ICX",
-   "name": "ICON",
-   "cg": "icon",
-   "usd": "CRYPTO:ICXUSD",
-   "cap": "CRYPTOCAP:ICX",
-   "tvName": "ICON",
+   "sym": "EPIC",
+   "name": "Epic Chain",
+   "cg": "epic-chain",
+   "usd": "CRYPTO:EPICCUSD",
+   "cap": "CRYPTOCAP:EPICC",
+   "tvName": "Epic Chain",
    "confidence": "high",
    "alternatives": [
-    "ICNXUSD (Icon.X World)",
-    "ICONSUSD (SportsIcon)"
+    "ARRRUSD (Pirate Chain)",
+    "LINKUSD (Chainlink)",
+    "XDBUSD (XDB CHAIN)"
    ]
   },
   {
@@ -5863,6 +5866,62 @@
   },
   {
    "rank": 431,
+   "sym": "CP",
+   "name": "Cluster Protocol",
+   "cg": "cluster-protocol",
+   "usd": "CRYPTO:CPCLUUSD",
+   "cap": "CRYPTOCAP:CPCLU",
+   "tvName": "Cluster Protocol",
+   "confidence": "high",
+   "alternatives": [
+    "CPCOUSD (CPCoin)",
+    "CPUUSD (CPUcoin)",
+    "CPHUSD (Cypherium)"
+   ]
+  },
+  {
+   "rank": 432,
+   "sym": "SPELL",
+   "name": "Spell",
+   "cg": "spell-token",
+   "usd": "CRYPTO:SPELLUSD",
+   "cap": "CRYPTOCAP:SPELL",
+   "tvName": "Spell Token",
+   "confidence": "high",
+   "alternatives": [
+    "SPELLFIREUSD (Spellfire)",
+    "SWELLUSD (Swell Network)",
+    "SMLSUSD (Smell Token)"
+   ]
+  },
+  {
+   "rank": 433,
+   "sym": "C98",
+   "name": "Coin98",
+   "cg": "coin98",
+   "usd": "CRYPTO:C98USD",
+   "cap": "CRYPTOCAP:C98",
+   "tvName": "Coin98",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 434,
+   "sym": "F",
+   "name": "SynFutures",
+   "cg": "synfutures",
+   "usd": "CRYPTO:FUSD",
+   "cap": "CRYPTOCAP:F",
+   "tvName": "SynFutures",
+   "confidence": "high",
+   "alternatives": [
+    "F2USD (F)",
+    "FETUSD (Artificial Superintelligence Alliance)",
+    "FILUSD (Filecoin)"
+   ]
+  },
+  {
+   "rank": 435,
    "sym": "UP",
    "name": "Superform",
    "cg": "superform",
@@ -5877,7 +5936,48 @@
    ]
   },
   {
-   "rank": 432,
+   "rank": 436,
+   "sym": "BOB",
+   "name": "BOB (Build on Bitcoin)",
+   "cg": "bob-build-on-bitcoin",
+   "usd": "CRYPTO:BOBBUILUSD",
+   "cap": "CRYPTOCAP:BOBBUIL",
+   "tvName": "BOB (Build on Bitcoin)",
+   "confidence": "high",
+   "manual": true,
+   "note": "checked against exchange prices (scripts/check-tickers.mjs)"
+  },
+  {
+   "rank": 437,
+   "sym": "ICX",
+   "name": "ICON",
+   "cg": "icon",
+   "usd": "CRYPTO:ICXUSD",
+   "cap": "CRYPTOCAP:ICX",
+   "tvName": "ICON",
+   "confidence": "high",
+   "alternatives": [
+    "ICNXUSD (Icon.X World)",
+    "ICONSUSD (SportsIcon)"
+   ]
+  },
+  {
+   "rank": 438,
+   "sym": "LAYER",
+   "name": "Solayer",
+   "cg": "solayer",
+   "usd": "CRYPTO:LAYERSUSD",
+   "cap": "CRYPTOCAP:LAYERS",
+   "tvName": "Solayer",
+   "confidence": "high",
+   "alternatives": [
+    "LAYERUSD (UniLayer)",
+    "L1XUSD (Layer One X)",
+    "42SUSD (Semantic Layer)"
+   ]
+  },
+  {
+   "rank": 439,
    "sym": "BANANA",
    "name": "Banana Gun",
    "cg": "banana-gun",
@@ -5892,31 +5992,7 @@
    ]
   },
   {
-   "rank": 433,
-   "sym": "MBL",
-   "name": "MovieBloc",
-   "cg": "moviebloc",
-   "usd": "CRYPTO:MBLUSD",
-   "cap": "CRYPTOCAP:MBL",
-   "tvName": "MovieBloc",
-   "confidence": "high",
-   "alternatives": [
-    "MBLKUSD (Magical Blocks)"
-   ]
-  },
-  {
-   "rank": 434,
-   "sym": "C98",
-   "name": "Coin98",
-   "cg": "coin98",
-   "usd": "CRYPTO:C98USD",
-   "cap": "CRYPTOCAP:C98",
-   "tvName": "Coin98",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 435,
+   "rank": 440,
    "sym": "DOLO",
    "name": "Dolomite",
    "cg": "dolomite",
@@ -5929,7 +6005,7 @@
    ]
   },
   {
-   "rank": 436,
+   "rank": 441,
    "sym": "ORDER",
    "name": "Orderly",
    "cg": "orderly-network",
@@ -5942,35 +6018,7 @@
    ]
   },
   {
-   "rank": 437,
-   "sym": "KERNEL",
-   "name": "KernelDAO",
-   "cg": "kernel-2",
-   "usd": "CRYPTO:KERNELUSD",
-   "cap": "CRYPTOCAP:KERNEL",
-   "tvName": "KernelDAO",
-   "confidence": "high",
-   "alternatives": [
-    "KEELONUSD (Keel Infrastructure Tokenized Stock (Ondo))"
-   ]
-  },
-  {
-   "rank": 438,
-   "sym": "KAT",
-   "name": "Katana",
-   "cg": "katana-network-token",
-   "usd": "CRYPTO:KATANUSD",
-   "cap": "CRYPTOCAP:KATAN",
-   "tvName": "Katana",
-   "confidence": "high",
-   "alternatives": [
-    "KATAUSD (Katana Inu)",
-    "KATKAUSD (Karat)",
-    "KTNUSD (Kattana)"
-   ]
-  },
-  {
-   "rank": 439,
+   "rank": 442,
    "sym": "PORTAL",
    "name": "Portal",
    "cg": "portal-2",
@@ -5985,7 +6033,48 @@
    ]
   },
   {
-   "rank": 440,
+   "rank": 443,
+   "sym": "KAT",
+   "name": "Katana",
+   "cg": "katana-network-token",
+   "usd": "CRYPTO:KATANUSD",
+   "cap": "CRYPTOCAP:KATAN",
+   "tvName": "Katana",
+   "confidence": "high",
+   "alternatives": [
+    "KATAUSD (Katana Inu)",
+    "KATKAUSD (Karat)",
+    "KTNUSD (Kattana)"
+   ]
+  },
+  {
+   "rank": 444,
+   "sym": "MBL",
+   "name": "MovieBloc",
+   "cg": "moviebloc",
+   "usd": "CRYPTO:MBLUSD",
+   "cap": "CRYPTOCAP:MBL",
+   "tvName": "MovieBloc",
+   "confidence": "high",
+   "alternatives": [
+    "MBLKUSD (Magical Blocks)"
+   ]
+  },
+  {
+   "rank": 445,
+   "sym": "KERNEL",
+   "name": "KernelDAO",
+   "cg": "kernel-2",
+   "usd": "CRYPTO:KERNELUSD",
+   "cap": "CRYPTOCAP:KERNEL",
+   "tvName": "KernelDAO",
+   "confidence": "high",
+   "alternatives": [
+    "KEELONUSD (Keel Infrastructure Tokenized Stock (Ondo))"
+   ]
+  },
+  {
+   "rank": 446,
    "sym": "META",
    "name": "Metadium",
    "cg": "metadium",
@@ -5997,94 +6086,6 @@
     "METADUSD (MetaDAO (new))",
     "METANUSD (Metan Evolutions)",
     "METABUSD (Meta Tokenized bStocks)"
-   ]
-  },
-  {
-   "rank": 441,
-   "sym": "RAD",
-   "name": "Radworks",
-   "cg": "radicle",
-   "usd": "CRYPTO:RADUSD",
-   "cap": "CRYPTOCAP:RAD",
-   "tvName": "Radworks",
-   "confidence": "high",
-   "alternatives": [
-    "RADARUSD (DappRadar)",
-    "RADR2USD (Radr)",
-    "XRDUSD (Radix)"
-   ]
-  },
-  {
-   "rank": 442,
-   "sym": "WET",
-   "name": "HumidiFi",
-   "cg": "humidifi",
-   "usd": "CRYPTO:WETHUUSD",
-   "cap": "CRYPTOCAP:WETHU",
-   "tvName": "Humidifi",
-   "confidence": "high",
-   "alternatives": [
-    "WETHUSD (WETH)",
-    "WAPUSD (Wet Ass Pussy)",
-    "AETHWETHUSD (Aave Ethereum WETH)"
-   ]
-  },
-  {
-   "rank": 443,
-   "sym": "SLX",
-   "name": "Solstice",
-   "cg": "solstice",
-   "usd": "CRYPTO:SLXSOLUSD",
-   "cap": "CRYPTOCAP:SLXSOL",
-   "tvName": "Solstice",
-   "confidence": "high",
-   "alternatives": [
-    "USXSUSD (Solstice USX)",
-    "SLXSUSD (SLIMEX)"
-   ]
-  },
-  {
-   "rank": 444,
-   "sym": "HP",
-   "name": "Hippo Protocol",
-   "cg": "hippo-protocol",
-   "usd": "CRYPTO:HPHUSD",
-   "cap": "CRYPTOCAP:HPH",
-   "tvName": "Hippo Protocol",
-   "confidence": "high",
-   "alternatives": [
-    "HIPPOPUSD (HIPPOP)",
-    "HPBUSD (Hyperblox)",
-    "HPOUSD (Hippocrat)"
-   ]
-  },
-  {
-   "rank": 445,
-   "sym": "BASED",
-   "name": "Based",
-   "cg": "based-one",
-   "usd": "CRYPTO:BASED2USD",
-   "cap": "CRYPTOCAP:BASED2",
-   "tvName": "BASED",
-   "confidence": "high",
-   "alternatives": [
-    "BASEDAIUSD (BasedAI)",
-    "FROCUSD (Based Froc)",
-    "PEPEBAUSD (Based Pepe)"
-   ]
-  },
-  {
-   "rank": 446,
-   "sym": "GTC",
-   "name": "Gitcoin",
-   "cg": "gitcoin",
-   "usd": "CRYPTO:GTCGUSD",
-   "cap": "CRYPTOCAP:GTCG",
-   "tvName": "Gitcoin",
-   "confidence": "high",
-   "alternatives": [
-    "GTCUSD (Game.com)",
-    "GTCOINUSD (GAMETREE)"
    ]
   },
   {
@@ -6104,6 +6105,76 @@
   },
   {
    "rank": 448,
+   "sym": "WET",
+   "name": "HumidiFi",
+   "cg": "humidifi",
+   "usd": "CRYPTO:WETHUUSD",
+   "cap": "CRYPTOCAP:WETHU",
+   "tvName": "Humidifi",
+   "confidence": "high",
+   "alternatives": [
+    "WETHUSD (WETH)",
+    "WAPUSD (Wet Ass Pussy)",
+    "AETHWETHUSD (Aave Ethereum WETH)"
+   ]
+  },
+  {
+   "rank": 449,
+   "sym": "SLX",
+   "name": "Solstice",
+   "cg": "solstice",
+   "usd": "CRYPTO:SLXSOLUSD",
+   "cap": "CRYPTOCAP:SLXSOL",
+   "tvName": "Solstice",
+   "confidence": "high",
+   "alternatives": [
+    "USXSUSD (Solstice USX)",
+    "SLXSUSD (SLIMEX)"
+   ]
+  },
+  {
+   "rank": 450,
+   "sym": "BASED",
+   "name": "Based",
+   "cg": "based-one",
+   "usd": "CRYPTO:BASED2USD",
+   "cap": "CRYPTOCAP:BASED2",
+   "tvName": "BASED",
+   "confidence": "high",
+   "alternatives": [
+    "BASEDAIUSD (BasedAI)",
+    "FROCUSD (Based Froc)",
+    "PEPEBAUSD (Based Pepe)"
+   ]
+  },
+  {
+   "rank": 451,
+   "sym": "AEON",
+   "name": "AEON",
+   "cg": "aeon-3",
+   "usd": "CRYPTO:AEON4USD",
+   "cap": "CRYPTOCAP:AEON4",
+   "tvName": "AEON",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 452,
+   "sym": "HP",
+   "name": "Hippo Protocol",
+   "cg": "hippo-protocol",
+   "usd": "CRYPTO:HPHUSD",
+   "cap": "CRYPTOCAP:HPH",
+   "tvName": "Hippo Protocol",
+   "confidence": "high",
+   "alternatives": [
+    "HIPPOPUSD (HIPPOP)",
+    "HPBUSD (Hyperblox)",
+    "HPOUSD (Hippocrat)"
+   ]
+  },
+  {
+   "rank": 453,
    "sym": "BMT",
    "name": "Bubblemaps",
    "cg": "bubblemaps",
@@ -6114,7 +6185,7 @@
    "alternatives": []
   },
   {
-   "rank": 449,
+   "rank": 454,
    "sym": "RARE",
    "name": "SuperRare",
    "cg": "superrare",
@@ -6129,7 +6200,7 @@
    ]
   },
   {
-   "rank": 450,
+   "rank": 455,
    "sym": "RECALL",
    "name": "Recall",
    "cg": "recall",
@@ -6144,7 +6215,7 @@
    ]
   },
   {
-   "rank": 451,
+   "rank": 456,
    "sym": "OG",
    "name": "OG Fan Token",
    "cg": "og-fan-token",
@@ -6159,22 +6230,7 @@
    ]
   },
   {
-   "rank": 452,
-   "sym": "BLEND",
-   "name": "Fluent",
-   "cg": "fluent-network",
-   "usd": "CRYPTO:BLENDFLUSD",
-   "cap": "CRYPTOCAP:BLENDFL",
-   "tvName": "Fluent",
-   "confidence": "high",
-   "alternatives": [
-    "BLENDRUSD (Blendr Network)",
-    "BLESUSD (Blind Boxes)",
-    "BENDUSD (Bend DAO)"
-   ]
-  },
-  {
-   "rank": 453,
+   "rank": 457,
    "sym": "MAV",
    "name": "Maverick Protocol",
    "cg": "maverick-protocol",
@@ -6186,56 +6242,6 @@
     "MAVUSD (Massive Protocol)",
     "MAVIAUSD (Heroes of Mavia)",
     "MVRKUSD (Mavryk Network)"
-   ]
-  },
-  {
-   "rank": 454,
-   "sym": "PONKE",
-   "name": "PONKE",
-   "cg": "ponke",
-   "usd": "CRYPTO:PONKEUSD",
-   "cap": "CRYPTOCAP:PONKE",
-   "tvName": "Ponke",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 455,
-   "sym": "DOOD",
-   "name": "Doodles",
-   "cg": "doodles",
-   "usd": "CRYPTO:DOODUSD",
-   "cap": "CRYPTOCAP:DOOD",
-   "tvName": "Doodles",
-   "confidence": "high",
-   "alternatives": [
-    "DOODOOUSD (Doodoo)",
-    "DOODIUSD (Doodipals)"
-   ]
-  },
-  {
-   "rank": 456,
-   "sym": "DYM",
-   "name": "Dymension",
-   "cg": "dymension",
-   "usd": "CRYPTO:DYMUSD",
-   "cap": "CRYPTOCAP:DYM",
-   "tvName": "Dymension",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 457,
-   "sym": "BTR",
-   "name": "Bitlayer",
-   "cg": "bitlayer-bitvm",
-   "usd": "CRYPTO:BTRBITUSD",
-   "cap": "CRYPTOCAP:BTRBIT",
-   "tvName": "Bitlayer",
-   "confidence": "high",
-   "alternatives": [
-    "BTRBUSD (Bitrue Coin)",
-    "BTRSTUSD (Braintrust)"
    ]
   },
   {
@@ -6255,6 +6261,68 @@
   },
   {
    "rank": 459,
+   "sym": "PONKE",
+   "name": "PONKE",
+   "cg": "ponke",
+   "usd": "CRYPTO:PONKEUSD",
+   "cap": "CRYPTOCAP:PONKE",
+   "tvName": "Ponke",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 460,
+   "sym": "BLEND",
+   "name": "Fluent",
+   "cg": "fluent-network",
+   "usd": "CRYPTO:BLENDFLUSD",
+   "cap": "CRYPTOCAP:BLENDFL",
+   "tvName": "Fluent",
+   "confidence": "high",
+   "alternatives": [
+    "BLENDRUSD (Blendr Network)",
+    "BLESUSD (Blind Boxes)",
+    "BENDUSD (Bend DAO)"
+   ]
+  },
+  {
+   "rank": 461,
+   "sym": "DOOD",
+   "name": "Doodles",
+   "cg": "doodles",
+   "usd": "CRYPTO:DOODUSD",
+   "cap": "CRYPTOCAP:DOOD",
+   "tvName": "Doodles",
+   "confidence": "high",
+   "alternatives": [
+    "DOODOOUSD (Doodoo)",
+    "DOODIUSD (Doodipals)"
+   ]
+  },
+  {
+   "rank": 462,
+   "sym": "DYM",
+   "name": "Dymension",
+   "cg": "dymension",
+   "usd": "CRYPTO:DYMUSD",
+   "cap": "CRYPTOCAP:DYM",
+   "tvName": "Dymension",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 463,
+   "sym": "GLMR",
+   "name": "Moonbeam",
+   "cg": "moonbeam",
+   "usd": "CRYPTO:GLMRUSD",
+   "cap": "CRYPTOCAP:GLMR",
+   "tvName": "Moonbeam",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 464,
    "sym": "PUFFER",
    "name": "Puffer",
    "cg": "puffer-finance",
@@ -6268,18 +6336,7 @@
    ]
   },
   {
-   "rank": 460,
-   "sym": "AEON",
-   "name": "AEON",
-   "cg": "aeon-3",
-   "usd": "CRYPTO:AEON4USD",
-   "cap": "CRYPTOCAP:AEON4",
-   "tvName": "AEON",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 461,
+   "rank": 465,
    "sym": "IN",
    "name": "INFINIT",
    "cg": "infinit",
@@ -6294,7 +6351,31 @@
    ]
   },
   {
-   "rank": 462,
+   "rank": 466,
+   "sym": "ELSA",
+   "name": "Elsa",
+   "cg": "elsa",
+   "usd": "CRYPTO:ELSAHUSD",
+   "cap": "CRYPTOCAP:ELSAH",
+   "tvName": "HeyElsa",
+   "confidence": "check",
+   "alternatives": []
+  },
+  {
+   "rank": 467,
+   "sym": "ZKC",
+   "name": "Boundless",
+   "cg": "boundless",
+   "usd": "CRYPTO:ZKCBUSD",
+   "cap": "CRYPTOCAP:ZKCB",
+   "tvName": "Boundless",
+   "confidence": "high",
+   "alternatives": [
+    "BUNUSD (Boundless Network)"
+   ]
+  },
+  {
+   "rank": 468,
    "sym": "EL",
    "name": "ELYSIA",
    "cg": "elysia",
@@ -6309,29 +6390,32 @@
    ]
   },
   {
-   "rank": 463,
-   "sym": "ELSA",
-   "name": "Elsa",
-   "cg": "elsa",
-   "usd": "CRYPTO:ELSAHUSD",
-   "cap": "CRYPTOCAP:ELSAH",
-   "tvName": "HeyElsa",
-   "confidence": "check",
-   "alternatives": []
+   "rank": 469,
+   "sym": "BTR",
+   "name": "Bitlayer",
+   "cg": "bitlayer-bitvm",
+   "usd": "CRYPTO:BTRBITUSD",
+   "cap": "CRYPTOCAP:BTRBIT",
+   "tvName": "Bitlayer",
+   "confidence": "high",
+   "alternatives": [
+    "BTRBUSD (Bitrue Coin)",
+    "BTRSTUSD (Braintrust)"
+   ]
   },
   {
-   "rank": 464,
-   "sym": "GLMR",
-   "name": "Moonbeam",
-   "cg": "moonbeam",
-   "usd": "CRYPTO:GLMRUSD",
-   "cap": "CRYPTOCAP:GLMR",
-   "tvName": "Moonbeam",
+   "rank": 470,
+   "sym": "FCT2",
+   "name": "Firmachain",
+   "cg": "firmachain",
+   "usd": "CRYPTO:FCT2USD",
+   "cap": "CRYPTOCAP:FCT2",
+   "tvName": "FirmaChain",
    "confidence": "high",
    "alternatives": []
   },
   {
-   "rank": 465,
+   "rank": 471,
    "sym": "GUN",
    "name": "Gunz",
    "cg": "gunz",
@@ -6345,20 +6429,18 @@
    ]
   },
   {
-   "rank": 466,
-   "sym": "ZKC",
-   "name": "Boundless",
-   "cg": "boundless",
-   "usd": "CRYPTO:ZKCBUSD",
-   "cap": "CRYPTOCAP:ZKCB",
-   "tvName": "Boundless",
+   "rank": 472,
+   "sym": "ERA",
+   "name": "Caldera",
+   "cg": "caldera",
+   "usd": "CRYPTO:ERACUSD",
+   "cap": "CRYPTOCAP:ERAC",
+   "tvName": "Caldera",
    "confidence": "high",
-   "alternatives": [
-    "BUNUSD (Boundless Network)"
-   ]
+   "alternatives": []
   },
   {
-   "rank": 467,
+   "rank": 473,
    "sym": "HEI",
    "name": "Heima",
    "cg": "heima",
@@ -6371,33 +6453,7 @@
    ]
   },
   {
-   "rank": 468,
-   "sym": "ERA",
-   "name": "Caldera",
-   "cg": "caldera",
-   "usd": "CRYPTO:ERACUSD",
-   "cap": "CRYPTOCAP:ERAC",
-   "tvName": "Caldera",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 469,
-   "sym": "TLM",
-   "name": "Alien Worlds",
-   "cg": "alien-worlds",
-   "usd": "CRYPTO:TLMUSD",
-   "cap": "CRYPTOCAP:TLM",
-   "tvName": "Alien Worlds",
-   "confidence": "high",
-   "alternatives": [
-    "WRLDUSD (NFT Worlds)",
-    "REALISUSD (Realis Worlds)",
-    "LOLCOINUSD (Worlds First Memecoin)"
-   ]
-  },
-  {
-   "rank": 470,
+   "rank": 474,
    "sym": "HMSTR",
    "name": "Hamster Kombat",
    "cg": "hamster-kombat",
@@ -6411,7 +6467,7 @@
    ]
   },
   {
-   "rank": 471,
+   "rank": 475,
    "sym": "NEWT",
    "name": "Newton Protocol",
    "cg": "newton-protocol",
@@ -6426,34 +6482,22 @@
    ]
   },
   {
-   "rank": 472,
-   "sym": "TRUST",
-   "name": "Intuition",
-   "cg": "intuition",
-   "usd": "CRYPTO:TRUSTIUSD",
-   "cap": "CRYPTOCAP:TRUSTI",
-   "tvName": "Intuition",
+   "rank": 476,
+   "sym": "TLM",
+   "name": "Alien Worlds",
+   "cg": "alien-worlds",
+   "usd": "CRYPTO:TLMUSD",
+   "cap": "CRYPTOCAP:TLM",
+   "tvName": "Alien Worlds",
    "confidence": "high",
    "alternatives": [
-    "TRUSTTUSD (Trust The Process)",
-    "TWTUSD (Trust Wallet Token)",
-    "TRTTUSD (TRUST AI)"
+    "WRLDUSD (NFT Worlds)",
+    "REALISUSD (Realis Worlds)",
+    "LOLCOINUSD (Worlds First Memecoin)"
    ]
   },
   {
-   "rank": 473,
-   "sym": "VERONA",
-   "name": "Verona",
-   "cg": "verona",
-   "usd": null,
-   "cap": null,
-   "tvName": null,
-   "confidence": "none",
-   "manual": true,
-   "note": "TradingView has no ticker for Verona"
-  },
-  {
-   "rank": 474,
+   "rank": 477,
    "sym": "BOBA",
    "name": "Boba Network",
    "cg": "boba-network",
@@ -6468,7 +6512,22 @@
    ]
   },
   {
-   "rank": 475,
+   "rank": 478,
+   "sym": "TRUST",
+   "name": "Intuition",
+   "cg": "intuition",
+   "usd": "CRYPTO:TRUSTIUSD",
+   "cap": "CRYPTOCAP:TRUSTI",
+   "tvName": "Intuition",
+   "confidence": "high",
+   "alternatives": [
+    "TRUSTTUSD (Trust The Process)",
+    "TWTUSD (Trust Wallet Token)",
+    "TRTTUSD (TRUST AI)"
+   ]
+  },
+  {
+   "rank": 479,
    "sym": "AVAIL",
    "name": "Avail",
    "cg": "avail",
@@ -6477,65 +6536,6 @@
    "tvName": "Avail",
    "confidence": "high",
    "alternatives": []
-  },
-  {
-   "rank": 476,
-   "sym": "COOKIE",
-   "name": "Cookie DAO",
-   "cg": "cookie",
-   "usd": "CRYPTO:COOKIE2USD",
-   "cap": "CRYPTOCAP:COOKIE2",
-   "tvName": "Cookie DAO",
-   "confidence": "high",
-   "alternatives": [
-    "COOKUSD (Cook Finance)",
-    "CRVUSD (Curve DAO Token)",
-    "LDOUSD (Lido DAO)"
-   ]
-  },
-  {
-   "rank": 477,
-   "sym": "MOC",
-   "name": "Mossland",
-   "cg": "mossland",
-   "usd": "CRYPTO:MOCUSD",
-   "cap": "CRYPTOCAP:MOC",
-   "tvName": "Moss Coin",
-   "confidence": "check",
-   "alternatives": [
-    "MOCHI2USD (Mochi (New))",
-    "MOCAVUSD (Moca Network)"
-   ]
-  },
-  {
-   "rank": 478,
-   "sym": "FORT",
-   "name": "Forta",
-   "cg": "forta",
-   "usd": "CRYPTO:FORTUSD",
-   "cap": "CRYPTOCAP:FORT",
-   "tvName": "Forta",
-   "confidence": "high",
-   "alternatives": [
-    "FORTHUSD (Ampleforth Governance Token)",
-    "FORUSD (ForTube)",
-    "FRTFUSD (ForTon)"
-   ]
-  },
-  {
-   "rank": 479,
-   "sym": "BLAST",
-   "name": "Blast",
-   "cg": "blast",
-   "usd": "CRYPTO:BLAST2USD",
-   "cap": "CRYPTOCAP:BLAST2",
-   "tvName": "Blast",
-   "confidence": "high",
-   "alternatives": [
-    "BLASTUPUSD (BlastUP)",
-    "NOOBBUSD (Blast Royale)",
-    "OFFUSD (BlastOff)"
-   ]
   },
   {
    "rank": 480,
@@ -6553,47 +6553,44 @@
   },
   {
    "rank": 481,
-   "sym": "BEL",
-   "name": "Bella Protocol",
-   "cg": "bella-protocol",
-   "usd": "CRYPTO:BELUSD",
-   "cap": "CRYPTOCAP:BEL",
-   "tvName": "Bella Protocol",
-   "confidence": "high",
-   "alternatives": [
-    "BELKAUSD (The Dancing Squirrel)",
-    "BELLSCUSD (Bellscoin)",
-    "BDXUSD (Beldex)"
-   ]
+   "sym": "VERONA",
+   "name": "Verona",
+   "cg": "verona",
+   "usd": null,
+   "cap": null,
+   "tvName": null,
+   "confidence": "none",
+   "manual": true,
+   "note": "TradingView has no ticker for Verona"
   },
   {
    "rank": 482,
-   "sym": "ACT",
-   "name": "Act I The AI Prophecy",
-   "cg": "act-i-the-ai-prophecy",
-   "usd": "CRYPTO:ACTIUSD",
-   "cap": "CRYPTOCAP:ACTI",
-   "tvName": "Act I : The AI Prophecy",
+   "sym": "COOKIE",
+   "name": "Cookie DAO",
+   "cg": "cookie",
+   "usd": "CRYPTO:COOKIE2USD",
+   "cap": "CRYPTOCAP:COOKIE2",
+   "tvName": "Cookie DAO",
    "confidence": "high",
    "alternatives": [
-    "SCOTTYTUSD (Scotty The Ai)",
-    "BADUSD (Bad Idea AI)",
-    "ICECREAMUSD (IceCream AI)"
+    "COOKUSD (Cook Finance)",
+    "CRVUSD (Curve DAO Token)",
+    "LDOUSD (Lido DAO)"
    ]
   },
   {
    "rank": 483,
-   "sym": "THE",
-   "name": "Thena",
-   "cg": "thena",
-   "usd": "CRYPTO:THENUSD",
-   "cap": "CRYPTOCAP:THEN",
-   "tvName": "Thena",
+   "sym": "FORT",
+   "name": "Forta",
+   "cg": "forta",
+   "usd": "CRYPTO:FORTUSD",
+   "cap": "CRYPTOCAP:FORT",
+   "tvName": "Forta",
    "confidence": "high",
    "alternatives": [
-    "NATOUSD (The Nation Token)",
-    "THEUSD (The Protocol)",
-    "THETAUSD (Theta Network)"
+    "FORTHUSD (Ampleforth Governance Token)",
+    "FORUSD (ForTube)",
+    "FRTFUSD (ForTon)"
    ]
   },
   {
@@ -6611,21 +6608,89 @@
   },
   {
    "rank": 485,
-   "sym": "GNS",
-   "name": "Gains Network",
-   "cg": "gains-network",
-   "usd": "CRYPTO:GNSUSD",
-   "cap": "CRYPTOCAP:GNS",
-   "tvName": "Gains Network",
+   "sym": "SAGA",
+   "name": "Saga",
+   "cg": "saga-2",
+   "usd": "CRYPTO:SAGA2USD",
+   "cap": "CRYPTOCAP:SAGA2",
+   "tvName": "Saga",
    "confidence": "high",
    "alternatives": [
-    "GAINSUSD (Gains)",
-    "AKTUSD (Akash Network)",
-    "ZBCNUSD (Zebec Network)"
+    "SHIAUSD (Shiba Saga)"
    ]
   },
   {
    "rank": 486,
+   "sym": "ACT",
+   "name": "Act I The AI Prophecy",
+   "cg": "act-i-the-ai-prophecy",
+   "usd": "CRYPTO:ACTIUSD",
+   "cap": "CRYPTOCAP:ACTI",
+   "tvName": "Act I : The AI Prophecy",
+   "confidence": "high",
+   "alternatives": [
+    "SCOTTYTUSD (Scotty The Ai)",
+    "BADUSD (Bad Idea AI)",
+    "ICECREAMUSD (IceCream AI)"
+   ]
+  },
+  {
+   "rank": 487,
+   "sym": "MOC",
+   "name": "Mossland",
+   "cg": "mossland",
+   "usd": "CRYPTO:MOCUSD",
+   "cap": "CRYPTOCAP:MOC",
+   "tvName": "Moss Coin",
+   "confidence": "check",
+   "alternatives": [
+    "MOCHI2USD (Mochi (New))",
+    "MOCAVUSD (Moca Network)"
+   ]
+  },
+  {
+   "rank": 488,
+   "sym": "BEL",
+   "name": "Bella Protocol",
+   "cg": "bella-protocol",
+   "usd": "CRYPTO:BELUSD",
+   "cap": "CRYPTOCAP:BEL",
+   "tvName": "Bella Protocol",
+   "confidence": "high",
+   "alternatives": [
+    "BELKAUSD (The Dancing Squirrel)",
+    "BELLSCUSD (Bellscoin)",
+    "BDXUSD (Beldex)"
+   ]
+  },
+  {
+   "rank": 489,
+   "sym": "THE",
+   "name": "Thena",
+   "cg": "thena",
+   "usd": "CRYPTO:THENUSD",
+   "cap": "CRYPTOCAP:THEN",
+   "tvName": "Thena",
+   "confidence": "high",
+   "alternatives": [
+    "NATOUSD (The Nation Token)",
+    "THEUSD (The Protocol)",
+    "THETAUSD (Theta Network)"
+   ]
+  },
+  {
+   "rank": 490,
+   "sym": "ADX",
+   "name": "heyAura",
+   "cg": "adex",
+   "usd": "CRYPTO:ADXUSD",
+   "cap": "CRYPTOCAP:ADX",
+   "tvName": "heyAura",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 491,
    "sym": "SONIC",
    "name": "Sonic SVM",
    "cg": "sonic-svm",
@@ -6640,18 +6705,22 @@
    ]
   },
   {
-   "rank": 487,
-   "sym": "ADX",
-   "name": "heyAura",
-   "cg": "adex",
-   "usd": "CRYPTO:ADXUSD",
-   "cap": "CRYPTOCAP:ADX",
-   "tvName": "heyAura",
+   "rank": 492,
+   "sym": "GNS",
+   "name": "Gains Network",
+   "cg": "gains-network",
+   "usd": "CRYPTO:GNSUSD",
+   "cap": "CRYPTOCAP:GNS",
+   "tvName": "Gains Network",
    "confidence": "high",
-   "alternatives": []
+   "alternatives": [
+    "GAINSUSD (Gains)",
+    "AKTUSD (Akash Network)",
+    "ZBCNUSD (Zebec Network)"
+   ]
   },
   {
-   "rank": 488,
+   "rank": 493,
    "sym": "THQ",
    "name": "Theoriq",
    "cg": "theoriq",
@@ -6662,7 +6731,7 @@
    "alternatives": []
   },
   {
-   "rank": 489,
+   "rank": 494,
    "sym": "RESOLV",
    "name": "Resolv",
    "cg": "resolv",
@@ -6675,7 +6744,7 @@
    ]
   },
   {
-   "rank": 490,
+   "rank": 495,
    "sym": "ATM",
    "name": "Atletico Madrid Fan Token",
    "cg": "atletico-madrid",
@@ -6690,20 +6759,31 @@
    ]
   },
   {
-   "rank": 491,
-   "sym": "SAGA",
-   "name": "Saga",
-   "cg": "saga-2",
-   "usd": "CRYPTO:SAGA2USD",
-   "cap": "CRYPTOCAP:SAGA2",
-   "tvName": "Saga",
+   "rank": 496,
+   "sym": "MBX",
+   "name": "MARBLEX",
+   "cg": "marblex",
+   "usd": "CRYPTO:MBXUSD",
+   "cap": "CRYPTOCAP:MBX",
+   "tvName": "MARBLEX",
    "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 497,
+   "sym": "AVL",
+   "name": "Avalon",
+   "cg": "avalon-2",
+   "usd": "CRYPTO:AVLAUSD",
+   "cap": "CRYPTOCAP:AVLA",
+   "tvName": "Avalon Labs (AVL)",
+   "confidence": "check",
    "alternatives": [
-    "SHIAUSD (Shiba Saga)"
+    "USDAAUSD (USDa (Avalon Labs))"
    ]
   },
   {
-   "rank": 492,
+   "rank": 498,
    "sym": "STO",
    "name": "StakeStone",
    "cg": "stakestone",
@@ -6718,31 +6798,29 @@
    ]
   },
   {
-   "rank": 493,
-   "sym": "AVL",
-   "name": "Avalon",
-   "cg": "avalon-2",
-   "usd": "CRYPTO:AVLAUSD",
-   "cap": "CRYPTOCAP:AVLA",
-   "tvName": "Avalon Labs (AVL)",
-   "confidence": "check",
-   "alternatives": [
-    "USDAAUSD (USDa (Avalon Labs))"
-   ]
-  },
-  {
-   "rank": 494,
-   "sym": "MBX",
-   "name": "MARBLEX",
-   "cg": "marblex",
-   "usd": "CRYPTO:MBXUSD",
-   "cap": "CRYPTOCAP:MBX",
-   "tvName": "MARBLEX",
+   "rank": 499,
+   "sym": "GHX",
+   "name": "GamerCoin",
+   "cg": "gamercoin",
+   "usd": "CRYPTO:GHXUSD",
+   "cap": "CRYPTOCAP:GHX",
+   "tvName": "GamerCoin",
    "confidence": "high",
    "alternatives": []
   },
   {
-   "rank": 495,
+   "rank": 500,
+   "sym": "GRND",
+   "name": "SuperWalk GRND",
+   "cg": "superwalk",
+   "usd": "CRYPTO:GRNDUSD",
+   "cap": "CRYPTOCAP:GRND",
+   "tvName": "SuperWalk",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 501,
    "sym": "QUID",
    "name": "Squid",
    "cg": "squid-3",
@@ -6757,18 +6835,7 @@
    ]
   },
   {
-   "rank": 496,
-   "sym": "GRND",
-   "name": "SuperWalk GRND",
-   "cg": "superwalk",
-   "usd": "CRYPTO:GRNDUSD",
-   "cap": "CRYPTOCAP:GRND",
-   "tvName": "SuperWalk",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 497,
+   "rank": 502,
    "sym": "SD",
    "name": "Stader",
    "cg": "stader",
@@ -6783,7 +6850,22 @@
    ]
   },
   {
-   "rank": 498,
+   "rank": 503,
+   "sym": "BLAST",
+   "name": "Blast",
+   "cg": "blast",
+   "usd": "CRYPTO:BLAST2USD",
+   "cap": "CRYPTOCAP:BLAST2",
+   "tvName": "Blast",
+   "confidence": "high",
+   "alternatives": [
+    "BLASTUPUSD (BlastUP)",
+    "NOOBBUSD (Blast Royale)",
+    "OFFUSD (BlastOff)"
+   ]
+  },
+  {
+   "rank": 504,
    "sym": "ACS",
    "name": "Access Protocol",
    "cg": "access-protocol",
@@ -6798,7 +6880,7 @@
    ]
   },
   {
-   "rank": 499,
+   "rank": 505,
    "sym": "AHT",
    "name": "AhaToken",
    "cg": "ahatoken",
@@ -6809,7 +6891,7 @@
    "alternatives": []
   },
   {
-   "rank": 500,
+   "rank": 506,
    "sym": "SANTOS",
    "name": "Santos FC Fan Token",
    "cg": "santos-fc-fan-token",
@@ -6824,18 +6906,7 @@
    ]
   },
   {
-   "rank": 501,
-   "sym": "GHX",
-   "name": "GamerCoin",
-   "cg": "gamercoin",
-   "usd": "CRYPTO:GHXUSD",
-   "cap": "CRYPTOCAP:GHX",
-   "tvName": "GamerCoin",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 502,
+   "rank": 507,
    "sym": "MAPO",
    "name": "MAP Protocol",
    "cg": "marcopolo",
@@ -6850,7 +6921,7 @@
    ]
   },
   {
-   "rank": 503,
+   "rank": 508,
    "sym": "BAR",
    "name": "FC Barcelona Fan Token",
    "cg": "fc-barcelona-fan-token",
@@ -6865,7 +6936,7 @@
    ]
   },
   {
-   "rank": 504,
+   "rank": 509,
    "sym": "PSG",
    "name": "Paris Saint-Germain Fan Token",
    "cg": "paris-saint-germain-fan-token",
@@ -6880,7 +6951,7 @@
    ]
   },
   {
-   "rank": 505,
+   "rank": 510,
    "sym": "ASR",
    "name": "AS Roma Fan Token",
    "cg": "as-roma-fan-token",
@@ -6895,7 +6966,7 @@
    ]
   },
   {
-   "rank": 506,
+   "rank": 511,
    "sym": "BOUNTY",
    "name": "ChainBounty",
    "cg": "sentinel-protocol",
@@ -6910,33 +6981,7 @@
    ]
   },
   {
-   "rank": 507,
-   "sym": "NOM",
-   "name": "Nomina",
-   "cg": "nomina",
-   "usd": "CRYPTO:NOMIUSD",
-   "cap": "CRYPTOCAP:NOMI",
-   "tvName": "Nomina",
-   "confidence": "high",
-   "alternatives": [
-    "NOMUSD (Onomy Protocol)",
-    "NOMOXUSD (Nomoex)",
-    "NOMNOMUSD (nomnom)"
-   ]
-  },
-  {
-   "rank": 508,
-   "sym": "DNT",
-   "name": "district0x",
-   "cg": "district0x",
-   "usd": "CRYPTO:DNTUSD",
-   "cap": "CRYPTOCAP:DNT",
-   "tvName": "district0x",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 509,
+   "rank": 512,
    "sym": "MITO",
    "name": "Mitosis",
    "cg": "mitosis",
@@ -6947,73 +6992,18 @@
    "alternatives": []
   },
   {
-   "rank": 510,
-   "sym": "TREE",
-   "name": "Treehouse",
-   "cg": "treehouse",
-   "usd": "CRYPTO:TREEHUSD",
-   "cap": "CRYPTOCAP:TREEH",
-   "tvName": "Treehouse",
-   "confidence": "high",
-   "alternatives": [
-    "TREEBUSD (Retreeb)",
-    "TREEINCATUSD (Tree Stuck In Cat)",
-    "TRCLUSD (Treecle)"
-   ]
-  },
-  {
-   "rank": 511,
-   "sym": "HFT",
-   "name": "Hashflow",
-   "cg": "hashflow",
-   "usd": "CRYPTO:HFTUSD",
-   "cap": "CRYPTOCAP:HFT",
-   "tvName": "Hashflow",
+   "rank": 513,
+   "sym": "DNT",
+   "name": "district0x",
+   "cg": "district0x",
+   "usd": "CRYPTO:DNTUSD",
+   "cap": "CRYPTOCAP:DNT",
+   "tvName": "district0x",
    "confidence": "high",
    "alternatives": []
   },
   {
-   "rank": 512,
-   "sym": "QUICK",
-   "name": "Quickswap",
-   "cg": "quickswap",
-   "usd": "CRYPTO:QUICKSUSD",
-   "cap": "CRYPTOCAP:QUICKS",
-   "tvName": "Quickswap[New]",
-   "confidence": "high",
-   "manual": true,
-   "note": "checked against exchange prices (scripts/check-tickers.mjs)"
-  },
-  {
-   "rank": 513,
-   "sym": "AMO",
-   "name": "AMO Coin",
-   "cg": "amo",
-   "usd": "CRYPTO:AMOUSD",
-   "cap": "CRYPTOCAP:AMO",
-   "tvName": "AMO Coin",
-   "confidence": "high",
-   "alternatives": [
-    "AMOAUSD (Amino)",
-    "USELESSUSD (Useless Coin)",
-    "BONERUSD (Boner Coin)"
-   ]
-  },
-  {
    "rank": 514,
-   "sym": "TURTLE",
-   "name": "Turtle",
-   "cg": "turtle-4",
-   "usd": "CRYPTO:TURTLE2USD",
-   "cap": "CRYPTOCAP:TURTLE2",
-   "tvName": "Turtle",
-   "confidence": "high",
-   "alternatives": [
-    "JYAIUSD (Jerry The Turtle By Matt Furie)"
-   ]
-  },
-  {
-   "rank": 515,
    "sym": "PARTI",
    "name": "Particle Network",
    "cg": "particle-network",
@@ -7028,7 +7018,88 @@
    ]
   },
   {
+   "rank": 515,
+   "sym": "TREE",
+   "name": "Treehouse",
+   "cg": "treehouse",
+   "usd": "CRYPTO:TREEHUSD",
+   "cap": "CRYPTOCAP:TREEH",
+   "tvName": "Treehouse",
+   "confidence": "high",
+   "alternatives": [
+    "TREEBUSD (Retreeb)",
+    "TREEINCATUSD (Tree Stuck In Cat)",
+    "TRCLUSD (Treecle)"
+   ]
+  },
+  {
    "rank": 516,
+   "sym": "NOM",
+   "name": "Nomina",
+   "cg": "nomina",
+   "usd": "CRYPTO:NOMIUSD",
+   "cap": "CRYPTOCAP:NOMI",
+   "tvName": "Nomina",
+   "confidence": "high",
+   "alternatives": [
+    "NOMUSD (Onomy Protocol)",
+    "NOMOXUSD (Nomoex)",
+    "NOMNOMUSD (nomnom)"
+   ]
+  },
+  {
+   "rank": 517,
+   "sym": "QUICK",
+   "name": "Quickswap",
+   "cg": "quickswap",
+   "usd": "CRYPTO:QUICKSUSD",
+   "cap": "CRYPTOCAP:QUICKS",
+   "tvName": "Quickswap[New]",
+   "confidence": "high",
+   "manual": true,
+   "note": "checked against exchange prices (scripts/check-tickers.mjs)"
+  },
+  {
+   "rank": 518,
+   "sym": "AMO",
+   "name": "AMO Coin",
+   "cg": "amo",
+   "usd": "CRYPTO:AMOUSD",
+   "cap": "CRYPTOCAP:AMO",
+   "tvName": "AMO Coin",
+   "confidence": "high",
+   "alternatives": [
+    "AMOAUSD (Amino)",
+    "USELESSUSD (Useless Coin)",
+    "BONERUSD (Boner Coin)"
+   ]
+  },
+  {
+   "rank": 519,
+   "sym": "TURTLE",
+   "name": "Turtle",
+   "cg": "turtle-4",
+   "usd": "CRYPTO:TURTLE2USD",
+   "cap": "CRYPTOCAP:TURTLE2",
+   "tvName": "Turtle",
+   "confidence": "high",
+   "alternatives": [
+    "JYAIUSD (Jerry The Turtle By Matt Furie)"
+   ]
+  },
+  {
+   "rank": 520,
+   "sym": "HFT",
+   "name": "Hashflow",
+   "cg": "hashflow",
+   "usd": "CRYPTO:HFTUSD",
+   "cap": "CRYPTOCAP:HFT",
+   "tvName": "Hashflow",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 521,
    "sym": "SHELL",
    "name": "MyShell",
    "cg": "myshell",
@@ -7043,22 +7114,7 @@
    ]
   },
   {
-   "rank": 517,
-   "sym": "BLUE",
-   "name": "Bluefin",
-   "cg": "bluefin",
-   "usd": "CRYPTO:BLUEFUSD",
-   "cap": "CRYPTOCAP:BLUEF",
-   "tvName": "Bluefin",
-   "confidence": "high",
-   "alternatives": [
-    "BLUE2USD (BLUE)",
-    "BLUESUSD (Blueshift)",
-    "BLUECHIP4USD (BLUE CHIP)"
-   ]
-  },
-  {
-   "rank": 518,
+   "rank": 522,
    "sym": "DAO",
    "name": "DAO Maker",
    "cg": "dao-maker",
@@ -7073,7 +7129,35 @@
    ]
   },
   {
-   "rank": 519,
+   "rank": 523,
+   "sym": "BLUE",
+   "name": "Bluefin",
+   "cg": "bluefin",
+   "usd": "CRYPTO:BLUEFUSD",
+   "cap": "CRYPTOCAP:BLUEF",
+   "tvName": "Bluefin",
+   "confidence": "high",
+   "alternatives": [
+    "BLUE2USD (BLUE)",
+    "BLUESUSD (Blueshift)",
+    "BLUECHIP4USD (BLUE CHIP)"
+   ]
+  },
+  {
+   "rank": 524,
+   "sym": "XPLA",
+   "name": "CONX",
+   "cg": "xpla",
+   "usd": "CRYPTO:XPLAUSD",
+   "cap": "CRYPTOCAP:XPLA",
+   "tvName": "CONX",
+   "confidence": "high",
+   "alternatives": [
+    "CONXCUSD (Connex)"
+   ]
+  },
+  {
+   "rank": 525,
    "sym": "TDROP",
    "name": "ThetaDrop",
    "cg": "thetadrop",
@@ -7084,7 +7168,7 @@
    "alternatives": []
   },
   {
-   "rank": 520,
+   "rank": 526,
    "sym": "JUV",
    "name": "Juventus Fan Token",
    "cg": "juventus-fan-token",
@@ -7099,37 +7183,7 @@
    ]
   },
   {
-   "rank": 521,
-   "sym": "PORTO",
-   "name": "FC Porto",
-   "cg": "fc-porto",
-   "usd": "CRYPTO:PORTOUSD",
-   "cap": "CRYPTOCAP:PORTO",
-   "tvName": "FC Porto Fan Token",
-   "confidence": "high",
-   "alternatives": [
-    "PORT3USD (Port3 Network)",
-    "PORTUSD (Port Finance)",
-    "SANTOSUSD (Santos FC Fan Token)"
-   ]
-  },
-  {
-   "rank": 522,
-   "sym": "LAZIO",
-   "name": "Lazio Fan Token",
-   "cg": "lazio-fan-token",
-   "usd": "CRYPTO:LAZIOUSD",
-   "cap": "CRYPTOCAP:LAZIO",
-   "tvName": "S.S. Lazio Fan Token",
-   "confidence": "check",
-   "alternatives": [
-    "OGUSD (OG Fan Token)",
-    "ASRUSD (AS Roma Fan Token)",
-    "NAPUSD (Napoli Fan Token)"
-   ]
-  },
-  {
-   "rank": 523,
+   "rank": 527,
    "sym": "SCR",
    "name": "Scroll",
    "cg": "scroll",
@@ -7144,7 +7198,48 @@
    ]
   },
   {
-   "rank": 524,
+   "rank": 528,
+   "sym": "PORTO",
+   "name": "FC Porto",
+   "cg": "fc-porto",
+   "usd": "CRYPTO:PORTOUSD",
+   "cap": "CRYPTOCAP:PORTO",
+   "tvName": "FC Porto Fan Token",
+   "confidence": "high",
+   "alternatives": [
+    "PORT3USD (Port3 Network)",
+    "PORTUSD (Port Finance)",
+    "SANTOSUSD (Santos FC Fan Token)"
+   ]
+  },
+  {
+   "rank": 529,
+   "sym": "LAZIO",
+   "name": "Lazio Fan Token",
+   "cg": "lazio-fan-token",
+   "usd": "CRYPTO:LAZIOUSD",
+   "cap": "CRYPTOCAP:LAZIO",
+   "tvName": "S.S. Lazio Fan Token",
+   "confidence": "check",
+   "alternatives": [
+    "OGUSD (OG Fan Token)",
+    "ASRUSD (AS Roma Fan Token)",
+    "NAPUSD (Napoli Fan Token)"
+   ]
+  },
+  {
+   "rank": 530,
+   "sym": "CRTS",
+   "name": "Cratos",
+   "cg": "cratos",
+   "usd": "CRYPTO:CRTSUSD",
+   "cap": "CRYPTOCAP:CRTS",
+   "tvName": "Cratos",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 531,
    "sym": "CITY",
    "name": "Manchester City Fan Token",
    "cg": "manchester-city-fan-token",
@@ -7159,7 +7254,7 @@
    ]
   },
   {
-   "rank": 525,
+   "rank": 532,
    "sym": "PIXEL",
    "name": "Pixels",
    "cg": "pixels",
@@ -7174,18 +7269,20 @@
    ]
   },
   {
-   "rank": 526,
-   "sym": "CRTS",
-   "name": "Cratos",
-   "cg": "cratos",
-   "usd": "CRYPTO:CRTSUSD",
-   "cap": "CRYPTOCAP:CRTS",
-   "tvName": "Cratos",
+   "rank": 533,
+   "sym": "PROMPT",
+   "name": "Wayfinder",
+   "cg": "wayfinder",
+   "usd": "CRYPTO:PROMPTUSD",
+   "cap": "CRYPTOCAP:PROMPT",
+   "tvName": "Wayfinder",
    "confidence": "high",
-   "alternatives": []
+   "alternatives": [
+    "TALEPUSD (PrompTale AI)"
+   ]
   },
   {
-   "rank": 527,
+   "rank": 534,
    "sym": "TOWNS",
    "name": "Towns",
    "cg": "towns",
@@ -7200,7 +7297,7 @@
    ]
   },
   {
-   "rank": 528,
+   "rank": 535,
    "sym": "TKO",
    "name": "Tokocrypto",
    "cg": "tokocrypto",
@@ -7211,7 +7308,7 @@
    "alternatives": []
   },
   {
-   "rank": 529,
+   "rank": 536,
    "sym": "SWAP",
    "name": "TrustSwap",
    "cg": "trustswap",
@@ -7226,35 +7323,7 @@
    ]
   },
   {
-   "rank": 530,
-   "sym": "PROMPT",
-   "name": "Wayfinder",
-   "cg": "wayfinder",
-   "usd": "CRYPTO:PROMPTUSD",
-   "cap": "CRYPTOCAP:PROMPT",
-   "tvName": "Wayfinder",
-   "confidence": "high",
-   "alternatives": [
-    "TALEPUSD (PrompTale AI)"
-   ]
-  },
-  {
-   "rank": 531,
-   "sym": "SWELL",
-   "name": "Swell",
-   "cg": "swell-network",
-   "usd": "CRYPTO:SWELLUSD",
-   "cap": "CRYPTOCAP:SWELL",
-   "tvName": "Swell Network",
-   "confidence": "high",
-   "alternatives": [
-    "RSWETHUSD (Restaked Swell Ethereum)",
-    "SPELLUSD (Spell Token)",
-    "SMLSUSD (Smell Token)"
-   ]
-  },
-  {
-   "rank": 532,
+   "rank": 537,
    "sym": "HPP",
    "name": "House Party Protocol",
    "cg": "aergo-2",
@@ -7269,7 +7338,7 @@
    ]
   },
   {
-   "rank": 533,
+   "rank": 538,
    "sym": "OBSR",
    "name": "Observer",
    "cg": "observer-coin",
@@ -7280,7 +7349,22 @@
    "alternatives": []
   },
   {
-   "rank": 534,
+   "rank": 539,
+   "sym": "SWELL",
+   "name": "Swell",
+   "cg": "swell-network",
+   "usd": "CRYPTO:SWELLUSD",
+   "cap": "CRYPTOCAP:SWELL",
+   "tvName": "Swell Network",
+   "confidence": "high",
+   "alternatives": [
+    "RSWETHUSD (Restaked Swell Ethereum)",
+    "SPELLUSD (Spell Token)",
+    "SMLSUSD (Smell Token)"
+   ]
+  },
+  {
+   "rank": 540,
    "sym": "CHECK",
    "name": "Checkmate",
    "cg": "checkmate-2",
@@ -7293,7 +7377,7 @@
    ]
   },
   {
-   "rank": 535,
+   "rank": 541,
    "sym": "ALPINE",
    "name": "Alpine F1 Team Fan Token",
    "cg": "alpine-f1-team-fan-token",
@@ -7308,18 +7392,7 @@
    ]
   },
   {
-   "rank": 536,
-   "sym": "MVC",
-   "name": "MileVerse",
-   "cg": "mileverse",
-   "usd": "CRYPTO:MVCUSD",
-   "cap": "CRYPTOCAP:MVC",
-   "tvName": "MileVerse",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 537,
+   "rank": 542,
    "sym": "ACM",
    "name": "AC Milan Fan Token",
    "cg": "ac-milan-fan-token",
@@ -7334,18 +7407,7 @@
    ]
   },
   {
-   "rank": 538,
-   "sym": "RSS3",
-   "name": "RSS3",
-   "cg": "rss3",
-   "usd": "CRYPTO:RSS3USD",
-   "cap": "CRYPTOCAP:RSS3",
-   "tvName": "RSS3",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 539,
+   "rank": 543,
    "sym": "ZRC",
    "name": "Zircuit",
    "cg": "zircuit",
@@ -7356,7 +7418,18 @@
    "alternatives": []
   },
   {
-   "rank": 540,
+   "rank": 544,
+   "sym": "MVC",
+   "name": "MileVerse",
+   "cg": "mileverse",
+   "usd": "CRYPTO:MVCUSD",
+   "cap": "CRYPTOCAP:MVC",
+   "tvName": "MileVerse",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 545,
    "sym": "AFC",
    "name": "Arsenal Fan Token",
    "cg": "arsenal-fan-token",
@@ -7371,7 +7444,7 @@
    ]
   },
   {
-   "rank": 541,
+   "rank": 546,
    "sym": "HAEDAL",
    "name": "Haedal Protocol",
    "cg": "haedal",
@@ -7386,7 +7459,18 @@
    ]
   },
   {
-   "rank": 542,
+   "rank": 547,
+   "sym": "RSS3",
+   "name": "RSS3",
+   "cg": "rss3",
+   "usd": "CRYPTO:RSS3USD",
+   "cap": "CRYPTOCAP:RSS3",
+   "tvName": "RSS3",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 548,
    "sym": "A8",
    "name": "Ancient8",
    "cg": "ancient8",
@@ -7397,7 +7481,7 @@
    "alternatives": []
   },
   {
-   "rank": 543,
+   "rank": 549,
    "sym": "ROA",
    "name": "ROACORE",
    "cg": "roaland-core",
@@ -7412,7 +7496,7 @@
    ]
   },
   {
-   "rank": 544,
+   "rank": 550,
    "sym": "LM",
    "name": "LeisureMeta",
    "cg": "leisuremeta",
@@ -7427,7 +7511,7 @@
    ]
   },
   {
-   "rank": 545,
+   "rank": 551,
    "sym": "VAL",
    "name": "Validity",
    "cg": "radium",
@@ -7442,7 +7526,7 @@
    ]
   },
   {
-   "rank": 546,
+   "rank": 552,
    "sym": "INTER",
    "name": "Inter Milan Fan Token",
    "cg": "inter-milan-fan-token",
@@ -7457,48 +7541,7 @@
    ]
   },
   {
-   "rank": 547,
-   "sym": "ADP",
-   "name": "Adappter",
-   "cg": "adappter-token",
-   "usd": "CRYPTO:ADPUSD",
-   "cap": "CRYPTOCAP:ADP",
-   "tvName": "Adappter Token",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 548,
-   "sym": "STAT",
-   "name": "STAT",
-   "cg": "stat",
-   "usd": "CRYPTO:STATUSD",
-   "cap": "CRYPTOCAP:STAT",
-   "tvName": "STAT",
-   "confidence": "high",
-   "alternatives": [
-    "SNTUSD (Status)",
-    "STTSTUSD (Statter Network)",
-    "SPYBUSD (State Street SPDR S&P 500 ETF Tokenized bStocks)"
-   ]
-  },
-  {
-   "rank": 549,
-   "sym": "LWP",
-   "name": "LumiWave Protocol",
-   "cg": "lumiwave-protocol",
-   "usd": "CRYPTO:LWAUSD",
-   "cap": null,
-   "tvName": "LumiWave",
-   "confidence": "check",
-   "alternatives": [
-    "NEARUSD (NEAR Protocol)",
-    "VIRTUALUSD (Virtuals Protocol)",
-    "LQRUSD (Laqira Protocol)"
-   ]
-  },
-  {
-   "rank": 550,
+   "rank": 553,
    "sym": "OBT",
    "name": "Orbiter Finance",
    "cg": "orbiter-finance",
@@ -7513,7 +7556,18 @@
    ]
   },
   {
-   "rank": 551,
+   "rank": 554,
+   "sym": "ADP",
+   "name": "Adappter",
+   "cg": "adappter-token",
+   "usd": "CRYPTO:ADPUSD",
+   "cap": "CRYPTOCAP:ADP",
+   "tvName": "Adappter Token",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 555,
    "sym": "REI",
    "name": "REI Network",
    "cg": "rei-network",
@@ -7527,7 +7581,48 @@
    ]
   },
   {
-   "rank": 552,
+   "rank": 556,
+   "sym": "LWP",
+   "name": "LumiWave Protocol",
+   "cg": "lumiwave-protocol",
+   "usd": "CRYPTO:LWAUSD",
+   "cap": null,
+   "tvName": "LumiWave",
+   "confidence": "check",
+   "alternatives": [
+    "NEARUSD (NEAR Protocol)",
+    "VIRTUALUSD (Virtuals Protocol)",
+    "LQRUSD (Laqira Protocol)"
+   ]
+  },
+  {
+   "rank": 557,
+   "sym": "STAT",
+   "name": "STAT",
+   "cg": "stat",
+   "usd": "CRYPTO:STATUSD",
+   "cap": "CRYPTOCAP:STAT",
+   "tvName": "STAT",
+   "confidence": "high",
+   "alternatives": [
+    "SNTUSD (Status)",
+    "STTSTUSD (Statter Network)",
+    "SPYBUSD (State Street SPDR S&P 500 ETF Tokenized bStocks)"
+   ]
+  },
+  {
+   "rank": 558,
+   "sym": "XTER",
+   "name": "Xterio",
+   "cg": "xterio",
+   "usd": "CRYPTO:XTERIUSD",
+   "cap": "CRYPTOCAP:XTERI",
+   "tvName": "Xterio",
+   "confidence": "high",
+   "alternatives": []
+  },
+  {
+   "rank": 559,
    "sym": "SUNDOG",
    "name": "Sundog",
    "cg": "sundog",
@@ -7540,46 +7635,7 @@
    ]
   },
   {
-   "rank": 553,
-   "sym": "XTER",
-   "name": "Xterio",
-   "cg": "xterio",
-   "usd": "CRYPTO:XTERIUSD",
-   "cap": "CRYPTOCAP:XTERI",
-   "tvName": "Xterio",
-   "confidence": "high",
-   "alternatives": []
-  },
-  {
-   "rank": 554,
-   "sym": "PYR",
-   "name": "Vulcan Forged",
-   "cg": "vulcan-forged",
-   "usd": "CRYPTO:PYRUSD",
-   "cap": "CRYPTOCAP:PYR",
-   "tvName": "Vulcan Forged (PYR)",
-   "confidence": "high",
-   "alternatives": [
-    "LAVAVUSD (Vulcan Forged LAVA)"
-   ]
-  },
-  {
-   "rank": 555,
-   "sym": "COS",
-   "name": "Contentos",
-   "cg": "contentos",
-   "usd": "CRYPTO:COSUSD",
-   "cap": "CRYPTOCAP:COS",
-   "tvName": "Contentos",
-   "confidence": "high",
-   "alternatives": [
-    "COSMICNUSD (Cosmic Network)",
-    "COSTONUSD (Costco Tokenized Stock (Ondo))",
-    "ATOMUSD (Cosmos)"
-   ]
-  },
-  {
-   "rank": 556,
+   "rank": 560,
    "sym": "WNCG",
    "name": "Wrapped NCG",
    "cg": "wrapped-ncg",
@@ -7594,7 +7650,22 @@
    ]
   },
   {
-   "rank": 557,
+   "rank": 561,
+   "sym": "COS",
+   "name": "Contentos",
+   "cg": "contentos",
+   "usd": "CRYPTO:COSUSD",
+   "cap": "CRYPTOCAP:COS",
+   "tvName": "Contentos",
+   "confidence": "high",
+   "alternatives": [
+    "COSMICNUSD (Cosmic Network)",
+    "COSTONUSD (Costco Tokenized Stock (Ondo))",
+    "ATOMUSD (Cosmos)"
+   ]
+  },
+  {
+   "rank": 562,
    "sym": "CAMP",
    "name": "Camp Network",
    "cg": "camp-network",
@@ -7609,7 +7680,7 @@
    ]
   },
   {
-   "rank": 558,
+   "rank": 563,
    "sym": "SIX",
    "name": "SIX Network",
    "cg": "six-network",
@@ -7624,7 +7695,7 @@
    ]
   },
   {
-   "rank": 559,
+   "rank": 564,
    "sym": "D",
    "name": "Dar Open Network",
    "cg": "dar-open-network",
