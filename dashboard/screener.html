@@ -7,7 +7,7 @@
    screener (table or tiles), market signal board, and coin detail. */
 :root {
   --bg: #f4f6f8; --surface: #ffffff; --sunken: #eef1f4; --fg: #141922; --muted: #5b6574; --faint: #737c8a;
-  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00; --ml-hist: #8a4fd1;
+  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00; --ml-hist: #8a4fd1; --hl: #f2b300;
   --zu2: #0f7b3b; --zu1: #86d39a; --zo1: #f0c11b; --zo2: #b4161b;
   --tint-u: #d4eedb; --mid: #eceae6; --tint-o: #f6ecc4;
   --ramp-lo: #86b6ef; --ramp-hi: #0a2a57;
@@ -19,7 +19,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
-    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5;
+    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --hl: #ffc93c;
     --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
     --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
     --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
@@ -29,7 +29,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
-  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5;
+  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --hl: #ffc93c;
   --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
   --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
   --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
@@ -96,6 +96,7 @@ button.zc[aria-pressed="true"] { border-color: var(--fg); background: var(--surf
 .ctl > span { font-size: 12px; color: var(--muted); font-weight: 500; }
 .seg { display: inline-flex; flex-wrap: wrap; padding: 3px; gap: 2px; border-radius: 9px; background: var(--sunken); border: 1px solid var(--line); }
 .seg button { border: 0; background: transparent; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.seg.hl { border: 2px solid var(--hl); padding: 2px; } /* the switches that change what every number means */
 .seg button[aria-pressed="true"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgb(0 0 0 / .14); }
 .search { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 10px; width: 200px; max-width: 100%; }
 .check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); cursor: pointer; }
@@ -237,12 +238,10 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .empty { padding: 28px; text-align: center; color: var(--muted); }
 .empty button { margin: 4px; border: 1px solid var(--line); background: var(--sunken); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
 
-/* screener: coin preview beside the list (wide screens with a mouse). Compact: a one-screen summary; full: the
-   coin page itself, scrolled inside the pane. */
+/* screener: a one-screen coin preview beside the list (wide screens with a mouse) */
 .scr-split { display: grid; gap: 14px; align-items: start; }
 .scr-main { display: grid; gap: 12px; min-width: 0; }
-.scr-split.on.compact { grid-template-columns: minmax(0, 1fr) clamp(420px, 34vw, 640px); }
-.scr-split.on.full { grid-template-columns: minmax(0, 1fr) clamp(480px, 39vw, 820px); }
+.scr-split.on { grid-template-columns: minmax(0, 1fr) clamp(420px, 34vw, 640px); }
 .pv { position: sticky; z-index: 3; top: calc(var(--appbar-h, 53px) + 10px); max-height: calc(100vh - var(--appbar-h, 53px) - 20px); overflow: auto; overscroll-behavior: contain; padding: 10px 14px 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
 .pv-bar { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; justify-content: space-between; font-size: 11.5px; color: var(--muted); padding-bottom: 8px; border-bottom: 1px solid var(--line);
   position: sticky; top: 0; z-index: 2; background: var(--surface); } /* the coin's name stays in view while the pane scrolls */
@@ -271,15 +270,6 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .scr tbody tr.pv-on td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 .tile.pv-on { box-shadow: 0 0 0 2px var(--fg); position: relative; z-index: 1; }
 #detailBody { display: grid; gap: 14px; min-width: 0; }
-.pv #detailBody { gap: 10px; }
-.pv .navbtns { display: none; }
-.pv .dtitle h1 { font-size: 20px; }
-.pv .controls { padding: 8px 10px; }
-.pv .now-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-.pv .now-row.head { display: none; }
-.pv .now-row .sym, .pv .now-row .cur { grid-column: 1 / -1; }
-.pv .lastsig .k { display: block; }
-.pv .lines-cols { grid-template-columns: minmax(0, 1fr); }
 .pvc { display: grid; gap: 12px; min-width: 0; }
 .pvc-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
 .pvc-title h2 { font-family: var(--font-mono); font-size: 20px; font-weight: 700; }
@@ -414,10 +404,9 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
     <div class="scr-main">
       <div class="counts" id="counts"></div>
       <div class="panel controls" role="group" aria-label="스크리너 설정">
-        <div class="ctl"><span id="lb-t">티커</span><div class="seg" role="group" aria-labelledby="lb-t" id="tickSeg">
+        <div class="ctl"><span id="lb-t">티커</span><div class="seg hl" role="group" aria-labelledby="lb-t" id="tickSeg">
           <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
-        <input class="search" id="q" type="search" placeholder="심볼·이름 검색" aria-label="종목 검색">
-        <div class="ctl"><span id="lb-v">보기</span><div class="seg" role="group" aria-labelledby="lb-v" id="viewSeg">
+        <div class="ctl"><span id="lb-v">보기</span><div class="seg hl" role="group" aria-labelledby="lb-v" id="viewSeg">
           <button type="button" data-v="table">표</button><button type="button" data-v="tiles">타일</button></div></div>
         <div class="ctl"><span id="lb-s">정렬</span><div class="seg" role="group" aria-labelledby="lb-s" id="sortSeg">
           <button type="button" data-sort="under">저평가 신호순</button><button type="button" data-sort="over">과열 신호순</button><button type="button" data-sort="low">최저 배수 낮은 순</button><button type="button" data-sort="high">최고 배수 높은 순</button><button type="button" data-sort="rank">시가총액 순위</button></div></div>
@@ -426,7 +415,8 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
         <div class="ctl"><span id="lb-e">거래소</span><div class="seg" role="group" aria-labelledby="lb-e" id="exSeg">
           <button type="button" data-ex="U">업비트</button><button type="button" data-ex="B">빗썸</button><button type="button" data-ex="N">바이낸스</button></div></div>
         <div class="ctl" id="pvCtl" hidden><span id="lb-pv">미리보기</span><div class="seg" role="group" aria-labelledby="lb-pv" id="pvSeg">
-          <button type="button" data-pv="compact">압축형</button><button type="button" data-pv="full">전체형</button><button type="button" data-pv="off">끔</button></div></div>
+          <button type="button" data-pv="compact">켬</button><button type="button" data-pv="off">끔</button></div></div>
+        <input class="search" id="q" type="search" placeholder="심볼·이름 검색" aria-label="종목 검색">
       </div>
       <p class="hint" id="scrHint"></p>
       <div class="panel" id="scrBody"></div>
@@ -439,7 +429,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   <section id="screen-board" hidden>
     <div style="display:grid;gap:12px">
       <div class="panel controls" role="group" aria-label="신호판 설정">
-        <div class="ctl"><span id="lb-bt">티커</span><div class="seg" role="group" aria-labelledby="lb-bt" id="bTickSeg">
+        <div class="ctl"><span id="lb-bt">티커</span><div class="seg hl" role="group" aria-labelledby="lb-bt" id="bTickSeg">
           <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
         <div class="ctl"><span id="lb-br">기간</span><div class="seg" role="group" aria-labelledby="lb-br" id="bRangeSeg">
           <button type="button" data-br="all">전체</button><button type="button" data-br="5">5년</button><button type="button" data-br="2">2년</button><button type="button" data-br="1">1년</button></div></div>
@@ -633,6 +623,7 @@ const state = { v: 2, screen: 'screener', coin: 'BTC', view: 'table', sort: 'und
 try {
   const saved = JSON.parse(localStorage.getItem('wma-screener') || '{}'); delete saved.btk; delete saved.group; delete saved.band; delete saved.yshare; if (saved.sort === 'signal') saved.sort = 'under';
   if (saved.v !== 2) { delete saved.fb; saved.v = 2; } // reference values are on by default from v2 on
+  if (saved.pv === 'full') saved.pv = 'compact'; // the full-page preview was tried and dropped
   Object.assign(state, saved);
 } catch (e) {}
 function save() { try { const { screen, coin, ...rest } = state; localStorage.setItem('wma-screener', JSON.stringify(rest)); } catch (e) {} }
@@ -1104,11 +1095,9 @@ function currentZones(sym) {
   for (const tf of TFS) { const c = curOf(sym, tf); if (!c) continue; const z = zone(c.m); if (z === 'n') continue; (c.fb ? out.ref[z] : out[z]).push({ tf, m: c.m }); }
   return out;
 }
-// The coin page, or the same page inside the screener's full preview (detailBody is moved into the pane).
 function renderCoin() {
-  const preview = state.screen !== 'coin';
-  if (!preview || !document.getElementById('scrBody').matches(':hover')) hideTip();
-  const coin = findCoin(preview ? PV.sym : state.coin);
+  hideTip();
+  const coin = findCoin(state.coin);
   if (!coin) {
     const t = document.getElementById('dTitle'); t.replaceChildren(el('h1', null, '종목을 찾을 수 없습니다'), el('span', null, `"${state.coinQuery || ''}"는 목록에 없는 심볼입니다. 스크리너에서 종목을 골라 주세요.`));
     for (const id of ['now', 'view']) document.getElementById(id).replaceChildren();
@@ -1116,7 +1105,7 @@ function renderCoin() {
     document.getElementById('prevCoin').disabled = document.getElementById('nextCoin').disabled = true;
     return;
   }
-  if (!preview) state.coin = state.lastCoin = coin.s;
+  state.coin = state.lastCoin = coin.s;
   const t = document.getElementById('dTitle'); t.replaceChildren();
   t.append(el('h1', null, coin.s), el('span', null, `${coin.k ? coin.k + ' · ' : ''}${coin.n} · 시가총액 ${coin.r}위 ${capText(coin)} · ${['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join(' · ')}`));
   const syms = tickerIds(coin);
@@ -1139,8 +1128,8 @@ function renderCoin() {
     view.replaceChildren(); note.textContent = ''; redraw = () => {};
     if (!syms.length) { now.replaceChildren(el('div', 'none', '데이터 없음')); return; }
     now.replaceChildren(el('div', 'none', '일봉 데이터를 불러오는 중입니다…'));
-    loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (detailSym() === coin.s) renderCoin(); }, (err) => {
-      if (detailSym() !== coin.s) return;
+    loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (state.screen === 'coin' && state.coin === coin.s) renderCoin(); }, (err) => {
+      if (state.screen !== 'coin' || state.coin !== coin.s) return;
       const b = el('button', null, err.stale ? '새로고침' : '다시 시도'); b.type = 'button';
       b.onclick = () => (err.stale ? location.reload() : renderCoin());
       now.replaceChildren(el('div', 'none', err.stale
@@ -1362,25 +1351,19 @@ function renderStrip(view) {
 }
 
 // ---------- coin preview beside the screener ----------
-// On a wide screen with a mouse, the coin under the pointer (or picked with the arrow keys) shows on the right: either
-// a compact one-screen summary or the coin page itself (detailBody is moved into the pane). Touch screens and narrow
-// windows keep "tap to open". The hover waits a moment so that sweeping across rows does not load every coin, and a
+// On a wide screen with a mouse, the coin under the pointer (or picked with the arrow keys) shows on the right as a
+// one-screen summary; Enter or a click opens the coin page. Touch screens and narrow windows keep "tap to open". The hover waits a moment so that sweeping across rows does not load every coin, and a
 // hover that only happens because the keyboard scrolled the list under a resting mouse is ignored (PV.kbd).
 const PV = { on: false, sym: null, pending: null, timer: 0, render: 0, kbd: false };
 const HOVER = matchMedia('(hover: hover) and (pointer: fine)');
 const previewAvailable = () => HOVER.matches && innerWidth >= 1180;
 const EX_NAME = { U: '업비트', B: '빗썸', N: '바이낸스' };
 const exNames = (coin) => ['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => EX_NAME[x]).join(' · ');
-// the coin the detail view is showing: the coin page's, or the full preview's
-function detailSym() { return state.screen === 'coin' ? state.coin : PV.on && state.pv === 'full' ? PV.sym : null; }
 function layoutPreview() {
   const on = state.screen === 'screener' && state.pv !== 'off' && previewAvailable();
-  const split = document.getElementById('scrSplit'), pane = document.getElementById('pv'), body = document.getElementById('detailBody');
   document.getElementById('pvCtl').hidden = !previewAvailable();
-  split.classList.toggle('on', on); split.classList.toggle('compact', on && state.pv === 'compact'); split.classList.toggle('full', on && state.pv === 'full');
-  pane.hidden = !on; PV.on = on;
-  if (on && state.pv === 'full') { if (body.parentElement !== pane) pane.append(body); }
-  else if (body.parentElement !== document.getElementById('screen-coin')) { body.hidden = false; document.getElementById('screen-coin').append(body); }
+  document.getElementById('scrSplit').classList.toggle('on', on);
+  document.getElementById('pv').hidden = !on; PV.on = on;
   if (!on) { clearTimeout(PV.timer); clearTimeout(PV.render); PV.pending = null; }
 }
 const shownSyms = () => [...document.querySelectorAll('#scrBody [data-sym]')].map((n) => n.dataset.sym);
@@ -1396,13 +1379,13 @@ function renderPreview() {
   if (!PV.on) return;
   { const shown = shownSyms(); if (!PV.sym || !shown.includes(PV.sym)) PV.sym = shown[0] || null; } // at rest: the top of the list
   markPreview();
-  const bar = document.getElementById('pvBar'), pvc = document.getElementById('pvc'), body = document.getElementById('detailBody'), full = state.pv === 'full';
+  const bar = document.getElementById('pvBar'), pvc = document.getElementById('pvc');
   const how = el('span'); how.append('미리보기 · ', el('kbd', null, state.view === 'tiles' ? '←↑↓→' : '↑↓'), ' 다음 종목 · Enter·클릭은 전체 상세');
   bar.replaceChildren(how);
   document.getElementById('pvLive').textContent = PV.sym ? `미리보기 ${PV.sym}` : '';
-  if (!PV.sym) { pvc.hidden = false; if (full) body.hidden = true; pvc.replaceChildren(el('div', 'pvc-wait', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); redraw = () => {}; return; }
+  if (!PV.sym) { pvc.replaceChildren(el('div', 'pvc-wait', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); redraw = () => {}; return; }
   const sym = PV.sym, coin = findCoin(sym), a = el('a', null, `${sym} 전체 상세 →`); a.href = '#coin-' + encodeURIComponent(sym); bar.append(a);
-  if (full) { pvc.hidden = true; body.hidden = false; renderCoin(); } else { pvc.hidden = false; renderCompact(); }
+  renderCompact();
   // neighbours only after this coin's own file, so they do not share its bandwidth
   if (coin && tickerIds(coin).length) loadChunk(coin.ch).then(() => { if (PV.sym === sym) prefetchAround(sym); }, () => {});
 }
@@ -1442,7 +1425,7 @@ const packed = (v) => { // a multiple x1000 as an ImageData pixel (RGBA little-e
   let c = PACKED.get(v); if (c !== undefined) return c;
   const [r, g, b] = colorOf(v / 1000); c = ((255 << 24) | (b << 16) | (g << 8) | r) >>> 0; PACKED.set(v, c); return c;
 };
-// Compact preview: the current multiple of every timeframe by axis, the 20-timeframe history as a small heat strip
+// The preview: the current multiple of every timeframe by axis, the 20-timeframe history as a small heat strip
 // with the combined signal band, and the last 0.3 / 2.4 days. The current multiples come from the summary at once;
 // the rest waits for the coin's daily closes.
 function renderCompact() {
@@ -1480,7 +1463,7 @@ function renderCompact() {
     }
     now.append(tk, grid);
   }
-  const showing = () => PV.on && state.pv === 'compact' && PV.sym === coin.s;
+  const showing = () => PV.on && PV.sym === coin.s;
   if (!d) {
     box.replaceChildren(title, now, el('div', 'pvc-wait', '일봉 데이터를 불러오는 중입니다…'));
     loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (showing()) renderCompact(); }, (err) => {
@@ -1607,7 +1590,7 @@ document.addEventListener('click', (e) => {
   else hit = false;
   if (!hit) return;
   save(); hideTip();
-  if ((d.method || d.range) && state.screen === 'screener') { renderPreview(); return; } // buttons inside the preview
+  if (d.range && state.screen === 'screener') { renderPreview(); return; } // the 기간 buttons inside the preview
   if (state.screen === 'coin') renderCoin();
   else if (READY) (state.screen === 'screener' ? renderScreener : renderBoard)();
   if (d.rsort) document.querySelector('#scrBody .th-sort')?.focus(); // the header was rebuilt
@@ -1625,7 +1608,7 @@ const setAppbarH = () => document.documentElement.style.setProperty('--appbar-h'
 let rt, lastW = innerWidth, lastH = innerHeight; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => {
   setAppbarH();
   const hc = innerHeight !== lastH; lastH = innerHeight;
-  if (innerWidth === lastW) { if (hc && PV.on && state.pv === 'compact') renderPreview(); return; } // the compact preview re-fits its height
+  if (innerWidth === lastW) { if (hc && PV.on) renderPreview(); return; } // the preview re-fits its height
   lastW = innerWidth;
   if (state.screen === 'board' && READY) renderBoard();
   else if (state.screen === 'coin') redraw();
