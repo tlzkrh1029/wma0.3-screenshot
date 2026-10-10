@@ -243,15 +243,15 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .scr-main { display: grid; gap: 12px; min-width: 0; }
 .scr-split.on.compact { grid-template-columns: minmax(0, 1fr) clamp(420px, 34vw, 640px); }
 .scr-split.on.full { grid-template-columns: minmax(0, 1fr) clamp(480px, 39vw, 820px); }
-.pv { position: sticky; top: calc(var(--appbar-h, 53px) + 10px); max-height: calc(100vh - var(--appbar-h, 53px) - 20px); overflow: auto; overscroll-behavior: contain; padding: 10px 14px 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.pv { position: sticky; z-index: 3; top: calc(var(--appbar-h, 53px) + 10px); max-height: calc(100vh - var(--appbar-h, 53px) - 20px); overflow: auto; overscroll-behavior: contain; padding: 10px 14px 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
 .pv-bar { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; justify-content: space-between; font-size: 11.5px; color: var(--muted); padding-bottom: 8px; border-bottom: 1px solid var(--line);
   position: sticky; top: 0; z-index: 2; background: var(--surface); } /* the coin's name stays in view while the pane scrolls */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .pv-bar a { color: var(--accent); font-weight: 600; font-size: 12.5px; }
 .pv-bar kbd { font-family: var(--font-mono); font-size: 10.5px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: var(--sunken); color: var(--fg); }
-.scr-split.on table.scr { min-width: 700px; }
+.scr-split.on table.scr { min-width: 0; }
 /* in split mode the page scrolls the list (the pane stays in view), with the table header under the app bar */
-.scr-split.on .tbl-wrap { max-height: none; overflow: visible; }
+.scr-split.on .tbl-wrap { max-height: none; overflow: visible; overflow-x: clip; } /* clip keeps the sticky header working */
 .scr-split.on .scr th { top: var(--appbar-h, 53px); }
 .scr-split.on .sigcell .zc { flex-wrap: wrap; row-gap: 0; white-space: normal; border-radius: 10px; } /* wraps between label and value */
 .scr-split.on .sigcell .zc b { white-space: nowrap; }
@@ -264,10 +264,10 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .scr-split.on .scr tbody tr { scroll-margin-top: calc(var(--appbar-h, 53px) + 40px); }
 .scr-split.on .scr .c-wide { display: none; }
 .scr-split.on .coin .mc-m { display: block; font-family: var(--font-mono); font-size: 11.5px; }
-.scr-split.on .strips { min-width: 160px; }
-.scr-split.on .sigcell { min-width: 120px; }
+.scr-split.on .strips { min-width: 100px; }
+.scr-split.on .sigcell { min-width: 96px; }
 .scr-split.on .scr td { padding-inline: 6px; }
-.scr tbody tr.pv-on, .scr tbody tr.pv-on:hover { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+.scr tbody tr.pv-on, .scr tbody tr.pv-on:hover { background: var(--accent-soft); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
 .scr tbody tr.pv-on td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 .tile.pv-on { box-shadow: 0 0 0 2px var(--fg); position: relative; z-index: 1; }
 #detailBody { display: grid; gap: 14px; min-width: 0; }
@@ -877,7 +877,7 @@ function renderTiles(body, list) {
         ...(s.min ? [{ color: toCss(colorOf(s.min.m)), value: fmt(s.min.m), label: '최저 · ' + s.min.label, square: true }] : []),
         ...(s.max ? [{ color: toCss(colorOf(s.max.m)), value: fmt(s.max.m), label: '최고 · ' + s.max.label, square: true }] : []),
       ]);
-      t.addEventListener('pointerenter', tipFor); t.addEventListener('focus', tipFor);
+      t.addEventListener('pointerenter', tipFor); if (!PV.on) t.addEventListener('focus', tipFor); // the preview shows more
       t.addEventListener('pointerleave', hideTip); t.addEventListener('blur', hideTip);
       grid.append(t);
     }
@@ -1533,7 +1533,7 @@ function renderCompact() {
   }
   last.append(lb);
   box.replaceChildren(title, now, hist, last);
-  if (refocus) box.querySelector(`[data-range="${state.range}"]`)?.focus();
+  if (refocus) box.querySelector(`[data-range="${refocus}"]`)?.focus();
   { // fit: the strips are 20 rows per ticker, so one measurement gives the row height; a short window also gets .tight
     const pane = document.getElementById('pv'), over = () => pane.scrollHeight - pane.clientHeight, per = 20 * blocks.length;
     const o = over();
@@ -1636,33 +1636,39 @@ HOVER.addEventListener('change', () => { if (READY && state.screen === 'screener
 // a coin; Enter opens the previewed coin (focus follows the arrow keys, so Enter lands on its link or tile)
 {
   const body = document.getElementById('scrBody');
-  body.addEventListener('pointerover', (e) => {
-    if (!PV.on || e.pointerType === 'touch' || PV.kbd) return;
-    const it = e.target.closest('[data-sym]');
+  // keyboard focus stays on the previewed coin, so Enter always opens what the pane shows
+  const focusOn = (n) => { const a = document.activeElement; if (n && a && body.contains(a) && a.closest('[data-sym]') !== n) (n.matches('button') ? n : n.querySelector('a'))?.focus({ preventScroll: true }); };
+  const hoverAt = (target) => {
+    const it = target.closest?.('[data-sym]');
     if (!it) { clearTimeout(PV.timer); PV.pending = null; return; }
     const sym = it.dataset.sym; if (sym === PV.pending) return;
     clearTimeout(PV.timer); PV.pending = null;
     if (sym === PV.sym) return;
-    PV.pending = sym; PV.timer = setTimeout(() => selectPreview(sym, 0), 110);
-  });
+    PV.pending = sym; PV.timer = setTimeout(() => focusOn(selectPreview(sym, 0)), 110);
+  };
+  body.addEventListener('pointerover', (e) => { if (PV.on && e.pointerType !== 'touch' && !PV.kbd) hoverAt(e.target); });
   body.addEventListener('pointerleave', () => { clearTimeout(PV.timer); PV.pending = null; });
   body.addEventListener('focusin', (e) => { if (!PV.on) return; const it = e.target.closest('[data-sym]'); if (it) selectPreview(it.dataset.sym, 0); });
+  // rows scrolled under a resting mouse fire pointerover without pointermove; only a real move gives hover back,
+  // starting with the row the pointer is on (its pointerover came before this move and was ignored)
+  document.addEventListener('pointermove', (e) => {
+    if (PV.kbd && (e.clientX !== PV.px || e.clientY !== PV.py)) { PV.kbd = false; if (PV.on && e.pointerType !== 'touch' && body.contains(e.target)) hoverAt(e.target); }
+    PV.px = e.clientX; PV.py = e.clientY;
+  }, { passive: true });
 }
-// rows scrolled under a resting mouse fire pointerover without pointermove; only a real move gives hover back
-document.addEventListener('pointermove', (e) => {
-  if (PV.kbd && (e.clientX !== PV.px || e.clientY !== PV.py)) PV.kbd = false;
-  PV.px = e.clientX; PV.py = e.clientY;
-}, { passive: true });
 document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab') PV.kbd = true; // focus moving with Tab scrolls rows under the mouse as well
   if (!PV.on || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.isComposing) return;
-  if (e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+  if (e.target.closest?.('input, textarea, select, [contenteditable="true"], #pv')) return; // the pane scrolls with its own keys
   if (e.key === 'Enter') { if (e.target.closest?.('button, a, summary') || !PV.sym) return; e.preventDefault(); location.hash = 'coin-' + encodeURIComponent(PV.sym); return; }
   const tiles = state.view === 'tiles';
   const step = { ArrowDown: 1, ArrowUp: -1, ...(tiles ? { ArrowRight: 1, ArrowLeft: -1 } : {}) }[e.key]; if (!step) return;
   const list = shownSyms(); if (!list.length) return;
   e.preventDefault(); PV.kbd = true;
-  const cur = shownNode(PV.sym), i = list.indexOf(PV.sym);
-  const next = (tiles && cur && (e.key === 'ArrowDown' || e.key === 'ArrowUp') && tileAcross(cur, e.key === 'ArrowDown')) || list[i < 0 ? 0 : Math.min(list.length - 1, Math.max(0, i + step))];
+  const cur = shownNode(PV.sym), i = list.indexOf(PV.sym), vertical = e.key === 'ArrowDown' || e.key === 'ArrowUp';
+  // tiles: ↑/↓ move by grid row and stop at the first and last row
+  const next = tiles && cur && vertical ? tileAcross(cur, e.key === 'ArrowDown') : list[i < 0 ? 0 : Math.min(list.length - 1, Math.max(0, i + step))];
+  if (!next) return;
   const n = selectPreview(next, 70);
   if (n) { n.scrollIntoView({ block: 'nearest' }); (n.matches('button') ? n : n.querySelector('a'))?.focus({ preventScroll: true }); }
 });
