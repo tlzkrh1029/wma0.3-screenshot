@@ -244,16 +244,30 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .scr-split.on.compact { grid-template-columns: minmax(0, 1fr) clamp(420px, 34vw, 640px); }
 .scr-split.on.full { grid-template-columns: minmax(0, 1fr) clamp(480px, 39vw, 820px); }
 .pv { position: sticky; top: calc(var(--appbar-h, 53px) + 10px); max-height: calc(100vh - var(--appbar-h, 53px) - 20px); overflow: auto; overscroll-behavior: contain; padding: 10px 14px 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
-.pv-bar { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; justify-content: space-between; font-size: 11.5px; color: var(--muted); padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.pv-bar { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; justify-content: space-between; font-size: 11.5px; color: var(--muted); padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 2; background: var(--surface); } /* the coin's name stays in view while the pane scrolls */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .pv-bar a { color: var(--accent); font-weight: 600; font-size: 12.5px; }
 .pv-bar kbd { font-family: var(--font-mono); font-size: 10.5px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: var(--sunken); color: var(--fg); }
 .scr-split.on table.scr { min-width: 700px; }
+/* in split mode the page scrolls the list (the pane stays in view), with the table header under the app bar */
+.scr-split.on .tbl-wrap { max-height: none; overflow: visible; }
+.scr-split.on .scr th { top: var(--appbar-h, 53px); }
+.scr-split.on .sigcell .zc { flex-wrap: wrap; row-gap: 0; white-space: normal; border-radius: 10px; } /* wraps between label and value */
+.scr-split.on .sigcell .zc b { white-space: nowrap; }
+.scr-split.on .strip-head em { overflow: hidden; white-space: nowrap; min-width: 0; }
+.scr-split.on .counts { grid-template-columns: repeat(auto-fit, minmax(136px, 1fr)); }
+.wrap:has(#scrSplit.on) { padding-bottom: 10px; }
+/* rows and tiles picked with the keyboard scroll in below the sticky bars */
+.scr tbody tr { scroll-margin-top: 40px; }
+.tile { scroll-margin-top: calc(var(--appbar-h, 53px) + 8px); }
+.scr-split.on .scr tbody tr { scroll-margin-top: calc(var(--appbar-h, 53px) + 40px); }
 .scr-split.on .scr .c-wide { display: none; }
 .scr-split.on .coin .mc-m { display: block; font-family: var(--font-mono); font-size: 11.5px; }
 .scr-split.on .strips { min-width: 160px; }
 .scr-split.on .sigcell { min-width: 120px; }
 .scr-split.on .scr td { padding-inline: 6px; }
-.scr tbody tr.pv-on, .scr tbody tr.pv-on:hover { background: var(--accent-soft); }
+.scr tbody tr.pv-on, .scr tbody tr.pv-on:hover { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
 .scr tbody tr.pv-on td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 .tile.pv-on { box-shadow: 0 0 0 2px var(--fg); position: relative; z-index: 1; }
 #detailBody { display: grid; gap: 14px; min-width: 0; }
@@ -279,11 +293,11 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .pvc-tk span { color: var(--muted); }
 .pvc-grid { display: grid; grid-template-columns: 40px repeat(8, minmax(0, 1fr)); gap: 2px; align-items: stretch; }
 .pvc-grid > em { font-style: normal; font-size: 10.5px; color: var(--muted); display: flex; align-items: center; }
-.pvc-cell { border-radius: 4px; padding: 2px 4px 3px; display: grid; min-width: 0; font-family: var(--font-mono); line-height: 1.2; }
+.pvc-cell { border-radius: 4px; border: 1px solid transparent; padding: 1px 3px 2px; display: grid; min-width: 0; font-family: var(--font-mono); line-height: 1.2; }
 .pvc-cell i { font-style: normal; font-size: 9.5px; opacity: .8; }
 .pvc-cell b { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pvc-cell.fb b { font-style: italic; font-weight: 500; }
-.pvc-cell.fb { outline: 1px dashed currentColor; outline-offset: -2px; }
+.pvc-cell.fb { border: 1px dashed currentColor; }
 .pvc-cell.na { background: var(--sunken); color: var(--muted); }
 .pvc-hist { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 6px; row-gap: 2px; }
 .pvc-hist .lab { position: relative; font-size: 10px; color: var(--muted); }
@@ -301,7 +315,10 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .pvc.tight { gap: 8px; }
 .pvc.tight .pvc-sec { gap: 3px; }
 .pvc.tight .pvc-title h2 { font-size: 17px; }
-.pvc.tight .pvc-cell { padding: 0 4px 1px; line-height: 1.1; }
+.pvc.tight .pvc-cell { padding: 0 3px; line-height: 1.1; }
+.pvc.tight .pvc-meta, .pvc.tight .pvc-last span.m { display: none; }
+.pv:has(.pvc.tight) { padding-block: 4px 6px; gap: 6px; }
+.pv:has(.pvc.tight) .pv-bar { padding-bottom: 4px; }
 .pvc.tight .pvc-cell i { font-size: 9px; }
 .pvc.tight .pvc-hist .tkl { margin-top: 1px; }
 
@@ -414,7 +431,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
       <p class="hint" id="scrHint"></p>
       <div class="panel" id="scrBody"></div>
     </div>
-    <aside class="panel pv" id="pv" hidden aria-label="종목 미리보기"><div class="pv-bar" id="pvBar"></div><div class="pvc" id="pvc"></div></aside>
+    <aside class="panel pv" id="pv" hidden aria-label="종목 미리보기"><div class="pv-bar" id="pvBar"></div><span class="sr-only" id="pvLive" aria-live="polite"></span><div class="pvc" id="pvc"></div></aside>
     </div>
   </section>
 
@@ -501,11 +518,12 @@ function fmtCap(v) {
 function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 function rgb(hex) { const h = hex.replace('#', ''); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)); }
 const C = {};
+const PACKED = new Map(); // multiple x1000 -> colour packed for ImageData (cleared with the theme)
 let hatchCache = null, warnHatch = null;
 function readColors() {
   for (const k of ['zu2', 'zu1', 'zo1', 'zo2', 'tint-u', 'mid', 'tint-o', 'ramp-lo', 'ramp-hi', 'surface', 'sunken', 'line', 'fg', 'muted', 'faint', 'nodata', 'warn-fg']) C[k] = css('--' + k);
   C.rgb = {}; for (const k of ['zu2', 'zu1', 'zo1', 'zo2', 'tint-u', 'mid', 'tint-o', 'ramp-lo', 'ramp-hi', 'sunken', 'surface']) C.rgb[k] = rgb(C[k]);
-  hatchCache = null; warnHatch = null;
+  hatchCache = null; warnHatch = null; PACKED.clear();
 }
 const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
 const toCss = (c) => `rgb(${c[0]},${c[1]},${c[2]})`;
@@ -599,7 +617,7 @@ const CHUNKS = new Map();
 const staleError = (msg) => Object.assign(new Error(msg), { stale: true });
 function loadChunk(ch) {
   if (!CHUNKS.has(ch)) {
-    const p = fetch(`d/${ch}.json?v=${DATA.build}`, { cache: 'no-cache' })
+    const p = fetch(`d/${ch}.json?v=${DATA.build}`)
       .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then((j) => { if (j.build !== DATA.build) throw staleError(`빌드 ${j.build}`); return j.daily; });
     p.catch(() => CHUNKS.delete(ch)); // let a later visit try again
@@ -623,6 +641,7 @@ const SCROLL = {};           // remembered scroll position per screen
 function findCoin(sym) { const u = String(sym || '').toUpperCase(); return COINS.find((c) => c.s.toUpperCase() === u) || null; }
 function route() {
   if (state.screen) SCROLL[state.screen] = window.scrollY;
+  if (state.screen === 'screener') SCROLL.tbl = document.querySelector('#scrBody .tbl-wrap')?.scrollTop || 0;
   let h = location.hash.slice(1);
   try { h = decodeURIComponent(h); } catch (e) {}
   if (h === 'board') state.screen = 'board';
@@ -642,6 +661,7 @@ function route() {
   if (state.screen === 'screener') renderScreener();
   if (state.screen === 'board') renderBoard();
   window.scrollTo({ top: SCROLL[state.screen] || 0 });
+  if (state.screen === 'screener') { const w = document.querySelector('#scrBody .tbl-wrap'); if (w) w.scrollTop = SCROLL.tbl || 0; }
 }
 
 // ---------- screener ----------
@@ -741,7 +761,7 @@ function renderScreener() {
   renderCounts(scoped);
   const filt = [state.q && `검색 "${state.q}"`, state.ex.length && `거래소 ${state.ex.map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join('·')} 모두 상장`, state.zf.length && '신호 필터'].filter(Boolean);
   document.getElementById('scrHint').textContent = `${list.length}종 표시 · 전체 ${all.length}종` + (filt.length ? ` · ${filt.join(', ')}` : '') + ' · 신호는 20개 타임프레임 중 하나라도 기준에 들어간 경우입니다. ' + MC_SOURCE +
-    (PV.on ? ` ${state.view === 'tiles' ? '타일' : '줄'}에 마우스를 올리거나 ↑·↓ 키로 옮기면 오른쪽에 미리보기가 나옵니다. 누르거나 Enter를 치면 종목 상세가 열립니다.` : ' 줄을 누르면 종목 상세가 열립니다.');
+    (PV.on ? ` ${state.view === 'tiles' ? '타일에 마우스를 올리거나 방향키로' : '줄에 마우스를 올리거나 ↑·↓ 키로'} 옮기면 오른쪽에 미리보기가 나옵니다. 누르거나 Enter를 치면 종목 상세가 열립니다.` : ' 줄을 누르면 종목 상세가 열립니다.');
   const body = document.getElementById('scrBody'); body.replaceChildren();
   if (state.view === 'tiles') { renderTiles(body, list); renderPreview(); return; }
   const wrap = el('div', 'tbl-wrap'); const table = el('table', 'scr');
@@ -808,7 +828,10 @@ function renderScreener() {
   table.append(tb); wrap.append(table); body.append(wrap);
   if (list.length > LIMIT) {
     const more = el('button', 'more-btn', `더 보기 · ${Math.min(100, list.length - LIMIT)}종 더 (${list.length - LIMIT}종 남음)`); more.type = 'button';
-    more.addEventListener('click', () => { LIMIT += 100; const y = window.scrollY; renderScreener(); window.scrollTo({ top: y }); });
+    more.addEventListener('click', () => {
+      LIMIT += 100; const y = window.scrollY, ws = wrap.scrollTop; renderScreener(); window.scrollTo({ top: y });
+      const w2 = document.querySelector('#scrBody .tbl-wrap'); if (w2) w2.scrollTop = ws;
+    });
     body.append(more);
   }
   renderPreview();
@@ -1030,11 +1053,10 @@ function paintSignalRow(ctx, g, start, N, x0, width, y, h) {
 }
 // The signal band of a set of timeframes: per week the strongest level and the timeframes that reached it.
 // All 20 timeframes use the ticker's own band; an axis combines its timeframes' weekly levels.
-const BANDS = new Map();
 function bandFor(sym, tfs) {
   const T = D.T[sym];
   if (tfs.length === TFS.length) return T.sig;
-  const key = sym + '|' + tfs.join(','); if (BANDS.has(key)) return BANDS.get(key);
+  const BANDS = T.bands || (T.bands = new Map()), key = tfs.join(','); if (BANDS.has(key)) return BANDS.get(key);
   const b = { u: new Uint8Array(S), uM: new Uint32Array(S), o: new Uint8Array(S), oM: new Uint32Array(S), uf: new Uint8Array(S), ufM: new Uint32Array(S),
     of: new Uint8Array(S), ofM: new Uint32Array(S), sus: new Uint8Array(S), susM: new Uint32Array(S), susf: new Uint8Array(S), susfM: new Uint32Array(S) };
   const sp = new Uint8Array(S), spf = new Uint8Array(S);
@@ -1084,8 +1106,8 @@ function currentZones(sym) {
 }
 // The coin page, or the same page inside the screener's full preview (detailBody is moved into the pane).
 function renderCoin() {
-  hideTip();
   const preview = state.screen !== 'coin';
+  if (!preview || !document.getElementById('scrBody').matches(':hover')) hideTip();
   const coin = findCoin(preview ? PV.sym : state.coin);
   if (!coin) {
     const t = document.getElementById('dTitle'); t.replaceChildren(el('h1', null, '종목을 찾을 수 없습니다'), el('span', null, `"${state.coinQuery || ''}"는 목록에 없는 심볼입니다. 스크리너에서 종목을 골라 주세요.`));
@@ -1340,10 +1362,11 @@ function renderStrip(view) {
 }
 
 // ---------- coin preview beside the screener ----------
-// On a wide screen with a mouse, the coin under the pointer (or picked with ↑/↓) shows on the right: either a compact
-// one-screen summary or the coin page itself (detailBody is moved into the pane). Touch screens and narrow windows
-// keep "tap to open". The hover waits a moment so that sweeping across rows does not load every coin on the way.
-const PV = { on: false, sym: null, pending: null, timer: 0, render: 0 };
+// On a wide screen with a mouse, the coin under the pointer (or picked with the arrow keys) shows on the right: either
+// a compact one-screen summary or the coin page itself (detailBody is moved into the pane). Touch screens and narrow
+// windows keep "tap to open". The hover waits a moment so that sweeping across rows does not load every coin, and a
+// hover that only happens because the keyboard scrolled the list under a resting mouse is ignored (PV.kbd).
+const PV = { on: false, sym: null, pending: null, timer: 0, render: 0, kbd: false };
 const HOVER = matchMedia('(hover: hover) and (pointer: fine)');
 const previewAvailable = () => HOVER.matches && innerWidth >= 1180;
 const EX_NAME = { U: '업비트', B: '빗썸', N: '바이낸스' };
@@ -1362,81 +1385,94 @@ function layoutPreview() {
 }
 const shownSyms = () => [...document.querySelectorAll('#scrBody [data-sym]')].map((n) => n.dataset.sym);
 const shownNode = (sym) => (sym ? document.querySelector(`#scrBody [data-sym="${CSS.escape(sym)}"]`) : null);
+const listHovered = () => document.getElementById('scrBody').matches(':hover');
 function markPreview() {
-  document.querySelectorAll('#scrBody .pv-on').forEach((n) => n.classList.remove('pv-on'));
-  const n = shownNode(PV.sym); if (n) n.classList.add('pv-on');
+  document.querySelectorAll('#scrBody .pv-on').forEach((n) => { n.classList.remove('pv-on'); n.removeAttribute('aria-current'); });
+  const n = shownNode(PV.sym); if (n) { n.classList.add('pv-on'); n.setAttribute('aria-current', 'true'); }
   return n;
 }
 function renderPreview() {
   clearTimeout(PV.render);
   if (!PV.on) return;
-  if (!PV.sym || !ORDER.includes(PV.sym)) PV.sym = ORDER[0] || null; // at rest: the top of the list
+  { const shown = shownSyms(); if (!PV.sym || !shown.includes(PV.sym)) PV.sym = shown[0] || null; } // at rest: the top of the list
   markPreview();
   const bar = document.getElementById('pvBar'), pvc = document.getElementById('pvc'), body = document.getElementById('detailBody'), full = state.pv === 'full';
-  const how = el('span'); how.append('미리보기 · ', el('kbd', null, '↑'), ' ', el('kbd', null, '↓'), ' 다음 종목 · 누르면 전체 상세');
+  const how = el('span'); how.append('미리보기 · ', el('kbd', null, state.view === 'tiles' ? '←↑↓→' : '↑↓'), ' 다음 종목 · Enter·클릭은 전체 상세');
   bar.replaceChildren(how);
+  document.getElementById('pvLive').textContent = PV.sym ? `미리보기 ${PV.sym}` : '';
   if (!PV.sym) { pvc.hidden = false; if (full) body.hidden = true; pvc.replaceChildren(el('div', 'pvc-wait', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); redraw = () => {}; return; }
-  const a = el('a', null, `${PV.sym} 전체 상세 →`); a.href = '#coin-' + encodeURIComponent(PV.sym); bar.append(a);
+  const sym = PV.sym, coin = findCoin(sym), a = el('a', null, `${sym} 전체 상세 →`); a.href = '#coin-' + encodeURIComponent(sym); bar.append(a);
   if (full) { pvc.hidden = true; body.hidden = false; renderCoin(); } else { pvc.hidden = false; renderCompact(); }
-  prefetchAround(PV.sym);
+  // neighbours only after this coin's own file, so they do not share its bandwidth
+  if (coin && tickerIds(coin).length) loadChunk(coin.ch).then(() => { if (PV.sym === sym) prefetchAround(sym); }, () => {});
 }
 // show another coin: highlight it now, draw it after `delay` ms (keys held down move faster than a coin draws)
 function selectPreview(sym, delay) {
   if (!PV.on || !sym) return null;
-  clearTimeout(PV.timer); clearTimeout(PV.render); PV.pending = null;
-  if (sym === PV.sym) return shownNode(sym);
-  PV.sym = sym; const n = markPreview();
-  PV.render = setTimeout(renderPreview, delay);
+  clearTimeout(PV.timer); PV.pending = null;
+  if (sym === PV.sym) return shownNode(sym); // a render still pending for this coin stays scheduled
+  clearTimeout(PV.render); PV.sym = sym; const n = markPreview();
+  if (delay) PV.render = setTimeout(renderPreview, delay); else renderPreview();
   return n;
 }
+// tiles: the tile in the next grid row up or down, nearest to the current one's centre
+function tileAcross(node, down) {
+  const r = node.getBoundingClientRect(), cx = r.left + r.width / 2; let best = null, bd = Infinity;
+  for (const t of document.querySelectorAll('#scrBody .tile[data-sym]')) {
+    const q = t.getBoundingClientRect(), dy = down ? q.top - r.bottom : r.top - q.bottom;
+    if (dy < -1) continue;
+    const d = dy * 1000 + Math.abs(q.left + q.width / 2 - cx); if (d < bd) { bd = d; best = t; }
+  }
+  return best ? best.dataset.sym : null;
+}
 // the neighbours' daily closes, and the next and previous coins' details, while the browser is idle
-const idle = window.requestIdleCallback ? (f) => requestIdleCallback(f, { timeout: 800 }) : (f) => setTimeout(f, 60);
+const idle = window.requestIdleCallback ? (f) => requestIdleCallback(f, { timeout: 1500 }) : (f) => setTimeout(() => f({ timeRemaining: () => 50 }), 60);
 function prefetchAround(sym) {
   const list = shownSyms(), i = list.indexOf(sym); if (i < 0) return;
-  idle(() => {
-    for (const d of [1, -1, 2, -2]) {
-      const c = findCoin(list[i + d]); if (!c || !tickerIds(c).length) continue;
-      const p = loadChunk(c.ch).catch(() => null);
-      if (Math.abs(d) === 1) p.then((daily) => { if (daily) idle(() => { try { detailFor(c, daily); } catch (e) {} }); });
+  for (const d of [1, -1, 2, -2]) {
+    const c = findCoin(list[i + d]); if (!c || !tickerIds(c).length) continue;
+    const p = loadChunk(c.ch).catch(() => null);
+    if (Math.abs(d) === 1) {
+      const compute = (dl) => { if (DETAIL.has(c.s) || PV.sym !== sym) return; if (dl.timeRemaining() < 12) { idle(compute); return; } p.then((daily) => { if (daily) try { detailFor(c, daily); } catch (e) {} }); };
+      p.then((daily) => { if (daily) idle(compute); });
     }
-  });
+  }
 }
+const packed = (v) => { // a multiple x1000 as an ImageData pixel (RGBA little-endian)
+  let c = PACKED.get(v); if (c !== undefined) return c;
+  const [r, g, b] = colorOf(v / 1000); c = ((255 << 24) | (b << 16) | (g << 8) | r) >>> 0; PACKED.set(v, c); return c;
+};
 // Compact preview: the current multiple of every timeframe by axis, the 20-timeframe history as a small heat strip
-// with the combined signal band, and the last 0.3 / 2.4 days. Same detail data as the coin page.
+// with the combined signal band, and the last 0.3 / 2.4 days. The current multiples come from the summary at once;
+// the rest waits for the coin's daily closes.
 function renderCompact() {
-  const box = document.getElementById('pvc'); hideTip(); box.classList.remove('tight');
+  const box = document.getElementById('pvc'); box.classList.remove('tight');
+  if (!listHovered()) hideTip();
   const coin = findCoin(PV.sym); if (!coin) { box.replaceChildren(); return; }
+  const refocus = box.contains(document.activeElement) ? document.activeElement.dataset?.range : null;
   const title = el('div'), h = el('div', 'pvc-title'); h.append(el('h2', null, coin.s), el('span', null, coin.k ? `${coin.k} · ${coin.n}` : coin.n));
   title.append(h, el('div', 'pvc-meta', `시가총액 ${coin.r}위 ${capText(coin)} · ${exNames(coin)}`));
   const syms = tickerIds(coin);
   redraw = () => {};
   if (!syms.length) { box.replaceChildren(title, el('div', 'pvc-wait', 'TradingView에서 이 종목의 티커를 찾지 못해서 배수를 계산하지 못했습니다.')); return; }
-  const d = DETAIL.get(coin.s);
-  const showing = () => PV.on && state.pv === 'compact' && PV.sym === coin.s;
-  if (!d) {
-    box.replaceChildren(title, el('div', 'pvc-wait', '일봉 데이터를 불러오는 중입니다…'));
-    loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (showing()) renderCompact(); }, (err) => {
-      if (!showing()) return;
-      const b = el('button', null, err.stale ? '새로고침' : '다시 시도'); b.type = 'button'; b.onclick = () => (err.stale ? location.reload() : renderCompact());
-      const w = el('div', 'pvc-wait', err.stale ? '이 화면을 연 뒤에 새 데이터가 배포되었습니다. 새로고침하면 최신 데이터로 다시 엽니다. ' : `일봉 데이터를 불러오지 못했습니다 (${err.message}). `);
-      w.append(b); box.replaceChildren(title, w);
-    });
-    return;
-  }
-  D = d;
+  const d = DETAIL.get(coin.s); if (d) D = d; // curOf / valAt / bandFor read the current detail
   // current multiples: a row per axis, a cell per timeframe, coloured like the strips
   const now = el('div', 'pvc-sec'); now.append(el('h3', null, '현재 배수'));
-  for (const s of d.syms) {
+  const sum = SUM.get(coin.s);
+  for (const s of syms) {
+    const cur = d ? (tf) => curOf(s.id, tf) : (tf) => { const m = sum.find((t) => t.id === s.id).cur[TFS.indexOf(tf)]; return Number.isNaN(m) ? null : { m, fb: false }; };
     const tk = el('div', 'pvc-tk'); tk.append(el('b', null, s.id), el('span', null, s.desc));
-    const zoneTfs = ['u2', 'u1', 'o2', 'o1'].flatMap((k) => currentZones(s.id)[k].map((x) => x.tf)), cs = D.T[s.id].curSusp;
-    if (cs && zoneTfs.length && zoneTfs.every((tf) => cs[tf])) tk.append(el('span', 'warn', '⚠ 지금 신호는 시가총액 데이터 의심 구간의 영향을 받습니다'));
+    if (d) {
+      const zoneTfs = ['u2', 'u1', 'o2', 'o1'].flatMap((k) => currentZones(s.id)[k].map((x) => x.tf)), cs = d.T[s.id].curSusp;
+      if (cs && zoneTfs.length && zoneTfs.every((tf) => cs[tf])) tk.append(el('span', 'warn', '⚠ 지금 신호는 시가총액 데이터 의심 구간의 영향을 받습니다'));
+    }
     const grid = el('div', 'pvc-grid');
     for (const [g, label] of AXES) {
       grid.append(el('em', null, label.replace('축', '')));
       const tfs = GROUPS[g];
       for (let i = 0; i < 8; i++) {
         const tf = tfs[i]; if (!tf) { grid.append(el('span')); continue; }
-        const c = curOf(s.id, tf), cell = el('div', 'pvc-cell'); cell.append(el('i', null, tf), el('b', null, c ? fmt(c.m) : '–'));
+        const c = cur(tf), cell = el('div', 'pvc-cell'); cell.append(el('i', null, tf), el('b', null, c ? fmt(c.m) : '–'));
         if (c) { const col = colorOf(c.m); cell.style.background = toCss(col); cell.style.color = inkOn(col); if (c.fb) cell.classList.add('fb'); cell.title = `${s.id} ${tf} ${fmt(c.m)}${c.fb ? ' (참고: 봉 200개 미만)' : ''}`; }
         else { cell.classList.add('na'); cell.title = `${s.id} ${tf} 데이터 없음`; }
         grid.append(cell);
@@ -1444,12 +1480,23 @@ function renderCompact() {
     }
     now.append(tk, grid);
   }
+  const showing = () => PV.on && state.pv === 'compact' && PV.sym === coin.s;
+  if (!d) {
+    box.replaceChildren(title, now, el('div', 'pvc-wait', '일봉 데이터를 불러오는 중입니다…'));
+    loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (showing()) renderCompact(); }, (err) => {
+      if (!showing()) return;
+      const b = el('button', null, err.stale ? '새로고침' : '다시 시도'); b.type = 'button'; b.onclick = () => (err.stale ? location.reload() : renderCompact());
+      const w = el('div', 'pvc-wait', err.stale ? '이 화면을 연 뒤에 새 데이터가 배포되었습니다. 새로고침하면 최신 데이터로 다시 엽니다. ' : `일봉 데이터를 불러오지 못했습니다 (${err.message}). `);
+      w.append(b); box.replaceChildren(title, now, w);
+    });
+    return;
+  }
   // history: 20 rows (1D…1W | 8D…3W | 1M…12M) and the combined band, per ticker, on one date axis
   const hist = el('div', 'pvc-sec'), hh = el('h3'), seg = el('div', 'seg'); hh.append(el('span', null, '신호 이력'));
   seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', '기간');
   for (const [r, l] of [['all', '전체'], ['5', '5년'], ['2', '2년'], ['1', '1년']]) { const b = el('button', null, l); b.type = 'button'; b.dataset.range = r; b.setAttribute('aria-pressed', String(state.range === r)); seg.append(b); }
   hh.append(seg); hist.append(hh);
-  // rows are 6px tall, or thinner (down to 3px) when that keeps the whole preview on one screen
+  // rows are 6px tall, or thinner (down to 2px) when that keeps the whole preview on one screen
   const { start, end } = visibleRange(), N = end - start + 1, GAP = 3, SIG = 10;
   let ROW = 6, bandY = 0, H = 0;
   const GRP = [[0, 7, '1D–1W'], [7, 12, '8D–3W'], [12, 20, '1M–12M']], rowY = (r) => r * ROW + (r >= 7 ? GAP : 0) + (r >= 12 ? GAP : 0);
@@ -1463,17 +1510,17 @@ function renderCompact() {
     cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${s.id}의 20개 타임프레임 배수 이력과 종합 신호 띠`);
     grid.append(tkl, lab, cvw); blocks.push({ s, cv, hl, lab });
   }
+  const xaxis = el('div', 'pvc-x'); grid.append(el('div'), xaxis); hist.append(grid);
   const size = (row) => {
     ROW = row; bandY = rowY(20) + 4; H = bandY + SIG;
     for (const bl of blocks) { bl.lab.style.height = H + 'px'; bl.cv.style.height = H + 'px'; }
     for (const [sp, top] of labs) sp.style.top = top() + 'px';
   };
   size(6);
-  const xaxis = el('div', 'pvc-x'); grid.append(el('div'), xaxis); hist.append(grid);
   // last signals
   const last = el('div', 'pvc-sec'), lb = el('div', 'pvc-last'); last.append(el('h3', null, '마지막 신호'));
   for (const s of d.syms) {
-    const e = D.T[s.id], row = el('div'); row.append(el('b', null, s.id));
+    const e = d.T[s.id], row = el('div'); row.append(el('b', null, s.id));
     for (const [key, label] of [['u2', '0.3 이하'], ['o2', '2.4 이상']]) {
       const L = e.last[key];
       if (!L) { row.append(el('span', 'm', `${label} 없음`)); continue; }
@@ -1486,25 +1533,38 @@ function renderCompact() {
   }
   last.append(lb);
   box.replaceChildren(title, now, hist, last);
-  { // still too tall at 3px rows (a short window): tighter cells, then rows down to 2px
+  if (refocus) box.querySelector(`[data-range="${state.range}"]`)?.focus();
+  { // fit: the strips are 20 rows per ticker, so one measurement gives the row height; a short window also gets .tight
     const pane = document.getElementById('pv'), over = () => pane.scrollHeight - pane.clientHeight, per = 20 * blocks.length;
-    if (over() > 0) size(Math.max(3, 6 - Math.ceil(over() / per)));
-    if (over() > 0) { box.classList.add('tight'); size(3); if (over() > 0) size(Math.max(2, 3 - Math.ceil(over() / per))); }
+    const o = over();
+    if (o > 0) {
+      const r = 6 - Math.ceil(o / per);
+      if (r >= 3) size(r);
+      else { box.classList.add('tight'); size(3); const o2 = over(); if (o2 > 0) size(Math.max(2, 3 - Math.ceil(o2 / per))); }
+    }
   }
   const draw = () => {
     if (D !== d) return; // another coin took over the detail data
     const W = blocks[0].cv.parentElement.clientWidth; if (!W) return;
+    const off = document.createElement('canvas'); off.width = W; off.height = H; const octx = off.getContext('2d');
     for (const bl of blocks) {
-      const ctx = setupCanvas(bl.cv, W, H), pat = hatchPattern(ctx);
+      const ctx = setupCanvas(bl.cv, W, H), pat = hatchPattern(ctx), T = d.T[bl.s.id];
+      // one pixel column per x: the most extreme multiple of the weeks under it, as on the coin page
+      const img = octx.createImageData(W, H), px = new Uint32Array(img.data.buffer);
       TFS.forEach((tf, r) => {
-        const y = rowY(r);
+        const y0 = rowY(r), mA = T.m[tf], fA = state.fb ? T.fb[tf] : null;
+        ctx.fillStyle = pat; ctx.fillRect(0, y0, W, ROW); // no data shows through as hatching
         for (let x = 0; x < W; x++) {
           const k0 = start + Math.floor(x * N / W), k1 = Math.min(end, Math.max(k0, start + Math.ceil((x + 1) * N / W) - 1));
-          let best = null; for (let k = k0; k <= k1; k++) { const v = valAt(bl.s.id, tf, k); if (v && (!best || Math.abs(Math.log(v.m)) > Math.abs(Math.log(best.m)))) best = v; }
-          ctx.fillStyle = best ? toCss(colorOf(best.m)) : pat; ctx.fillRect(x, y, 1, ROW);
+          let best = null, bl0 = 0;
+          for (let k = k0; k <= k1; k++) { let v = mA?.[k]; if (v == null && fA) v = fA[k]; if (v == null) continue; const l = Math.abs(Math.log(v / 1000)); if (best == null || l > bl0) { best = v; bl0 = l; } }
+          if (best == null) continue;
+          const c = packed(best); for (let y = y0, i = y0 * W + x; y < y0 + ROW; y++, i += W) px[i] = c;
         }
       });
-      const g = D.T[bl.s.id].sig;
+      octx.clearRect(0, 0, W, H); octx.putImageData(img, 0, 0);
+      ctx.imageSmoothingEnabled = false; ctx.drawImage(off, 0, 0, W, H);
+      const g = T.sig;
       ctx.fillStyle = C.sunken; ctx.fillRect(0, bandY, W, SIG);
       paintSignalRow(ctx, g, start, N, 0, W, bandY, SIG);
       hatchSignalSuspect(ctx, g, bl.s.id, start, N, 0, W, bandY, SIG);
@@ -1520,7 +1580,7 @@ function renderCompact() {
       const r = bl.cv.getBoundingClientRect(), k = Math.min(N - 1, Math.max(0, Math.floor((ev.clientX - r.left) / r.width * N))), y = ev.clientY - r.top;
       for (const o of blocks) { o.hl.style.display = 'block'; o.hl.style.left = ((k + 0.5) / N * r.width) + 'px'; }
       const T = `${bl.s.id} · ${dateStr(DATA.days[start + k])}`, gi = GRP.findIndex(([, b]) => y < rowY(b) + GAP / 2);
-      if (gi < 0 || y >= bandY - 2) { showTip(ev, T, [], tipExtra(bl.s.id, start + k, D.T[bl.s.id].sig, BAND_TITLE(TFS))); return; }
+      if (gi < 0 || y >= bandY - 2) { showTip(ev, T, [], tipExtra(bl.s.id, start + k, d.T[bl.s.id].sig, BAND_TITLE(TFS))); return; }
       const tfs = TFS.slice(GRP[gi][0], GRP[gi][1]);
       const rows = tfs.map((tf) => { const v = valAt(bl.s.id, tf, start + k); return { color: v ? toCss(colorOf(v.m)) : C.line, value: v ? fmt(v.m) : '–', label: tf + (v?.fb ? ' (참고)' : ''), square: true, italic: v?.fb }; });
       showTip(ev, T, rows, tipExtra(bl.s.id, start + k, bandFor(bl.s.id, tfs), BAND_TITLE(tfs)));
@@ -1562,35 +1622,49 @@ document.addEventListener('pointerdown', (e) => {
 addEventListener('scroll', hideTip, { passive: true });
 addEventListener('hashchange', route);
 const setAppbarH = () => document.documentElement.style.setProperty('--appbar-h', document.querySelector('.appbar').offsetHeight + 'px');
-let rt, lastW = innerWidth; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => {
-  setAppbarH(); if (innerWidth === lastW) return; lastW = innerWidth;
+let rt, lastW = innerWidth, lastH = innerHeight; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => {
+  setAppbarH();
+  const hc = innerHeight !== lastH; lastH = innerHeight;
+  if (innerWidth === lastW) { if (hc && PV.on && state.pv === 'compact') renderPreview(); return; } // the compact preview re-fits its height
+  lastW = innerWidth;
   if (state.screen === 'board' && READY) renderBoard();
   else if (state.screen === 'coin') redraw();
   else if (state.screen === 'screener' && READY) { const was = PV.on; layoutPreview(); if (PV.on !== was) renderScreener(); else if (PV.on) renderPreview(); }
 }, 150); });
 HOVER.addEventListener('change', () => { if (READY && state.screen === 'screener') renderScreener(); });
-// preview: hover (after a short pause) and ↑/↓ (←/→ on tiles); Enter opens the previewed coin
+// preview: hover (after a short pause), arrow keys (↑/↓ rows; in tiles ←/→ and ↑/↓ by grid row), keyboard focus on
+// a coin; Enter opens the previewed coin (focus follows the arrow keys, so Enter lands on its link or tile)
 {
   const body = document.getElementById('scrBody');
   body.addEventListener('pointerover', (e) => {
-    if (!PV.on || e.pointerType === 'touch') return;
-    const it = e.target.closest('[data-sym]'); if (!it) return;
+    if (!PV.on || e.pointerType === 'touch' || PV.kbd) return;
+    const it = e.target.closest('[data-sym]');
+    if (!it) { clearTimeout(PV.timer); PV.pending = null; return; }
     const sym = it.dataset.sym; if (sym === PV.pending) return;
     clearTimeout(PV.timer); PV.pending = null;
     if (sym === PV.sym) return;
     PV.pending = sym; PV.timer = setTimeout(() => selectPreview(sym, 0), 110);
   });
   body.addEventListener('pointerleave', () => { clearTimeout(PV.timer); PV.pending = null; });
+  body.addEventListener('focusin', (e) => { if (!PV.on) return; const it = e.target.closest('[data-sym]'); if (it) selectPreview(it.dataset.sym, 0); });
 }
+// rows scrolled under a resting mouse fire pointerover without pointermove; only a real move gives hover back
+document.addEventListener('pointermove', (e) => {
+  if (PV.kbd && (e.clientX !== PV.px || e.clientY !== PV.py)) PV.kbd = false;
+  PV.px = e.clientX; PV.py = e.clientY;
+}, { passive: true });
 document.addEventListener('keydown', (e) => {
   if (!PV.on || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.isComposing) return;
   if (e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
   if (e.key === 'Enter') { if (e.target.closest?.('button, a, summary') || !PV.sym) return; e.preventDefault(); location.hash = 'coin-' + encodeURIComponent(PV.sym); return; }
-  const step = { ArrowDown: 1, ArrowUp: -1, ...(state.view === 'tiles' ? { ArrowRight: 1, ArrowLeft: -1 } : {}) }[e.key]; if (!step) return;
+  const tiles = state.view === 'tiles';
+  const step = { ArrowDown: 1, ArrowUp: -1, ...(tiles ? { ArrowRight: 1, ArrowLeft: -1 } : {}) }[e.key]; if (!step) return;
   const list = shownSyms(); if (!list.length) return;
-  e.preventDefault();
-  const i = list.indexOf(PV.sym), j = i < 0 ? 0 : Math.min(list.length - 1, Math.max(0, i + step));
-  selectPreview(list[j], 70)?.scrollIntoView({ block: 'nearest' });
+  e.preventDefault(); PV.kbd = true;
+  const cur = shownNode(PV.sym), i = list.indexOf(PV.sym);
+  const next = (tiles && cur && (e.key === 'ArrowDown' || e.key === 'ArrowUp') && tileAcross(cur, e.key === 'ArrowDown')) || list[i < 0 ? 0 : Math.min(list.length - 1, Math.max(0, i + step))];
+  const n = selectPreview(next, 70);
+  if (n) { n.scrollIntoView({ block: 'nearest' }); (n.matches('button') ? n : n.querySelector('a'))?.focus({ preventScroll: true }); }
 });
 const rerender = () => { readColors(); if (!READY) return; if (state.screen === 'screener') renderScreener(); else if (state.screen === 'board') renderBoard(); else renderCoin(); };
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rerender);
