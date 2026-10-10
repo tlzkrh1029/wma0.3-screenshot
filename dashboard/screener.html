@@ -237,6 +237,74 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .empty { padding: 28px; text-align: center; color: var(--muted); }
 .empty button { margin: 4px; border: 1px solid var(--line); background: var(--sunken); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
 
+/* screener: coin preview beside the list (wide screens with a mouse). Compact: a one-screen summary; full: the
+   coin page itself, scrolled inside the pane. */
+.scr-split { display: grid; gap: 14px; align-items: start; }
+.scr-main { display: grid; gap: 12px; min-width: 0; }
+.scr-split.on.compact { grid-template-columns: minmax(0, 1fr) clamp(420px, 34vw, 640px); }
+.scr-split.on.full { grid-template-columns: minmax(0, 1fr) clamp(480px, 39vw, 820px); }
+.pv { position: sticky; top: calc(var(--appbar-h, 53px) + 10px); max-height: calc(100vh - var(--appbar-h, 53px) - 20px); overflow: auto; overscroll-behavior: contain; padding: 10px 14px 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.pv-bar { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; justify-content: space-between; font-size: 11.5px; color: var(--muted); padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.pv-bar a { color: var(--accent); font-weight: 600; font-size: 12.5px; }
+.pv-bar kbd { font-family: var(--font-mono); font-size: 10.5px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: var(--sunken); color: var(--fg); }
+.scr-split.on table.scr { min-width: 700px; }
+.scr-split.on .scr .c-wide { display: none; }
+.scr-split.on .coin .mc-m { display: block; font-family: var(--font-mono); font-size: 11.5px; }
+.scr-split.on .strips { min-width: 160px; }
+.scr-split.on .sigcell { min-width: 120px; }
+.scr-split.on .scr td { padding-inline: 6px; }
+.scr tbody tr.pv-on, .scr tbody tr.pv-on:hover { background: var(--accent-soft); }
+.scr tbody tr.pv-on td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.tile.pv-on { box-shadow: 0 0 0 2px var(--fg); position: relative; z-index: 1; }
+#detailBody { display: grid; gap: 14px; min-width: 0; }
+.pv #detailBody { gap: 10px; }
+.pv .navbtns { display: none; }
+.pv .dtitle h1 { font-size: 20px; }
+.pv .controls { padding: 8px 10px; }
+.pv .now-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.pv .now-row.head { display: none; }
+.pv .now-row .sym, .pv .now-row .cur { grid-column: 1 / -1; }
+.pv .lastsig .k { display: block; }
+.pv .lines-cols { grid-template-columns: minmax(0, 1fr); }
+.pvc { display: grid; gap: 12px; min-width: 0; }
+.pvc-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.pvc-title h2 { font-family: var(--font-mono); font-size: 20px; font-weight: 700; }
+.pvc-title span { color: var(--muted); font-size: 13px; }
+.pvc-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.pvc-sec { display: grid; gap: 6px; min-width: 0; }
+.pvc-sec > h3 { font-size: 12px; font-weight: 600; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 10px; }
+.pvc-sec > h3 .seg button { padding: 2px 8px; font-size: 11.5px; }
+.pvc-tk { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 12px; }
+.pvc-tk b { font-family: var(--font-mono); font-size: 12px; }
+.pvc-tk span { color: var(--muted); }
+.pvc-grid { display: grid; grid-template-columns: 40px repeat(8, minmax(0, 1fr)); gap: 2px; align-items: stretch; }
+.pvc-grid > em { font-style: normal; font-size: 10.5px; color: var(--muted); display: flex; align-items: center; }
+.pvc-cell { border-radius: 4px; padding: 2px 4px 3px; display: grid; min-width: 0; font-family: var(--font-mono); line-height: 1.2; }
+.pvc-cell i { font-style: normal; font-size: 9.5px; opacity: .8; }
+.pvc-cell b { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pvc-cell.fb b { font-style: italic; font-weight: 500; }
+.pvc-cell.fb { outline: 1px dashed currentColor; outline-offset: -2px; }
+.pvc-cell.na { background: var(--sunken); color: var(--muted); }
+.pvc-hist { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 6px; row-gap: 2px; }
+.pvc-hist .lab { position: relative; font-size: 10px; color: var(--muted); }
+.pvc-hist .lab span { position: absolute; right: 0; transform: translateY(-50%); white-space: nowrap; }
+.pvc-hist .tkl { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 11.5px; margin-top: 4px; }
+.pvc-hist .tkl span { font-family: var(--font-sans); color: var(--muted); margin-left: 6px; }
+.pvc-x { position: relative; height: 14px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); grid-column: 2; }
+.pvc-x span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.pvc-last { display: grid; gap: 4px; font-size: 12px; }
+.pvc-last div { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; }
+.pvc-last b { font-family: var(--font-mono); font-size: 11.5px; min-width: 9.5em; }
+.pvc-last span { font-family: var(--font-mono); font-size: 11.5px; }
+.pvc-last span.m { color: var(--muted); }
+.pvc-wait { font-size: 13px; color: var(--muted); padding: 16px 0; }
+.pvc.tight { gap: 8px; }
+.pvc.tight .pvc-sec { gap: 3px; }
+.pvc.tight .pvc-title h2 { font-size: 17px; }
+.pvc.tight .pvc-cell { padding: 0 4px 1px; line-height: 1.1; }
+.pvc.tight .pvc-cell i { font-size: 9px; }
+.pvc.tight .pvc-hist .tkl { margin-top: 1px; }
+
 /* tooltip */
 .tip { position: fixed; z-index: 30; pointer-events: none; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 18px rgb(0 0 0 / .18); padding: 8px 10px; font-size: 12px; min-width: 160px; max-width: 300px; display: none; }
 .tip .h { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); margin-bottom: 4px; }
@@ -325,9 +393,12 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 
   <!-- screener -->
   <section id="screen-screener" hidden>
-    <div style="display:grid;gap:12px">
+    <div class="scr-split" id="scrSplit">
+    <div class="scr-main">
       <div class="counts" id="counts"></div>
       <div class="panel controls" role="group" aria-label="스크리너 설정">
+        <div class="ctl"><span id="lb-t">티커</span><div class="seg" role="group" aria-labelledby="lb-t" id="tickSeg">
+          <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
         <input class="search" id="q" type="search" placeholder="심볼·이름 검색" aria-label="종목 검색">
         <div class="ctl"><span id="lb-v">보기</span><div class="seg" role="group" aria-labelledby="lb-v" id="viewSeg">
           <button type="button" data-v="table">표</button><button type="button" data-v="tiles">타일</button></div></div>
@@ -335,13 +406,15 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
           <button type="button" data-sort="under">저평가 신호순</button><button type="button" data-sort="over">과열 신호순</button><button type="button" data-sort="low">최저 배수 낮은 순</button><button type="button" data-sort="high">최고 배수 높은 순</button><button type="button" data-sort="rank">시가총액 순위</button></div></div>
         <div class="ctl" id="sideCtl"><span id="lb-sd">타일 묶음</span><div class="seg" role="group" aria-labelledby="lb-sd" id="sideSeg">
           <button type="button" data-side="under">저평가 쪽</button><button type="button" data-side="over">과열 쪽</button></div></div>
-        <div class="ctl"><span id="lb-t">티커</span><div class="seg" role="group" aria-labelledby="lb-t" id="tickSeg">
-          <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
         <div class="ctl"><span id="lb-e">거래소</span><div class="seg" role="group" aria-labelledby="lb-e" id="exSeg">
           <button type="button" data-ex="U">업비트</button><button type="button" data-ex="B">빗썸</button><button type="button" data-ex="N">바이낸스</button></div></div>
+        <div class="ctl" id="pvCtl" hidden><span id="lb-pv">미리보기</span><div class="seg" role="group" aria-labelledby="lb-pv" id="pvSeg">
+          <button type="button" data-pv="compact">압축형</button><button type="button" data-pv="full">전체형</button><button type="button" data-pv="off">끔</button></div></div>
       </div>
       <p class="hint" id="scrHint"></p>
       <div class="panel" id="scrBody"></div>
+    </div>
+    <aside class="panel pv" id="pv" hidden aria-label="종목 미리보기"><div class="pv-bar" id="pvBar"></div><div class="pvc" id="pvc"></div></aside>
     </div>
   </section>
 
@@ -349,14 +422,14 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   <section id="screen-board" hidden>
     <div style="display:grid;gap:12px">
       <div class="panel controls" role="group" aria-label="신호판 설정">
+        <div class="ctl"><span id="lb-bt">티커</span><div class="seg" role="group" aria-labelledby="lb-bt" id="bTickSeg">
+          <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
         <div class="ctl"><span id="lb-br">기간</span><div class="seg" role="group" aria-labelledby="lb-br" id="bRangeSeg">
           <button type="button" data-br="all">전체</button><button type="button" data-br="5">5년</button><button type="button" data-br="2">2년</button><button type="button" data-br="1">1년</button></div></div>
         <div class="ctl"><span id="lb-bo">줄 순서</span><div class="seg" role="group" aria-labelledby="lb-bo" id="bOrderSeg">
           <button type="button" data-bo="rank">시가총액 순위</button><button type="button" data-bo="listed">상장일</button><button type="button" data-bo="now">현재 신호</button></div></div>
         <div class="ctl"><span id="lb-bs">바코드</span><div class="seg" role="group" aria-labelledby="lb-bs" id="bSideSeg">
           <button type="button" data-bside="under">저평가 쪽</button><button type="button" data-bside="over">과열 쪽</button><button type="button" data-bside="both">둘 다</button></div></div>
-        <div class="ctl"><span id="lb-bt">티커</span><div class="seg" role="group" aria-labelledby="lb-bt" id="bTickSeg">
-          <button type="button" data-tk="both">둘 다</button><button type="button" data-tk="cap">CAP</button><button type="button" data-tk="usd">USD</button></div></div>
       </div>
       <div class="panel">
         <div class="board-head"><h2>신호가 뜬 종목 수</h2><div class="bars-legend">
@@ -373,7 +446,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 
   <!-- detail -->
   <section id="screen-coin" hidden>
-    <div style="display:grid;gap:14px">
+    <div id="detailBody">
       <div class="dhead">
         <div class="dtitle" id="dTitle"></div>
         <div class="navbtns"><span class="navpos" id="navPos"></span><button type="button" id="prevCoin">← 이전 종목</button><button type="button" id="nextCoin">다음 종목 →</button></div>
@@ -531,14 +604,14 @@ function loadChunk(ch) {
       .then((j) => { if (j.build !== DATA.build) throw staleError(`빌드 ${j.build}`); return j.daily; });
     p.catch(() => CHUNKS.delete(ch)); // let a later visit try again
     CHUNKS.set(ch, p);
-    if (CHUNKS.size > 24) CHUNKS.delete(CHUNKS.keys().next().value);
+    if (CHUNKS.size > 48) CHUNKS.delete(CHUNKS.keys().next().value); // the preview walks through many coins
   }
   return CHUNKS.get(ch);
 }
 
 // ---------- state & routing ----------
 const state = { v: 2, screen: 'screener', coin: 'BTC', view: 'table', sort: 'under', rdir: 'asc', side: 'under', bside: 'under', tk: 'both', ex: [], zf: [], q: '',
-  br: 'all', bo: 'rank', method: 'lines', range: 'all', fb: true, ml: false };
+  br: 'all', bo: 'rank', method: 'lines', range: 'all', fb: true, ml: false, pv: 'compact' };
 try {
   const saved = JSON.parse(localStorage.getItem('wma-screener') || '{}'); delete saved.btk; delete saved.group; delete saved.band; delete saved.yshare; if (saved.sort === 'signal') saved.sort = 'under';
   if (saved.v !== 2) { delete saved.fb; saved.v = 2; } // reference values are on by default from v2 on
@@ -563,6 +636,7 @@ function route() {
   document.getElementById('tab-coin').textContent = `종목 상세 · ${shown}`;
   document.getElementById('tab-coin').href = '#coin-' + encodeURIComponent(shown);
   hideTip();
+  layoutPreview();
   if (state.screen === 'coin') { renderCoin(); window.scrollTo({ top: 0 }); return; }
   if (!READY) return;
   if (state.screen === 'screener') renderScreener();
@@ -655,7 +729,8 @@ function renderCounts(scoped) {
 }
 function renderScreener() {
   hideTip();
-  for (const [id, key, attr] of [['viewSeg', 'view', 'v'], ['sortSeg', 'sort', 'sort'], ['tickSeg', 'tk', 'tk'], ['sideSeg', 'side', 'side']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
+  for (const [id, key, attr] of [['viewSeg', 'view', 'v'], ['sortSeg', 'sort', 'sort'], ['tickSeg', 'tk', 'tk'], ['sideSeg', 'side', 'side'], ['pvSeg', 'pv', 'pv']]) document.querySelectorAll(`#${id} button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === state[key])));
+  layoutPreview();
   const rb = document.querySelector('#sortSeg [data-sort="rank"]');
   rb.textContent = '시가총액 순위' + (state.sort === 'rank' ? (state.rdir === 'desc' ? ' ▼' : ' ▲') : '');
   document.getElementById('sideCtl').hidden = state.view !== 'tiles';
@@ -665,13 +740,14 @@ function renderScreener() {
   ORDER = list.map((s) => s.coin.s);
   renderCounts(scoped);
   const filt = [state.q && `검색 "${state.q}"`, state.ex.length && `거래소 ${state.ex.map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join('·')} 모두 상장`, state.zf.length && '신호 필터'].filter(Boolean);
-  document.getElementById('scrHint').textContent = `${list.length}종 표시 · 전체 ${all.length}종` + (filt.length ? ` · ${filt.join(', ')}` : '') + ' · 신호는 20개 타임프레임 중 하나라도 기준에 들어간 경우입니다. ' + MC_SOURCE + ' 줄을 누르면 종목 상세가 열립니다.';
+  document.getElementById('scrHint').textContent = `${list.length}종 표시 · 전체 ${all.length}종` + (filt.length ? ` · ${filt.join(', ')}` : '') + ' · 신호는 20개 타임프레임 중 하나라도 기준에 들어간 경우입니다. ' + MC_SOURCE +
+    (PV.on ? ` ${state.view === 'tiles' ? '타일' : '줄'}에 마우스를 올리거나 ↑·↓ 키로 옮기면 오른쪽에 미리보기가 나옵니다. 누르거나 Enter를 치면 종목 상세가 열립니다.` : ' 줄을 누르면 종목 상세가 열립니다.');
   const body = document.getElementById('scrBody'); body.replaceChildren();
-  if (state.view === 'tiles') return renderTiles(body, list);
+  if (state.view === 'tiles') { renderTiles(body, list); renderPreview(); return; }
   const wrap = el('div', 'tbl-wrap'); const table = el('table', 'scr');
   const rankSort = state.sort === 'rank', arrow = rankSort ? (state.rdir === 'desc' ? '▼' : '▲') : '';
-  table.innerHTML = `<thead><tr><th aria-sort="${rankSort ? (state.rdir === 'desc' ? 'descending' : 'ascending') : 'none'}"><button type="button" class="th-sort" data-rsort="1" aria-label="시가총액 순위로 정렬" title="시가총액 순위로 정렬 (다시 누르면 순서가 뒤집힙니다)">#<span>${arrow}</span></button></th><th>종목</th><th title="${MC_SOURCE}">시가총액</th><th>거래소</th><th>저평가 신호</th><th>과열 신호</th><th>최저 배수</th><th>최고 배수</th>
-    <th><div class="strip-head"><span></span><div><em>1D … 1W</em><em>8D … 3W</em><em>1M … 12M</em></div></div></th><th>마지막 0.3</th></tr></thead>`;
+  table.innerHTML = `<thead><tr><th aria-sort="${rankSort ? (state.rdir === 'desc' ? 'descending' : 'ascending') : 'none'}"><button type="button" class="th-sort" data-rsort="1" aria-label="시가총액 순위로 정렬" title="시가총액 순위로 정렬 (다시 누르면 순서가 뒤집힙니다)">#<span>${arrow}</span></button></th><th>종목</th><th class="c-wide" title="${MC_SOURCE}">시가총액</th><th class="c-wide">거래소</th><th>저평가 신호</th><th>과열 신호</th><th>최저 배수</th><th class="c-wide">최고 배수</th>
+    <th><div class="strip-head"><span></span><div><em>1D … 1W</em><em>8D … 3W</em><em>1M … 12M</em></div></div></th><th class="c-wide">마지막 0.3</th></tr></thead>`;
   const tb = el('tbody');
   if (!list.length) { const tr = el('tr', 'empty-row'); const td = el('td', null, '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.'); td.colSpan = 10; tr.append(td); tb.append(tr); }
   for (const s of list.slice(0, LIMIT)) {
@@ -683,8 +759,8 @@ function renderScreener() {
     { const m = el('span', 'mc-m', '시가총액 ' + capText(s.coin)); m.title = capNote(s.coin); coin.append(m); } // phone cards have no header, so the line carries its own label
     if (s.suspect) { const w = el('span', 'warn', '⚠ 지금 CAP 데이터 의심'); w.title = '최근 1주가 시가총액 데이터 의심 구간에 들어 있어서 CAP 배수가 틀릴 수 있습니다'; coin.append(w); }
     tr.append(coin);
-    { const td = el('td', 'mm mc-td', capText(s.coin)); td.title = capNote(s.coin); tr.append(td); }
-    const ex = el('td', 'ex-td'); const exd = el('div', 'ex');
+    { const td = el('td', 'mm mc-td c-wide', capText(s.coin)); td.title = capNote(s.coin); tr.append(td); }
+    const ex = el('td', 'ex-td c-wide'); const exd = el('div', 'ex');
     for (const [x, l] of [['U', '업'], ['B', '빗'], ['N', '바']]) { const i = el('i', s.coin.x.includes(x) ? 'on' : '', l); i.title = { U: '업비트', B: '빗썸', N: '바이낸스' }[x] + (s.coin.x.includes(x) ? ' 상장' : ' 미상장'); exd.append(i); }
     ex.append(exd); tr.append(ex);
     // one column per side: strongest zone on that side, then how many other cells are in a zone there
@@ -709,7 +785,7 @@ function renderScreener() {
     if (uCell.classList.contains('sig-none') && oCell.classList.contains('sig-none')) tr.classList.add('no-sig');
     tr.append(uCell, oCell);
     const mm = (v) => { const td = el('td', 'mm'); if (v) { td.textContent = fmt(v.m); td.append(el('small', null, v.label)); } else td.textContent = '–'; return td; };
-    const mn = mm(s.min); mn.classList.add('min-td'); tr.append(mn); const mx = mm(s.max); mx.classList.add('max-td'); tr.append(mx);
+    const mn = mm(s.min); mn.classList.add('min-td'); tr.append(mn); const mx = mm(s.max); mx.classList.add('max-td', 'c-wide'); tr.append(mx);
     const st = el('td', 'strip-td'); const sw = el('div', 'strips');
     for (const t of s.ts) {
       const row = el('div', 'strip'); const bar = el('div'); bar.style.background = stripGradient(t.cur);
@@ -724,7 +800,7 @@ function renderScreener() {
     }
     sw.append(el('div', 'strip-key', '칸: 1D…1W │ 8D…3W │ 1M…12M'));
     st.append(sw); tr.append(st);
-    const last = el('td', 'mm last-td', s.lastU2Day != null ? dateStr(s.lastU2Day) : '–');
+    const last = el('td', 'mm last-td c-wide', s.lastU2Day != null ? dateStr(s.lastU2Day) : '–');
     if (s.lastSusp) { const w = el('div', 'warn', '⚠ 의심 데이터'); w.title = '신호일이 시가총액 데이터 의심 구간에 있거나, 의심 구간이 WMA 200 가중치의 10% 이상을 차지합니다'; last.append(w); }
     tr.append(last);
     tb.append(tr);
@@ -735,6 +811,7 @@ function renderScreener() {
     more.addEventListener('click', () => { LIMIT += 100; const y = window.scrollY; renderScreener(); window.scrollTo({ top: y }); });
     body.append(more);
   }
+  renderPreview();
   // mouse: a row click opens the coin; touch: a tap on the strips shows values instead
   tb.addEventListener('click', (e) => {
     if (e.target.closest('a')) return;
@@ -769,7 +846,7 @@ function renderTiles(body, list) {
       // colour and number: the lowest multiple on the under side, the highest on the over side
       const pick = under ? s.min : s.max;
       const col = pick ? colorOf(pick.m) : rgb(C.nodata);
-      const t = el('button', 'tile'); t.type = 'button'; t.style.background = toCss(col); t.style.color = inkOn(col);
+      const t = el('button', 'tile'); t.type = 'button'; t.dataset.sym = s.coin.s; t.style.background = toCss(col); t.style.color = inkOn(col);
       t.append(el('b', null, s.coin.s), el('span', null, pick ? fmt(pick.m) : '–'));
       t.setAttribute('aria-label', `${s.coin.s} ${pick ? pick.label + ' ' + fmt(pick.m) : '데이터 없음'}`);
       t.addEventListener('click', () => { location.hash = 'coin-' + encodeURIComponent(s.coin.s); });
@@ -922,7 +999,7 @@ function detailFor(coin, daily) {
   const T = {}, sr = E.seriesFrom(daily, coin.cap, coin.usd);
   for (const t of syms) T[t.id] = E.detailTicker(sr, t.kind);
   const d = { coin, syms, T }; DETAIL.set(coin.s, d);
-  if (DETAIL.size > 8) DETAIL.delete(DETAIL.keys().next().value);
+  if (DETAIL.size > 24) DETAIL.delete(DETAIL.keys().next().value);
   return d;
 }
 let D = null; // current detail
@@ -1005,9 +1082,11 @@ function currentZones(sym) {
   for (const tf of TFS) { const c = curOf(sym, tf); if (!c) continue; const z = zone(c.m); if (z === 'n') continue; (c.fb ? out.ref[z] : out[z]).push({ tf, m: c.m }); }
   return out;
 }
+// The coin page, or the same page inside the screener's full preview (detailBody is moved into the pane).
 function renderCoin() {
   hideTip();
-  const coin = findCoin(state.coin);
+  const preview = state.screen !== 'coin';
+  const coin = findCoin(preview ? PV.sym : state.coin);
   if (!coin) {
     const t = document.getElementById('dTitle'); t.replaceChildren(el('h1', null, '종목을 찾을 수 없습니다'), el('span', null, `"${state.coinQuery || ''}"는 목록에 없는 심볼입니다. 스크리너에서 종목을 골라 주세요.`));
     for (const id of ['now', 'view']) document.getElementById(id).replaceChildren();
@@ -1015,7 +1094,7 @@ function renderCoin() {
     document.getElementById('prevCoin').disabled = document.getElementById('nextCoin').disabled = true;
     return;
   }
-  state.coin = state.lastCoin = coin.s;
+  if (!preview) state.coin = state.lastCoin = coin.s;
   const t = document.getElementById('dTitle'); t.replaceChildren();
   t.append(el('h1', null, coin.s), el('span', null, `${coin.k ? coin.k + ' · ' : ''}${coin.n} · 시가총액 ${coin.r}위 ${capText(coin)} · ${['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join(' · ')}`));
   const syms = tickerIds(coin);
@@ -1038,8 +1117,8 @@ function renderCoin() {
     view.replaceChildren(); note.textContent = ''; redraw = () => {};
     if (!syms.length) { now.replaceChildren(el('div', 'none', '데이터 없음')); return; }
     now.replaceChildren(el('div', 'none', '일봉 데이터를 불러오는 중입니다…'));
-    loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (state.screen === 'coin' && state.coin === coin.s) renderCoin(); }, (err) => {
-      if (state.screen !== 'coin' || state.coin !== coin.s) return;
+    loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (detailSym() === coin.s) renderCoin(); }, (err) => {
+      if (detailSym() !== coin.s) return;
       const b = el('button', null, err.stale ? '새로고침' : '다시 시도'); b.type = 'button';
       b.onclick = () => (err.stale ? location.reload() : renderCoin());
       now.replaceChildren(el('div', 'none', err.stale
@@ -1260,6 +1339,197 @@ function renderStrip(view) {
   return draw;
 }
 
+// ---------- coin preview beside the screener ----------
+// On a wide screen with a mouse, the coin under the pointer (or picked with ↑/↓) shows on the right: either a compact
+// one-screen summary or the coin page itself (detailBody is moved into the pane). Touch screens and narrow windows
+// keep "tap to open". The hover waits a moment so that sweeping across rows does not load every coin on the way.
+const PV = { on: false, sym: null, pending: null, timer: 0, render: 0 };
+const HOVER = matchMedia('(hover: hover) and (pointer: fine)');
+const previewAvailable = () => HOVER.matches && innerWidth >= 1180;
+const EX_NAME = { U: '업비트', B: '빗썸', N: '바이낸스' };
+const exNames = (coin) => ['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => EX_NAME[x]).join(' · ');
+// the coin the detail view is showing: the coin page's, or the full preview's
+function detailSym() { return state.screen === 'coin' ? state.coin : PV.on && state.pv === 'full' ? PV.sym : null; }
+function layoutPreview() {
+  const on = state.screen === 'screener' && state.pv !== 'off' && previewAvailable();
+  const split = document.getElementById('scrSplit'), pane = document.getElementById('pv'), body = document.getElementById('detailBody');
+  document.getElementById('pvCtl').hidden = !previewAvailable();
+  split.classList.toggle('on', on); split.classList.toggle('compact', on && state.pv === 'compact'); split.classList.toggle('full', on && state.pv === 'full');
+  pane.hidden = !on; PV.on = on;
+  if (on && state.pv === 'full') { if (body.parentElement !== pane) pane.append(body); }
+  else if (body.parentElement !== document.getElementById('screen-coin')) { body.hidden = false; document.getElementById('screen-coin').append(body); }
+  if (!on) { clearTimeout(PV.timer); clearTimeout(PV.render); PV.pending = null; }
+}
+const shownSyms = () => [...document.querySelectorAll('#scrBody [data-sym]')].map((n) => n.dataset.sym);
+const shownNode = (sym) => (sym ? document.querySelector(`#scrBody [data-sym="${CSS.escape(sym)}"]`) : null);
+function markPreview() {
+  document.querySelectorAll('#scrBody .pv-on').forEach((n) => n.classList.remove('pv-on'));
+  const n = shownNode(PV.sym); if (n) n.classList.add('pv-on');
+  return n;
+}
+function renderPreview() {
+  clearTimeout(PV.render);
+  if (!PV.on) return;
+  if (!PV.sym || !ORDER.includes(PV.sym)) PV.sym = ORDER[0] || null; // at rest: the top of the list
+  markPreview();
+  const bar = document.getElementById('pvBar'), pvc = document.getElementById('pvc'), body = document.getElementById('detailBody'), full = state.pv === 'full';
+  const how = el('span'); how.append('미리보기 · ', el('kbd', null, '↑'), ' ', el('kbd', null, '↓'), ' 다음 종목 · 누르면 전체 상세');
+  bar.replaceChildren(how);
+  if (!PV.sym) { pvc.hidden = false; if (full) body.hidden = true; pvc.replaceChildren(el('div', 'pvc-wait', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); redraw = () => {}; return; }
+  const a = el('a', null, `${PV.sym} 전체 상세 →`); a.href = '#coin-' + encodeURIComponent(PV.sym); bar.append(a);
+  if (full) { pvc.hidden = true; body.hidden = false; renderCoin(); } else { pvc.hidden = false; renderCompact(); }
+  prefetchAround(PV.sym);
+}
+// show another coin: highlight it now, draw it after `delay` ms (keys held down move faster than a coin draws)
+function selectPreview(sym, delay) {
+  if (!PV.on || !sym) return null;
+  clearTimeout(PV.timer); clearTimeout(PV.render); PV.pending = null;
+  if (sym === PV.sym) return shownNode(sym);
+  PV.sym = sym; const n = markPreview();
+  PV.render = setTimeout(renderPreview, delay);
+  return n;
+}
+// the neighbours' daily closes, and the next and previous coins' details, while the browser is idle
+const idle = window.requestIdleCallback ? (f) => requestIdleCallback(f, { timeout: 800 }) : (f) => setTimeout(f, 60);
+function prefetchAround(sym) {
+  const list = shownSyms(), i = list.indexOf(sym); if (i < 0) return;
+  idle(() => {
+    for (const d of [1, -1, 2, -2]) {
+      const c = findCoin(list[i + d]); if (!c || !tickerIds(c).length) continue;
+      const p = loadChunk(c.ch).catch(() => null);
+      if (Math.abs(d) === 1) p.then((daily) => { if (daily) idle(() => { try { detailFor(c, daily); } catch (e) {} }); });
+    }
+  });
+}
+// Compact preview: the current multiple of every timeframe by axis, the 20-timeframe history as a small heat strip
+// with the combined signal band, and the last 0.3 / 2.4 days. Same detail data as the coin page.
+function renderCompact() {
+  const box = document.getElementById('pvc'); hideTip(); box.classList.remove('tight');
+  const coin = findCoin(PV.sym); if (!coin) { box.replaceChildren(); return; }
+  const title = el('div'), h = el('div', 'pvc-title'); h.append(el('h2', null, coin.s), el('span', null, coin.k ? `${coin.k} · ${coin.n}` : coin.n));
+  title.append(h, el('div', 'pvc-meta', `시가총액 ${coin.r}위 ${capText(coin)} · ${exNames(coin)}`));
+  const syms = tickerIds(coin);
+  redraw = () => {};
+  if (!syms.length) { box.replaceChildren(title, el('div', 'pvc-wait', 'TradingView에서 이 종목의 티커를 찾지 못해서 배수를 계산하지 못했습니다.')); return; }
+  const d = DETAIL.get(coin.s);
+  const showing = () => PV.on && state.pv === 'compact' && PV.sym === coin.s;
+  if (!d) {
+    box.replaceChildren(title, el('div', 'pvc-wait', '일봉 데이터를 불러오는 중입니다…'));
+    loadChunk(coin.ch).then((daily) => detailFor(coin, daily)).then(() => { if (showing()) renderCompact(); }, (err) => {
+      if (!showing()) return;
+      const b = el('button', null, err.stale ? '새로고침' : '다시 시도'); b.type = 'button'; b.onclick = () => (err.stale ? location.reload() : renderCompact());
+      const w = el('div', 'pvc-wait', err.stale ? '이 화면을 연 뒤에 새 데이터가 배포되었습니다. 새로고침하면 최신 데이터로 다시 엽니다. ' : `일봉 데이터를 불러오지 못했습니다 (${err.message}). `);
+      w.append(b); box.replaceChildren(title, w);
+    });
+    return;
+  }
+  D = d;
+  // current multiples: a row per axis, a cell per timeframe, coloured like the strips
+  const now = el('div', 'pvc-sec'); now.append(el('h3', null, '현재 배수'));
+  for (const s of d.syms) {
+    const tk = el('div', 'pvc-tk'); tk.append(el('b', null, s.id), el('span', null, s.desc));
+    const zoneTfs = ['u2', 'u1', 'o2', 'o1'].flatMap((k) => currentZones(s.id)[k].map((x) => x.tf)), cs = D.T[s.id].curSusp;
+    if (cs && zoneTfs.length && zoneTfs.every((tf) => cs[tf])) tk.append(el('span', 'warn', '⚠ 지금 신호는 시가총액 데이터 의심 구간의 영향을 받습니다'));
+    const grid = el('div', 'pvc-grid');
+    for (const [g, label] of AXES) {
+      grid.append(el('em', null, label.replace('축', '')));
+      const tfs = GROUPS[g];
+      for (let i = 0; i < 8; i++) {
+        const tf = tfs[i]; if (!tf) { grid.append(el('span')); continue; }
+        const c = curOf(s.id, tf), cell = el('div', 'pvc-cell'); cell.append(el('i', null, tf), el('b', null, c ? fmt(c.m) : '–'));
+        if (c) { const col = colorOf(c.m); cell.style.background = toCss(col); cell.style.color = inkOn(col); if (c.fb) cell.classList.add('fb'); cell.title = `${s.id} ${tf} ${fmt(c.m)}${c.fb ? ' (참고: 봉 200개 미만)' : ''}`; }
+        else { cell.classList.add('na'); cell.title = `${s.id} ${tf} 데이터 없음`; }
+        grid.append(cell);
+      }
+    }
+    now.append(tk, grid);
+  }
+  // history: 20 rows (1D…1W | 8D…3W | 1M…12M) and the combined band, per ticker, on one date axis
+  const hist = el('div', 'pvc-sec'), hh = el('h3'), seg = el('div', 'seg'); hh.append(el('span', null, '신호 이력'));
+  seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', '기간');
+  for (const [r, l] of [['all', '전체'], ['5', '5년'], ['2', '2년'], ['1', '1년']]) { const b = el('button', null, l); b.type = 'button'; b.dataset.range = r; b.setAttribute('aria-pressed', String(state.range === r)); seg.append(b); }
+  hh.append(seg); hist.append(hh);
+  // rows are 6px tall, or thinner (down to 3px) when that keeps the whole preview on one screen
+  const { start, end } = visibleRange(), N = end - start + 1, GAP = 3, SIG = 10;
+  let ROW = 6, bandY = 0, H = 0;
+  const GRP = [[0, 7, '1D–1W'], [7, 12, '8D–3W'], [12, 20, '1M–12M']], rowY = (r) => r * ROW + (r >= 7 ? GAP : 0) + (r >= 12 ? GAP : 0);
+  const blocks = [], labs = [], grid = el('div', 'pvc-hist');
+  for (const s of d.syms) {
+    const tkl = el('div', 'tkl', s.id); tkl.append(el('span', null, s.desc));
+    const lab = el('div', 'lab');
+    for (const [a, b, l] of GRP) { const sp = el('span', null, l); labs.push([sp, () => rowY(a) + (b - a) * ROW / 2]); lab.append(sp); }
+    { const sp = el('span', null, '신호'); labs.push([sp, () => bandY + SIG / 2]); lab.append(sp); }
+    const cvw = el('div', 'cv'), cv = el('canvas'), hl = el('div', 'hline'); cvw.append(cv, hl);
+    cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', `${s.id}의 20개 타임프레임 배수 이력과 종합 신호 띠`);
+    grid.append(tkl, lab, cvw); blocks.push({ s, cv, hl, lab });
+  }
+  const size = (row) => {
+    ROW = row; bandY = rowY(20) + 4; H = bandY + SIG;
+    for (const bl of blocks) { bl.lab.style.height = H + 'px'; bl.cv.style.height = H + 'px'; }
+    for (const [sp, top] of labs) sp.style.top = top() + 'px';
+  };
+  size(6);
+  const xaxis = el('div', 'pvc-x'); grid.append(el('div'), xaxis); hist.append(grid);
+  // last signals
+  const last = el('div', 'pvc-sec'), lb = el('div', 'pvc-last'); last.append(el('h3', null, '마지막 신호'));
+  for (const s of d.syms) {
+    const e = D.T[s.id], row = el('div'); row.append(el('b', null, s.id));
+    for (const [key, label] of [['u2', '0.3 이하'], ['o2', '2.4 이상']]) {
+      const L = e.last[key];
+      if (!L) { row.append(el('span', 'm', `${label} 없음`)); continue; }
+      const tfs = maskTfs(L.mask), sp = el('span', null, `${label} ${dateStr(L.day)}`);
+      sp.title = `${tfs.join(', ') || '여러 타임프레임'} · 이력 중 ${e.days[key].toLocaleString('en-US')}${e.unit}`;
+      row.append(sp, el('span', 'm', tfs.length ? (tfs.length > 3 ? `${tfs.slice(0, 3).join(', ')} 외 ${tfs.length - 3}` : tfs.join(', ')) : ''));
+      if (L.susp ?? e.suspect.some(([a, b]) => a <= L.day && b >= L.day - 6)) row.append(el('span', 'warn', '⚠ 의심 데이터'));
+    }
+    lb.append(row);
+  }
+  last.append(lb);
+  box.replaceChildren(title, now, hist, last);
+  { // still too tall at 3px rows (a short window): tighter cells, then rows down to 2px
+    const pane = document.getElementById('pv'), over = () => pane.scrollHeight - pane.clientHeight, per = 20 * blocks.length;
+    if (over() > 0) size(Math.max(3, 6 - Math.ceil(over() / per)));
+    if (over() > 0) { box.classList.add('tight'); size(3); if (over() > 0) size(Math.max(2, 3 - Math.ceil(over() / per))); }
+  }
+  const draw = () => {
+    if (D !== d) return; // another coin took over the detail data
+    const W = blocks[0].cv.parentElement.clientWidth; if (!W) return;
+    for (const bl of blocks) {
+      const ctx = setupCanvas(bl.cv, W, H), pat = hatchPattern(ctx);
+      TFS.forEach((tf, r) => {
+        const y = rowY(r);
+        for (let x = 0; x < W; x++) {
+          const k0 = start + Math.floor(x * N / W), k1 = Math.min(end, Math.max(k0, start + Math.ceil((x + 1) * N / W) - 1));
+          let best = null; for (let k = k0; k <= k1; k++) { const v = valAt(bl.s.id, tf, k); if (v && (!best || Math.abs(Math.log(v.m)) > Math.abs(Math.log(best.m)))) best = v; }
+          ctx.fillStyle = best ? toCss(colorOf(best.m)) : pat; ctx.fillRect(x, y, 1, ROW);
+        }
+      });
+      const g = D.T[bl.s.id].sig;
+      ctx.fillStyle = C.sunken; ctx.fillRect(0, bandY, W, SIG);
+      paintSignalRow(ctx, g, start, N, 0, W, bandY, SIG);
+      hatchSignalSuspect(ctx, g, bl.s.id, start, N, 0, W, bandY, SIG);
+      hatchSuspect(ctx, bl.s.id, start, N, 0, W, 0, H);
+      ctx.fillStyle = C.surface; for (const t of yearTicks(start, end)) ctx.fillRect(Math.round((t.i - start) / N * W), 0, 1, H);
+    }
+    xaxis.replaceChildren(); for (const t of yearTicks(start, end, W)) { const sp = el('span', null, t.label); sp.style.left = ((t.i - start) / N * 100) + '%'; xaxis.append(sp); }
+  };
+  draw(); redraw = draw;
+  for (const bl of blocks) {
+    const move = (ev) => {
+      if (D !== d) return;
+      const r = bl.cv.getBoundingClientRect(), k = Math.min(N - 1, Math.max(0, Math.floor((ev.clientX - r.left) / r.width * N))), y = ev.clientY - r.top;
+      for (const o of blocks) { o.hl.style.display = 'block'; o.hl.style.left = ((k + 0.5) / N * r.width) + 'px'; }
+      const T = `${bl.s.id} · ${dateStr(DATA.days[start + k])}`, gi = GRP.findIndex(([, b]) => y < rowY(b) + GAP / 2);
+      if (gi < 0 || y >= bandY - 2) { showTip(ev, T, [], tipExtra(bl.s.id, start + k, D.T[bl.s.id].sig, BAND_TITLE(TFS))); return; }
+      const tfs = TFS.slice(GRP[gi][0], GRP[gi][1]);
+      const rows = tfs.map((tf) => { const v = valAt(bl.s.id, tf, start + k); return { color: v ? toCss(colorOf(v.m)) : C.line, value: v ? fmt(v.m) : '–', label: tf + (v?.fb ? ' (참고)' : ''), square: true, italic: v?.fb }; });
+      showTip(ev, T, rows, tipExtra(bl.s.id, start + k, bandFor(bl.s.id, tfs), BAND_TITLE(tfs)));
+    };
+    bl.cv.addEventListener('pointermove', move);
+    bl.cv.addEventListener('pointerleave', () => { hideTip(); for (const o of blocks) o.hl.style.display = 'none'; });
+  }
+}
+
 // ---------- wiring ----------
 let LAST_PT = 'mouse';
 document.addEventListener('pointerdown', (e) => { LAST_PT = e.pointerType || 'mouse'; }, true);
@@ -1273,9 +1543,11 @@ document.addEventListener('click', (e) => {
   else if (d.ex) state.ex = state.ex.includes(d.ex) ? state.ex.filter((x) => x !== d.ex) : [...state.ex, d.ex];
   else if (d.br) state.br = d.br; else if (d.bo) state.bo = d.bo;
   else if (d.method) state.method = d.method; else if (d.range) state.range = d.range;
+  else if (d.pv) state.pv = d.pv;
   else hit = false;
   if (!hit) return;
   save(); hideTip();
+  if ((d.method || d.range) && state.screen === 'screener') { renderPreview(); return; } // buttons inside the preview
   if (state.screen === 'coin') renderCoin();
   else if (READY) (state.screen === 'screener' ? renderScreener : renderBoard)();
   if (d.rsort) document.querySelector('#scrBody .th-sort')?.focus(); // the header was rebuilt
@@ -1289,7 +1561,37 @@ document.addEventListener('pointerdown', (e) => {
 });
 addEventListener('scroll', hideTip, { passive: true });
 addEventListener('hashchange', route);
-let rt, lastW = innerWidth; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (innerWidth === lastW) return; lastW = innerWidth; if (state.screen === 'board' && READY) renderBoard(); else if (state.screen === 'coin') redraw(); }, 150); });
+const setAppbarH = () => document.documentElement.style.setProperty('--appbar-h', document.querySelector('.appbar').offsetHeight + 'px');
+let rt, lastW = innerWidth; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => {
+  setAppbarH(); if (innerWidth === lastW) return; lastW = innerWidth;
+  if (state.screen === 'board' && READY) renderBoard();
+  else if (state.screen === 'coin') redraw();
+  else if (state.screen === 'screener' && READY) { const was = PV.on; layoutPreview(); if (PV.on !== was) renderScreener(); else if (PV.on) renderPreview(); }
+}, 150); });
+HOVER.addEventListener('change', () => { if (READY && state.screen === 'screener') renderScreener(); });
+// preview: hover (after a short pause) and ↑/↓ (←/→ on tiles); Enter opens the previewed coin
+{
+  const body = document.getElementById('scrBody');
+  body.addEventListener('pointerover', (e) => {
+    if (!PV.on || e.pointerType === 'touch') return;
+    const it = e.target.closest('[data-sym]'); if (!it) return;
+    const sym = it.dataset.sym; if (sym === PV.pending) return;
+    clearTimeout(PV.timer); PV.pending = null;
+    if (sym === PV.sym) return;
+    PV.pending = sym; PV.timer = setTimeout(() => selectPreview(sym, 0), 110);
+  });
+  body.addEventListener('pointerleave', () => { clearTimeout(PV.timer); PV.pending = null; });
+}
+document.addEventListener('keydown', (e) => {
+  if (!PV.on || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.isComposing) return;
+  if (e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+  if (e.key === 'Enter') { if (e.target.closest?.('button, a, summary') || !PV.sym) return; e.preventDefault(); location.hash = 'coin-' + encodeURIComponent(PV.sym); return; }
+  const step = { ArrowDown: 1, ArrowUp: -1, ...(state.view === 'tiles' ? { ArrowRight: 1, ArrowLeft: -1 } : {}) }[e.key]; if (!step) return;
+  const list = shownSyms(); if (!list.length) return;
+  e.preventDefault();
+  const i = list.indexOf(PV.sym), j = i < 0 ? 0 : Math.min(list.length - 1, Math.max(0, i + step));
+  selectPreview(list[j], 70)?.scrollIntoView({ block: 'nearest' });
+});
 const rerender = () => { readColors(); if (!READY) return; if (state.screen === 'screener') renderScreener(); else if (state.screen === 'board') renderBoard(); else renderCoin(); };
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rerender);
 new MutationObserver(rerender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -1348,7 +1650,7 @@ if (DATA.mapLog?.entries?.length) {
 }
 
 // summaries come precomputed from the build; decode them, then route
-readColors();
+readColors(); setAppbarH();
 for (const c of COINS) SUM.set(c.s, decodeSummary(c));
 // prev/next on a directly opened coin page follow the order the screener would show
 READY = true; { const { list } = filteredStats(); ORDER = (state.view === 'tiles' ? tileGroups(list).flatMap((g) => g.items) : list).map((s) => s.coin.s); }
