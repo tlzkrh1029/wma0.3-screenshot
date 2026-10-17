@@ -1,6 +1,6 @@
 {
  "about": "Record of coin-to-ticker matches that were found wrong and fixed, shown at the top of the screener. kind: tradingview (TradingView ticker of another coin; fixed with a manual entry in data/tickers.json), coingecko (CoinGecko coin of another asset with the same symbol; fixed with an ids pin in data/exclusions.json), none (no TradingView ticker exists), history (the TradingView ticker is right but part of its history is wrong; dropped with usdFrom / capFrom on a manual entry in data/tickers.json). Add an entry whenever a check (scripts/check-tickers.mjs or a review) changes a match or drops part of a ticker's history, and update checkedAt.",
- "checkedAt": "2026-10-05",
+ "checkedAt": "2026-10-12",
  "entries": [
   {
    "date": "2026-10-05",
