@@ -18,7 +18,8 @@
 //   exchanges list it later, the entry keeps working as an "ids" pin.
 //   Ranks are renumbered over the coins that remain.
 // - Korean names: data/exclusions.json "ko" first, then Upbit's, then Bithumb's, then the name the previous
-//   data/universe.json had for the same CoinGecko coin (a coin that left the Korean exchanges keeps its name).
+//   data/universe.json had for the same CoinGecko coin (so a name stays when its source goes away), and only for a coin
+//   still without one, CoinGecko's Korean name when it is in Hangul (CoinGecko often repeats the English name).
 // - Each coin records how it was matched: "exchange" (exchange tickers), "symbol" (largest market cap), "pin", or
 //   "add" (added by hand, not listed on the three exchanges).
 //
@@ -247,6 +248,19 @@ for (const c of [...best.values()].sort((a, b) => b.market_cap - a.market_cap)) 
   else if (w) excluded.push({ ...row, kind: w.kind, why: `CoinGecko: ${w.cats.join(', ')}` });
   else kept.push(row);
 }
+// kept coins that still have no Korean name: CoinGecko's, when it is in Hangul, one coin per call; a failed lookup is
+// only a warning
+const HANGUL = /[\uAC00-\uD7A3]/;
+let koFromCg = 0;
+for (const row of kept) {
+  if (row.ko) continue;
+  try {
+    const d = await cg(`coins/${encodeURIComponent(row.id)}?localization=true&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false`);
+    const ko = String(d?.localization?.ko || '').trim().replace(/\s*\([^()\uAC00-\uD7A3]*\)$/, ''); // "플로우 (Flow)" -> "플로우"
+    if (HANGUL.test(ko)) { row.ko = ko; koFromCg++; }
+  } catch (e) { console.warn(`::warning::CoinGecko Korean name for ${row.id} failed: ${e.message}`); }
+  await sleep(CG_PAUSE);
+}
 const coins = kept.map((c, i) => ({ rank: i + 1, ...c }));
 const dropped = new Set(report.duplicates.map((d) => d.dropped));
 const unmatched = [...listed].filter((s) => !best.has(s) && !aliases.has(s) && !dropped.has(s)).sort();
@@ -257,5 +271,5 @@ await writeFile('data/universe.json', JSON.stringify({
 }));
 console.log(`coins ${coins.length}, excluded ${excluded.length} (stablecoin ${excluded.filter((e) => e.kind === 'stablecoin').length}, security ${excluded.filter((e) => e.kind === 'security').length}), unmatched ${unmatched.length}; ` +
   `matched by exchange tickers ${[...how.values()].filter((h) => h === 'exchange').length}, by symbol ${[...how.values()].filter((h) => h === 'symbol').length}, pinned ${pinned.length}, added ${[...how.values()].filter((h) => h === 'add').length}; ` +
-  `${report.differs.length} disagreements, ${report.duplicates.length} duplicate symbols`);
+  `${report.differs.length} disagreements, ${report.duplicates.length} duplicate symbols; Korean names from CoinGecko ${koFromCg}, none ${coins.filter((c) => !c.ko).length}`);
 if (process.env.REPORT) await writeFile(process.env.REPORT, JSON.stringify(report, null, 1));

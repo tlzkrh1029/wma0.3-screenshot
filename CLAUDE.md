@@ -26,7 +26,8 @@ day and deploys a GitHub Pages site. The owner set these rules; keep to them.
   every weekly refresh, and shows on the page as on none of the three exchanges; its TradingView price is checked
   against CoinGecko's. Log each addition in `data/mapping-log.json` (kind `added`). Korean names come from the `ko`
   map in `data/exclusions.json` first, then Upbit, then Bithumb, then the previous list's name for the same CoinGecko
-  coin.
+  coin, and for a coin still without one, CoinGecko's Korean name when it is in Hangul (the owner chose this source on
+  2026-10-19).
 - **Credit CoinGecko.** The site uses CoinGecko data (coin list, ranks, some market caps), so keep the linked
   "Data provided by CoinGecko" credit on the page.
 - **Custom timeframes need a login.** Anonymous requests get only standard resolutions (1D, 1W, 1M, 3M, 6M, 12M);
