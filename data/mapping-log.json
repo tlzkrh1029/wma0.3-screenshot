@@ -1,7 +1,23 @@
 {
- "about": "Record of coin-to-ticker matches that were found wrong and fixed, shown at the top of the screener. kind: tradingview (TradingView ticker of another coin; fixed with a manual entry in data/tickers.json), coingecko (CoinGecko coin of another asset with the same symbol; fixed with an ids pin in data/exclusions.json), none (no TradingView ticker exists), history (the TradingView ticker is right but part of its history is wrong; dropped with usdFrom / capFrom on a manual entry in data/tickers.json). Add an entry whenever a check (scripts/check-tickers.mjs or a review) changes a match or drops part of a ticker's history, and update checkedAt.",
- "checkedAt": "2026-10-05",
+ "about": "Record of coin-to-ticker matches that were found wrong and fixed, shown at the top of the screener. kind: tradingview (TradingView ticker of another coin; fixed with a manual entry in data/tickers.json), coingecko (CoinGecko coin of another asset with the same symbol; fixed with an ids pin in data/exclusions.json), none (no TradingView ticker exists), history (the TradingView ticker is right but part of its history is wrong; dropped with usdFrom / capFrom on a manual entry in data/tickers.json), added (a coin that none of the three exchanges lists, put in by hand with an add entry in data/exclusions.json). Add an entry whenever a check (scripts/check-tickers.mjs or a review) changes a match or drops part of a ticker's history, or a coin is added by hand, and update checkedAt.",
+ "checkedAt": "2026-10-19",
  "entries": [
+  {
+   "date": "2026-10-19",
+   "sym": "XMR",
+   "kind": "added",
+   "was": "종목 목록에 없음(업비트·빗썸·바이낸스 현물 미상장)",
+   "now": "CoinGecko monero · CRYPTO:XMRUSD · CRYPTOCAP:XMR",
+   "why": "세 거래소 어디에도 현물로 상장되어 있지 않아(바이낸스의 XMR 거래쌍은 거래 중지 상태) 상장 기준에서 빠졌음. 사용자 요청으로 data/exclusions.json \"add\"에 넣음. TradingView 가격 $603.72와 CoinGecko 가격 $601.29가 일치하고, 시가총액÷가격으로 계산한 유통량이 2014년 이후 하루 20% 넘게 바뀐 날이 없음"
+  },
+  {
+   "date": "2026-10-19",
+   "sym": "KAS",
+   "kind": "added",
+   "was": "종목 목록에 없음(업비트·빗썸·바이낸스 현물 미상장)",
+   "now": "CoinGecko kaspa · CRYPTO:KASUSD · CRYPTOCAP:KAS",
+   "why": "세 거래소 어디에도 현물로 상장되어 있지 않아 상장 기준에서 빠졌음. 사용자 요청으로 data/exclusions.json \"add\"에 넣음. TradingView 가격 $0.0357과 CoinGecko 가격 $0.0358이 일치하고, 시가총액÷가격으로 계산한 유통량이 2022년 이후 하루 20% 넘게 바뀐 날이 없음"
+  },
   {
    "date": "2026-10-05",
    "sym": "FCT2",

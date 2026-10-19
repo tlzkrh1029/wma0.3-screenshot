@@ -1,5 +1,5 @@
 {
- "resolvedAt": "2026-10-05T16:19:51.390Z",
+ "resolvedAt": "2026-10-19T15:20:30.049Z",
  "coins": [
   {
    "rank": 1,
@@ -134,6 +134,19 @@
   },
   {
    "rank": 10,
+   "sym": "XMR",
+   "name": "Monero",
+   "cg": "monero",
+   "usd": "CRYPTO:XMRUSD",
+   "cap": "CRYPTOCAP:XMR",
+   "tvName": "Monero",
+   "confidence": "high",
+   "alternatives": [
+    "XMCUSD (Monero Classic)"
+   ]
+  },
+  {
+   "rank": 11,
    "sym": "LINK",
    "name": "Chainlink",
    "cg": "chainlink",
@@ -148,7 +161,7 @@
    ]
   },
   {
-   "rank": 11,
+   "rank": 12,
    "sym": "ADA",
    "name": "Cardano",
    "cg": "cardano",
@@ -163,7 +176,7 @@
    ]
   },
   {
-   "rank": 12,
+   "rank": 13,
    "sym": "XLM",
    "name": "Stellar",
    "cg": "stellar",
@@ -176,7 +189,7 @@
    ]
   },
   {
-   "rank": 13,
+   "rank": 14,
    "sym": "NEAR",
    "name": "NEAR Protocol",
    "cg": "near",
@@ -191,7 +204,7 @@
    ]
   },
   {
-   "rank": 14,
+   "rank": 15,
    "sym": "BCH",
    "name": "Bitcoin Cash",
    "cg": "bitcoin-cash",
@@ -206,7 +219,7 @@
    ]
   },
   {
-   "rank": 15,
+   "rank": 16,
    "sym": "UNI",
    "name": "Uniswap",
    "cg": "uniswap",
@@ -221,7 +234,7 @@
    ]
   },
   {
-   "rank": 16,
+   "rank": 17,
    "sym": "LTC",
    "name": "Litecoin",
    "cg": "litecoin",
@@ -232,7 +245,7 @@
    "alternatives": []
   },
   {
-   "rank": 17,
+   "rank": 18,
    "sym": "CC",
    "name": "Canton",
    "cg": "canton-network",
@@ -247,7 +260,7 @@
    ]
   },
   {
-   "rank": 18,
+   "rank": 19,
    "sym": "SUI",
    "name": "Sui",
    "cg": "sui",
@@ -262,7 +275,7 @@
    ]
   },
   {
-   "rank": 19,
+   "rank": 20,
    "sym": "AVAX",
    "name": "Avalanche",
    "cg": "avalanche-2",
@@ -277,7 +290,7 @@
    ]
   },
   {
-   "rank": 20,
+   "rank": 21,
    "sym": "HBAR",
    "name": "Hedera",
    "cg": "hedera-hashgraph",
@@ -290,7 +303,7 @@
    ]
   },
   {
-   "rank": 21,
+   "rank": 22,
    "sym": "GRAM",
    "name": "Gram (prev. Toncoin)",
    "cg": "the-open-network",
@@ -304,7 +317,7 @@
    ]
   },
   {
-   "rank": 22,
+   "rank": 23,
    "sym": "QNT",
    "name": "Quant",
    "cg": "quant-network",
@@ -319,7 +332,7 @@
    ]
   },
   {
-   "rank": 23,
+   "rank": 24,
    "sym": "SHIB",
    "name": "Shiba Inu",
    "cg": "shiba-inu",
@@ -334,7 +347,7 @@
    ]
   },
   {
-   "rank": 24,
+   "rank": 25,
    "sym": "TAO",
    "name": "Bittensor",
    "cg": "bittensor",
@@ -349,7 +362,7 @@
    ]
   },
   {
-   "rank": 25,
+   "rank": 26,
    "sym": "CRO",
    "name": "Cronos",
    "cg": "crypto-com-chain",
@@ -364,7 +377,7 @@
    ]
   },
   {
-   "rank": 26,
+   "rank": 27,
    "sym": "ENA",
    "name": "Ethena",
    "cg": "ethena",
@@ -379,7 +392,7 @@
    ]
   },
   {
-   "rank": 27,
+   "rank": 28,
    "sym": "PUMP",
    "name": "Pump.fun",
    "cg": "pump-fun",
@@ -394,7 +407,7 @@
    ]
   },
   {
-   "rank": 28,
+   "rank": 29,
    "sym": "AAVE",
    "name": "Aave",
    "cg": "aave",
@@ -409,7 +422,7 @@
    ]
   },
   {
-   "rank": 29,
+   "rank": 30,
    "sym": "ONDO",
    "name": "Ondo",
    "cg": "ondo-finance",
@@ -424,7 +437,7 @@
    ]
   },
   {
-   "rank": 30,
+   "rank": 31,
    "sym": "WLD",
    "name": "Worldcoin",
    "cg": "worldcoin-wld",
@@ -435,7 +448,7 @@
    "alternatives": []
   },
   {
-   "rank": 31,
+   "rank": 32,
    "sym": "MNT",
    "name": "Mantle",
    "cg": "mantle",
@@ -450,7 +463,7 @@
    ]
   },
   {
-   "rank": 32,
+   "rank": 33,
    "sym": "SKY",
    "name": "Sky",
    "cg": "sky",
@@ -465,7 +478,7 @@
    ]
   },
   {
-   "rank": 33,
+   "rank": 34,
    "sym": "DOT",
    "name": "Polkadot",
    "cg": "polkadot",
@@ -478,7 +491,7 @@
    ]
   },
   {
-   "rank": 34,
+   "rank": 35,
    "sym": "ASTER",
    "name": "Aster",
    "cg": "aster-2",
@@ -493,7 +506,7 @@
    ]
   },
   {
-   "rank": 35,
+   "rank": 36,
    "sym": "ICP",
    "name": "Internet Computer",
    "cg": "internet-computer",
@@ -508,7 +521,7 @@
    ]
   },
   {
-   "rank": 36,
+   "rank": 37,
    "sym": "MORPHO",
    "name": "Morpho",
    "cg": "morpho",
@@ -521,7 +534,7 @@
    ]
   },
   {
-   "rank": 37,
+   "rank": 38,
    "sym": "PEPE",
    "name": "Pepe",
    "cg": "pepe",
@@ -536,7 +549,7 @@
    ]
   },
   {
-   "rank": 38,
+   "rank": 39,
    "sym": "WLFI",
    "name": "World Liberty Financial",
    "cg": "world-liberty-financial",
@@ -551,7 +564,7 @@
    ]
   },
   {
-   "rank": 39,
+   "rank": 40,
    "sym": "ETC",
    "name": "Ethereum Classic",
    "cg": "ethereum-classic",
@@ -566,7 +579,7 @@
    ]
   },
   {
-   "rank": 40,
+   "rank": 41,
    "sym": "ARB",
    "name": "Arbitrum",
    "cg": "arbitrum",
@@ -581,7 +594,7 @@
    ]
   },
   {
-   "rank": 41,
+   "rank": 42,
    "sym": "VVV",
    "name": "Venice Token",
    "cg": "venice-token",
@@ -596,7 +609,7 @@
    ]
   },
   {
-   "rank": 42,
+   "rank": 43,
    "sym": "ALGO",
    "name": "Algorand",
    "cg": "algorand",
@@ -609,7 +622,7 @@
    ]
   },
   {
-   "rank": 43,
+   "rank": 44,
    "sym": "POL",
    "name": "POL (ex-MATIC)",
    "cg": "polygon-ecosystem-token",
@@ -624,7 +637,7 @@
    ]
   },
   {
-   "rank": 44,
+   "rank": 45,
    "sym": "JST",
    "name": "JUST",
    "cg": "just",
@@ -639,7 +652,7 @@
    ]
   },
   {
-   "rank": 45,
+   "rank": 46,
    "sym": "JUP",
    "name": "Jupiter",
    "cg": "jupiter-exchange-solana",
@@ -654,7 +667,7 @@
    ]
   },
   {
-   "rank": 46,
+   "rank": 47,
    "sym": "RENDER",
    "name": "Render",
    "cg": "render-token",
@@ -667,7 +680,21 @@
    ]
   },
   {
-   "rank": 47,
+   "rank": 48,
+   "sym": "KAS",
+   "name": "Kaspa",
+   "cg": "kaspa",
+   "usd": "CRYPTO:KASUSD",
+   "cap": "CRYPTOCAP:KAS",
+   "tvName": "Kaspa",
+   "confidence": "high",
+   "alternatives": [
+    "KASPYUSD (Kaspy)",
+    "KASTAUSD (Kasta)"
+   ]
+  },
+  {
+   "rank": 49,
    "sym": "ATOM",
    "name": "Cosmos Hub",
    "cg": "cosmos",
@@ -682,7 +709,7 @@
    ]
   },
   {
-   "rank": 48,
+   "rank": 50,
    "sym": "LIT",
    "name": "Lighter",
    "cg": "lighter",
@@ -697,7 +724,7 @@
    ]
   },
   {
-   "rank": 49,
+   "rank": 51,
    "sym": "FIL",
    "name": "Filecoin",
    "cg": "filecoin",
@@ -712,7 +739,7 @@
    ]
   },
   {
-   "rank": 50,
+   "rank": 52,
    "sym": "AERO",
    "name": "Aerodrome Finance",
    "cg": "aerodrome-finance",
@@ -727,7 +754,7 @@
    ]
   },
   {
-   "rank": 51,
+   "rank": 53,
    "sym": "NEXO",
    "name": "NEXO",
    "cg": "nexo",
@@ -740,7 +767,7 @@
    ]
   },
   {
-   "rank": 52,
+   "rank": 54,
    "sym": "ZRO",
    "name": "LayerZero",
    "cg": "layerzero",
@@ -751,7 +778,7 @@
    "alternatives": []
   },
   {
-   "rank": 53,
+   "rank": 55,
    "sym": "NIGHT",
    "name": "Midnight",
    "cg": "midnight-3",
@@ -765,7 +792,7 @@
    ]
   },
   {
-   "rank": 54,
+   "rank": 56,
    "sym": "CAKE",
    "name": "PancakeSwap",
    "cg": "pancakeswap-token",
@@ -778,7 +805,7 @@
    ]
   },
   {
-   "rank": 55,
+   "rank": 57,
    "sym": "INJ",
    "name": "Injective",
    "cg": "injective-protocol",
@@ -789,7 +816,7 @@
    "alternatives": []
   },
   {
-   "rank": 56,
+   "rank": 58,
    "sym": "DASH",
    "name": "Dash",
    "cg": "dash",
@@ -804,7 +831,7 @@
    ]
   },
   {
-   "rank": 57,
+   "rank": 59,
    "sym": "VET",
    "name": "VeChain",
    "cg": "vechain",
@@ -817,7 +844,7 @@
    ]
   },
   {
-   "rank": 58,
+   "rank": 60,
    "sym": "ETHFI",
    "name": "Ether.fi",
    "cg": "ether-fi",
@@ -832,7 +859,7 @@
    ]
   },
   {
-   "rank": 59,
+   "rank": 61,
    "sym": "STABLE",
    "name": "​​Stable",
    "cg": "stable-2",
@@ -847,7 +874,7 @@
    ]
   },
   {
-   "rank": 60,
+   "rank": 62,
    "sym": "APT",
    "name": "Aptos",
    "cg": "aptos",
@@ -862,7 +889,7 @@
    ]
   },
   {
-   "rank": 61,
+   "rank": 63,
    "sym": "STX",
    "name": "Stacks",
    "cg": "blockstack",
@@ -877,7 +904,7 @@
    ]
   },
   {
-   "rank": 62,
+   "rank": 64,
    "sym": "FLR",
    "name": "Flare",
    "cg": "flare-networks",
@@ -888,7 +915,7 @@
    "alternatives": []
   },
   {
-   "rank": 63,
+   "rank": 65,
    "sym": "PYTH",
    "name": "Pyth Network",
    "cg": "pyth-network",
@@ -903,7 +930,7 @@
    ]
   },
   {
-   "rank": 64,
+   "rank": 66,
    "sym": "PENGU",
    "name": "Pudgy Penguins",
    "cg": "pudgy-penguins",
@@ -918,7 +945,7 @@
    ]
   },
   {
-   "rank": 65,
+   "rank": 67,
    "sym": "CRV",
    "name": "Curve DAO",
    "cg": "curve-dao-token",
@@ -933,7 +960,7 @@
    ]
   },
   {
-   "rank": 66,
+   "rank": 68,
    "sym": "TRUMP",
    "name": "Official Trump",
    "cg": "official-trump",
@@ -948,7 +975,7 @@
    ]
   },
   {
-   "rank": 67,
+   "rank": 69,
    "sym": "FET",
    "name": "Artificial Superintelligence Alliance",
    "cg": "fetch-ai",
@@ -963,7 +990,7 @@
    ]
   },
   {
-   "rank": 68,
+   "rank": 70,
    "sym": "VIRTUAL",
    "name": "Virtuals Protocol",
    "cg": "virtual-protocol",
@@ -978,7 +1005,7 @@
    ]
   },
   {
-   "rank": 69,
+   "rank": 71,
    "sym": "RAY",
    "name": "Raydium",
    "cg": "raydium",
@@ -991,7 +1018,7 @@
    ]
   },
   {
-   "rank": 70,
+   "rank": 72,
    "sym": "币安人生",
    "name": "币安人生 (BinanceLife)",
    "cg": "bianrensheng",
@@ -1003,7 +1030,7 @@
    "note": "TradingView has no ticker for 币安人生"
   },
   {
-   "rank": 71,
+   "rank": 73,
    "sym": "GRASS",
    "name": "Grass",
    "cg": "grass",
@@ -1016,7 +1043,7 @@
    ]
   },
   {
-   "rank": 72,
+   "rank": 74,
    "sym": "SEI",
    "name": "Sei",
    "cg": "sei-network",
@@ -1031,7 +1058,7 @@
    ]
   },
   {
-   "rank": 73,
+   "rank": 75,
    "sym": "TIA",
    "name": "Celestia",
    "cg": "celestia",
@@ -1044,7 +1071,7 @@
    ]
   },
   {
-   "rank": 74,
+   "rank": 76,
    "sym": "XPL",
    "name": "Plasma",
    "cg": "plasma",
@@ -1058,7 +1085,7 @@
    ]
   },
   {
-   "rank": 75,
+   "rank": 77,
    "sym": "PENDLE",
    "name": "Pendle",
    "cg": "pendle",
@@ -1073,7 +1100,7 @@
    ]
   },
   {
-   "rank": 76,
+   "rank": 78,
    "sym": "SPX",
    "name": "SPX6900",
    "cg": "spx6900",
@@ -1086,7 +1113,7 @@
    ]
   },
   {
-   "rank": 77,
+   "rank": 79,
    "sym": "BSV",
    "name": "Bitcoin SV",
    "cg": "bitcoin-cash-sv",
@@ -1101,7 +1128,7 @@
    ]
   },
   {
-   "rank": 78,
+   "rank": 80,
    "sym": "DRV",
    "name": "Derive",
    "cg": "derive",
@@ -1112,7 +1139,7 @@
    "alternatives": []
   },
   {
-   "rank": 79,
+   "rank": 81,
    "sym": "STRK",
    "name": "Starknet",
    "cg": "starknet",
@@ -1125,7 +1152,7 @@
    ]
   },
   {
-   "rank": 80,
+   "rank": 82,
    "sym": "FF",
    "name": "Falcon Finance",
    "cg": "falcon-finance-ff",
@@ -1140,7 +1167,7 @@
    ]
   },
   {
-   "rank": 81,
+   "rank": 83,
    "sym": "LDO",
    "name": "Lido DAO",
    "cg": "lido-dao",
@@ -1155,7 +1182,7 @@
    ]
   },
   {
-   "rank": 82,
+   "rank": 84,
    "sym": "MON",
    "name": "Monad",
    "cg": "monad",
@@ -1170,7 +1197,7 @@
    ]
   },
   {
-   "rank": 83,
+   "rank": 85,
    "sym": "BTT",
    "name": "BitTorrent",
    "cg": "bittorrent",
@@ -1182,7 +1209,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 84,
+   "rank": 86,
    "sym": "PIEVERSE",
    "name": "Pieverse",
    "cg": "pieverse",
@@ -1195,7 +1222,7 @@
    ]
   },
   {
-   "rank": 85,
+   "rank": 87,
    "sym": "XTZ",
    "name": "Tezos",
    "cg": "tezos",
@@ -1206,7 +1233,7 @@
    "alternatives": []
   },
   {
-   "rank": 86,
+   "rank": 88,
    "sym": "UB",
    "name": "Unibase",
    "cg": "unibase",
@@ -1221,7 +1248,7 @@
    ]
   },
   {
-   "rank": 87,
+   "rank": 89,
    "sym": "BONK",
    "name": "Bonk",
    "cg": "bonk",
@@ -1236,7 +1263,7 @@
    ]
   },
   {
-   "rank": 88,
+   "rank": 90,
    "sym": "KITE",
    "name": "Kite",
    "cg": "kite-2",
@@ -1250,7 +1277,7 @@
    ]
   },
   {
-   "rank": 89,
+   "rank": 91,
    "sym": "SUN",
    "name": "Sun Token",
    "cg": "sun-token",
@@ -1265,7 +1292,7 @@
    ]
   },
   {
-   "rank": 90,
+   "rank": 92,
    "sym": "DCR",
    "name": "Decred",
    "cg": "decred",
@@ -1278,7 +1305,7 @@
    ]
   },
   {
-   "rank": 91,
+   "rank": 93,
    "sym": "GRT",
    "name": "The Graph",
    "cg": "the-graph",
@@ -1293,7 +1320,7 @@
    ]
   },
   {
-   "rank": 92,
+   "rank": 94,
    "sym": "GNO",
    "name": "Gnosis",
    "cg": "gnosis",
@@ -1307,7 +1334,7 @@
    ]
   },
   {
-   "rank": 93,
+   "rank": 95,
    "sym": "OP",
    "name": "Optimism",
    "cg": "optimism",
@@ -1322,7 +1349,7 @@
    ]
   },
   {
-   "rank": 94,
+   "rank": 96,
    "sym": "JTO",
    "name": "Jito",
    "cg": "jito-governance-token",
@@ -1335,7 +1362,7 @@
    ]
   },
   {
-   "rank": 95,
+   "rank": 97,
    "sym": "AR",
    "name": "Arweave",
    "cg": "arweave",
@@ -1350,7 +1377,7 @@
    ]
   },
   {
-   "rank": 96,
+   "rank": 98,
    "sym": "LUNC",
    "name": "Terra Luna Classic",
    "cg": "terra-luna",
@@ -1362,7 +1389,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 97,
+   "rank": 99,
    "sym": "SYRUP",
    "name": "Maple Finance",
    "cg": "syrup",
@@ -1377,7 +1404,7 @@
    ]
   },
   {
-   "rank": 98,
+   "rank": 100,
    "sym": "ENS",
    "name": "Ethereum Name Service",
    "cg": "ethereum-name-service",
@@ -1392,7 +1419,7 @@
    ]
   },
   {
-   "rank": 99,
+   "rank": 101,
    "sym": "CFX",
    "name": "Conflux",
    "cg": "conflux-token",
@@ -1403,7 +1430,7 @@
    "alternatives": []
   },
   {
-   "rank": 100,
+   "rank": 102,
    "sym": "FLOKI",
    "name": "FLOKI",
    "cg": "floki",
@@ -1416,7 +1443,7 @@
    ]
   },
   {
-   "rank": 101,
+   "rank": 103,
    "sym": "IOTA",
    "name": "IOTA",
    "cg": "iota",
@@ -1427,7 +1454,7 @@
    "alternatives": []
   },
   {
-   "rank": 102,
+   "rank": 104,
    "sym": "KAIA",
    "name": "Kaia",
    "cg": "kaia",
@@ -1438,7 +1465,7 @@
    "alternatives": []
   },
   {
-   "rank": 103,
+   "rank": 105,
    "sym": "JASMY",
    "name": "JasmyCoin",
    "cg": "jasmycoin",
@@ -1449,7 +1476,7 @@
    "alternatives": []
   },
   {
-   "rank": 104,
+   "rank": 106,
    "sym": "RUNE",
    "name": "THORChain",
    "cg": "thorchain",
@@ -1464,7 +1491,7 @@
    ]
   },
   {
-   "rank": 105,
+   "rank": 107,
    "sym": "WIF",
    "name": "dogwifhat",
    "cg": "dogwifcoin",
@@ -1479,7 +1506,7 @@
    ]
   },
   {
-   "rank": 106,
+   "rank": 108,
    "sym": "EIGEN",
    "name": "EigenCloud (prev. EigenLayer)",
    "cg": "eigenlayer",
@@ -1494,7 +1521,7 @@
    ]
   },
   {
-   "rank": 107,
+   "rank": 109,
    "sym": "COMP",
    "name": "Compound",
    "cg": "compound-governance-token",
@@ -1509,7 +1536,7 @@
    ]
   },
   {
-   "rank": 108,
+   "rank": 110,
    "sym": "TWT",
    "name": "Trust Wallet",
    "cg": "trust-wallet-token",
@@ -1524,7 +1551,7 @@
    ]
   },
   {
-   "rank": 109,
+   "rank": 111,
    "sym": "NFT",
    "name": "AINFT",
    "cg": "apenft",
@@ -1539,7 +1566,7 @@
    ]
   },
   {
-   "rank": 110,
+   "rank": 112,
    "sym": "KMNO",
    "name": "Kamino",
    "cg": "kamino",
@@ -1550,7 +1577,7 @@
    "alternatives": []
   },
   {
-   "rank": 111,
+   "rank": 113,
    "sym": "THETA",
    "name": "Theta Network",
    "cg": "theta-token",
@@ -1565,7 +1592,7 @@
    ]
   },
   {
-   "rank": 112,
+   "rank": 114,
    "sym": "AKT",
    "name": "Akash Network",
    "cg": "akash-network",
@@ -1580,7 +1607,7 @@
    ]
   },
   {
-   "rank": 113,
+   "rank": 115,
    "sym": "USELESS",
    "name": "Useless Coin",
    "cg": "useless-3",
@@ -1595,7 +1622,7 @@
    ]
   },
   {
-   "rank": 114,
+   "rank": 116,
    "sym": "AXS",
    "name": "Axie Infinity",
    "cg": "axie-infinity",
@@ -1610,7 +1637,7 @@
    ]
   },
   {
-   "rank": 115,
+   "rank": 117,
    "sym": "2Z",
    "name": "DoubleZero",
    "cg": "doublezero",
@@ -1621,7 +1648,7 @@
    "alternatives": []
   },
   {
-   "rank": 116,
+   "rank": 118,
    "sym": "ZAMA",
    "name": "Zama",
    "cg": "zama",
@@ -1632,7 +1659,7 @@
    "alternatives": []
   },
   {
-   "rank": 117,
+   "rank": 119,
    "sym": "MINA",
    "name": "Mina Protocol",
    "cg": "mina-protocol",
@@ -1647,7 +1674,7 @@
    ]
   },
   {
-   "rank": 118,
+   "rank": 120,
    "sym": "CVX",
    "name": "Convex Finance",
    "cg": "convex-finance",
@@ -1662,7 +1689,7 @@
    ]
   },
   {
-   "rank": 119,
+   "rank": 121,
    "sym": "MANA",
    "name": "Decentraland",
    "cg": "decentraland",
@@ -1677,7 +1704,7 @@
    ]
   },
   {
-   "rank": 120,
+   "rank": 122,
    "sym": "SAND",
    "name": "The Sandbox",
    "cg": "the-sandbox",
@@ -1692,7 +1719,7 @@
    ]
   },
   {
-   "rank": 121,
+   "rank": 123,
    "sym": "TRAC",
    "name": "OriginTrail",
    "cg": "origintrail",
@@ -1707,7 +1734,7 @@
    ]
   },
   {
-   "rank": 122,
+   "rank": 124,
    "sym": "XCN",
    "name": "Onyxcoin",
    "cg": "chain-2",
@@ -1718,7 +1745,7 @@
    "alternatives": []
   },
   {
-   "rank": 123,
+   "rank": 125,
    "sym": "NEO",
    "name": "NEO",
    "cg": "neo",
@@ -1733,7 +1760,7 @@
    ]
   },
   {
-   "rank": 124,
+   "rank": 126,
    "sym": "FLUID",
    "name": "Fluid",
    "cg": "instadapp",
@@ -1746,7 +1773,7 @@
    ]
   },
   {
-   "rank": 125,
+   "rank": 127,
    "sym": "CHZ",
    "name": "Chiliz",
    "cg": "chiliz",
@@ -1757,7 +1784,7 @@
    "alternatives": []
   },
   {
-   "rank": 126,
+   "rank": 128,
    "sym": "SENT",
    "name": "Sentient",
    "cg": "sentient",
@@ -1772,7 +1799,7 @@
    ]
   },
   {
-   "rank": 127,
+   "rank": 129,
    "sym": "A",
    "name": "Vaulta",
    "cg": "vaulta",
@@ -1787,7 +1814,7 @@
    ]
   },
   {
-   "rank": 128,
+   "rank": 130,
    "sym": "S",
    "name": "Sonic",
    "cg": "sonic-3",
@@ -1802,7 +1829,7 @@
    ]
   },
   {
-   "rank": 129,
+   "rank": 131,
    "sym": "APE",
    "name": "ApeCoin",
    "cg": "apecoin",
@@ -1817,7 +1844,7 @@
    ]
   },
   {
-   "rank": 130,
+   "rank": 132,
    "sym": "IMX",
    "name": "Immutable",
    "cg": "immutable-x",
@@ -1828,7 +1855,7 @@
    "alternatives": []
   },
   {
-   "rank": 131,
+   "rank": 133,
    "sym": "MET",
    "name": "Meteora",
    "cg": "meteora",
@@ -1843,7 +1870,7 @@
    ]
   },
   {
-   "rank": 132,
+   "rank": 134,
    "sym": "XEC",
    "name": "eCash",
    "cg": "ecash",
@@ -1854,7 +1881,7 @@
    "alternatives": []
   },
   {
-   "rank": 133,
+   "rank": 135,
    "sym": "EDGEX",
    "name": "edgeX",
    "cg": "edgex",
@@ -1868,7 +1895,7 @@
    ]
   },
   {
-   "rank": 134,
+   "rank": 136,
    "sym": "BAT",
    "name": "Basic Attention",
    "cg": "basic-attention-token",
@@ -1883,7 +1910,7 @@
    ]
   },
   {
-   "rank": 135,
+   "rank": 137,
    "sym": "CASHCAT",
    "name": "Cash Cat",
    "cg": "cash-cat",
@@ -1898,7 +1925,7 @@
    ]
   },
   {
-   "rank": 136,
+   "rank": 138,
    "sym": "SUPER",
    "name": "SuperVerse",
    "cg": "superfarm",
@@ -1913,7 +1940,7 @@
    ]
   },
   {
-   "rank": 137,
+   "rank": 139,
    "sym": "ATH",
    "name": "Aethir",
    "cg": "aethir",
@@ -1928,7 +1955,7 @@
    ]
   },
   {
-   "rank": 138,
+   "rank": 140,
    "sym": "1INCH",
    "name": "1INCH",
    "cg": "1inch",
@@ -1939,7 +1966,7 @@
    "alternatives": []
   },
   {
-   "rank": 139,
+   "rank": 141,
    "sym": "SFP",
    "name": "SafePal",
    "cg": "safepal",
@@ -1950,7 +1977,7 @@
    "alternatives": []
   },
   {
-   "rank": 140,
+   "rank": 142,
    "sym": "SNX",
    "name": "Synthetix",
    "cg": "havven",
@@ -1963,7 +1990,7 @@
    ]
   },
   {
-   "rank": 141,
+   "rank": 143,
    "sym": "AIOZ",
    "name": "AIOZ Network",
    "cg": "aioz-network",
@@ -1978,7 +2005,7 @@
    ]
   },
   {
-   "rank": 142,
+   "rank": 144,
    "sym": "GEOD",
    "name": "Geodnet",
    "cg": "geodnet",
@@ -1989,7 +2016,7 @@
    "alternatives": []
   },
   {
-   "rank": 143,
+   "rank": 145,
    "sym": "EGLD",
    "name": "MultiversX",
    "cg": "elrond-erd-2",
@@ -2002,7 +2029,7 @@
    ]
   },
   {
-   "rank": 144,
+   "rank": 146,
    "sym": "META2",
    "name": "MetaDAO",
    "cg": "meta-2-2",
@@ -2017,7 +2044,7 @@
    ]
   },
   {
-   "rank": 145,
+   "rank": 147,
    "sym": "ZK",
    "name": "ZKsync",
    "cg": "zksync",
@@ -2032,7 +2059,7 @@
    ]
   },
   {
-   "rank": 146,
+   "rank": 148,
    "sym": "PLUME",
    "name": "Plume",
    "cg": "plume",
@@ -2043,7 +2070,7 @@
    "alternatives": []
   },
   {
-   "rank": 147,
+   "rank": 149,
    "sym": "AWE",
    "name": "AWE Network",
    "cg": "stp-network",
@@ -2058,7 +2085,7 @@
    ]
   },
   {
-   "rank": 148,
+   "rank": 150,
    "sym": "BEAM",
    "name": "Beam",
    "cg": "beam-2",
@@ -2070,7 +2097,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 149,
+   "rank": 151,
    "sym": "GLM",
    "name": "Golem",
    "cg": "golem",
@@ -2083,7 +2110,7 @@
    ]
   },
   {
-   "rank": 150,
+   "rank": 152,
    "sym": "SKR",
    "name": "Seeker",
    "cg": "seeker",
@@ -2097,7 +2124,7 @@
    ]
   },
   {
-   "rank": 151,
+   "rank": 153,
    "sym": "ZEN",
    "name": "Horizen",
    "cg": "zencash",
@@ -2112,7 +2139,7 @@
    ]
   },
   {
-   "rank": 152,
+   "rank": 154,
    "sym": "GALA",
    "name": "GALA",
    "cg": "gala",
@@ -2127,7 +2154,7 @@
    ]
   },
   {
-   "rank": 153,
+   "rank": 155,
    "sym": "DYDX",
    "name": "dYdX",
    "cg": "dydx-chain",
@@ -2140,7 +2167,7 @@
    ]
   },
   {
-   "rank": 154,
+   "rank": 156,
    "sym": "ORCA",
    "name": "Orca",
    "cg": "orca",
@@ -2153,7 +2180,7 @@
    ]
   },
   {
-   "rank": 155,
+   "rank": 157,
    "sym": "SOON",
    "name": "SOON",
    "cg": "soon-2",
@@ -2164,7 +2191,7 @@
    "alternatives": []
   },
   {
-   "rank": 156,
+   "rank": 158,
    "sym": "DBR",
    "name": "deBridge",
    "cg": "debridge",
@@ -2175,7 +2202,7 @@
    "alternatives": []
   },
   {
-   "rank": 157,
+   "rank": 159,
    "sym": "PROM",
    "name": "Prom",
    "cg": "prometeus",
@@ -2190,7 +2217,7 @@
    ]
   },
   {
-   "rank": 158,
+   "rank": 160,
    "sym": "GENIUS",
    "name": "Genius",
    "cg": "genius-3",
@@ -2203,7 +2230,7 @@
    ]
   },
   {
-   "rank": 159,
+   "rank": 161,
    "sym": "CAP",
    "name": "Cap",
    "cg": "cap-4",
@@ -2218,7 +2245,7 @@
    ]
   },
   {
-   "rank": 160,
+   "rank": 162,
    "sym": "PEAQ",
    "name": "peaq",
    "cg": "peaq-2",
@@ -2229,7 +2256,7 @@
    "alternatives": []
   },
   {
-   "rank": 161,
+   "rank": 163,
    "sym": "FORM",
    "name": "Four",
    "cg": "four",
@@ -2244,7 +2271,7 @@
    ]
   },
   {
-   "rank": 162,
+   "rank": 164,
    "sym": "RSR",
    "name": "Reserve Rights",
    "cg": "reserve-rights-token",
@@ -2259,7 +2286,7 @@
    ]
   },
   {
-   "rank": 163,
+   "rank": 165,
    "sym": "ZRX",
    "name": "0x Protocol",
    "cg": "0x",
@@ -2274,7 +2301,7 @@
    ]
   },
   {
-   "rank": 164,
+   "rank": 166,
    "sym": "MARSCOIN",
    "name": "MarsCoin",
    "cg": "marscoin-4",
@@ -2285,7 +2312,7 @@
    "alternatives": []
   },
   {
-   "rank": 165,
+   "rank": 167,
    "sym": "QTUM",
    "name": "Qtum",
    "cg": "qtum",
@@ -2296,7 +2323,7 @@
    "alternatives": []
   },
   {
-   "rank": 166,
+   "rank": 168,
    "sym": "HNT",
    "name": "Helium",
    "cg": "helium",
@@ -2310,7 +2337,7 @@
    ]
   },
   {
-   "rank": 167,
+   "rank": 169,
    "sym": "PROS",
    "name": "Pharos",
    "cg": "pharos-network",
@@ -2325,7 +2352,7 @@
    ]
   },
   {
-   "rank": 168,
+   "rank": 170,
    "sym": "Q",
    "name": "Quack AI",
    "cg": "quack-ai",
@@ -2340,7 +2367,7 @@
    ]
   },
   {
-   "rank": 169,
+   "rank": 171,
    "sym": "CHIP",
    "name": "USD.AI",
    "cg": "chip-2",
@@ -2355,7 +2382,7 @@
    ]
   },
   {
-   "rank": 170,
+   "rank": 172,
    "sym": "KSM",
    "name": "Kusama",
    "cg": "kusama",
@@ -2368,7 +2395,7 @@
    ]
   },
   {
-   "rank": 171,
+   "rank": 173,
    "sym": "ORDI",
    "name": "ORDI",
    "cg": "ordinals",
@@ -2383,7 +2410,7 @@
    ]
   },
   {
-   "rank": 172,
+   "rank": 174,
    "sym": "ARKM",
    "name": "Arkham",
    "cg": "arkham",
@@ -2394,7 +2421,7 @@
    "alternatives": []
   },
   {
-   "rank": 173,
+   "rank": 175,
    "sym": "WAL",
    "name": "Walrus",
    "cg": "walrus-2",
@@ -2409,7 +2436,7 @@
    ]
   },
   {
-   "rank": 174,
+   "rank": 176,
    "sym": "W",
    "name": "Wormhole",
    "cg": "wormhole",
@@ -2424,7 +2451,7 @@
    ]
   },
   {
-   "rank": 175,
+   "rank": 177,
    "sym": "GAS",
    "name": "Gas",
    "cg": "gas",
@@ -2439,7 +2466,7 @@
    ]
   },
   {
-   "rank": 176,
+   "rank": 178,
    "sym": "GMX",
    "name": "GMX",
    "cg": "gmx",
@@ -2450,7 +2477,7 @@
    "alternatives": []
   },
   {
-   "rank": 177,
+   "rank": 179,
    "sym": "YFI",
    "name": "yearn.finance",
    "cg": "yearn-finance",
@@ -2465,7 +2492,7 @@
    ]
   },
   {
-   "rank": 178,
+   "rank": 180,
    "sym": "SAFE",
    "name": "Safe",
    "cg": "safe",
@@ -2477,7 +2504,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 179,
+   "rank": 181,
    "sym": "RED",
    "name": "RedStone",
    "cg": "redstone-oracles",
@@ -2492,7 +2519,7 @@
    ]
   },
   {
-   "rank": 180,
+   "rank": 182,
    "sym": "COW",
    "name": "CoW Protocol",
    "cg": "cow-protocol",
@@ -2507,7 +2534,7 @@
    ]
   },
   {
-   "rank": 181,
+   "rank": 183,
    "sym": "LPT",
    "name": "Livepeer",
    "cg": "livepeer",
@@ -2518,7 +2545,7 @@
    "alternatives": []
   },
   {
-   "rank": 182,
+   "rank": 184,
    "sym": "NMR",
    "name": "Numeraire",
    "cg": "numeraire",
@@ -2529,7 +2556,7 @@
    "alternatives": []
   },
   {
-   "rank": 183,
+   "rank": 185,
    "sym": "SPK",
    "name": "Spark",
    "cg": "spark-2",
@@ -2544,7 +2571,7 @@
    ]
   },
   {
-   "rank": 184,
+   "rank": 186,
    "sym": "ZETA",
    "name": "ZetaChain",
    "cg": "zetachain",
@@ -2557,7 +2584,7 @@
    ]
   },
   {
-   "rank": 185,
+   "rank": 187,
    "sym": "RIF",
    "name": "Rootstock Infrastructure Framework",
    "cg": "rif-token",
@@ -2572,7 +2599,7 @@
    ]
   },
   {
-   "rank": 186,
+   "rank": 188,
    "sym": "KAITO",
    "name": "KAITO",
    "cg": "kaito",
@@ -2585,7 +2612,7 @@
    ]
   },
   {
-   "rank": 187,
+   "rank": 189,
    "sym": "O",
    "name": "o1.exchange",
    "cg": "o1-exchange",
@@ -2600,7 +2627,7 @@
    ]
   },
   {
-   "rank": 188,
+   "rank": 190,
    "sym": "HOT",
    "name": "Holo",
    "cg": "holotoken",
@@ -2615,7 +2642,7 @@
    ]
   },
   {
-   "rank": 189,
+   "rank": 191,
    "sym": "牛来",
    "name": "牛来 (Niu Lai)",
    "cg": "niu-lai",
@@ -2630,7 +2657,7 @@
    ]
   },
   {
-   "rank": 190,
+   "rank": 192,
    "sym": "RE",
    "name": "RE",
    "cg": "re",
@@ -2645,7 +2672,7 @@
    ]
   },
   {
-   "rank": 191,
+   "rank": 193,
    "sym": "DGB",
    "name": "DigiByte",
    "cg": "digibyte",
@@ -2656,7 +2683,7 @@
    "alternatives": []
   },
   {
-   "rank": 192,
+   "rank": 194,
    "sym": "TFUEL",
    "name": "Theta Fuel",
    "cg": "theta-fuel",
@@ -2671,7 +2698,7 @@
    ]
   },
   {
-   "rank": 193,
+   "rank": 195,
    "sym": "BERA",
    "name": "Berachain",
    "cg": "berachain-bera",
@@ -2682,7 +2709,7 @@
    "alternatives": []
   },
   {
-   "rank": 194,
+   "rank": 196,
    "sym": "ESP",
    "name": "Espresso",
    "cg": "espresso",
@@ -2695,7 +2722,7 @@
    ]
   },
   {
-   "rank": 195,
+   "rank": 197,
    "sym": "MUBARAK",
    "name": "Mubarak",
    "cg": "mubarak",
@@ -2708,7 +2735,7 @@
    ]
   },
   {
-   "rank": 196,
+   "rank": 198,
    "sym": "DATA",
    "name": "Data Network",
    "cg": "story-2",
@@ -2723,7 +2750,7 @@
    ]
   },
   {
-   "rank": 197,
+   "rank": 199,
    "sym": "BANANAS31",
    "name": "Banana For Scale",
    "cg": "banana-for-scale-2",
@@ -2738,7 +2765,7 @@
    ]
   },
   {
-   "rank": 198,
+   "rank": 200,
    "sym": "KAVA",
    "name": "Kava",
    "cg": "kava",
@@ -2751,7 +2778,7 @@
    ]
   },
   {
-   "rank": 199,
+   "rank": 201,
    "sym": "NXPC",
    "name": "Nexpace",
    "cg": "nexpace",
@@ -2762,7 +2789,7 @@
    "alternatives": []
   },
   {
-   "rank": 200,
+   "rank": 202,
    "sym": "SUSHI",
    "name": "Sushi",
    "cg": "sushi",
@@ -2773,7 +2800,7 @@
    "alternatives": []
   },
   {
-   "rank": 201,
+   "rank": 203,
    "sym": "TURBO",
    "name": "Turbo",
    "cg": "turbo",
@@ -2786,7 +2813,7 @@
    ]
   },
   {
-   "rank": 202,
+   "rank": 204,
    "sym": "BOME",
    "name": "BOOK OF MEME",
    "cg": "book-of-meme",
@@ -2801,7 +2828,7 @@
    ]
   },
   {
-   "rank": 203,
+   "rank": 205,
    "sym": "LINEA",
    "name": "Linea",
    "cg": "linea",
@@ -2815,7 +2842,7 @@
    ]
   },
   {
-   "rank": 204,
+   "rank": 206,
    "sym": "ZIL",
    "name": "Zilliqa",
    "cg": "zilliqa",
@@ -2828,7 +2855,7 @@
    ]
   },
   {
-   "rank": 205,
+   "rank": 207,
    "sym": "IO",
    "name": "io.net",
    "cg": "io",
@@ -2843,7 +2870,7 @@
    ]
   },
   {
-   "rank": 206,
+   "rank": 208,
    "sym": "BIO",
    "name": "Bio Protocol",
    "cg": "bio-protocol",
@@ -2858,7 +2885,7 @@
    ]
   },
   {
-   "rank": 207,
+   "rank": 209,
    "sym": "AXL",
    "name": "Axelar",
    "cg": "axelar",
@@ -2871,7 +2898,7 @@
    ]
   },
   {
-   "rank": 208,
+   "rank": 210,
    "sym": "XPR",
    "name": "XPR Network",
    "cg": "proton",
@@ -2886,7 +2913,7 @@
    ]
   },
   {
-   "rank": 209,
+   "rank": 211,
    "sym": "MERL",
    "name": "Merlin Chain",
    "cg": "merlin-chain",
@@ -2901,7 +2928,7 @@
    ]
   },
   {
-   "rank": 210,
+   "rank": 212,
    "sym": "POD",
    "name": "Dolphin",
    "cg": "dolphin-2",
@@ -2913,7 +2940,7 @@
    "note": "TradingView has no ticker for Dolphin (POD)"
   },
   {
-   "rank": 211,
+   "rank": 213,
    "sym": "ENJ",
    "name": "Enjin Coin",
    "cg": "enjincoin",
@@ -2928,7 +2955,7 @@
    ]
   },
   {
-   "rank": 212,
+   "rank": 214,
    "sym": "ROSE",
    "name": "Oasis",
    "cg": "oasis-network",
@@ -2943,7 +2970,7 @@
    ]
   },
   {
-   "rank": 213,
+   "rank": 215,
    "sym": "ALLO",
    "name": "Allora",
    "cg": "allora",
@@ -2957,7 +2984,7 @@
    ]
   },
   {
-   "rank": 214,
+   "rank": 216,
    "sym": "CKB",
    "name": "Nervos Network",
    "cg": "nervos-network",
@@ -2972,7 +2999,7 @@
    ]
   },
   {
-   "rank": 215,
+   "rank": 217,
    "sym": "DEXE",
    "name": "DeXe",
    "cg": "dexe",
@@ -2983,7 +3010,7 @@
    "alternatives": []
   },
   {
-   "rank": 216,
+   "rank": 218,
    "sym": "BABY",
    "name": "Babylon",
    "cg": "babylon",
@@ -2998,7 +3025,7 @@
    ]
   },
   {
-   "rank": 217,
+   "rank": 219,
    "sym": "ASTR",
    "name": "Astar",
    "cg": "astar",
@@ -3013,7 +3040,7 @@
    ]
   },
   {
-   "rank": 218,
+   "rank": 220,
    "sym": "VTHO",
    "name": "VeThor",
    "cg": "vethor-token",
@@ -3024,7 +3051,7 @@
    "alternatives": []
   },
   {
-   "rank": 219,
+   "rank": 221,
    "sym": "0G",
    "name": "0G",
    "cg": "zero-gravity",
@@ -3035,7 +3062,7 @@
    "alternatives": []
   },
   {
-   "rank": 220,
+   "rank": 222,
    "sym": "GPS",
    "name": "GoPlus Security",
    "cg": "goplus-security",
@@ -3046,7 +3073,7 @@
    "alternatives": []
   },
   {
-   "rank": 221,
+   "rank": 223,
    "sym": "CELO",
    "name": "Celo",
    "cg": "celo",
@@ -3060,7 +3087,7 @@
    ]
   },
   {
-   "rank": 222,
+   "rank": 224,
    "sym": "ELF",
    "name": "aelf",
    "cg": "aelf",
@@ -3073,7 +3100,7 @@
    ]
   },
   {
-   "rank": 223,
+   "rank": 225,
    "sym": "PHA",
    "name": "PHALA",
    "cg": "pha",
@@ -3088,7 +3115,7 @@
    ]
   },
   {
-   "rank": 224,
+   "rank": 226,
    "sym": "CTC",
    "name": "Creditcoin",
    "cg": "creditcoin-2",
@@ -3101,7 +3128,7 @@
    ]
   },
   {
-   "rank": 225,
+   "rank": 227,
    "sym": "T",
    "name": "Threshold Network",
    "cg": "threshold-network-token",
@@ -3116,7 +3143,7 @@
    ]
   },
   {
-   "rank": 226,
+   "rank": 228,
    "sym": "ONT",
    "name": "Ontology",
    "cg": "ontology",
@@ -3129,7 +3156,7 @@
    ]
   },
   {
-   "rank": 227,
+   "rank": 229,
    "sym": "BLUR",
    "name": "Blur",
    "cg": "blur",
@@ -3140,7 +3167,7 @@
    "alternatives": []
   },
   {
-   "rank": 228,
+   "rank": 230,
    "sym": "LSK",
    "name": "Lisk",
    "cg": "lisk",
@@ -3151,7 +3178,7 @@
    "alternatives": []
   },
   {
-   "rank": 229,
+   "rank": 231,
    "sym": "DEEP",
    "name": "DeepBook",
    "cg": "deep",
@@ -3166,7 +3193,7 @@
    ]
   },
   {
-   "rank": 230,
+   "rank": 232,
    "sym": "CFG",
    "name": "Centrifuge",
    "cg": "centrifuge-2",
@@ -3179,7 +3206,7 @@
    ]
   },
   {
-   "rank": 231,
+   "rank": 233,
    "sym": "BRETT",
    "name": "Brett",
    "cg": "based-brett",
@@ -3191,7 +3218,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 232,
+   "rank": 234,
    "sym": "ALT",
    "name": "AltLayer",
    "cg": "altlayer",
@@ -3206,7 +3233,7 @@
    ]
   },
   {
-   "rank": 233,
+   "rank": 235,
    "sym": "AMP",
    "name": "Amp",
    "cg": "amp-token",
@@ -3221,7 +3248,7 @@
    ]
   },
   {
-   "rank": 234,
+   "rank": 236,
    "sym": "ID",
    "name": "SPACE ID",
    "cg": "space-id",
@@ -3236,7 +3263,7 @@
    ]
   },
   {
-   "rank": 235,
+   "rank": 237,
    "sym": "HUMA",
    "name": "Huma Finance",
    "cg": "huma-finance",
@@ -3251,7 +3278,7 @@
    ]
   },
   {
-   "rank": 236,
+   "rank": 238,
    "sym": "XVS",
    "name": "Venus",
    "cg": "venus",
@@ -3264,7 +3291,7 @@
    ]
   },
   {
-   "rank": 237,
+   "rank": 239,
    "sym": "TRB",
    "name": "Tellor Tributes",
    "cg": "tellor",
@@ -3275,7 +3302,7 @@
    "alternatives": []
   },
   {
-   "rank": 238,
+   "rank": 240,
    "sym": "MEGA",
    "name": "MegaETH",
    "cg": "megaeth",
@@ -3290,7 +3317,7 @@
    ]
   },
   {
-   "rank": 239,
+   "rank": 241,
    "sym": "POLYX",
    "name": "Polymesh",
    "cg": "polymesh",
@@ -3301,7 +3328,7 @@
    "alternatives": []
   },
   {
-   "rank": 240,
+   "rank": 242,
    "sym": "XYO",
    "name": "XYO Network",
    "cg": "xyo-network",
@@ -3316,7 +3343,7 @@
    ]
   },
   {
-   "rank": 241,
+   "rank": 243,
    "sym": "ARX",
    "name": "Arcium",
    "cg": "arcium",
@@ -3329,7 +3356,7 @@
    ]
   },
   {
-   "rank": 242,
+   "rank": 244,
    "sym": "PNUT",
    "name": "Peanut the Squirrel",
    "cg": "peanut-the-squirrel",
@@ -3344,7 +3371,7 @@
    ]
   },
   {
-   "rank": 243,
+   "rank": 245,
    "sym": "FLOW",
    "name": "Flow",
    "cg": "flow",
@@ -3357,7 +3384,7 @@
    ]
   },
   {
-   "rank": 244,
+   "rank": 246,
    "sym": "POPCAT",
    "name": "Popcat",
    "cg": "popcat",
@@ -3368,7 +3395,7 @@
    "alternatives": []
   },
   {
-   "rank": 245,
+   "rank": 247,
    "sym": "NIL",
    "name": "Nillion",
    "cg": "nillion",
@@ -3379,7 +3406,7 @@
    "alternatives": []
   },
   {
-   "rank": 246,
+   "rank": 248,
    "sym": "TOSHI",
    "name": "Toshi",
    "cg": "toshi",
@@ -3390,7 +3417,7 @@
    "alternatives": []
   },
   {
-   "rank": 247,
+   "rank": 249,
    "sym": "XVG",
    "name": "Verge",
    "cg": "verge",
@@ -3401,7 +3428,7 @@
    "alternatives": []
   },
   {
-   "rank": 248,
+   "rank": 250,
    "sym": "RON",
    "name": "Ronin",
    "cg": "ronin",
@@ -3416,7 +3443,7 @@
    ]
   },
   {
-   "rank": 249,
+   "rank": 251,
    "sym": "HOLO",
    "name": "Holoworld",
    "cg": "holoworld",
@@ -3431,7 +3458,7 @@
    ]
   },
   {
-   "rank": 250,
+   "rank": 252,
    "sym": "AZTEC",
    "name": "Aztec",
    "cg": "aztec",
@@ -3442,7 +3469,7 @@
    "alternatives": []
   },
   {
-   "rank": 251,
+   "rank": 253,
    "sym": "DUSK",
    "name": "DUSK",
    "cg": "dusk-network",
@@ -3453,7 +3480,7 @@
    "alternatives": []
   },
   {
-   "rank": 252,
+   "rank": 254,
    "sym": "SC",
    "name": "Siacoin",
    "cg": "siacoin",
@@ -3468,7 +3495,7 @@
    ]
   },
   {
-   "rank": 253,
+   "rank": 255,
    "sym": "NEX",
    "name": "Nexus",
    "cg": "nexus-4",
@@ -3480,7 +3507,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 254,
+   "rank": 256,
    "sym": "VELODROME",
    "name": "Velodrome Finance",
    "cg": "velodrome-finance",
@@ -3495,7 +3522,7 @@
    ]
   },
   {
-   "rank": 255,
+   "rank": 257,
    "sym": "WIN",
    "name": "WINkLink",
    "cg": "wink",
@@ -3510,7 +3537,7 @@
    ]
   },
   {
-   "rank": 256,
+   "rank": 258,
    "sym": "NOT",
    "name": "Notcoin",
    "cg": "notcoin",
@@ -3525,7 +3552,7 @@
    ]
   },
   {
-   "rank": 257,
+   "rank": 259,
    "sym": "BARD",
    "name": "Lombard",
    "cg": "lombard-protocol",
@@ -3538,7 +3565,7 @@
    ]
   },
   {
-   "rank": 258,
+   "rank": 260,
    "sym": "ANKR",
    "name": "Ankr Network",
    "cg": "ankr",
@@ -3553,7 +3580,7 @@
    ]
   },
   {
-   "rank": 259,
+   "rank": 261,
    "sym": "EDU",
    "name": "Open Campus",
    "cg": "edu-coin",
@@ -3568,7 +3595,7 @@
    ]
   },
   {
-   "rank": 260,
+   "rank": 262,
    "sym": "XNO",
    "name": "Nano",
    "cg": "nano",
@@ -3582,7 +3609,7 @@
    ]
   },
   {
-   "rank": 261,
+   "rank": 263,
    "sym": "MASK",
    "name": "Mask Network",
    "cg": "mask-network",
@@ -3597,7 +3624,7 @@
    ]
   },
   {
-   "rank": 262,
+   "rank": 264,
    "sym": "RLC",
    "name": "iExec RLC",
    "cg": "iexec-rlc",
@@ -3608,7 +3635,7 @@
    "alternatives": []
   },
   {
-   "rank": 263,
+   "rank": 265,
    "sym": "AVNT",
    "name": "Veranta",
    "cg": "avantis",
@@ -3619,7 +3646,7 @@
    "alternatives": []
   },
   {
-   "rank": 264,
+   "rank": 266,
    "sym": "ME",
    "name": "Magic Eden",
    "cg": "magic-eden",
@@ -3634,7 +3661,7 @@
    ]
   },
   {
-   "rank": 265,
+   "rank": 267,
    "sym": "MEW",
    "name": "cat in a dogs world",
    "cg": "cat-in-a-dogs-world",
@@ -3649,7 +3676,7 @@
    ]
   },
   {
-   "rank": 266,
+   "rank": 268,
    "sym": "CATI",
    "name": "Catizen",
    "cg": "catizen",
@@ -3660,7 +3687,7 @@
    "alternatives": []
   },
   {
-   "rank": 267,
+   "rank": 269,
    "sym": "MOODENG",
    "name": "Moo Deng",
    "cg": "moo-deng",
@@ -3675,7 +3702,7 @@
    ]
   },
   {
-   "rank": 268,
+   "rank": 270,
    "sym": "SSV",
    "name": "SSV Network",
    "cg": "ssv-network",
@@ -3690,7 +3717,7 @@
    ]
   },
   {
-   "rank": 269,
+   "rank": 271,
    "sym": "REQ",
    "name": "Request",
    "cg": "request-network",
@@ -3701,7 +3728,7 @@
    "alternatives": []
   },
   {
-   "rank": 270,
+   "rank": 272,
    "sym": "MOVE",
    "name": "Movement",
    "cg": "movement",
@@ -3715,7 +3742,7 @@
    ]
   },
   {
-   "rank": 271,
+   "rank": 273,
    "sym": "PEOPLE",
    "name": "ConstitutionDAO",
    "cg": "constitutiondao",
@@ -3730,7 +3757,7 @@
    ]
   },
   {
-   "rank": 272,
+   "rank": 274,
    "sym": "SXT",
    "name": "Space and Time",
    "cg": "space-and-time",
@@ -3745,7 +3772,7 @@
    ]
   },
   {
-   "rank": 273,
+   "rank": 275,
    "sym": "API3",
    "name": "Api3",
    "cg": "api3",
@@ -3756,7 +3783,7 @@
    "alternatives": []
   },
   {
-   "rank": 274,
+   "rank": 276,
    "sym": "RPL",
    "name": "Rocket Pool",
    "cg": "rocket-pool",
@@ -3771,7 +3798,7 @@
    ]
   },
   {
-   "rank": 275,
+   "rank": 277,
    "sym": "ARK",
    "name": "ARK",
    "cg": "ark",
@@ -3786,7 +3813,7 @@
    ]
   },
   {
-   "rank": 276,
+   "rank": 278,
    "sym": "CSPR",
    "name": "Casper Network",
    "cg": "casper-network",
@@ -3801,7 +3828,7 @@
    ]
   },
   {
-   "rank": 277,
+   "rank": 279,
    "sym": "MOCA",
    "name": "Moca Network",
    "cg": "mocaverse",
@@ -3816,7 +3843,7 @@
    ]
   },
   {
-   "rank": 278,
+   "rank": 280,
    "sym": "ONG",
    "name": "Ontology Gas",
    "cg": "ong",
@@ -3831,7 +3858,7 @@
    ]
   },
   {
-   "rank": 279,
+   "rank": 281,
    "sym": "BAND",
    "name": "Band",
    "cg": "band-protocol",
@@ -3844,7 +3871,7 @@
    ]
   },
   {
-   "rank": 280,
+   "rank": 282,
    "sym": "DOS",
    "name": "DAPPOS",
    "cg": "dappos",
@@ -3857,7 +3884,7 @@
    ]
   },
   {
-   "rank": 281,
+   "rank": 283,
    "sym": "GWEI",
    "name": "ETHGas",
    "cg": "ethgas-2",
@@ -3868,7 +3895,7 @@
    "alternatives": []
   },
   {
-   "rank": 282,
+   "rank": 284,
    "sym": "COTI",
    "name": "COTI",
    "cg": "coti",
@@ -3881,7 +3908,7 @@
    ]
   },
   {
-   "rank": 283,
+   "rank": 285,
    "sym": "PROVE",
    "name": "Succinct",
    "cg": "succinct",
@@ -3892,7 +3919,7 @@
    "alternatives": []
   },
   {
-   "rank": 284,
+   "rank": 286,
    "sym": "RVN",
    "name": "Ravencoin",
    "cg": "ravencoin",
@@ -3905,7 +3932,7 @@
    ]
   },
   {
-   "rank": 285,
+   "rank": 287,
    "sym": "SNT",
    "name": "Status",
    "cg": "status",
@@ -3919,7 +3946,7 @@
    ]
   },
   {
-   "rank": 286,
+   "rank": 288,
    "sym": "PCI",
    "name": "Paycoin",
    "cg": "pay-coin",
@@ -3930,7 +3957,7 @@
    "alternatives": []
   },
   {
-   "rank": 287,
+   "rank": 289,
    "sym": "SYN",
    "name": "Synapse",
    "cg": "synapse-2",
@@ -3945,7 +3972,7 @@
    ]
   },
   {
-   "rank": 288,
+   "rank": 290,
    "sym": "MEME",
    "name": "Memecoin",
    "cg": "memecoin-2",
@@ -3960,7 +3987,7 @@
    ]
   },
   {
-   "rank": 289,
+   "rank": 291,
    "sym": "SAHARA",
    "name": "Sahara AI",
    "cg": "sahara-ai",
@@ -3975,7 +4002,7 @@
    ]
   },
   {
-   "rank": 290,
+   "rank": 292,
    "sym": "B3",
    "name": "B3 (Base)",
    "cg": "b3",
@@ -3990,7 +4017,7 @@
    ]
   },
   {
-   "rank": 291,
+   "rank": 293,
    "sym": "UMA",
    "name": "UMA",
    "cg": "uma",
@@ -4001,7 +4028,7 @@
    "alternatives": []
   },
   {
-   "rank": 292,
+   "rank": 294,
    "sym": "NEIRO",
    "name": "Neiro",
    "cg": "neiro-3",
@@ -4013,7 +4040,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 293,
+   "rank": 295,
    "sym": "BFC",
    "name": "Bifrost",
    "cg": "bifrost",
@@ -4026,7 +4053,7 @@
    ]
   },
   {
-   "rank": 294,
+   "rank": 296,
    "sym": "GIGGLE",
    "name": "Giggle Fund",
    "cg": "giggle-fund",
@@ -4041,7 +4068,7 @@
    ]
   },
   {
-   "rank": 295,
+   "rank": 297,
    "sym": "OCEAN",
    "name": "Ocean Protocol",
    "cg": "ocean-protocol",
@@ -4056,7 +4083,7 @@
    ]
   },
   {
-   "rank": 296,
+   "rank": 298,
    "sym": "POWR",
    "name": "Powerledger",
    "cg": "power-ledger",
@@ -4067,7 +4094,7 @@
    "alternatives": []
   },
   {
-   "rank": 297,
+   "rank": 299,
    "sym": "MMT",
    "name": "Momentum",
    "cg": "momentum-3",
@@ -4078,7 +4105,7 @@
    "alternatives": []
   },
   {
-   "rank": 298,
+   "rank": 300,
    "sym": "REZ",
    "name": "Renzo",
    "cg": "renzo",
@@ -4092,7 +4119,7 @@
    ]
   },
   {
-   "rank": 299,
+   "rank": 301,
    "sym": "ORBS",
    "name": "Orbs",
    "cg": "orbs",
@@ -4103,7 +4130,7 @@
    "alternatives": []
   },
   {
-   "rank": 300,
+   "rank": 302,
    "sym": "CPOOL",
    "name": "Clearpool",
    "cg": "clearpool",
@@ -4114,7 +4141,7 @@
    "alternatives": []
   },
   {
-   "rank": 301,
+   "rank": 303,
    "sym": "LISTA",
    "name": "Lista DAO",
    "cg": "lista",
@@ -4129,7 +4156,7 @@
    ]
   },
   {
-   "rank": 302,
+   "rank": 304,
    "sym": "LUNA",
    "name": "Terra",
    "cg": "terra-luna-2",
@@ -4144,7 +4171,7 @@
    ]
   },
   {
-   "rank": 303,
+   "rank": 305,
    "sym": "DEBIT",
    "name": "Teller",
    "cg": "teller",
@@ -4157,7 +4184,7 @@
    ]
   },
   {
-   "rank": 304,
+   "rank": 306,
    "sym": "SIGN",
    "name": "Sign",
    "cg": "sign-global",
@@ -4170,7 +4197,7 @@
    ]
   },
   {
-   "rank": 305,
+   "rank": 307,
    "sym": "ONE",
    "name": "Harmony",
    "cg": "harmony",
@@ -4185,7 +4212,7 @@
    ]
   },
   {
-   "rank": 306,
+   "rank": 308,
    "sym": "STEEM",
    "name": "Steem",
    "cg": "steem",
@@ -4198,7 +4225,7 @@
    ]
   },
   {
-   "rank": 307,
+   "rank": 309,
    "sym": "EUL",
    "name": "Euler",
    "cg": "euler",
@@ -4209,7 +4236,7 @@
    "alternatives": []
   },
   {
-   "rank": 308,
+   "rank": 310,
    "sym": "BNT",
    "name": "Bancor Network",
    "cg": "bancor",
@@ -4224,7 +4251,7 @@
    ]
   },
   {
-   "rank": 309,
+   "rank": 311,
    "sym": "ZORA",
    "name": "Zora",
    "cg": "zora",
@@ -4235,7 +4262,7 @@
    "alternatives": []
   },
   {
-   "rank": 310,
+   "rank": 312,
    "sym": "CARV",
    "name": "CARV",
    "cg": "carv",
@@ -4248,7 +4275,7 @@
    ]
   },
   {
-   "rank": 311,
+   "rank": 313,
    "sym": "G",
    "name": "Gravity (by Galxe)",
    "cg": "g-token",
@@ -4263,7 +4290,7 @@
    ]
   },
   {
-   "rank": 312,
+   "rank": 314,
    "sym": "FLUX",
    "name": "Flux",
    "cg": "zelcash",
@@ -4276,7 +4303,7 @@
    ]
   },
   {
-   "rank": 313,
+   "rank": 315,
    "sym": "IOTX",
    "name": "IoTeX",
    "cg": "iotex",
@@ -4287,7 +4314,7 @@
    "alternatives": []
   },
   {
-   "rank": 314,
+   "rank": 316,
    "sym": "SOMI",
    "name": "Somnia",
    "cg": "somnia",
@@ -4298,7 +4325,7 @@
    "alternatives": []
   },
   {
-   "rank": 315,
+   "rank": 317,
    "sym": "MANTA",
    "name": "Manta Network",
    "cg": "manta-network",
@@ -4313,7 +4340,7 @@
    ]
   },
   {
-   "rank": 316,
+   "rank": 318,
    "sym": "BORA",
    "name": "BORA",
    "cg": "bora",
@@ -4324,7 +4351,7 @@
    "alternatives": []
   },
   {
-   "rank": 317,
+   "rank": 319,
    "sym": "ILV",
    "name": "Illuvium",
    "cg": "illuvium",
@@ -4335,7 +4362,7 @@
    "alternatives": []
   },
   {
-   "rank": 318,
+   "rank": 320,
    "sym": "VANA",
    "name": "Vana",
    "cg": "vana",
@@ -4348,7 +4375,7 @@
    ]
   },
   {
-   "rank": 319,
+   "rank": 321,
    "sym": "SPACE",
    "name": "Spacecoin",
    "cg": "spacecoin-2",
@@ -4363,7 +4390,7 @@
    ]
   },
   {
-   "rank": 320,
+   "rank": 322,
    "sym": "CORE",
    "name": "Core",
    "cg": "coredaoorg",
@@ -4378,7 +4405,7 @@
    ]
   },
   {
-   "rank": 321,
+   "rank": 323,
    "sym": "IRYS",
    "name": "Irys",
    "cg": "irys",
@@ -4389,7 +4416,7 @@
    "alternatives": []
   },
   {
-   "rank": 322,
+   "rank": 324,
    "sym": "FLOCK",
    "name": "FLOCK",
    "cg": "flock-2",
@@ -4403,7 +4430,7 @@
    ]
   },
   {
-   "rank": 323,
+   "rank": 325,
    "sym": "PUNDIX",
    "name": "Pundi X",
    "cg": "pundi-x-2",
@@ -4418,7 +4445,7 @@
    ]
   },
   {
-   "rank": 324,
+   "rank": 326,
    "sym": "HIVE",
    "name": "Hive",
    "cg": "hive",
@@ -4433,7 +4460,7 @@
    ]
   },
   {
-   "rank": 325,
+   "rank": 327,
    "sym": "US",
    "name": "Talus",
    "cg": "talus",
@@ -4448,7 +4475,7 @@
    ]
   },
   {
-   "rank": 326,
+   "rank": 328,
    "sym": "MVL",
    "name": "MVL",
    "cg": "mass-vehicle-ledger",
@@ -4461,7 +4488,7 @@
    ]
   },
   {
-   "rank": 327,
+   "rank": 329,
    "sym": "EDGE",
    "name": "Definitive",
    "cg": "definitive",
@@ -4476,7 +4503,7 @@
    ]
   },
   {
-   "rank": 328,
+   "rank": 330,
    "sym": "ACX",
    "name": "Across Protocol",
    "cg": "across-protocol",
@@ -4491,7 +4518,7 @@
    ]
   },
   {
-   "rank": 329,
+   "rank": 331,
    "sym": "OPG",
    "name": "OpenGradient",
    "cg": "opengradient",
@@ -4502,7 +4529,7 @@
    "alternatives": []
   },
   {
-   "rank": 330,
+   "rank": 332,
    "sym": "IOST",
    "name": "IOST",
    "cg": "iostoken",
@@ -4513,7 +4540,7 @@
    "alternatives": []
   },
   {
-   "rank": 331,
+   "rank": 333,
    "sym": "CVC",
    "name": "Civic",
    "cg": "civic",
@@ -4524,7 +4551,7 @@
    "alternatives": []
   },
   {
-   "rank": 332,
+   "rank": 334,
    "sym": "XAN",
    "name": "Anoma",
    "cg": "anoma",
@@ -4537,7 +4564,7 @@
    ]
   },
   {
-   "rank": 333,
+   "rank": 335,
    "sym": "WAVES",
    "name": "Waves",
    "cg": "waves",
@@ -4550,7 +4577,7 @@
    ]
   },
   {
-   "rank": 334,
+   "rank": 336,
    "sym": "AT",
    "name": "Apro",
    "cg": "apro",
@@ -4565,7 +4592,7 @@
    ]
   },
   {
-   "rank": 335,
+   "rank": 337,
    "sym": "MTL",
    "name": "Metal DAO",
    "cg": "metal",
@@ -4580,7 +4607,7 @@
    ]
   },
   {
-   "rank": 336,
+   "rank": 338,
    "sym": "KNC",
    "name": "Kyber Network Crystal",
    "cg": "kyber-network-crystal",
@@ -4595,7 +4622,7 @@
    ]
   },
   {
-   "rank": 337,
+   "rank": 339,
    "sym": "MANTRA",
    "name": "MANTRA",
    "cg": "mantra",
@@ -4610,7 +4637,7 @@
    ]
   },
   {
-   "rank": 338,
+   "rank": 340,
    "sym": "TNSR",
    "name": "Tensor",
    "cg": "tensor",
@@ -4623,7 +4650,7 @@
    ]
   },
   {
-   "rank": 339,
+   "rank": 341,
    "sym": "WAXP",
    "name": "WAX",
    "cg": "wax",
@@ -4634,7 +4661,7 @@
    "alternatives": []
   },
   {
-   "rank": 340,
+   "rank": 342,
    "sym": "FOGO",
    "name": "Fogo",
    "cg": "fogo",
@@ -4645,7 +4672,7 @@
    "alternatives": []
   },
   {
-   "rank": 341,
+   "rank": 343,
    "sym": "SKL",
    "name": "SKALE",
    "cg": "skale",
@@ -4659,7 +4686,7 @@
    ]
   },
   {
-   "rank": 342,
+   "rank": 344,
    "sym": "MPLX",
    "name": "Metaplex",
    "cg": "metaplex",
@@ -4670,7 +4697,7 @@
    "alternatives": []
   },
   {
-   "rank": 343,
+   "rank": 345,
    "sym": "CTSI",
    "name": "Cartesi",
    "cg": "cartesi",
@@ -4681,7 +4708,7 @@
    "alternatives": []
   },
   {
-   "rank": 344,
+   "rank": 346,
    "sym": "OSMO",
    "name": "Osmosis",
    "cg": "osmosis",
@@ -4692,7 +4719,7 @@
    "alternatives": []
   },
   {
-   "rank": 345,
+   "rank": 347,
    "sym": "AUCTION",
    "name": "Bounce",
    "cg": "auction",
@@ -4706,7 +4733,7 @@
    ]
   },
   {
-   "rank": 346,
+   "rank": 348,
    "sym": "METIS",
    "name": "Metis",
    "cg": "metis-token",
@@ -4717,7 +4744,7 @@
    "alternatives": []
   },
   {
-   "rank": 347,
+   "rank": 349,
    "sym": "FRAX",
    "name": "Frax (prev. FXS)",
    "cg": "frax-share",
@@ -4732,7 +4759,7 @@
    ]
   },
   {
-   "rank": 348,
+   "rank": 350,
    "sym": "ZBT",
    "name": "ZEROBASE",
    "cg": "zerobase",
@@ -4743,7 +4770,7 @@
    "alternatives": []
   },
   {
-   "rank": 349,
+   "rank": 351,
    "sym": "GMT",
    "name": "GMT",
    "cg": "stepn",
@@ -4754,7 +4781,7 @@
    "alternatives": []
   },
   {
-   "rank": 350,
+   "rank": 352,
    "sym": "BILL",
    "name": "Billions Network",
    "cg": "billions-network",
@@ -4769,7 +4796,7 @@
    ]
   },
   {
-   "rank": 351,
+   "rank": 353,
    "sym": "CETUS",
    "name": "Cetus Protocol",
    "cg": "cetus-protocol",
@@ -4784,7 +4811,7 @@
    ]
   },
   {
-   "rank": 352,
+   "rank": 354,
    "sym": "AI",
    "name": "Gensyn",
    "cg": "gensyn",
@@ -4799,7 +4826,7 @@
    ]
   },
   {
-   "rank": 353,
+   "rank": 355,
    "sym": "ARDR",
    "name": "Ardor",
    "cg": "ardor",
@@ -4810,7 +4837,7 @@
    "alternatives": []
   },
   {
-   "rank": 354,
+   "rank": 356,
    "sym": "BIGTIME",
    "name": "Big Time",
    "cg": "big-time",
@@ -4825,7 +4852,7 @@
    ]
   },
   {
-   "rank": 355,
+   "rank": 357,
    "sym": "CYS",
    "name": "Cysic",
    "cg": "cysic",
@@ -4838,7 +4865,7 @@
    ]
   },
   {
-   "rank": 356,
+   "rank": 358,
    "sym": "OPEN",
    "name": "OpenLedger",
    "cg": "openledger-2",
@@ -4853,7 +4880,7 @@
    ]
   },
   {
-   "rank": 357,
+   "rank": 359,
    "sym": "BROCCOLI714",
    "name": "CZ's Dog",
    "cg": "czs-dog",
@@ -4868,7 +4895,7 @@
    ]
   },
   {
-   "rank": 358,
+   "rank": 360,
    "sym": "EDEN",
    "name": "OpenEden",
    "cg": "openeden",
@@ -4883,7 +4910,7 @@
    ]
   },
   {
-   "rank": 359,
+   "rank": 361,
    "sym": "USUAL",
    "name": "Usual",
    "cg": "usual",
@@ -4896,7 +4923,7 @@
    ]
   },
   {
-   "rank": 360,
+   "rank": 362,
    "sym": "GRVT",
    "name": "GRVT Token",
    "cg": "grvt",
@@ -4911,7 +4938,7 @@
    ]
   },
   {
-   "rank": 361,
+   "rank": 363,
    "sym": "YGG",
    "name": "Yield Guild Games",
    "cg": "yield-guild-games",
@@ -4926,7 +4953,7 @@
    ]
   },
   {
-   "rank": 362,
+   "rank": 364,
    "sym": "WOO",
    "name": "WOO",
    "cg": "woo-network",
@@ -4941,7 +4968,7 @@
    ]
   },
   {
-   "rank": 363,
+   "rank": 365,
    "sym": "ICNT",
    "name": "Impossible Cloud Network Token",
    "cg": "impossible-cloud-network-token",
@@ -4956,7 +4983,7 @@
    ]
   },
   {
-   "rank": 364,
+   "rank": 366,
    "sym": "IQ",
    "name": "IQ",
    "cg": "everipedia",
@@ -4970,7 +4997,7 @@
    ]
   },
   {
-   "rank": 365,
+   "rank": 367,
    "sym": "MLK",
    "name": "MiL.k",
    "cg": "milk-alliance",
@@ -4985,7 +5012,7 @@
    ]
   },
   {
-   "rank": 366,
+   "rank": 368,
    "sym": "MOVR",
    "name": "Moonriver",
    "cg": "moonriver",
@@ -4996,7 +5023,7 @@
    "alternatives": []
   },
   {
-   "rank": 367,
+   "rank": 369,
    "sym": "HEMI",
    "name": "Hemi",
    "cg": "hemi",
@@ -5007,7 +5034,7 @@
    "alternatives": []
   },
   {
-   "rank": 368,
+   "rank": 370,
    "sym": "STRAX",
    "name": "Xertra",
    "cg": "stratis",
@@ -5021,7 +5048,7 @@
    ]
   },
   {
-   "rank": 369,
+   "rank": 371,
    "sym": "SLP",
    "name": "Smooth Love Potion",
    "cg": "smooth-love-potion",
@@ -5036,7 +5063,7 @@
    ]
   },
   {
-   "rank": 370,
+   "rank": 372,
    "sym": "AUDIO",
    "name": "Audius",
    "cg": "audius",
@@ -5047,7 +5074,7 @@
    "alternatives": []
   },
   {
-   "rank": 371,
+   "rank": 373,
    "sym": "HOME",
    "name": "HOME",
    "cg": "home",
@@ -5059,7 +5086,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 372,
+   "rank": 374,
    "sym": "TOKAMAK",
    "name": "Tokamak Network",
    "cg": "tokamak-network",
@@ -5074,7 +5101,7 @@
    ]
   },
   {
-   "rank": 373,
+   "rank": 375,
    "sym": "CGPT",
    "name": "ChainGPT",
    "cg": "chaingpt",
@@ -5087,7 +5114,7 @@
    ]
   },
   {
-   "rank": 374,
+   "rank": 376,
    "sym": "DOGS",
    "name": "Dogs",
    "cg": "dogs-2",
@@ -5102,7 +5129,7 @@
    ]
   },
   {
-   "rank": 375,
+   "rank": 377,
    "sym": "AEVO",
    "name": "Aevo",
    "cg": "aevo-exchange",
@@ -5113,7 +5140,7 @@
    "alternatives": []
   },
   {
-   "rank": 376,
+   "rank": 378,
    "sym": "HYPER",
    "name": "Hyperlane",
    "cg": "hyperlane",
@@ -5128,7 +5155,7 @@
    ]
   },
   {
-   "rank": 377,
+   "rank": 379,
    "sym": "CELR",
    "name": "Celer Network",
    "cg": "celer-network",
@@ -5143,7 +5170,7 @@
    ]
   },
   {
-   "rank": 378,
+   "rank": 380,
    "sym": "SOLV",
    "name": "Solv Protocol",
    "cg": "solv-protocol",
@@ -5158,7 +5185,7 @@
    ]
   },
   {
-   "rank": 379,
+   "rank": 381,
    "sym": "BSB",
    "name": "Block Street",
    "cg": "block-street",
@@ -5173,7 +5200,7 @@
    ]
   },
   {
-   "rank": 380,
+   "rank": 382,
    "sym": "FOLD",
    "name": "The Interfold",
    "cg": "interfold",
@@ -5188,7 +5215,7 @@
    ]
   },
   {
-   "rank": 381,
+   "rank": 383,
    "sym": "INIT",
    "name": "Initia",
    "cg": "initia",
@@ -5201,7 +5228,7 @@
    ]
   },
   {
-   "rank": 382,
+   "rank": 384,
    "sym": "LQTY",
    "name": "Liquity",
    "cg": "liquity",
@@ -5214,7 +5241,7 @@
    ]
   },
   {
-   "rank": 383,
+   "rank": 385,
    "sym": "AIXBT",
    "name": "aixbt",
    "cg": "aixbt",
@@ -5227,7 +5254,7 @@
    ]
   },
   {
-   "rank": 384,
+   "rank": 386,
    "sym": "YB",
    "name": "Yield Basis",
    "cg": "yield-basis",
@@ -5242,7 +5269,7 @@
    ]
   },
   {
-   "rank": 385,
+   "rank": 387,
    "sym": "BANK",
    "name": "Lorenzo Protocol",
    "cg": "lorenzo-protocol",
@@ -5257,7 +5284,7 @@
    ]
   },
   {
-   "rank": 386,
+   "rank": 388,
    "sym": "CHR",
    "name": "Chromia",
    "cg": "chromaway",
@@ -5272,7 +5299,7 @@
    ]
   },
   {
-   "rank": 387,
+   "rank": 389,
    "sym": "BREV",
    "name": "Brevis",
    "cg": "brevis",
@@ -5283,7 +5310,7 @@
    "alternatives": []
   },
   {
-   "rank": 388,
+   "rank": 390,
    "sym": "ACE",
    "name": "Fusionist",
    "cg": "endurance",
@@ -5297,7 +5324,7 @@
    ]
   },
   {
-   "rank": 389,
+   "rank": 391,
    "sym": "CBK",
    "name": "Cobak",
    "cg": "cobak-token",
@@ -5308,7 +5335,7 @@
    "alternatives": []
   },
   {
-   "rank": 390,
+   "rank": 392,
    "sym": "STG",
    "name": "Stargate Finance",
    "cg": "stargate-finance",
@@ -5323,7 +5350,7 @@
    ]
   },
   {
-   "rank": 391,
+   "rank": 393,
    "sym": "FIDA",
    "name": "Bonfida",
    "cg": "bonfida",
@@ -5336,7 +5363,7 @@
    ]
   },
   {
-   "rank": 392,
+   "rank": 394,
    "sym": "POKT",
    "name": "Pocket Network",
    "cg": "pocket-network",
@@ -5351,7 +5378,7 @@
    ]
   },
   {
-   "rank": 393,
+   "rank": 395,
    "sym": "DKA",
    "name": "dKargo",
    "cg": "dkargo",
@@ -5362,7 +5389,7 @@
    "alternatives": []
   },
   {
-   "rank": 394,
+   "rank": 396,
    "sym": "CTK",
    "name": "Shentu",
    "cg": "certik",
@@ -5373,7 +5400,7 @@
    "alternatives": []
   },
   {
-   "rank": 395,
+   "rank": 397,
    "sym": "LUMIA",
    "name": "Lumia",
    "cg": "lumia",
@@ -5384,7 +5411,7 @@
    "alternatives": []
   },
   {
-   "rank": 396,
+   "rank": 398,
    "sym": "MAGIC",
    "name": "Treasure",
    "cg": "magic",
@@ -5399,7 +5426,7 @@
    ]
   },
   {
-   "rank": 397,
+   "rank": 399,
    "sym": "BICO",
    "name": "Biconomy",
    "cg": "biconomy",
@@ -5412,7 +5439,7 @@
    ]
   },
   {
-   "rank": 398,
+   "rank": 400,
    "sym": "TUT",
    "name": "Tutorial",
    "cg": "tutorial",
@@ -5425,7 +5452,7 @@
    ]
   },
   {
-   "rank": 399,
+   "rank": 401,
    "sym": "ENSO",
    "name": "Enso",
    "cg": "enso",
@@ -5436,7 +5463,7 @@
    "alternatives": []
   },
   {
-   "rank": 400,
+   "rank": 402,
    "sym": "XAI",
    "name": "Xai",
    "cg": "xai-blockchain",
@@ -5450,7 +5477,7 @@
    ]
   },
   {
-   "rank": 401,
+   "rank": 403,
    "sym": "DIA",
    "name": "DIA",
    "cg": "dia-data",
@@ -5465,7 +5492,7 @@
    ]
   },
   {
-   "rank": 402,
+   "rank": 404,
    "sym": "HUNT",
    "name": "Hunt",
    "cg": "hunt-token",
@@ -5480,7 +5507,7 @@
    ]
   },
   {
-   "rank": 403,
+   "rank": 405,
    "sym": "QI",
    "name": "BENQI",
    "cg": "benqi",
@@ -5495,7 +5522,7 @@
    ]
   },
   {
-   "rank": 404,
+   "rank": 406,
    "sym": "MED",
    "name": "Medibloc",
    "cg": "medibloc",
@@ -5510,7 +5537,7 @@
    ]
   },
   {
-   "rank": 405,
+   "rank": 407,
    "sym": "QKC",
    "name": "QuarkChain",
    "cg": "quark-chain",
@@ -5521,7 +5548,7 @@
    "alternatives": []
   },
   {
-   "rank": 406,
+   "rank": 408,
    "sym": "ARPA",
    "name": "ARPA",
    "cg": "arpa",
@@ -5532,7 +5559,7 @@
    "alternatives": []
   },
   {
-   "rank": 407,
+   "rank": 409,
    "sym": "WCT",
    "name": "WalletConnect Token",
    "cg": "connect-token-wct",
@@ -5547,7 +5574,7 @@
    ]
   },
   {
-   "rank": 408,
+   "rank": 410,
    "sym": "TAIKO",
    "name": "Taiko",
    "cg": "taiko",
@@ -5558,7 +5585,7 @@
    "alternatives": []
   },
   {
-   "rank": 409,
+   "rank": 411,
    "sym": "PRL",
    "name": "Perle",
    "cg": "perle",
@@ -5569,7 +5596,7 @@
    "alternatives": []
   },
   {
-   "rank": 410,
+   "rank": 412,
    "sym": "RAD",
    "name": "Radworks",
    "cg": "radicle",
@@ -5584,7 +5611,7 @@
    ]
   },
   {
-   "rank": 411,
+   "rank": 413,
    "sym": "GAME2",
    "name": "GameBuild",
    "cg": "gamebuild",
@@ -5599,7 +5626,7 @@
    ]
   },
   {
-   "rank": 412,
+   "rank": 414,
    "sym": "CYBER",
    "name": "CYBER",
    "cg": "cyberconnect",
@@ -5614,7 +5641,7 @@
    ]
   },
   {
-   "rank": 413,
+   "rank": 415,
    "sym": "AGLD",
    "name": "Adventure Gold",
    "cg": "adventure-gold",
@@ -5629,7 +5656,7 @@
    ]
   },
   {
-   "rank": 414,
+   "rank": 416,
    "sym": "ROBO",
    "name": "Fabric Protocol",
    "cg": "robo-token-2",
@@ -5644,7 +5671,7 @@
    ]
   },
   {
-   "rank": 415,
+   "rank": 417,
    "sym": "NCT",
    "name": "PolySwarm",
    "cg": "polyswarm",
@@ -5657,7 +5684,7 @@
    ]
   },
   {
-   "rank": 416,
+   "rank": 418,
    "sym": "CTR",
    "name": "Citrea",
    "cg": "citrea",
@@ -5671,7 +5698,7 @@
    ]
   },
   {
-   "rank": 417,
+   "rank": 419,
    "sym": "SOPH",
    "name": "Sophon",
    "cg": "sophon",
@@ -5684,7 +5711,7 @@
    ]
   },
   {
-   "rank": 418,
+   "rank": 420,
    "sym": "JOE",
    "name": "JOE",
    "cg": "joe",
@@ -5698,7 +5725,7 @@
    ]
   },
   {
-   "rank": 419,
+   "rank": 421,
    "sym": "DODO",
    "name": "DODO",
    "cg": "dodo",
@@ -5709,7 +5736,7 @@
    "alternatives": []
   },
   {
-   "rank": 420,
+   "rank": 422,
    "sym": "MIRA",
    "name": "Mira",
    "cg": "mira-3",
@@ -5723,7 +5750,7 @@
    ]
   },
   {
-   "rank": 421,
+   "rank": 423,
    "sym": "ANIME",
    "name": "Animecoin",
    "cg": "anime",
@@ -5736,7 +5763,7 @@
    ]
   },
   {
-   "rank": 422,
+   "rank": 424,
    "sym": "GTC",
    "name": "Gitcoin",
    "cg": "gitcoin",
@@ -5750,7 +5777,7 @@
    ]
   },
   {
-   "rank": 423,
+   "rank": 425,
    "sym": "AVA",
    "name": "AVA (Travala)",
    "cg": "concierge-io",
@@ -5765,7 +5792,7 @@
    ]
   },
   {
-   "rank": 424,
+   "rank": 426,
    "sym": "BIRB",
    "name": "Moonbirds",
    "cg": "moonbirds",
@@ -5776,7 +5803,7 @@
    "alternatives": []
   },
   {
-   "rank": 425,
+   "rank": 427,
    "sym": "ALICE",
    "name": "My Neighbor Alice",
    "cg": "my-neighbor-alice",
@@ -5791,7 +5818,7 @@
    ]
   },
   {
-   "rank": 426,
+   "rank": 428,
    "sym": "SAPIEN",
    "name": "Sapien",
    "cg": "sapien-2",
@@ -5805,7 +5832,7 @@
    ]
   },
   {
-   "rank": 427,
+   "rank": 429,
    "sym": "TST",
    "name": "Test",
    "cg": "test-3",
@@ -5820,7 +5847,7 @@
    ]
   },
   {
-   "rank": 428,
+   "rank": 430,
    "sym": "AGI",
    "name": "Delysium",
    "cg": "delysium",
@@ -5835,7 +5862,7 @@
    ]
   },
   {
-   "rank": 429,
+   "rank": 431,
    "sym": "EPIC",
    "name": "Epic Chain",
    "cg": "epic-chain",
@@ -5850,7 +5877,7 @@
    ]
   },
   {
-   "rank": 430,
+   "rank": 432,
    "sym": "C",
    "name": "Chainbase",
    "cg": "chainbase",
@@ -5865,7 +5892,7 @@
    ]
   },
   {
-   "rank": 431,
+   "rank": 433,
    "sym": "CP",
    "name": "Cluster Protocol",
    "cg": "cluster-protocol",
@@ -5880,7 +5907,7 @@
    ]
   },
   {
-   "rank": 432,
+   "rank": 434,
    "sym": "SPELL",
    "name": "Spell",
    "cg": "spell-token",
@@ -5895,7 +5922,7 @@
    ]
   },
   {
-   "rank": 433,
+   "rank": 435,
    "sym": "C98",
    "name": "Coin98",
    "cg": "coin98",
@@ -5906,7 +5933,7 @@
    "alternatives": []
   },
   {
-   "rank": 434,
+   "rank": 436,
    "sym": "F",
    "name": "SynFutures",
    "cg": "synfutures",
@@ -5921,7 +5948,7 @@
    ]
   },
   {
-   "rank": 435,
+   "rank": 437,
    "sym": "UP",
    "name": "Superform",
    "cg": "superform",
@@ -5936,7 +5963,7 @@
    ]
   },
   {
-   "rank": 436,
+   "rank": 438,
    "sym": "BOB",
    "name": "BOB (Build on Bitcoin)",
    "cg": "bob-build-on-bitcoin",
@@ -5948,7 +5975,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 437,
+   "rank": 439,
    "sym": "ICX",
    "name": "ICON",
    "cg": "icon",
@@ -5962,7 +5989,7 @@
    ]
   },
   {
-   "rank": 438,
+   "rank": 440,
    "sym": "LAYER",
    "name": "Solayer",
    "cg": "solayer",
@@ -5977,7 +6004,7 @@
    ]
   },
   {
-   "rank": 439,
+   "rank": 441,
    "sym": "BANANA",
    "name": "Banana Gun",
    "cg": "banana-gun",
@@ -5992,7 +6019,7 @@
    ]
   },
   {
-   "rank": 440,
+   "rank": 442,
    "sym": "DOLO",
    "name": "Dolomite",
    "cg": "dolomite",
@@ -6005,7 +6032,7 @@
    ]
   },
   {
-   "rank": 441,
+   "rank": 443,
    "sym": "ORDER",
    "name": "Orderly",
    "cg": "orderly-network",
@@ -6018,7 +6045,7 @@
    ]
   },
   {
-   "rank": 442,
+   "rank": 444,
    "sym": "PORTAL",
    "name": "Portal",
    "cg": "portal-2",
@@ -6033,7 +6060,7 @@
    ]
   },
   {
-   "rank": 443,
+   "rank": 445,
    "sym": "KAT",
    "name": "Katana",
    "cg": "katana-network-token",
@@ -6048,7 +6075,7 @@
    ]
   },
   {
-   "rank": 444,
+   "rank": 446,
    "sym": "MBL",
    "name": "MovieBloc",
    "cg": "moviebloc",
@@ -6061,7 +6088,7 @@
    ]
   },
   {
-   "rank": 445,
+   "rank": 447,
    "sym": "KERNEL",
    "name": "KernelDAO",
    "cg": "kernel-2",
@@ -6074,7 +6101,7 @@
    ]
   },
   {
-   "rank": 446,
+   "rank": 448,
    "sym": "META",
    "name": "Metadium",
    "cg": "metadium",
@@ -6089,7 +6116,7 @@
    ]
   },
   {
-   "rank": 447,
+   "rank": 449,
    "sym": "OGN",
    "name": "Origin Token",
    "cg": "origin-protocol",
@@ -6104,7 +6131,7 @@
    ]
   },
   {
-   "rank": 448,
+   "rank": 450,
    "sym": "WET",
    "name": "HumidiFi",
    "cg": "humidifi",
@@ -6119,7 +6146,7 @@
    ]
   },
   {
-   "rank": 449,
+   "rank": 451,
    "sym": "SLX",
    "name": "Solstice",
    "cg": "solstice",
@@ -6133,7 +6160,7 @@
    ]
   },
   {
-   "rank": 450,
+   "rank": 452,
    "sym": "BASED",
    "name": "Based",
    "cg": "based-one",
@@ -6148,7 +6175,7 @@
    ]
   },
   {
-   "rank": 451,
+   "rank": 453,
    "sym": "AEON",
    "name": "AEON",
    "cg": "aeon-3",
@@ -6159,7 +6186,7 @@
    "alternatives": []
   },
   {
-   "rank": 452,
+   "rank": 454,
    "sym": "HP",
    "name": "Hippo Protocol",
    "cg": "hippo-protocol",
@@ -6174,7 +6201,7 @@
    ]
   },
   {
-   "rank": 453,
+   "rank": 455,
    "sym": "BMT",
    "name": "Bubblemaps",
    "cg": "bubblemaps",
@@ -6185,7 +6212,7 @@
    "alternatives": []
   },
   {
-   "rank": 454,
+   "rank": 456,
    "sym": "RARE",
    "name": "SuperRare",
    "cg": "superrare",
@@ -6200,7 +6227,7 @@
    ]
   },
   {
-   "rank": 455,
+   "rank": 457,
    "sym": "RECALL",
    "name": "Recall",
    "cg": "recall",
@@ -6215,7 +6242,7 @@
    ]
   },
   {
-   "rank": 456,
+   "rank": 458,
    "sym": "OG",
    "name": "OG Fan Token",
    "cg": "og-fan-token",
@@ -6230,7 +6257,7 @@
    ]
   },
   {
-   "rank": 457,
+   "rank": 459,
    "sym": "MAV",
    "name": "Maverick Protocol",
    "cg": "maverick-protocol",
@@ -6245,7 +6272,7 @@
    ]
   },
   {
-   "rank": 458,
+   "rank": 460,
    "sym": "LA",
    "name": "Lagrange",
    "cg": "lagrange",
@@ -6260,7 +6287,7 @@
    ]
   },
   {
-   "rank": 459,
+   "rank": 461,
    "sym": "PONKE",
    "name": "PONKE",
    "cg": "ponke",
@@ -6271,7 +6298,7 @@
    "alternatives": []
   },
   {
-   "rank": 460,
+   "rank": 462,
    "sym": "BLEND",
    "name": "Fluent",
    "cg": "fluent-network",
@@ -6286,7 +6313,7 @@
    ]
   },
   {
-   "rank": 461,
+   "rank": 463,
    "sym": "DOOD",
    "name": "Doodles",
    "cg": "doodles",
@@ -6300,7 +6327,7 @@
    ]
   },
   {
-   "rank": 462,
+   "rank": 464,
    "sym": "DYM",
    "name": "Dymension",
    "cg": "dymension",
@@ -6311,7 +6338,7 @@
    "alternatives": []
   },
   {
-   "rank": 463,
+   "rank": 465,
    "sym": "GLMR",
    "name": "Moonbeam",
    "cg": "moonbeam",
@@ -6322,7 +6349,7 @@
    "alternatives": []
   },
   {
-   "rank": 464,
+   "rank": 466,
    "sym": "PUFFER",
    "name": "Puffer",
    "cg": "puffer-finance",
@@ -6336,7 +6363,7 @@
    ]
   },
   {
-   "rank": 465,
+   "rank": 467,
    "sym": "IN",
    "name": "INFINIT",
    "cg": "infinit",
@@ -6351,7 +6378,7 @@
    ]
   },
   {
-   "rank": 466,
+   "rank": 468,
    "sym": "ELSA",
    "name": "Elsa",
    "cg": "elsa",
@@ -6362,7 +6389,7 @@
    "alternatives": []
   },
   {
-   "rank": 467,
+   "rank": 469,
    "sym": "ZKC",
    "name": "Boundless",
    "cg": "boundless",
@@ -6375,7 +6402,7 @@
    ]
   },
   {
-   "rank": 468,
+   "rank": 470,
    "sym": "EL",
    "name": "ELYSIA",
    "cg": "elysia",
@@ -6390,7 +6417,7 @@
    ]
   },
   {
-   "rank": 469,
+   "rank": 471,
    "sym": "BTR",
    "name": "Bitlayer",
    "cg": "bitlayer-bitvm",
@@ -6404,7 +6431,7 @@
    ]
   },
   {
-   "rank": 470,
+   "rank": 472,
    "sym": "FCT2",
    "name": "Firmachain",
    "cg": "firmachain",
@@ -6417,7 +6444,7 @@
    "note": "CRYPTOCAP:FCT2 has a wrong supply before 2023-05-24 (about 10M against 336M before 2022-01-10 and 675M after, and 9M/184M back and forth in 2020-2021); bars before that day are dropped"
   },
   {
-   "rank": 471,
+   "rank": 473,
    "sym": "GUN",
    "name": "Gunz",
    "cg": "gunz",
@@ -6431,7 +6458,7 @@
    ]
   },
   {
-   "rank": 472,
+   "rank": 474,
    "sym": "ERA",
    "name": "Caldera",
    "cg": "caldera",
@@ -6442,7 +6469,7 @@
    "alternatives": []
   },
   {
-   "rank": 473,
+   "rank": 475,
    "sym": "HEI",
    "name": "Heima",
    "cg": "heima",
@@ -6455,7 +6482,7 @@
    ]
   },
   {
-   "rank": 474,
+   "rank": 476,
    "sym": "HMSTR",
    "name": "Hamster Kombat",
    "cg": "hamster-kombat",
@@ -6469,7 +6496,7 @@
    ]
   },
   {
-   "rank": 475,
+   "rank": 477,
    "sym": "NEWT",
    "name": "Newton Protocol",
    "cg": "newton-protocol",
@@ -6484,7 +6511,7 @@
    ]
   },
   {
-   "rank": 476,
+   "rank": 478,
    "sym": "TLM",
    "name": "Alien Worlds",
    "cg": "alien-worlds",
@@ -6499,7 +6526,7 @@
    ]
   },
   {
-   "rank": 477,
+   "rank": 479,
    "sym": "BOBA",
    "name": "Boba Network",
    "cg": "boba-network",
@@ -6514,7 +6541,7 @@
    ]
   },
   {
-   "rank": 478,
+   "rank": 480,
    "sym": "TRUST",
    "name": "Intuition",
    "cg": "intuition",
@@ -6529,7 +6556,7 @@
    ]
   },
   {
-   "rank": 479,
+   "rank": 481,
    "sym": "AVAIL",
    "name": "Avail",
    "cg": "avail",
@@ -6540,7 +6567,7 @@
    "alternatives": []
   },
   {
-   "rank": 480,
+   "rank": 482,
    "sym": "OPN",
    "name": "Opinion",
    "cg": "opinion",
@@ -6554,7 +6581,7 @@
    ]
   },
   {
-   "rank": 481,
+   "rank": 483,
    "sym": "VERONA",
    "name": "Verona",
    "cg": "verona",
@@ -6566,7 +6593,7 @@
    "note": "TradingView has no ticker for Verona"
   },
   {
-   "rank": 482,
+   "rank": 484,
    "sym": "COOKIE",
    "name": "Cookie DAO",
    "cg": "cookie",
@@ -6581,7 +6608,7 @@
    ]
   },
   {
-   "rank": 483,
+   "rank": 485,
    "sym": "FORT",
    "name": "Forta",
    "cg": "forta",
@@ -6596,7 +6623,7 @@
    ]
   },
   {
-   "rank": 484,
+   "rank": 486,
    "sym": "ZKP",
    "name": "zkPass",
    "cg": "zkpass",
@@ -6609,7 +6636,7 @@
    ]
   },
   {
-   "rank": 485,
+   "rank": 487,
    "sym": "SAGA",
    "name": "Saga",
    "cg": "saga-2",
@@ -6622,7 +6649,7 @@
    ]
   },
   {
-   "rank": 486,
+   "rank": 488,
    "sym": "ACT",
    "name": "Act I The AI Prophecy",
    "cg": "act-i-the-ai-prophecy",
@@ -6637,7 +6664,7 @@
    ]
   },
   {
-   "rank": 487,
+   "rank": 489,
    "sym": "MOC",
    "name": "Mossland",
    "cg": "mossland",
@@ -6651,7 +6678,7 @@
    ]
   },
   {
-   "rank": 488,
+   "rank": 490,
    "sym": "BEL",
    "name": "Bella Protocol",
    "cg": "bella-protocol",
@@ -6666,7 +6693,7 @@
    ]
   },
   {
-   "rank": 489,
+   "rank": 491,
    "sym": "THE",
    "name": "Thena",
    "cg": "thena",
@@ -6681,7 +6708,7 @@
    ]
   },
   {
-   "rank": 490,
+   "rank": 492,
    "sym": "ADX",
    "name": "heyAura",
    "cg": "adex",
@@ -6692,7 +6719,7 @@
    "alternatives": []
   },
   {
-   "rank": 491,
+   "rank": 493,
    "sym": "SONIC",
    "name": "Sonic SVM",
    "cg": "sonic-svm",
@@ -6707,7 +6734,7 @@
    ]
   },
   {
-   "rank": 492,
+   "rank": 494,
    "sym": "GNS",
    "name": "Gains Network",
    "cg": "gains-network",
@@ -6722,7 +6749,7 @@
    ]
   },
   {
-   "rank": 493,
+   "rank": 495,
    "sym": "THQ",
    "name": "Theoriq",
    "cg": "theoriq",
@@ -6733,7 +6760,7 @@
    "alternatives": []
   },
   {
-   "rank": 494,
+   "rank": 496,
    "sym": "RESOLV",
    "name": "Resolv",
    "cg": "resolv",
@@ -6746,7 +6773,7 @@
    ]
   },
   {
-   "rank": 495,
+   "rank": 497,
    "sym": "ATM",
    "name": "Atletico Madrid Fan Token",
    "cg": "atletico-madrid",
@@ -6761,7 +6788,7 @@
    ]
   },
   {
-   "rank": 496,
+   "rank": 498,
    "sym": "MBX",
    "name": "MARBLEX",
    "cg": "marblex",
@@ -6772,7 +6799,7 @@
    "alternatives": []
   },
   {
-   "rank": 497,
+   "rank": 499,
    "sym": "AVL",
    "name": "Avalon",
    "cg": "avalon-2",
@@ -6785,7 +6812,7 @@
    ]
   },
   {
-   "rank": 498,
+   "rank": 500,
    "sym": "STO",
    "name": "StakeStone",
    "cg": "stakestone",
@@ -6800,7 +6827,7 @@
    ]
   },
   {
-   "rank": 499,
+   "rank": 501,
    "sym": "GHX",
    "name": "GamerCoin",
    "cg": "gamercoin",
@@ -6811,7 +6838,7 @@
    "alternatives": []
   },
   {
-   "rank": 500,
+   "rank": 502,
    "sym": "GRND",
    "name": "SuperWalk GRND",
    "cg": "superwalk",
@@ -6822,7 +6849,7 @@
    "alternatives": []
   },
   {
-   "rank": 501,
+   "rank": 503,
    "sym": "QUID",
    "name": "Squid",
    "cg": "squid-3",
@@ -6837,7 +6864,7 @@
    ]
   },
   {
-   "rank": 502,
+   "rank": 504,
    "sym": "SD",
    "name": "Stader",
    "cg": "stader",
@@ -6852,7 +6879,7 @@
    ]
   },
   {
-   "rank": 503,
+   "rank": 505,
    "sym": "BLAST",
    "name": "Blast",
    "cg": "blast",
@@ -6867,7 +6894,7 @@
    ]
   },
   {
-   "rank": 504,
+   "rank": 506,
    "sym": "ACS",
    "name": "Access Protocol",
    "cg": "access-protocol",
@@ -6882,7 +6909,7 @@
    ]
   },
   {
-   "rank": 505,
+   "rank": 507,
    "sym": "AHT",
    "name": "AhaToken",
    "cg": "ahatoken",
@@ -6893,7 +6920,7 @@
    "alternatives": []
   },
   {
-   "rank": 506,
+   "rank": 508,
    "sym": "SANTOS",
    "name": "Santos FC Fan Token",
    "cg": "santos-fc-fan-token",
@@ -6908,7 +6935,7 @@
    ]
   },
   {
-   "rank": 507,
+   "rank": 509,
    "sym": "MAPO",
    "name": "MAP Protocol",
    "cg": "marcopolo",
@@ -6923,7 +6950,7 @@
    ]
   },
   {
-   "rank": 508,
+   "rank": 510,
    "sym": "BAR",
    "name": "FC Barcelona Fan Token",
    "cg": "fc-barcelona-fan-token",
@@ -6938,7 +6965,7 @@
    ]
   },
   {
-   "rank": 509,
+   "rank": 511,
    "sym": "PSG",
    "name": "Paris Saint-Germain Fan Token",
    "cg": "paris-saint-germain-fan-token",
@@ -6953,7 +6980,7 @@
    ]
   },
   {
-   "rank": 510,
+   "rank": 512,
    "sym": "ASR",
    "name": "AS Roma Fan Token",
    "cg": "as-roma-fan-token",
@@ -6968,7 +6995,7 @@
    ]
   },
   {
-   "rank": 511,
+   "rank": 513,
    "sym": "BOUNTY",
    "name": "ChainBounty",
    "cg": "sentinel-protocol",
@@ -6983,7 +7010,7 @@
    ]
   },
   {
-   "rank": 512,
+   "rank": 514,
    "sym": "MITO",
    "name": "Mitosis",
    "cg": "mitosis",
@@ -6994,7 +7021,7 @@
    "alternatives": []
   },
   {
-   "rank": 513,
+   "rank": 515,
    "sym": "DNT",
    "name": "district0x",
    "cg": "district0x",
@@ -7005,7 +7032,7 @@
    "alternatives": []
   },
   {
-   "rank": 514,
+   "rank": 516,
    "sym": "PARTI",
    "name": "Particle Network",
    "cg": "particle-network",
@@ -7020,7 +7047,7 @@
    ]
   },
   {
-   "rank": 515,
+   "rank": 517,
    "sym": "TREE",
    "name": "Treehouse",
    "cg": "treehouse",
@@ -7035,7 +7062,7 @@
    ]
   },
   {
-   "rank": 516,
+   "rank": 518,
    "sym": "NOM",
    "name": "Nomina",
    "cg": "nomina",
@@ -7050,7 +7077,7 @@
    ]
   },
   {
-   "rank": 517,
+   "rank": 519,
    "sym": "QUICK",
    "name": "Quickswap",
    "cg": "quickswap",
@@ -7062,7 +7089,7 @@
    "note": "checked against exchange prices (scripts/check-tickers.mjs)"
   },
   {
-   "rank": 518,
+   "rank": 520,
    "sym": "AMO",
    "name": "AMO Coin",
    "cg": "amo",
@@ -7077,7 +7104,7 @@
    ]
   },
   {
-   "rank": 519,
+   "rank": 521,
    "sym": "TURTLE",
    "name": "Turtle",
    "cg": "turtle-4",
@@ -7090,7 +7117,7 @@
    ]
   },
   {
-   "rank": 520,
+   "rank": 522,
    "sym": "HFT",
    "name": "Hashflow",
    "cg": "hashflow",
@@ -7101,7 +7128,7 @@
    "alternatives": []
   },
   {
-   "rank": 521,
+   "rank": 523,
    "sym": "SHELL",
    "name": "MyShell",
    "cg": "myshell",
@@ -7116,7 +7143,7 @@
    ]
   },
   {
-   "rank": 522,
+   "rank": 524,
    "sym": "DAO",
    "name": "DAO Maker",
    "cg": "dao-maker",
@@ -7131,7 +7158,7 @@
    ]
   },
   {
-   "rank": 523,
+   "rank": 525,
    "sym": "BLUE",
    "name": "Bluefin",
    "cg": "bluefin",
@@ -7146,7 +7173,7 @@
    ]
   },
   {
-   "rank": 524,
+   "rank": 526,
    "sym": "XPLA",
    "name": "CONX",
    "cg": "xpla",
@@ -7159,7 +7186,7 @@
    ]
   },
   {
-   "rank": 525,
+   "rank": 527,
    "sym": "TDROP",
    "name": "ThetaDrop",
    "cg": "thetadrop",
@@ -7170,7 +7197,7 @@
    "alternatives": []
   },
   {
-   "rank": 526,
+   "rank": 528,
    "sym": "JUV",
    "name": "Juventus Fan Token",
    "cg": "juventus-fan-token",
@@ -7185,7 +7212,7 @@
    ]
   },
   {
-   "rank": 527,
+   "rank": 529,
    "sym": "SCR",
    "name": "Scroll",
    "cg": "scroll",
@@ -7200,7 +7227,7 @@
    ]
   },
   {
-   "rank": 528,
+   "rank": 530,
    "sym": "PORTO",
    "name": "FC Porto",
    "cg": "fc-porto",
@@ -7215,7 +7242,7 @@
    ]
   },
   {
-   "rank": 529,
+   "rank": 531,
    "sym": "LAZIO",
    "name": "Lazio Fan Token",
    "cg": "lazio-fan-token",
@@ -7230,7 +7257,7 @@
    ]
   },
   {
-   "rank": 530,
+   "rank": 532,
    "sym": "CRTS",
    "name": "Cratos",
    "cg": "cratos",
@@ -7241,7 +7268,7 @@
    "alternatives": []
   },
   {
-   "rank": 531,
+   "rank": 533,
    "sym": "CITY",
    "name": "Manchester City Fan Token",
    "cg": "manchester-city-fan-token",
@@ -7256,7 +7283,7 @@
    ]
   },
   {
-   "rank": 532,
+   "rank": 534,
    "sym": "PIXEL",
    "name": "Pixels",
    "cg": "pixels",
@@ -7271,7 +7298,7 @@
    ]
   },
   {
-   "rank": 533,
+   "rank": 535,
    "sym": "PROMPT",
    "name": "Wayfinder",
    "cg": "wayfinder",
@@ -7284,7 +7311,7 @@
    ]
   },
   {
-   "rank": 534,
+   "rank": 536,
    "sym": "TOWNS",
    "name": "Towns",
    "cg": "towns",
@@ -7299,7 +7326,7 @@
    ]
   },
   {
-   "rank": 535,
+   "rank": 537,
    "sym": "TKO",
    "name": "Tokocrypto",
    "cg": "tokocrypto",
@@ -7310,7 +7337,7 @@
    "alternatives": []
   },
   {
-   "rank": 536,
+   "rank": 538,
    "sym": "SWAP",
    "name": "TrustSwap",
    "cg": "trustswap",
@@ -7325,7 +7352,7 @@
    ]
   },
   {
-   "rank": 537,
+   "rank": 539,
    "sym": "HPP",
    "name": "House Party Protocol",
    "cg": "aergo-2",
@@ -7340,7 +7367,7 @@
    ]
   },
   {
-   "rank": 538,
+   "rank": 540,
    "sym": "OBSR",
    "name": "Observer",
    "cg": "observer-coin",
@@ -7351,7 +7378,7 @@
    "alternatives": []
   },
   {
-   "rank": 539,
+   "rank": 541,
    "sym": "SWELL",
    "name": "Swell",
    "cg": "swell-network",
@@ -7366,7 +7393,7 @@
    ]
   },
   {
-   "rank": 540,
+   "rank": 542,
    "sym": "CHECK",
    "name": "Checkmate",
    "cg": "checkmate-2",
@@ -7379,7 +7406,7 @@
    ]
   },
   {
-   "rank": 541,
+   "rank": 543,
    "sym": "ALPINE",
    "name": "Alpine F1 Team Fan Token",
    "cg": "alpine-f1-team-fan-token",
@@ -7394,7 +7421,7 @@
    ]
   },
   {
-   "rank": 542,
+   "rank": 544,
    "sym": "ACM",
    "name": "AC Milan Fan Token",
    "cg": "ac-milan-fan-token",
@@ -7409,7 +7436,7 @@
    ]
   },
   {
-   "rank": 543,
+   "rank": 545,
    "sym": "ZRC",
    "name": "Zircuit",
    "cg": "zircuit",
@@ -7420,7 +7447,7 @@
    "alternatives": []
   },
   {
-   "rank": 544,
+   "rank": 546,
    "sym": "MVC",
    "name": "MileVerse",
    "cg": "mileverse",
@@ -7431,7 +7458,7 @@
    "alternatives": []
   },
   {
-   "rank": 545,
+   "rank": 547,
    "sym": "AFC",
    "name": "Arsenal Fan Token",
    "cg": "arsenal-fan-token",
@@ -7446,7 +7473,7 @@
    ]
   },
   {
-   "rank": 546,
+   "rank": 548,
    "sym": "HAEDAL",
    "name": "Haedal Protocol",
    "cg": "haedal",
@@ -7461,7 +7488,7 @@
    ]
   },
   {
-   "rank": 547,
+   "rank": 549,
    "sym": "RSS3",
    "name": "RSS3",
    "cg": "rss3",
@@ -7472,7 +7499,7 @@
    "alternatives": []
   },
   {
-   "rank": 548,
+   "rank": 550,
    "sym": "A8",
    "name": "Ancient8",
    "cg": "ancient8",
@@ -7483,7 +7510,7 @@
    "alternatives": []
   },
   {
-   "rank": 549,
+   "rank": 551,
    "sym": "ROA",
    "name": "ROACORE",
    "cg": "roaland-core",
@@ -7498,7 +7525,7 @@
    ]
   },
   {
-   "rank": 550,
+   "rank": 552,
    "sym": "LM",
    "name": "LeisureMeta",
    "cg": "leisuremeta",
@@ -7513,7 +7540,7 @@
    ]
   },
   {
-   "rank": 551,
+   "rank": 553,
    "sym": "VAL",
    "name": "Validity",
    "cg": "radium",
@@ -7528,7 +7555,7 @@
    ]
   },
   {
-   "rank": 552,
+   "rank": 554,
    "sym": "INTER",
    "name": "Inter Milan Fan Token",
    "cg": "inter-milan-fan-token",
@@ -7543,7 +7570,7 @@
    ]
   },
   {
-   "rank": 553,
+   "rank": 555,
    "sym": "OBT",
    "name": "Orbiter Finance",
    "cg": "orbiter-finance",
@@ -7558,7 +7585,7 @@
    ]
   },
   {
-   "rank": 554,
+   "rank": 556,
    "sym": "ADP",
    "name": "Adappter",
    "cg": "adappter-token",
@@ -7569,7 +7596,7 @@
    "alternatives": []
   },
   {
-   "rank": 555,
+   "rank": 557,
    "sym": "REI",
    "name": "REI Network",
    "cg": "rei-network",
@@ -7583,7 +7610,7 @@
    ]
   },
   {
-   "rank": 556,
+   "rank": 558,
    "sym": "LWP",
    "name": "LumiWave Protocol",
    "cg": "lumiwave-protocol",
@@ -7598,7 +7625,7 @@
    ]
   },
   {
-   "rank": 557,
+   "rank": 559,
    "sym": "STAT",
    "name": "STAT",
    "cg": "stat",
@@ -7613,7 +7640,7 @@
    ]
   },
   {
-   "rank": 558,
+   "rank": 560,
    "sym": "XTER",
    "name": "Xterio",
    "cg": "xterio",
@@ -7624,7 +7651,7 @@
    "alternatives": []
   },
   {
-   "rank": 559,
+   "rank": 561,
    "sym": "SUNDOG",
    "name": "Sundog",
    "cg": "sundog",
@@ -7637,7 +7664,7 @@
    ]
   },
   {
-   "rank": 560,
+   "rank": 562,
    "sym": "WNCG",
    "name": "Wrapped NCG",
    "cg": "wrapped-ncg",
@@ -7652,7 +7679,7 @@
    ]
   },
   {
-   "rank": 561,
+   "rank": 563,
    "sym": "COS",
    "name": "Contentos",
    "cg": "contentos",
@@ -7667,7 +7694,7 @@
    ]
   },
   {
-   "rank": 562,
+   "rank": 564,
    "sym": "CAMP",
    "name": "Camp Network",
    "cg": "camp-network",
@@ -7682,7 +7709,7 @@
    ]
   },
   {
-   "rank": 563,
+   "rank": 565,
    "sym": "SIX",
    "name": "SIX Network",
    "cg": "six-network",
@@ -7697,7 +7724,7 @@
    ]
   },
   {
-   "rank": 564,
+   "rank": 566,
    "sym": "D",
    "name": "Dar Open Network",
    "cg": "dar-open-network",

@@ -40,13 +40,13 @@ const structural = added.length + removed.length + rematched.length + retickered
   + rRep.manualChanged.length + rRep.restored.length + rRep.retired.length > 0;
 
 const EX = { U: '업비트', B: '빗썸', N: '바이낸스' };
-const exName = (x) => [...(x || '')].map((k) => EX[k]).filter(Boolean).join('·') || '-';
+const exName = (x) => [...(x || '')].map((k) => EX[k]).filter(Boolean).join('·') || '직접 추가(세 거래소 미상장)';
 // plain digits, never exponent form: $65,430, $0.523, $0.00000024
 const usd = (v) => (v == null ? '-' : `$${v.toLocaleString('en-US', { maximumSignificantDigits: v >= 1 ? 4 : 3 })}`);
 const cell = (s) => String(s ?? '-').replace(/\|/g, '\\|');
 const priceNote = (sym) => {
   if (!checked) return '가격 대조 못 함 (점검 실패)';
-  const c = checkBy.get(sym); if (!c) return '거래소 가격과 일치';
+  const c = checkBy.get(sym); if (!c) return newBy.get(sym)?.ex === '' ? 'CoinGecko 가격과 일치(세 거래소 미상장)' : '거래소 가격과 일치';
   const p = c.price;
   return c.priceOff ? `**거래소 ${usd(p.exchange)} / TradingView ${usd(p.tradingview)} / CoinGecko ${usd(p.coingecko)}**` : c.notes.join('; ');
 };
@@ -60,6 +60,7 @@ const whyRemoved = (c) => {
   const far = uRep.differs.find((d) => d.sym === c.sym && d.matched === null);
   if (far) return `거래소 티커가 가리키는 코인(${far.exchange.id})이 CoinGecko ${far.exchange.rank ?? '?'}위로 3,000위 밖`;
   if (newU.unmatched.includes(c.sym)) return 'CoinGecko 3,000위 밖이거나 매칭되는 코인이 없음';
+  if (c.match === 'add') return '직접 추가 목록(data/exclusions.json "add")에서 빠짐';
   return '세 거래소 모두에서 상장 폐지';
 };
 
@@ -82,13 +83,14 @@ for (const d of uRep.duplicates) {
     ? `- **${d.dropped}**: ${d.kept}와 같은 코인(${d.name}, ${d.id})으로 매칭되어 빠졌지만, ${d.dropped}의 거래소 티커는 ${named.join(', ')}를 가리킵니다. 다른 코인일 가능성이 크니 별칭으로 합치지 말고 data/exclusions.json "ids"에 맞는 코인을 고정해야 합니다.`
     : `- **${d.dropped}**: ${d.kept}와 같은 코인(${d.name}, ${d.id})을 가리켜서 빠졌습니다. 같은 코인이면 data/exclusions.json "ids"의 ${d.kept} 항목에 "also": ["${d.dropped}"]를 넣어야 합니다.`);
 }
+for (const d of uRep.differs.filter((x) => x.add)) todo.push(`- **${d.sym}**: 직접 추가한 코인(${d.add})이 이제 세 거래소 가운데 한 곳에 상장되었습니다. data/exclusions.json "add" 항목은 고정(pin)으로 계속 작동하며, "ids"로 옮기거나 지워도 됩니다.`);
 for (const d of pinDiffers) todo.push(`- **${d.sym}**: 고정(pin)한 코인은 ${d.pin}인데, 이 심볼의 거래소 티커는 어느 것도 그 코인을 가리키지 않고 ${d.exchange.id}를 가리킵니다.`);
 for (const m of rRep.manualChanged) todo.push(`- **${m.sym}**: 손으로 고친 티커(${[m.usd, m.cap].filter(Boolean).join(' · ')})인데 CoinGecko 코인이 ${m.was}에서 ${m.now}로 바뀌었습니다. 티커가 여전히 맞으면 data/tickers.json의 "cg"를 ${m.now}로 바꾸고, 아니면 티커를 고쳐야 합니다. 그때까지 매주 다시 알립니다.`);
 for (const r of rRep.restored) todo.push(`- **${r.sym}**: 전에 손으로 고친 티커(${[r.usd, r.cap].filter(Boolean).join(' · ')}, 이전 심볼 ${r.from})를 다시 적용했습니다. 여전히 맞는지 봐 주세요.`);
 for (const r of rRep.retired) todo.push(`- **${r.sym}**: 종목이 빠져서 손으로 고친 티커(${[r.usd, r.cap].filter(Boolean).join(' · ')})를 data/tickers.json "retired"에 보관했습니다. 이 코인(${r.cg})이 돌아오면 다시 적용됩니다.`);
 
 const lines = [];
-lines.push(`CoinGecko 기준으로 종목 목록(업비트·빗썸·바이낸스 상장 코인)을 다시 만들고, 새로 들어온 종목의 TradingView 티커를 찾아 ${checked ? '거래소 가격과 대조했습니다' : '거래소 가격과 대조하려 했지만 점검이 실패했습니다'}. (${today})`, '');
+lines.push(`CoinGecko 기준으로 종목 목록(업비트·빗썸·바이낸스 상장 코인과 직접 추가한 코인)을 다시 만들고, 새로 들어온 종목의 TradingView 티커를 찾아 ${checked ? '거래소 가격과 대조했습니다' : '거래소 가격과 대조하려 했지만 점검이 실패했습니다'}. (${today})`, '');
 lines.push('| 항목 | 값 |', '|---|---|',
   `| 종목 수 | ${oldU.coins.length} → ${newU.coins.length} |`, `| 새 종목 | ${added.length} |`, `| 빠진 종목 | ${removed.length} |`,
   `| CoinGecko 매칭이 바뀐 종목 | ${rematched.length} |`, `| 티커만 바뀐 종목 | ${retickered.length} |`, `| 확인이 필요한 것 | ${todo.length} |`, '');

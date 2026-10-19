@@ -4,7 +4,8 @@
 // the same symbol is usually off by far more than a day's move, so the coins listed here need a look: a wrong
 // TradingView ticker gets a "manual": true entry in data/tickers.json, a wrong CoinGecko coin an "ids" pin in
 // data/exclusions.json. A market cap that is off with a matching price usually means TradingView and CoinGecko
-// count the circulating supply differently.
+// count the circulating supply differently. A coin added by hand that none of the three exchanges lists
+// (data/exclusions.json "add", no "ex") has no exchange price, so its TradingView price is checked against CoinGecko's.
 //
 // Usage: node scripts/check-tickers.mjs [--daily-dir data/daily] [--ratio 1.5] [--json out.json]
 //        (in the sandbox: NODE_USE_ENV_PROXY=1; env COINGECKO_DEMO_KEY is used when set)
@@ -84,21 +85,23 @@ for (const u of universe.coins) {
   if (t.cap && !cap) notes.push('no CAP data');
   if (usd && today - usd.day > 3) notes.push(`USD last bar ${today - usd.day}d old`);
   if (cap && today - cap.day > 3) notes.push(`CAP last bar ${today - cap.day}d old`);
-  const x = exOf(u.sym);
-  const tvx = usd && x ? off(usd.v, x.usd) : null, cgx = g.current_price && x ? off(g.current_price, x.usd) : null;
+  // unlisted coins (added by hand) have no exchange price: their TradingView price is checked against CoinGecko's
+  const listedX = exOf(u.sym), x = listedX || (!u.ex && g.current_price > 0 ? { usd: g.current_price, ex: 'CoinGecko' } : null);
+  const tvx = usd && x ? off(usd.v, x.usd) : null, cgx = g.current_price && listedX ? off(g.current_price, listedX.usd) : null;
   const cr = cap && g.market_cap ? off(cap.v, g.market_cap) : null;
   if (tvx != null && tvx > RATIO) notes.push(`TradingView price x${tvx.toFixed(2)} off ${x.ex}`);
   if (cgx != null && cgx > RATIO) notes.push(`CoinGecko price x${cgx.toFixed(2)} off ${x.ex}`);
-  if (!x) notes.push('no exchange price');
+  if (!listedX && u.ex) notes.push('no exchange price');
+  if (!x && !u.ex) notes.push('no exchange or CoinGecko price');
   if (cr != null && cr > RATIO) notes.push(`cap x${cr.toFixed(2)} off CoinGecko`);
   if (t.confidence && t.confidence !== 'high') notes.push(`resolver: ${t.confidence}`);
   if (notes.length) flagged.push({ sym: u.sym, rank: u.rank, name: u.name, usd: t.usd ?? null, cap: t.cap ?? null, tvName: t.tvName ?? null,
-    price: { exchange: x?.usd ?? null, ex: x?.ex ?? null, tradingview: usd?.v ?? null, coingecko: g.current_price ?? null },
+    price: { exchange: listedX?.usd ?? null, ex: listedX?.ex ?? null, tradingview: usd?.v ?? null, coingecko: g.current_price ?? null },
     mcap: { tradingview: cap?.v ?? null, coingecko: g.market_cap ?? null }, notes,
     tvOff: tvx != null && tvx > RATIO, cgOff: cgx != null && cgx > RATIO, priceOff: (tvx != null && tvx > RATIO) || (cgx != null && cgx > RATIO),
     noData: (!!t.usd && !usd) || (!!t.cap && !cap), stale: (!!usd && today - usd.day > 3) || (!!cap && today - cap.day > 3) });
   if (notes.length) rows.push(`${String(u.rank).padStart(3)} ${u.sym.padEnd(9)} ${(t.usd || '-').padEnd(22)} ${(t.cap || '-').padEnd(20)} ` +
-    `price ex ${fmt(x?.usd)} tv ${fmt(usd?.v)} cg ${fmt(g.current_price)}  cap tv ${fmt(cap?.v)} cg ${fmt(g.market_cap)}  ${u.name} | ${t.tvName ?? ''} | ${notes.join('; ')}`);
+    `price ex ${fmt(listedX?.usd)} tv ${fmt(usd?.v)} cg ${fmt(g.current_price)}  cap tv ${fmt(cap?.v)} cg ${fmt(g.market_cap)}  ${u.name} | ${t.tvName ?? ''} | ${notes.join('; ')}`);
 }
 console.log(rows.join('\n'));
 console.log(`${rows.length} of ${universe.coins.length} coins to look at`);

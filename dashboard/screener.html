@@ -7,7 +7,7 @@
    screener (table or tiles), market signal board, and coin detail. */
 :root {
   --bg: #f4f6f8; --surface: #ffffff; --sunken: #eef1f4; --fg: #141922; --muted: #5b6574; --faint: #737c8a;
-  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00; --ml-hist: #8a4fd1; --hl: #f2b300;
+  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00; --ml-hist: #8a4fd1; --ml-add: #0f8f74; --hl: #f2b300;
   --zu2: #0f7b3b; --zu1: #86d39a; --zo1: #f0c11b; --zo2: #b4161b;
   --tint-u: #d4eedb; --mid: #eceae6; --tint-o: #f6ecc4;
   --ramp-lo: #86b6ef; --ramp-hi: #0a2a57;
@@ -19,7 +19,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
-    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --hl: #ffc93c;
+    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --ml-add: #45d1ad; --hl: #ffc93c;
     --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
     --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
     --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
@@ -29,7 +29,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
-  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --hl: #ffc93c;
+  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --ml-add: #45d1ad; --hl: #ffc93c;
   --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
   --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
   --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
@@ -773,6 +773,7 @@ function renderScreener() {
     { const td = el('td', 'mm mc-td c-wide', capText(s.coin)); td.title = capNote(s.coin); tr.append(td); }
     const ex = el('td', 'ex-td c-wide'); const exd = el('div', 'ex');
     for (const [x, l] of [['U', '업'], ['B', '빗'], ['N', '바']]) { const i = el('i', s.coin.x.includes(x) ? 'on' : '', l); i.title = { U: '업비트', B: '빗썸', N: '바이낸스' }[x] + (s.coin.x.includes(x) ? ' 상장' : ' 미상장'); exd.append(i); }
+    if (!s.coin.x) exd.title = ADDED_NOTE; // added by hand: on none of the three exchanges
     ex.append(exd); tr.append(ex);
     // one column per side: strongest zone on that side, then how many other cells are in a zone there
     const sideCell = (zones) => {
@@ -1107,7 +1108,7 @@ function renderCoin() {
   }
   state.coin = state.lastCoin = coin.s;
   const t = document.getElementById('dTitle'); t.replaceChildren();
-  t.append(el('h1', null, coin.s), el('span', null, `${coin.k ? coin.k + ' · ' : ''}${coin.n} · 시가총액 ${coin.r}위 ${capText(coin)} · ${['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join(' · ')}`));
+  t.append(el('h1', null, coin.s), el('span', null, `${coin.k ? coin.k + ' · ' : ''}${coin.n} · 시가총액 ${coin.r}위 ${capText(coin)} · ${exNames(coin)}`));
   const syms = tickerIds(coin);
   document.getElementById('dNote').textContent = !syms.length ? 'TradingView에서 이 종목의 티커를 찾지 못해서 배수를 계산하지 못했습니다.'
     : `TradingView 일봉으로 20개 타임프레임을 다시 만들어 계산한 값입니다.${coin.tv ? ` TradingView 이름은 "${coin.tv}"입니다.` : ''}` +
@@ -1358,7 +1359,9 @@ const PV = { on: false, sym: null, pending: null, timer: 0, render: 0, kbd: fals
 const HOVER = matchMedia('(hover: hover) and (pointer: fine)');
 const previewAvailable = () => HOVER.matches && innerWidth >= 1180;
 const EX_NAME = { U: '업비트', B: '빗썸', N: '바이낸스' };
-const exNames = (coin) => ['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => EX_NAME[x]).join(' · ');
+// a coin added by hand (data/exclusions.json "add") is on none of the three exchanges
+const ADDED_NOTE = '세 거래소 모두 미상장(직접 추가한 종목)';
+const exNames = (coin) => ['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => EX_NAME[x]).join(' · ') || ADDED_NOTE;
 function layoutPreview() {
   const on = state.screen === 'screener' && state.pv !== 'off' && previewAvailable();
   document.getElementById('pvCtl').hidden = !previewAvailable();
@@ -1663,7 +1666,8 @@ document.getElementById('asof').textContent = `TradingView ${new Date(DATA.fetch
 if (DATA.excluded) document.getElementById('exclNote').textContent = ` 종목 목록에서는 스테이블코인 ${DATA.excluded.stablecoin}종과 증권형 토큰 ${DATA.excluded.security}종을 뺐습니다.`;
 {
   const at = new Date(DATA.fetchedAt).toISOString().replace('T', ' ').slice(0, 16), none = COINS.filter((c) => !c.cap && !c.usd).length;
-  document.getElementById('bannerText').textContent = `업비트·빗썸·바이낸스에 상장된 ${COINS.length}종의 배수와 신호는 모두 TradingView 일봉(${at} UTC 수집)에서 계산한 값입니다. 오늘 봉은 수집 시점까지 진행된 값입니다.` +
+  const added = COINS.filter((c) => !c.x).length;
+  document.getElementById('bannerText').textContent = `업비트·빗썸·바이낸스에 상장된 ${COINS.length - added}종${added ? `과 직접 추가한 ${added}종` : ''}의 배수와 신호는 모두 TradingView 일봉(${at} UTC 수집)에서 계산한 값입니다. 오늘 봉은 수집 시점까지 진행된 값입니다.` +
     (none ? ` TradingView에서 티커를 찾지 못한 ${none}종은 데이터 없음으로 표시합니다.` : '') + (DATA.failed ? ` 이번 수집에서 티커 ${DATA.failed}개는 받지 못해서 이전 값을 씁니다.` : '');
 }
 
@@ -1688,7 +1692,7 @@ if (DATA.dir && DATA.dir.files >= DATA.dir.warnAt) {
     `${DATA.dir.limit.toLocaleString('en-US')}개를 넘기 전에 data/daily를 하위 폴더로 나눠야 합니다.`;
 }
 // record of coin matches that were found wrong and fixed (data/mapping-log.json)
-const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], history: ['TradingView 이력 일부 제외', 'var(--ml-hist)', '이력 제외'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
+const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], history: ['TradingView 이력 일부 제외', 'var(--ml-hist)', '이력 제외'], added: ['직접 추가한 종목', 'var(--ml-add)', '직접 추가'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
 if (DATA.mapLog?.entries?.length) {
   const box = document.getElementById('maplog'), sum = document.getElementById('maplogSum'), syms = document.getElementById('maplogSyms'), rows = document.getElementById('maplogRows');
   const order = Object.keys(ML_KIND), entries = DATA.mapLog.entries.slice().sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));

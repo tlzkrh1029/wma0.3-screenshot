@@ -21,6 +21,11 @@ day and deploys a GitHub Pages site. The owner set these rules; keep to them.
   Only the latest refresh stays open: each run closes earlier refresh pull requests and issues and deletes their
   branches. Manual ticker fixes follow their CoinGecko coin (kept in `retired` in `data/tickers.json` while the coin is
   out of the universe).
+- **Coins added by hand.** A coin that none of the three exchanges lists (XMR and KAS, added at the owner's request on
+  2026-10-19) goes in `add` of `data/exclusions.json` with its CoinGecko id. It is looked up like a pin, stays through
+  every weekly refresh, and shows on the page as on none of the three exchanges; its TradingView price is checked
+  against CoinGecko's. Log each addition in `data/mapping-log.json` (kind `added`). Korean names come from Upbit, then
+  Bithumb, then the `ko` map in `data/exclusions.json` (which also overrides both).
 - **Credit CoinGecko.** The site uses CoinGecko data (coin list, ranks, some market caps), so keep the linked
   "Data provided by CoinGecko" credit on the page.
 - **Custom timeframes need a login.** Anonymous requests get only standard resolutions (1D, 1W, 1M, 3M, 6M, 12M);

@@ -1,5 +1,5 @@
 // Build data/universe.json: every coin listed on Upbit, Bithumb or Binance spot, ranked by CoinGecko
-// market cap, without stablecoins and security tokens.
+// market cap, without stablecoins and security tokens, plus the coins added by hand in data/exclusions.json "add".
 //
 // - Listings: Upbit (all markets), Bithumb (KRW), Binance spot (USDT/FDUSD/USDC/BTC/TRY/EUR quotes).
 // - Matching: CoinGecko's own tickers for the three exchanges name the coin behind each traded symbol (coin_id),
@@ -9,11 +9,17 @@
 // - Left out: members of the CoinGecko categories below (stablecoins, including gold/silver-backed and
 //   yield-bearing ones; tokenized stocks, ETFs, funds, treasuries, credit, real estate, pre-IPO shares),
 //   plus data/exclusions.json overrides: {"ids": {"SYM": {"id": "coingecko-id", "reason": "..."}},
-//   "exclude": {"SYM": {"kind": "stablecoin" | "security", "reason": "..."}}, "keep": {"SYM": "reason"}}.
+//   "exclude": {"SYM": {"kind": "stablecoin" | "security", "reason": "..."}}, "keep": {"SYM": "reason"},
+//   "add": {"SYM": {"id": "coingecko-id", "reason": "..."}}, "ko": {"SYM": "한국어 이름"}}.
 //   "ids" fixes a symbol whose largest-market-cap CoinGecko coin is not the asset the exchanges list;
 //   its optional "also": [...] names other exchange symbols for the same coin, whose listings count too.
+//   "add" puts in a coin that none of the three exchanges lists (it has no "ex"); it is looked up by id like a pin,
+//   needs no top-3000 rank, and stays through every refresh until its entry is removed. Should one of the
+//   exchanges list it later, the entry keeps working as an "ids" pin.
 //   Ranks are renumbered over the coins that remain.
-// - Each coin records how it was matched: "exchange" (exchange tickers), "symbol" (largest market cap) or "pin".
+// - Korean names: Upbit's, else Bithumb's, else data/exclusions.json "ko" (which also overrides both).
+// - Each coin records how it was matched: "exchange" (exchange tickers), "symbol" (largest market cap), "pin", or
+//   "add" (added by hand, not listed on the three exchanges).
 //
 // Env: COINGECKO_DEMO_KEY  CoinGecko Demo API key (optional; without it the keyless API is used, much slower)
 //      REPORT              write a JSON report here: symbols where the two matching methods disagree, and symbols
@@ -36,7 +42,7 @@ export const SECURITY_CATS = [
 ];
 
 // read the overrides first, so a broken file fails before any network calls (only a missing file is allowed)
-let overrides = { ids: {}, exclude: {}, keep: {} };
+let overrides = { ids: {}, exclude: {}, keep: {}, add: {}, ko: {} };
 try { overrides = { ...overrides, ...JSON.parse(await readFile('data/exclusions.json', 'utf8')) }; } catch (e) { if (e.code !== 'ENOENT') throw e; }
 const aliases = new Map(Object.entries(overrides.ids).flatMap(([sym, o]) => (o.also || []).map((a) => [a, sym])));
 
@@ -64,12 +70,18 @@ for (const m of await get('https://api.upbit.com/v1/market/all')) {
   if (!upbit.has(base)) upbit.set(base, m.korean_name);
 }
 const bithumb = new Set(Object.keys((await get('https://api.bithumb.com/public/ticker/ALL_KRW')).data).filter((k) => k !== 'date'));
+// Bithumb's market list carries Korean names (its ticker endpoint does not); KRW markets first
+const bithumbKo = new Map();
+for (const m of (await get('https://api.bithumb.com/v1/market/all')).sort((a, b) => b.market.startsWith('KRW-') - a.market.startsWith('KRW-'))) {
+  const base = m.market.split('-')[1];
+  if (m.korean_name && !bithumbKo.has(base)) bithumbKo.set(base, m.korean_name);
+}
 const binance = new Set((await get('https://data-api.binance.vision/api/v3/exchangeInfo?permissions=SPOT')).symbols
   .filter((s) => s.status === 'TRADING' && ['USDT', 'FDUSD', 'USDC', 'BTC', 'TRY', 'EUR'].includes(s.quoteAsset)).map((s) => s.baseAsset));
 const listed = new Set([...upbit.keys(), ...bithumb, ...binance]);
 
 const symsOf = (sym) => [sym, ...(overrides.ids[sym]?.also || [])];
-const free = (sym) => !overrides.ids[sym] && !aliases.has(sym); // not settled by a pin
+const free = (sym) => !overrides.ids[sym] && !overrides.add[sym] && !aliases.has(sym); // not settled by a pin or an addition
 
 // CoinGecko's tickers for the three exchanges: symbol -> coin_id. A ticker whose coin has no market cap points at an
 // unrelated coin with the same symbol (e.g. Bithumb PROS -> pharos-2), so it is ignored; so are anomalous tickers.
@@ -161,6 +173,20 @@ if (pinned.length) {
     const x = exPick.get(sym); if (x && x !== o.id && !named.includes(o.id)) report.differs.push({ sym, pin: o.id, exchange: { id: x } });
   }
 }
+// coins added by hand: looked up by id whether or not an exchange lists them
+const added = Object.entries(overrides.add);
+if (added.length) {
+  const both = added.find(([sym]) => overrides.ids[sym]);
+  if (both) throw new Error(`data/exclusions.json: ${both[0]} is in both "ids" and "add"`);
+  const rows = await cg(`coins/markets?vs_currency=usd&ids=${added.map(([, o]) => o.id).join(',')}`);
+  for (const [sym, o] of added) {
+    const c = rows.find((r) => r.id === o.id);
+    if (!c) throw new Error(`data/exclusions.json: CoinGecko id ${o.id} for added ${sym} not found`);
+    if (c.market_cap) { best.set(sym, { ...c, symbol: sym, cgSymbol: c.symbol }); how.set(sym, listed.has(sym) ? 'pin' : 'add'); }
+    if (listed.has(sym)) report.differs.push({ sym, add: o.id, note: 'listed on an exchange now; the "add" entry works as an "ids" pin' });
+  }
+  await sleep(CG_PAUSE);
+}
 // One row per CoinGecko coin. Two exchange symbols on the same coin need an "ids" pin with "also"; until then the
 // symbol that is the coin's own symbol (else the one on more exchanges) is kept and the other is reported.
 const exOf = (sym) => ['U', 'B', 'N'].filter((x) => symsOf(sym).some((y) => (x === 'U' ? upbit.has(y) : x === 'B' ? bithumb.has(y) : binance.has(y)))).join('');
@@ -168,10 +194,11 @@ const exOf = (sym) => ['U', 'B', 'N'].filter((x) => symsOf(sym).some((y) => (x =
   for (const [sym, c] of [...best]) {
     const other = seen.get(c.id);
     if (!other) { seen.set(c.id, sym); continue; }
-    if (how.get(sym) === 'pin' && how.get(other) === 'pin') throw new Error(`CoinGecko ${c.id} is pinned for both ${other} and ${sym}`);
+    const manual = (x) => how.get(x) === 'pin' || how.get(x) === 'add';
+    if (manual(sym) && manual(other)) throw new Error(`CoinGecko ${c.id} is pinned or added for both ${other} and ${sym}`);
     // a symbol guess that its own exchange tickers contradict (they name a coin without a market cap) loses to a verified match
     const contradicted = (x) => how.get(x) === 'symbol' && exNamed.has(x) && !exNamed.get(x).has(c.id);
-    const score = (x) => (how.get(x) === 'pin' ? 100 : 0) + (contradicted(x) ? -20 : 0) + (x === String(c.cgSymbol).toUpperCase() ? 10 : 0) + exOf(x).length;
+    const score = (x) => (manual(x) ? 100 : 0) + (contradicted(x) ? -20 : 0) + (x === String(c.cgSymbol).toUpperCase() ? 10 : 0) + exOf(x).length;
     const [keep, drop] = score(sym) > score(other) ? [sym, other] : [other, sym];
     best.delete(drop); seen.set(c.id, keep);
     report.duplicates.push({ id: c.id, name: c.name, kept: keep, dropped: drop, how: { [keep]: how.get(keep), [drop]: how.get(drop) }, droppedNames: [...(exNamed.get(drop) || [])] });
@@ -197,7 +224,8 @@ for (const [kind, cats] of [['stablecoin', STABLE_CATS], ['security', SECURITY_C
 const kept = [], excluded = [];
 for (const c of [...best.values()].sort((a, b) => b.market_cap - a.market_cap)) {
   const sym = c.symbol.toUpperCase();
-  const row = { sym, id: c.id, name: c.name, ko: symsOf(sym).map((y) => upbit.get(y)).find(Boolean) || null, mcap: c.market_cap, ex: exOf(sym), match: how.get(sym) };
+  const ko = overrides.ko[sym] || symsOf(sym).map((y) => upbit.get(y)).find(Boolean) || symsOf(sym).map((y) => bithumbKo.get(y)).find(Boolean) || null;
+  const row = { sym, id: c.id, name: c.name, ko, mcap: c.market_cap, ex: exOf(sym), match: how.get(sym) };
   const w = why.get(c.id), manual = overrides.exclude[sym];
   if (overrides.keep[sym]) kept.push(row);
   else if (manual) excluded.push({ ...row, kind: manual.kind, why: manual.reason });
@@ -209,10 +237,10 @@ const dropped = new Set(report.duplicates.map((d) => d.dropped));
 const unmatched = [...listed].filter((s) => !best.has(s) && !aliases.has(s) && !dropped.has(s)).sort();
 await writeFile('data/universe.json', JSON.stringify({
   fetchedAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z'),
-  rule: 'Upbit, Bithumb or Binance spot listings ranked by CoinGecko market cap; stablecoins and security tokens left out (see excluded)',
+  rule: 'Upbit, Bithumb or Binance spot listings ranked by CoinGecko market cap, plus coins added by hand (data/exclusions.json "add", match "add"); stablecoins and security tokens left out (see excluded)',
   coins, excluded, unmatched,
 }));
 console.log(`coins ${coins.length}, excluded ${excluded.length} (stablecoin ${excluded.filter((e) => e.kind === 'stablecoin').length}, security ${excluded.filter((e) => e.kind === 'security').length}), unmatched ${unmatched.length}; ` +
-  `matched by exchange tickers ${[...how.values()].filter((h) => h === 'exchange').length}, by symbol ${[...how.values()].filter((h) => h === 'symbol').length}, pinned ${pinned.length}; ` +
+  `matched by exchange tickers ${[...how.values()].filter((h) => h === 'exchange').length}, by symbol ${[...how.values()].filter((h) => h === 'symbol').length}, pinned ${pinned.length}, added ${[...how.values()].filter((h) => h === 'add').length}; ` +
   `${report.differs.length} disagreements, ${report.duplicates.length} duplicate symbols`);
 if (process.env.REPORT) await writeFile(process.env.REPORT, JSON.stringify(report, null, 1));
