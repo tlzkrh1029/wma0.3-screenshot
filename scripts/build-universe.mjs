@@ -17,7 +17,8 @@
 //   needs no top-3000 rank, and stays through every refresh until its entry is removed. Should one of the
 //   exchanges list it later, the entry keeps working as an "ids" pin.
 //   Ranks are renumbered over the coins that remain.
-// - Korean names: Upbit's, else Bithumb's, else data/exclusions.json "ko" (which also overrides both).
+// - Korean names: data/exclusions.json "ko" first, then Upbit's, then Bithumb's, then the name the previous
+//   data/universe.json had for the same CoinGecko coin (a coin that left the Korean exchanges keeps its name).
 // - Each coin records how it was matched: "exchange" (exchange tickers), "symbol" (largest market cap), "pin", or
 //   "add" (added by hand, not listed on the three exchanges).
 //
@@ -45,6 +46,9 @@ export const SECURITY_CATS = [
 let overrides = { ids: {}, exclude: {}, keep: {}, add: {}, ko: {} };
 try { overrides = { ...overrides, ...JSON.parse(await readFile('data/exclusions.json', 'utf8')) }; } catch (e) { if (e.code !== 'ENOENT') throw e; }
 const aliases = new Map(Object.entries(overrides.ids).flatMap(([sym, o]) => (o.also || []).map((a) => [a, sym])));
+// Korean names in the current list, by CoinGecko id: the last fallback, so a name is not lost when its source goes away
+let prevKo = new Map();
+try { prevKo = new Map(JSON.parse(await readFile('data/universe.json', 'utf8')).coins.filter((c) => c.ko).map((c) => [c.id, c.ko])); } catch {}
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // CoinGecko: the Demo key allows 100 calls a minute; the keyless API about 10-30 shared per IP
@@ -70,12 +74,17 @@ for (const m of await get('https://api.upbit.com/v1/market/all')) {
   if (!upbit.has(base)) upbit.set(base, m.korean_name);
 }
 const bithumb = new Set(Object.keys((await get('https://api.bithumb.com/public/ticker/ALL_KRW')).data).filter((k) => k !== 'date'));
-// Bithumb's market list carries Korean names (its ticker endpoint does not); KRW markets first
+// Bithumb's market list carries Korean names (its ticker endpoint does not); KRW markets first. Only the names depend
+// on it, so a failure is a warning: the names then come from the previous list (prevKo) and the build goes on.
 const bithumbKo = new Map();
-for (const m of (await get('https://api.bithumb.com/v1/market/all')).sort((a, b) => b.market.startsWith('KRW-') - a.market.startsWith('KRW-'))) {
-  const base = m.market.split('-')[1];
-  if (m.korean_name && !bithumbKo.has(base)) bithumbKo.set(base, m.korean_name);
-}
+try {
+  const list = await get('https://api.bithumb.com/v1/market/all');
+  if (!Array.isArray(list)) throw new Error('not a list');
+  for (const m of list.sort((a, b) => String(b.market).startsWith('KRW-') - String(a.market).startsWith('KRW-'))) {
+    const base = String(m.market).split('-')[1];
+    if (base && m.korean_name && !bithumbKo.has(base)) bithumbKo.set(base, m.korean_name);
+  }
+} catch (e) { console.warn(`::warning::Bithumb market list (Korean names) failed: ${e.message}; keeping the previous names`); }
 const binance = new Set((await get('https://data-api.binance.vision/api/v3/exchangeInfo?permissions=SPOT')).symbols
   .filter((s) => s.status === 'TRADING' && ['USDT', 'FDUSD', 'USDC', 'BTC', 'TRY', 'EUR'].includes(s.quoteAsset)).map((s) => s.baseAsset));
 const listed = new Set([...upbit.keys(), ...bithumb, ...binance]);
@@ -183,7 +192,12 @@ if (added.length) {
     const c = rows.find((r) => r.id === o.id);
     if (!c) throw new Error(`data/exclusions.json: CoinGecko id ${o.id} for added ${sym} not found`);
     if (c.market_cap) { best.set(sym, { ...c, symbol: sym, cgSymbol: c.symbol }); how.set(sym, listed.has(sym) ? 'pin' : 'add'); }
-    if (listed.has(sym)) report.differs.push({ sym, add: o.id, note: 'listed on an exchange now; the "add" entry works as an "ids" pin' });
+    else { console.warn(`::warning::added ${sym} (${o.id}) has no CoinGecko market cap and is left out`); report.differs.push({ sym, add: o.id, noCap: true }); }
+    if (listed.has(sym)) {
+      // listed now: the entry works as an "ids" pin; say so, and whether the exchange tickers name another coin
+      const named = symsOf(sym).flatMap((y) => [...(exNamed.get(y) || [])]), x = exPick.get(sym);
+      report.differs.push({ sym, add: o.id, listed: true, ...(x && x !== o.id && !named.includes(o.id) ? { exchange: { id: x } } : {}) });
+    }
   }
   await sleep(CG_PAUSE);
 }
@@ -224,7 +238,8 @@ for (const [kind, cats] of [['stablecoin', STABLE_CATS], ['security', SECURITY_C
 const kept = [], excluded = [];
 for (const c of [...best.values()].sort((a, b) => b.market_cap - a.market_cap)) {
   const sym = c.symbol.toUpperCase();
-  const ko = overrides.ko[sym] || symsOf(sym).map((y) => upbit.get(y)).find(Boolean) || symsOf(sym).map((y) => bithumbKo.get(y)).find(Boolean) || null;
+  const ko = overrides.ko[sym] || symsOf(sym).map((y) => upbit.get(y)).find(Boolean) || symsOf(sym).map((y) => bithumbKo.get(y)).find(Boolean)
+    || prevKo.get(c.id) || null;
   const row = { sym, id: c.id, name: c.name, ko, mcap: c.market_cap, ex: exOf(sym), match: how.get(sym) };
   const w = why.get(c.id), manual = overrides.exclude[sym];
   if (overrides.keep[sym]) kept.push(row);

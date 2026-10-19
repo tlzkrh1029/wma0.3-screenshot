@@ -1,5 +1,5 @@
 {
- "about": "Manual overrides for scripts/build-universe.mjs. ids: CoinGecko coin to use for an exchange symbol when the largest-market-cap coin with that symbol is a different asset; also: other exchange symbols for the same coin (their listings count, and they are not matched separately). keep: coins that a CoinGecko stablecoin/security category would drop but that are not themselves stablecoins or securities. exclude: coins to drop that no category catches. add: coins that none of the three exchanges lists but that belong in the screener; looked up by CoinGecko id and kept through every refresh (they show without an exchange). ko: Korean names for coins that neither Upbit nor Bithumb names (also overrides theirs).",
+ "about": "Manual overrides for scripts/build-universe.mjs. ids: CoinGecko coin to use for an exchange symbol when the largest-market-cap coin with that symbol is a different asset; also: other exchange symbols for the same coin (their listings count, and they are not matched separately). keep: coins that a CoinGecko stablecoin/security category would drop but that are not themselves stablecoins or securities. exclude: coins to drop that no category catches. add: coins that none of the three exchanges lists but that belong in the screener; looked up by CoinGecko id and kept through every refresh (they show without an exchange). ko: Korean names by exchange symbol, used before Upbit's and Bithumb's (for coins they do not name, or to correct a name).",
  "ids": {
   "FRAX": {
    "id": "frax-share",
@@ -102,7 +102,7 @@
  "add": {
   "XMR": {
    "id": "monero",
-   "reason": "Not on Upbit, Bithumb or Binance spot (its Binance pairs are halted), so the listing rule leaves it out; added at the owner's request (2026-10-19)"
+   "reason": "Not on Upbit, Bithumb or Binance spot (Binance delisted it on 2024-02-20; its pairs remain in BREAK status), so the listing rule leaves it out; added at the owner's request (2026-10-19)"
   },
   "KAS": {
    "id": "kaspa",

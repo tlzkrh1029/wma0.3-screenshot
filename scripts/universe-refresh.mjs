@@ -36,19 +36,27 @@ const rematched = newU.coins.filter((c) => oldBy.has(c.sym) && oldBy.get(c.sym).
 const tickers = (t) => [t?.usd, t?.cap].filter(Boolean).join(' · ');
 const retickered = newU.coins.filter((c) => oldBy.get(c.sym)?.id === c.id && oldTick.has(c.sym) && tickers(oldTick.get(c.sym)) !== tickers(tickBy.get(c.sym)));
 const pinDiffers = uRep.differs.filter((d) => d.pin);
-const structural = added.length + removed.length + rematched.length + retickered.length + uRep.duplicates.length + pinDiffers.length
+// coins added by hand that an exchange now lists, or that CoinGecko gives no market cap; and existing added coins
+// whose TradingView price left CoinGecko's (they have no exchange price to compare with)
+const addNotes = uRep.differs.filter((d) => d.add);
+const addedOff = (check || []).filter((c) => c.tvOff && oldBy.has(c.sym) && newBy.get(c.sym)?.ex === '' && !rematched.some((r) => r.sym === c.sym)
+  && !retickered.some((r) => r.sym === c.sym));
+const structural = added.length + removed.length + rematched.length + retickered.length + uRep.duplicates.length + pinDiffers.length + addNotes.length + addedOff.length
   + rRep.manualChanged.length + rRep.restored.length + rRep.retired.length > 0;
 
 const EX = { U: '업비트', B: '빗썸', N: '바이낸스' };
-const exName = (x) => [...(x || '')].map((k) => EX[k]).filter(Boolean).join('·') || '직접 추가(세 거래소 미상장)';
+const ADDED = '업비트·빗썸·바이낸스 미상장(직접 추가한 종목)';
+const exName = (x) => [...(x || '')].map((k) => EX[k]).filter(Boolean).join('·') || ADDED;
+const unlisted = (sym) => newBy.get(sym)?.ex === '';
 // plain digits, never exponent form: $65,430, $0.523, $0.00000024
 const usd = (v) => (v == null ? '-' : `$${v.toLocaleString('en-US', { maximumSignificantDigits: v >= 1 ? 4 : 3 })}`);
 const cell = (s) => String(s ?? '-').replace(/\|/g, '\\|');
 const priceNote = (sym) => {
   if (!checked) return '가격 대조 못 함 (점검 실패)';
-  const c = checkBy.get(sym); if (!c) return newBy.get(sym)?.ex === '' ? 'CoinGecko 가격과 일치(세 거래소 미상장)' : '거래소 가격과 일치';
+  const c = checkBy.get(sym); if (!c) return unlisted(sym) ? 'CoinGecko 가격과 일치(세 거래소 미상장)' : '거래소 가격과 일치';
   const p = c.price;
-  return c.priceOff ? `**거래소 ${usd(p.exchange)} / TradingView ${usd(p.tradingview)} / CoinGecko ${usd(p.coingecko)}**` : c.notes.join('; ');
+  if (c.priceOff) return p.exchange == null ? `**TradingView ${usd(p.tradingview)} / CoinGecko ${usd(p.coingecko)}**` : `**거래소 ${usd(p.exchange)} / TradingView ${usd(p.tradingview)} / CoinGecko ${usd(p.coingecko)}**`;
+  return c.notes.join('; ');
 };
 const aliasOf = new Map(Object.entries(exclusions.ids || {}).flatMap(([sym, o]) => (o.also || []).map((a) => [a, sym])));
 const whyRemoved = (c) => {
@@ -60,7 +68,7 @@ const whyRemoved = (c) => {
   const far = uRep.differs.find((d) => d.sym === c.sym && d.matched === null);
   if (far) return `거래소 티커가 가리키는 코인(${far.exchange.id})이 CoinGecko ${far.exchange.rank ?? '?'}위로 3,000위 밖`;
   if (newU.unmatched.includes(c.sym)) return 'CoinGecko 3,000위 밖이거나 매칭되는 코인이 없음';
-  if (c.match === 'add') return '직접 추가 목록(data/exclusions.json "add")에서 빠짐';
+  if (c.match === 'add') return exclusions.add?.[c.sym] ? 'CoinGecko에 시가총액이 없어 빠짐(직접 추가 목록에는 남아 있음)' : '직접 추가 목록(data/exclusions.json "add")에서 빠짐';
   return '세 거래소 모두에서 상장 폐지';
 };
 
@@ -69,28 +77,35 @@ if (!checked && (added.length || rematched.length || retickered.length)) todo.pu
 for (const c of [...added, ...rematched, ...retickered]) {
   const k = checkBy.get(c.sym), t = tickBy.get(c.sym) || {};
   if (k?.tvOff && k?.cgOff) todo.push(`- **${c.sym}**: TradingView와 CoinGecko 가격이 모두 거래소와 다릅니다 (${priceNote(c.sym)}). CoinGecko 매칭이 다른 코인이고, 이름으로 찾은 TradingView 티커도 그 코인을 따라갔을 가능성이 큽니다. data/exclusions.json "ids"에 맞는 코인을 고정해야 합니다.`);
-  else if (k?.tvOff) todo.push(`- **${c.sym}**: TradingView 티커 ${t.usd || '-'}의 가격이 거래소와 다릅니다 (${priceNote(c.sym)}). 다른 코인의 티커일 수 있으니 data/tickers.json에 맞는 티커를 수동으로 넣어야 합니다.`);
+  else if (k?.tvOff) todo.push(`- **${c.sym}**: TradingView 티커 ${t.usd || '-'}의 가격이 ${unlisted(c.sym) ? 'CoinGecko' : '거래소'}와 다릅니다 (${priceNote(c.sym)}). 다른 코인의 티커일 수 있으니 data/tickers.json에 맞는 티커를 수동으로 넣어야 합니다.`);
   else if (k?.cgOff) todo.push(`- **${c.sym}**: CoinGecko 가격이 거래소와 다릅니다 (${priceNote(c.sym)}). CoinGecko 매칭이 다른 코인일 수 있으니 data/exclusions.json "ids"에 고정해야 합니다.`);
   else if (!t.usd && !t.cap) todo.push(`- **${c.sym}**: TradingView 티커를 찾지 못했습니다.`);
   else if (k?.noData) todo.push(`- **${c.sym}**: TradingView 티커(${tickers(t)})에서 일봉을 받지 못해 가격 대조를 못 했습니다 (${k.notes.join('; ')}).`);
   else if (k?.stale) todo.push(`- **${c.sym}**: TradingView 티커(${tickers(t)})의 마지막 봉이 오래되었습니다 (${k.notes.join('; ')}). 거래가 끝난 다른 코인의 티커일 수 있습니다.`);
   else if (k?.notes?.includes('no exchange price')) todo.push(`- **${c.sym}**: 거래소 가격을 얻지 못해 가격 대조를 못 했습니다.`);
+  else if (k?.notes?.includes('no exchange or CoinGecko price')) todo.push(`- **${c.sym}**: 세 거래소에 없는 코인인데 CoinGecko 가격도 얻지 못해 가격 대조를 못 했습니다.`);
   else if (t.confidence && t.confidence !== 'high') todo.push(`- **${c.sym}**: 티커 해석 확신도가 낮습니다 (${t.confidence}; 후보 ${(t.alternatives || []).join(', ') || '없음'}).`);
 }
 for (const d of uRep.duplicates) {
   const named = (d.droppedNames || []).filter((id) => id !== d.id);
+  if (d.how?.[d.kept] === 'add') { todo.push(`- **${d.dropped}**: 직접 추가한 ${d.kept}와 같은 코인(${d.name}, ${d.id})이 이 심볼로 거래소에 상장되어 빠졌습니다. 같은 코인이면 data/exclusions.json의 ${d.kept} 항목을 "add"에서 "ids"로 옮기고 "also": ["${d.dropped}"]를 넣어야 합니다.`); continue; }
   todo.push(named.length
     ? `- **${d.dropped}**: ${d.kept}와 같은 코인(${d.name}, ${d.id})으로 매칭되어 빠졌지만, ${d.dropped}의 거래소 티커는 ${named.join(', ')}를 가리킵니다. 다른 코인일 가능성이 크니 별칭으로 합치지 말고 data/exclusions.json "ids"에 맞는 코인을 고정해야 합니다.`
     : `- **${d.dropped}**: ${d.kept}와 같은 코인(${d.name}, ${d.id})을 가리켜서 빠졌습니다. 같은 코인이면 data/exclusions.json "ids"의 ${d.kept} 항목에 "also": ["${d.dropped}"]를 넣어야 합니다.`);
 }
-for (const d of uRep.differs.filter((x) => x.add)) todo.push(`- **${d.sym}**: 직접 추가한 코인(${d.add})이 이제 세 거래소 가운데 한 곳에 상장되었습니다. data/exclusions.json "add" 항목은 고정(pin)으로 계속 작동하며, "ids"로 옮기거나 지워도 됩니다.`);
+for (const d of addNotes) {
+  if (d.noCap) todo.push(`- **${d.sym}**: 직접 추가한 코인(${d.add})의 CoinGecko 시가총액이 없어서 이번 목록에서 빠졌습니다. data/exclusions.json "add"의 CoinGecko id가 맞는지 확인해야 합니다.`);
+  else if (d.exchange) todo.push(`- **${d.sym}**: 직접 추가한 코인(${d.add})과 같은 심볼이 거래소에 상장되었는데, 그 거래소 티커는 다른 코인(${d.exchange.id})을 가리킵니다. 지금은 "add" 항목이 고정(pin)처럼 ${d.add}를 유지하지만, 거래소 상장 표시와 가격 대조는 다른 코인의 것일 수 있으니 확인해야 합니다.`);
+  else todo.push(`- **${d.sym}**: 직접 추가한 코인(${d.add})이 이제 세 거래소 가운데 한 곳 이상에 상장되었습니다. data/exclusions.json "add" 항목은 "ids"의 고정(pin)과 똑같이 작동하므로 그대로 두어도 됩니다. 정리하려면 이 항목을 "ids"로 옮기면 됩니다.`);
+}
+for (const c of addedOff) todo.push(`- **${c.sym}**: 직접 추가한 코인의 TradingView 가격이 CoinGecko와 다릅니다 (${priceNote(c.sym)}). 티커가 다른 코인으로 바뀌었는지 확인해야 합니다.`);
 for (const d of pinDiffers) todo.push(`- **${d.sym}**: 고정(pin)한 코인은 ${d.pin}인데, 이 심볼의 거래소 티커는 어느 것도 그 코인을 가리키지 않고 ${d.exchange.id}를 가리킵니다.`);
 for (const m of rRep.manualChanged) todo.push(`- **${m.sym}**: 손으로 고친 티커(${[m.usd, m.cap].filter(Boolean).join(' · ')})인데 CoinGecko 코인이 ${m.was}에서 ${m.now}로 바뀌었습니다. 티커가 여전히 맞으면 data/tickers.json의 "cg"를 ${m.now}로 바꾸고, 아니면 티커를 고쳐야 합니다. 그때까지 매주 다시 알립니다.`);
 for (const r of rRep.restored) todo.push(`- **${r.sym}**: 전에 손으로 고친 티커(${[r.usd, r.cap].filter(Boolean).join(' · ')}, 이전 심볼 ${r.from})를 다시 적용했습니다. 여전히 맞는지 봐 주세요.`);
 for (const r of rRep.retired) todo.push(`- **${r.sym}**: 종목이 빠져서 손으로 고친 티커(${[r.usd, r.cap].filter(Boolean).join(' · ')})를 data/tickers.json "retired"에 보관했습니다. 이 코인(${r.cg})이 돌아오면 다시 적용됩니다.`);
 
 const lines = [];
-lines.push(`CoinGecko 기준으로 종목 목록(업비트·빗썸·바이낸스 상장 코인과 직접 추가한 코인)을 다시 만들고, 새로 들어온 종목의 TradingView 티커를 찾아 ${checked ? '거래소 가격과 대조했습니다' : '거래소 가격과 대조하려 했지만 점검이 실패했습니다'}. (${today})`, '');
+lines.push(`CoinGecko 기준으로 종목 목록(업비트·빗썸·바이낸스 상장 코인과 직접 추가한 코인)을 다시 만들고, 새로 들어온 종목의 TradingView 티커를 찾아 ${checked ? '거래소 가격(세 거래소에 없는 코인은 CoinGecko 가격)과 대조했습니다' : '거래소 가격과 대조하려 했지만 점검이 실패했습니다'}. (${today})`, '');
 lines.push('| 항목 | 값 |', '|---|---|',
   `| 종목 수 | ${oldU.coins.length} → ${newU.coins.length} |`, `| 새 종목 | ${added.length} |`, `| 빠진 종목 | ${removed.length} |`,
   `| CoinGecko 매칭이 바뀐 종목 | ${rematched.length} |`, `| 티커만 바뀐 종목 | ${retickered.length} |`, `| 확인이 필요한 것 | ${todo.length} |`, '');
@@ -108,7 +123,7 @@ if (removed.length) {
   lines.push('', '빠진 종목의 일봉 파일은 병합 후 매일 수집에서 지워집니다(한 번에 10% 넘게 지우게 되면 수집이 멈추고 알립니다).', '');
 }
 if (rematched.length) {
-  lines.push('### CoinGecko 매칭이 바뀐 종목', '', '같은 심볼이 다른 CoinGecko 코인을 가리키게 되었습니다. 매핑 기록(data/mapping-log.json)에 자동으로 추가했습니다. 매칭 방식: exchange = 거래소 티커, symbol = 같은 심볼 중 시가총액 최대, pin = 고정.', '',
+  lines.push('### CoinGecko 매칭이 바뀐 종목', '', '같은 심볼이 다른 CoinGecko 코인을 가리키게 되었습니다. 매핑 기록(data/mapping-log.json)에 자동으로 추가했습니다. 매칭 방식: exchange = 거래소 티커, symbol = 같은 심볼 중 시가총액 최대, pin = 고정, add = 직접 추가(세 거래소 미상장).', '',
     '| 심볼 | 이전 | 현재 | 매칭 방식 | 새 TradingView 티커 | 가격 대조 |', '|---|---|---|---|---|---|');
   for (const c of rematched) {
     const o = oldBy.get(c.sym), t = tickBy.get(c.sym) || {};
@@ -122,7 +137,7 @@ if (retickered.length) {
   lines.push('');
 }
 if (todo.length) lines.push('### 확인이 필요한 것', '', ...todo, '');
-const others = (check || []).filter((c) => c.priceOff && oldBy.has(c.sym) && ![...rematched, ...retickered].some((r) => r.sym === c.sym));
+const others = (check || []).filter((c) => c.priceOff && oldBy.has(c.sym) && !unlisted(c.sym) && ![...rematched, ...retickered].some((r) => r.sym === c.sym));
 if (others.length) {
   lines.push(`<details><summary>기존 종목 중 가격이 거래소와 1.5배 넘게 다른 것 (${others.length}종, 거래량이 적은 거래소 시세 탓일 수 있음)</summary>`, '',
     '| 심볼 | 거래소 | 거래소 가격 | TradingView | CoinGecko |', '|---|---|---|---|---|');
@@ -139,7 +154,7 @@ lines.push('', '종목 목록과 시가총액: Data provided by CoinGecko (https
     for (const c of rematched) {
       const o = oldBy.get(c.sym);
       log.entries.unshift({ date: today, sym: c.sym, kind: 'coingecko', was: `${o.name} (${o.id})`, now: `${c.name} (${c.id})`,
-        why: `주간 갱신에서 ${c.match === 'exchange' ? 'CoinGecko 거래소 티커' : c.match === 'pin' ? '고정(pin)' : '같은 심볼 중 시가총액 최대'} 기준으로 매칭이 바뀜` });
+        why: `주간 갱신에서 ${c.match === 'exchange' ? 'CoinGecko 거래소 티커' : c.match === 'pin' ? '고정(pin)' : c.match === 'add' ? '직접 추가(고정)' : '같은 심볼 중 시가총액 최대'} 기준으로 매칭이 바뀜` });
     }
     if (checked) log.checkedAt = today; // the date of the last check that actually ran
     await writeFile('data/mapping-log.json', JSON.stringify(log, null, 1) + '\n');

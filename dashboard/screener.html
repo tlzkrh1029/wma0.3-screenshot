@@ -386,7 +386,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
   <details class="panel maplog" id="maplog" hidden>
     <summary id="maplogSum"></summary>
     <div class="ml-body">
-      <p class="hint">거래소에 상장된 코인과 다른 코인에 짝지어져 있다가 바로잡은 기록입니다. TradingView 티커는 거래소 가격과 대조해서, CoinGecko 매칭은 거래소 가격과 CoinGecko 가격을 대조하거나 분류 검토로 찾았습니다. 이력 일부 제외는 티커는 맞지만 일부 기간의 값이 잘못되어 그 기간을 계산과 차트에서 뺀 기록입니다.</p>
+      <p class="hint">대부분은 거래소에 상장된 코인과 다른 코인에 짝지어져 있다가 바로잡은 기록입니다. TradingView 티커는 거래소 가격과 대조해서, CoinGecko 매칭은 거래소 가격과 CoinGecko 가격을 대조하거나 분류 검토로 찾았습니다. 이력 일부 제외는 티커는 맞지만 일부 기간의 값이 잘못되어 그 기간을 계산과 차트에서 뺀 기록입니다. 종목 직접 추가는 업비트·빗썸·바이낸스 어디에도 상장되지 않아서 상장 기준에서 빠지는 코인을 사이트 운영자의 요청에 따라 종목 목록에 넣은 기록입니다. 이 코인들은 거래소 가격이 없으므로 TradingView 가격을 CoinGecko 가격과 대조했습니다.</p>
       <div class="ml-syms" id="maplogSyms"></div>
       <table class="ml"><thead><tr><th>구분</th><th>종목</th><th>이전 매핑</th><th>현재 매핑</th><th>근거</th><th>날짜</th></tr></thead><tbody id="maplogRows"></tbody></table>
     </div>
@@ -442,7 +442,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
         <div class="board-head"><h2>신호가 뜬 종목 수</h2><div class="bars-legend">
           <span><i style="background:var(--zo1)"></i>2.2 이상</span><span><i style="background:var(--zo2)"></i>2.4 이상</span>
           <span><i style="background:var(--zu2)"></i>0.3 이하</span><span><i style="background:var(--zu1)"></i>0.4 이하</span></div></div>
-        <div class="board-body"><p class="hint">주마다 어느 타임프레임 하나라도 기준에 들어간 종목 수입니다. 위로는 과열, 아래로는 저평가 신호이고, 종목마다 그 쪽의 가장 강한 단계 하나로 셉니다. 지금 상장된 종목만 셉니다(과거에 상장 폐지된 종목은 빠져 있습니다).</p><div class="cv"><canvas id="breadth" role="img" aria-label="주별 저평가·과열 신호 종목 수 막대 차트"></canvas></div></div>
+        <div class="board-body"><p class="hint">주마다 어느 타임프레임 하나라도 기준에 들어간 종목 수입니다. 위로는 과열, 아래로는 저평가 신호이고, 종목마다 그 쪽의 가장 강한 단계 하나로 셉니다. 지금 종목 목록에 있는 코인만 셉니다(과거에 상장 폐지되어 목록에서 빠진 종목은 들어 있지 않습니다).</p><div class="cv"><canvas id="breadth" role="img" aria-label="주별 저평가·과열 신호 종목 수 막대 차트"></canvas></div></div>
       </div>
       <div class="panel">
         <div class="board-head"><h2>종목별 신호 바코드</h2><p class="hint" id="barcodeHint"></p></div>
@@ -773,7 +773,7 @@ function renderScreener() {
     { const td = el('td', 'mm mc-td c-wide', capText(s.coin)); td.title = capNote(s.coin); tr.append(td); }
     const ex = el('td', 'ex-td c-wide'); const exd = el('div', 'ex');
     for (const [x, l] of [['U', '업'], ['B', '빗'], ['N', '바']]) { const i = el('i', s.coin.x.includes(x) ? 'on' : '', l); i.title = { U: '업비트', B: '빗썸', N: '바이낸스' }[x] + (s.coin.x.includes(x) ? ' 상장' : ' 미상장'); exd.append(i); }
-    if (!s.coin.x) exd.title = ADDED_NOTE; // added by hand: on none of the three exchanges
+    if (!s.coin.x) for (const n of [exd, ...exd.children]) n.title = ADDED_NOTE; // added by hand: on none of the three exchanges
     ex.append(exd); tr.append(ex);
     // one column per side: strongest zone on that side, then how many other cells are in a zone there
     const sideCell = (zones) => {
@@ -1360,7 +1360,7 @@ const HOVER = matchMedia('(hover: hover) and (pointer: fine)');
 const previewAvailable = () => HOVER.matches && innerWidth >= 1180;
 const EX_NAME = { U: '업비트', B: '빗썸', N: '바이낸스' };
 // a coin added by hand (data/exclusions.json "add") is on none of the three exchanges
-const ADDED_NOTE = '세 거래소 모두 미상장(직접 추가한 종목)';
+const ADDED_NOTE = '업비트·빗썸·바이낸스 미상장(직접 추가한 종목)';
 const exNames = (coin) => ['U', 'B', 'N'].filter((x) => coin.x.includes(x)).map((x) => EX_NAME[x]).join(' · ') || ADDED_NOTE;
 function layoutPreview() {
   const on = state.screen === 'screener' && state.pv !== 'off' && previewAvailable();
@@ -1667,7 +1667,7 @@ if (DATA.excluded) document.getElementById('exclNote').textContent = ` 종목 �
 {
   const at = new Date(DATA.fetchedAt).toISOString().replace('T', ' ').slice(0, 16), none = COINS.filter((c) => !c.cap && !c.usd).length;
   const added = COINS.filter((c) => !c.x).length;
-  document.getElementById('bannerText').textContent = `업비트·빗썸·바이낸스에 상장된 ${COINS.length - added}종${added ? `과 직접 추가한 ${added}종` : ''}의 배수와 신호는 모두 TradingView 일봉(${at} UTC 수집)에서 계산한 값입니다. 오늘 봉은 수집 시점까지 진행된 값입니다.` +
+  document.getElementById('bannerText').textContent = `업비트·빗썸·바이낸스에 상장된 ${COINS.length - added}종${added ? `과 세 거래소에 상장되지 않아 직접 추가한 ${added}종` : ''}의 배수와 신호는 모두 TradingView 일봉(${at} UTC 수집)에서 계산한 값입니다. 오늘 봉은 수집 시점까지 진행된 값입니다.` +
     (none ? ` TradingView에서 티커를 찾지 못한 ${none}종은 데이터 없음으로 표시합니다.` : '') + (DATA.failed ? ` 이번 수집에서 티커 ${DATA.failed}개는 받지 못해서 이전 값을 씁니다.` : '');
 }
 
@@ -1692,7 +1692,7 @@ if (DATA.dir && DATA.dir.files >= DATA.dir.warnAt) {
     `${DATA.dir.limit.toLocaleString('en-US')}개를 넘기 전에 data/daily를 하위 폴더로 나눠야 합니다.`;
 }
 // record of coin matches that were found wrong and fixed (data/mapping-log.json)
-const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], history: ['TradingView 이력 일부 제외', 'var(--ml-hist)', '이력 제외'], added: ['직접 추가한 종목', 'var(--ml-add)', '직접 추가'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
+const ML_KIND = { tradingview: ['TradingView 티커 수정', 'var(--accent)', 'TradingView'], coingecko: ['CoinGecko 매칭 수정', 'var(--zo1)', 'CoinGecko'], history: ['TradingView 이력 일부 제외', 'var(--ml-hist)', '이력 제외'], added: ['종목 직접 추가', 'var(--ml-add)', '직접 추가'], none: ['TradingView 티커 없음', 'var(--faint)', '티커 없음'] };
 if (DATA.mapLog?.entries?.length) {
   const box = document.getElementById('maplog'), sum = document.getElementById('maplogSum'), syms = document.getElementById('maplogSyms'), rows = document.getElementById('maplogRows');
   const order = Object.keys(ML_KIND), entries = DATA.mapLog.entries.slice().sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));

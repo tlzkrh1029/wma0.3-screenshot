@@ -11,7 +11,8 @@
 //        (in the sandbox: NODE_USE_ENV_PROXY=1; env COINGECKO_DEMO_KEY is used when set)
 //   --json  also write the flagged coins as JSON ({sym, rank, usd, cap, price, mcap, notes, tvOff, cgOff, priceOff,
 //           noData, stale}): tvOff / cgOff mark a TradingView / CoinGecko price more than --ratio off the exchange
-//           price (priceOff is either), noData a ticker without bars, stale a last bar more than 3 days old
+//           price (priceOff is either; for a coin on no exchange tvOff is against CoinGecko's price and price.exchange
+//           is null), noData a ticker without bars, stale a last bar more than 3 days old
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
