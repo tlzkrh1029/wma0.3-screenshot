@@ -120,6 +120,7 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .scr td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
 .scr tbody tr { cursor: pointer; }
 .scr tbody tr:hover { background: var(--sunken); }
+.scr tbody tr.empty-row:hover { background: none; }
 .scr tbody tr:focus-visible { outline-offset: -2px; }
 .scr .rk { font-family: var(--font-mono); color: var(--muted); font-size: 12px; width: 44px; }
 .th-sort { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; display: inline-flex; gap: 3px; align-items: center; }
@@ -696,14 +697,19 @@ const matchQ = (c, q) => c.s.toLowerCase().includes(q) || c.n.toLowerCase().incl
 function emptyNote() {
   const q = state.q.trim().toLowerCase();
   const hits = q ? COINS.filter((c) => matchQ(c, q)) : [];
-  const by = [state.ex.length && `거래소 필터(${exFilterText()})`, state.zf.length && '신호 필터'].filter(Boolean).join('와 ');
+  // the filters run search, exchange, signal: name only the ones that drop coins the step before kept
+  const base = q ? hits : COINS;
+  const passEx = state.ex.length ? base.filter((c) => state.ex.every((x) => c.x.includes(x))).length : base.length;
+  const exHit = passEx < base.length, zfHit = passEx > 0 && state.zf.length > 0;
+  const by = [exHit && `거래소 필터(${exFilterText()})`, zfHit && '신호 필터'].filter(Boolean).join('와 ');
   const names = hits.slice(0, 3).map((c) => { const on = ['U', 'B', 'N'].filter((x) => c.x.includes(x)).map((x) => EX_NAME[x]).join('·'); return `${c.s}(${on ? `${on} 상장` : '세 거래소 미상장'})`; }).join(', ');
   const why = q && !hits.length ? `검색어 "${state.q}"에 맞는 종목이 없습니다.`
     : q ? `검색어 "${state.q}"에 맞는 종목은 ${names}${hits.length > 3 ? ' 등' : ''} ${hits.length}종이지만, ${by}에 걸려 보이지 않습니다.`
     : `${by}에 맞는 종목이 없습니다.`;
-  const more = (state.ex.length > 1 ? ' 거래소 버튼을 여러 개 켜면, 켠 거래소 모두에 상장된 종목만 남습니다.' : '') + ' 검색어와 필터는 이 브라우저에 저장되어, 페이지를 다시 열어도 그대로 적용됩니다.';
+  const more = (exHit && state.ex.length > 1 ? ' 거래소 버튼을 여러 개 켜면, 켠 거래소 모두에 상장된 종목만 남습니다.' : '') + ' 검색어와 필터는 이 브라우저에 저장되어, 페이지를 다시 열어도 그대로 적용됩니다.';
   const b = el('button', null, state.q && (state.ex.length || state.zf.length) ? '검색어와 필터 지우기' : state.q ? '검색어 지우기' : '필터 모두 해제'); b.type = 'button';
-  b.addEventListener('click', () => { state.q = ''; state.ex = []; state.zf = []; LIMIT = 100; save(); renderScreener(); });
+  // the rerender removes the button, so a keyboard press moves focus to the cleared search box
+  b.addEventListener('click', (e) => { state.q = ''; state.ex = []; state.zf = []; LIMIT = 100; save(); renderScreener(); if (!e.detail) document.getElementById('q').focus({ preventScroll: true }); });
   return [el('p', null, why + more), b];
 }
 function filteredStats() {
