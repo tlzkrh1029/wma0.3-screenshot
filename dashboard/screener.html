@@ -236,7 +236,8 @@ table.scr { width: 100%; border-collapse: collapse; min-width: 1040px; }
 .xaxis { position: relative; height: 16px; margin-left: 52px; margin-right: 62px; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); }
 .xaxis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
 .empty { padding: 28px; text-align: center; color: var(--muted); }
-.empty button { margin: 4px; border: 1px solid var(--line); background: var(--sunken); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+.empty button { margin: 4px; border: 1px solid var(--line); background: var(--sunken); border-radius: 6px; padding: 5px 10px; color: var(--fg); cursor: pointer; }
+.empty p { max-width: 64ch; margin: 0 auto 10px; line-height: 1.6; word-break: keep-all; }
 
 /* screener: a one-screen coin preview beside the list (wide screens with a mouse) */
 .scr-split { display: grid; gap: 14px; align-items: start; }
@@ -688,11 +689,28 @@ function coinStats(coin, tk) {
 // at its strongest level, so "0.4 이하" means 0.4 but not 0.3.
 function inZone(s, z) { return z === 'u2' ? s.underTop === 2 : z === 'u1' ? s.underTop === 1 : z === 'o2' ? s.overTop === 2 : z === 'o1' ? s.overTop === 1 : s.top === 'n'; }
 const TOP_RANK = { u2: 0, o2: 1, u1: 2, o1: 3, n: 4, na: 5 };
+const exFilterText = () => `${state.ex.map((x) => EX_NAME[x]).join('·')}${state.ex.length > 1 ? ' 모두' : ''} 상장`;
+const matchQ = (c, q) => c.s.toLowerCase().includes(q) || c.n.toLowerCase().includes(q) || (c.k || '').includes(q);
+// Why the list is empty, and one button that clears the search and the filters. Both are kept in
+// localStorage, so a search left from an earlier visit can empty the list when the page opens again.
+function emptyNote() {
+  const q = state.q.trim().toLowerCase();
+  const hits = q ? COINS.filter((c) => matchQ(c, q)) : [];
+  const by = [state.ex.length && `거래소 필터(${exFilterText()})`, state.zf.length && '신호 필터'].filter(Boolean).join('와 ');
+  const names = hits.slice(0, 3).map((c) => { const on = ['U', 'B', 'N'].filter((x) => c.x.includes(x)).map((x) => EX_NAME[x]).join('·'); return `${c.s}(${on ? `${on} 상장` : '세 거래소 미상장'})`; }).join(', ');
+  const why = q && !hits.length ? `검색어 "${state.q}"에 맞는 종목이 없습니다.`
+    : q ? `검색어 "${state.q}"에 맞는 종목은 ${names}${hits.length > 3 ? ' 등' : ''} ${hits.length}종이지만, ${by}에 걸려 보이지 않습니다.`
+    : `${by}에 맞는 종목이 없습니다.`;
+  const more = (state.ex.length > 1 ? ' 거래소 버튼을 여러 개 켜면, 켠 거래소 모두에 상장된 종목만 남습니다.' : '') + ' 검색어와 필터는 이 브라우저에 저장되어, 페이지를 다시 열어도 그대로 적용됩니다.';
+  const b = el('button', null, state.q && (state.ex.length || state.zf.length) ? '검색어와 필터 지우기' : state.q ? '검색어 지우기' : '필터 모두 해제'); b.type = 'button';
+  b.addEventListener('click', () => { state.q = ''; state.ex = []; state.zf = []; LIMIT = 100; save(); renderScreener(); });
+  return [el('p', null, why + more), b];
+}
 function filteredStats() {
   const q = state.q.trim().toLowerCase();
   let list = COINS.map((c) => coinStats(c, state.tk));
   const all = list;
-  if (q) list = list.filter((s) => s.coin.s.toLowerCase().includes(q) || s.coin.n.toLowerCase().includes(q) || (s.coin.k || '').includes(q));
+  if (q) list = list.filter((s) => matchQ(s.coin, q));
   if (state.ex.length) list = list.filter((s) => state.ex.every((x) => s.coin.x.includes(x)));
   const scoped = list;
   if (state.zf.length) list = list.filter((s) => state.zf.some((z) => inZone(s, z)));
@@ -750,7 +768,7 @@ function renderScreener() {
   const { list, scoped, all } = filteredStats();
   ORDER = list.map((s) => s.coin.s);
   renderCounts(scoped);
-  const filt = [state.q && `검색 "${state.q}"`, state.ex.length && `거래소 ${state.ex.map((x) => ({ U: '업비트', B: '빗썸', N: '바이낸스' })[x]).join('·')} 모두 상장`, state.zf.length && '신호 필터'].filter(Boolean);
+  const filt = [state.q && `검색 "${state.q}"`, state.ex.length && `거래소 ${exFilterText()}`, state.zf.length && '신호 필터'].filter(Boolean);
   document.getElementById('scrHint').textContent = `${list.length}종 표시 · 전체 ${all.length}종` + (filt.length ? ` · ${filt.join(', ')}` : '') + ' · 신호는 20개 타임프레임 중 하나라도 기준에 들어간 경우입니다. ' + MC_SOURCE +
     (PV.on ? ` ${state.view === 'tiles' ? '타일에 마우스를 올리거나 방향키로' : '줄에 마우스를 올리거나 ↑·↓ 키로'} 옮기면 오른쪽에 미리보기가 나옵니다. 누르거나 Enter를 치면 종목 상세가 열립니다.` : ' 줄을 누르면 종목 상세가 열립니다.');
   const body = document.getElementById('scrBody'); body.replaceChildren();
@@ -760,7 +778,7 @@ function renderScreener() {
   table.innerHTML = `<thead><tr><th aria-sort="${rankSort ? (state.rdir === 'desc' ? 'descending' : 'ascending') : 'none'}"><button type="button" class="th-sort" data-rsort="1" aria-label="시가총액 순위로 정렬" title="시가총액 순위로 정렬 (다시 누르면 순서가 뒤집힙니다)">#<span>${arrow}</span></button></th><th>종목</th><th class="c-wide" title="${MC_SOURCE}">시가총액</th><th class="c-wide">거래소</th><th>저평가 신호</th><th>과열 신호</th><th>최저 배수</th><th class="c-wide">최고 배수</th>
     <th><div class="strip-head"><span></span><div><em>1D … 1W</em><em>8D … 3W</em><em>1M … 12M</em></div></div></th><th class="c-wide">마지막 0.3</th></tr></thead>`;
   const tb = el('tbody');
-  if (!list.length) { const tr = el('tr', 'empty-row'); const td = el('td', null, '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.'); td.colSpan = 10; tr.append(td); tb.append(tr); }
+  if (!list.length) { const tr = el('tr', 'empty-row'); const td = el('td', 'empty'); td.append(...emptyNote()); td.colSpan = 10; tr.append(td); tb.append(tr); }
   for (const s of list.slice(0, LIMIT)) {
     const tr = el('tr'); tr.dataset.sym = s.coin.s;
     tr.append(el('td', 'rk', String(s.coin.r)));
@@ -850,7 +868,7 @@ function tileGroups(list) {
 }
 function renderTiles(body, list) {
   const box = el('div', 'tiles'); const shown = [];
-  if (!list.length) { body.append(el('div', 'progress', '조건에 맞는 종목이 없습니다. 필터를 줄여 보세요.')); ORDER = []; return; }
+  if (!list.length) { const box = el('div', 'empty'); box.append(...emptyNote()); body.append(box); ORDER = []; return; }
   const under = state.side !== 'over';
   for (const { z, label, items } of tileGroups(list)) {
     shown.push(...items.map((s) => s.coin.s));
