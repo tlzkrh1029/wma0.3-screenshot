@@ -9,8 +9,12 @@
 //               custom_resolution, so build those from smaller bars.
 //   OUT         output file (default out/tv-ohlcv.json)
 //
-// Output: { fetchedAt, loggedIn: false, symbols, tfs, series: { [symbol]: { [tf]: { description, t, o, h, l, c, v } } },
-// errors: { "symbol tf": message } }. t is the bar's open time in unix seconds (UTC); v may be null.
+// Output: { fetchedAt, loggedIn: false, symbols, tfs, meta: { [symbol]: {...} },
+// series: { [symbol]: { [tf]: { description, t, o, h, l, c, v } } }, errors: { "symbol tf": message } }.
+// t is the bar's open time in unix seconds (UTC); v may be null. meta is TradingView's description of the ticker
+// (type, exchange, currency, volume type, trading session and its time zone, price scale): intraday bars of a
+// ticker with a trading session start at the session open, so timeframes built from smaller bars must count from
+// there (crypto trades 24/7 and counts from 00:00 UTC).
 // The log shows bar counts and date ranges only, not prices.
 import WebSocket from 'ws';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -73,6 +77,14 @@ async function connect() {
   return { ws, listeners, send, isClosed: () => closed };
 }
 
+const META_KEYS = ['pro_name', 'description', 'type', 'exchange', 'listed_exchange', 'currency_code', 'base_currency',
+  'volume_type', 'timezone', 'session', 'session_display', 'subsessions', 'has_intraday', 'pricescale', 'minmov'];
+function pickMeta(r) {
+  const m = {};
+  for (const k of META_KEYS) if (r[k] !== undefined) m[k] = r[k];
+  return m;
+}
+
 let seq = 0;
 function fetchSeries(client, symbol, tf) {
   return new Promise((resolve, reject) => {
@@ -94,7 +106,7 @@ function fetchSeries(client, symbol, tf) {
       if (msg.m === 'timescale_update' || msg.m === 'du') {
         for (const b of msg.p[1]?.sds_1?.s || []) if (Number.isFinite(b.v?.[4])) bars.set(b.v[0], b.v.slice(0, 6));
       }
-      if (msg.m === 'symbol_resolved') bars.description = msg.p[2]?.description ?? null;
+      if (msg.m === 'symbol_resolved') { const r = msg.p[2] || {}; bars.description = r.description ?? null; bars.meta = pickMeta(r); }
       if (msg.m === 'series_completed') {
         const added = bars.size - before; before = bars.size;
         // older history comes in further chunks; keep asking until a round adds nothing
@@ -111,7 +123,7 @@ function fetchSeries(client, symbol, tf) {
 }
 
 const iso = (t) => new Date(t * 1000).toISOString().slice(0, 16).replace('T', ' ');
-const out = { fetchedAt: new Date().toISOString(), loggedIn: false, symbols: SYMBOLS, tfs: TFS, series: {}, errors: {} };
+const out = { fetchedAt: new Date().toISOString(), loggedIn: false, symbols: SYMBOLS, tfs: TFS, meta: {}, series: {}, errors: {} };
 let ok = 0, client = null;
 for (const symbol of SYMBOLS) {
   out.series[symbol] = {};
@@ -131,6 +143,7 @@ for (const symbol of SYMBOLS) {
     const rows = [...bars.values()].sort((a, b) => a[0] - b[0]);
     const col = (i) => rows.map((r) => (Number.isFinite(r[i]) ? r[i] : null));
     out.series[symbol][tf] = { description: bars.description ?? null, t: col(0), o: col(1), h: col(2), l: col(3), c: col(4), v: col(5) };
+    if (bars.meta && !out.meta[symbol]) out.meta[symbol] = bars.meta;
     ok++;
     console.log(`${symbol} ${tf}: ${rows.length} bars, ${rows.length ? iso(rows[0][0]) + ' .. ' + iso(rows.at(-1)[0]) : '-'}`);
   }

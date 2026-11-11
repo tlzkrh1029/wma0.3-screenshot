@@ -41,8 +41,10 @@ day and deploys a GitHub Pages site. The owner set these rules; keep to them.
   in (its cookies can go with the request even with the anonymous token; the owner set this on 2026-11-11), and never run
   the workflow just to keep the repository active. Anonymous intraday history is short (checked on 2026-11-11 for a
   Uniswap pair: 1h from 2026-01-01, 2h and 3h from 2025-01-01, 4h from 2024-01-01) and 6h, 8h and 12h are custom
-  resolutions; build them from 3h (6h) and 4h (8h, 12h) bars counted from 00:00 UTC, which matched TradingView's own
-  bars when checked.
+  resolutions; build them from 3h (6h) and 4h (8h, 12h) bars counted from 00:00 UTC for crypto, which matched
+  TradingView's own bars when checked (a ticker with a trading session counts from its session open; the result's
+  `meta` has the session and time zone). Multi-day timeframes (2D, 2W, 2M, ...) come from 1D bars, whose anonymous
+  history is complete, as the screener's engine already does.
 - **Keep `data/daily` under 3,000 files.** `scripts/build-site.mjs` warns from 2,700; split the folder before 3,000.
 - **Stale data must be loud.** `scripts/check-fresh.mjs` fails the daily run when the data stops moving, and the page
   warns when the last fetch is over 36 hours old. Do not weaken these to make a run pass.
