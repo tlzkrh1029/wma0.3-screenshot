@@ -1,0 +1,78 @@
+name: Fetch TradingView bars on demand (anonymous)
+
+# One-off OHLCV fetches for analysis outside the screener, such as the intraday timeframes of one ticker. Always
+# anonymous: no TradingView login is passed and scripts/fetch-tv-ohlcv.mjs refuses to run with one. Anonymous
+# requests get standard resolutions only (custom ones such as 360/480/720 minutes fail) and shorter intraday history.
+# The result goes to the `tv-fetch-results` branch as a single force-pushed commit, so that branch only ever holds
+# the latest result; nothing is committed to the default branch. Manual runs, plus a test run when a `claude/**`
+# push changes this workflow or the script. Never run it just to keep the repository active (see CLAUDE.md).
+on:
+  workflow_dispatch:
+    inputs:
+      symbols:
+        description: TradingView tickers, comma-separated (at most 5)
+        required: true
+        default: 'UNISWAP:SPXWETH_52C77B.USD'
+      tfs:
+        description: Standard resolutions, comma-separated (at most 8), e.g. 1D,240,180,120,60
+        required: true
+        default: '1D,240,180,120,60'
+      name:
+        description: Result file name (letters, digits, . _ -)
+        required: true
+        default: 'request'
+  push:
+    branches: ['claude/**']
+    paths:
+      - 'scripts/fetch-tv-ohlcv.mjs'
+      - '.github/workflows/tv-fetch-anon.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tv-fetch-anon
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+      - name: Fetch bars (anonymous)
+        env:
+          TV_SYMBOLS: ${{ inputs.symbols || 'UNISWAP:SPXWETH_52C77B.USD' }}
+          TV_TFS: ${{ inputs.tfs || '1D,240,180,120,60' }}
+          REQ_NAME: ${{ inputs.name || 'push-test' }}
+        run: |
+          case "$REQ_NAME" in
+            ''|*[!A-Za-z0-9._-]*) echo "::error::name may only use letters, digits, . _ -"; exit 1 ;;
+          esac
+          OUT="$RUNNER_TEMP/out/$REQ_NAME.json" node scripts/fetch-tv-ohlcv.mjs
+          echo "REQ_NAME=$REQ_NAME" >> "$GITHUB_ENV"
+
+      - name: Push the result to tv-fetch-results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$RUNNER_TEMP/out"
+          printf '%s\n' "Latest on-demand anonymous TradingView fetch (.github/workflows/tv-fetch-anon.yml, run ${GITHUB_RUN_ID})." \
+            "This branch is force-pushed on every run and is not part of the screener." > README.md
+          git init -q -b tv-fetch-results
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "On-demand TradingView fetch: ${REQ_NAME} (run ${GITHUB_RUN_ID})"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:tv-fetch-results
+          echo "Pushed ${REQ_NAME}.json to tv-fetch-results"
