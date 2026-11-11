@@ -1,0 +1,894 @@
+{
+ "probedAt": "2026-11-11T02:14:44.524Z",
+ "loggedIn": false,
+ "results": [
+  {
+   "name": "news v2 headlines NASDAQ:AAPL",
+   "url": "https://news-headlines.tradingview.com/v2/headlines?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 138220,
+   "ms": 162,
+   "shape": {
+    "items": {
+     "array": 200,
+     "item": {
+      "id": "string(28)",
+      "title": "string(71)",
+      "provider": "string(12)",
+      "sourceLogoId": "string(12)",
+      "published": "number",
+      "source": "string(13)",
+      "urgency": "number",
+      "link": "string(172)",
+      "relatedSymbols": {
+       "array": 4
+      },
+      "storyPath": "string(107)"
+     }
+    }
+   },
+   "items": {
+    "count": 200,
+    "providers": [
+     "seekingalpha",
+     "reuters",
+     "gurufocus",
+     "tradingview",
+     "benzinga",
+     "prnewswire",
+     "stocktwits",
+     "binance_news"
+    ],
+    "newest": "2026-11-10T17:18:52.000Z",
+    "oldest": "2026-11-02T21:36:17.000Z"
+   }
+  },
+  {
+   "name": "news-flow NASDAQ:AAPL",
+   "url": "https://news-mediator.tradingview.com/news-flow/v2/news?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 145998,
+   "ms": 74,
+   "shape": {
+    "items": {
+     "array": 200,
+     "item": {
+      "paywall": "boolean",
+      "id": "string(28)",
+      "title": "string(71)",
+      "published": "number",
+      "urgency": "number",
+      "link": "string(172)",
+      "relatedSymbols": {
+       "array": 4
+      },
+      "storyPath": "string(107)",
+      "provider": {
+       "object": 4
+      }
+     }
+    },
+    "pagination": {
+     "cursor": "string(92)"
+    }
+   },
+   "items": {
+    "count": 200,
+    "providers": [
+     "Seeking Alpha",
+     "Reuters",
+     "GuruFocus",
+     "TradingView",
+     "Benzinga",
+     "PR Newswire",
+     "Stocktwits",
+     "Binance News"
+    ],
+    "newest": "2026-11-10T17:18:52.000Z",
+    "oldest": "2026-11-02T21:36:17.000Z"
+   }
+  },
+  {
+   "name": "news story NASDAQ:AAPL",
+   "url": "https://news-headlines.tradingview.com/v2/story?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 3565,
+   "ms": 32,
+   "shape": {
+    "sourceUrl": "string(88)",
+    "shortDescription": "string(299)",
+    "astDescription": {
+     "type": "string(4)",
+     "children": {
+      "array": 8,
+      "item": {
+       "object": 2
+      }
+     }
+    },
+    "language": "string(2)",
+    "tags": {
+     "array": 2,
+     "item": {
+      "title": "string(13)",
+      "args": {
+       "array": 1
+      }
+     }
+    },
+    "id": "string(28)",
+    "title": "string(71)",
+    "provider": "string(12)",
+    "sourceLogoId": "string(12)",
+    "published": "number",
+    "source": "string(13)",
+    "urgency": "number",
+    "link": "string(172)",
+    "relatedSymbols": {
+     "array": 4,
+     "item": {
+      "symbol": "string(11)",
+      "logoid": "string(5)",
+      "logo": {
+       "object": 2
+      }
+     }
+    },
+    "storyPath": "string(107)"
+   },
+   "storyFields": {
+    "sourceUrl": "string(88)",
+    "shortDescription": "string(299)",
+    "astDescription": "object",
+    "language": "string(2)",
+    "tags": "array(2)",
+    "id": "string(28)",
+    "title": "string(71)",
+    "provider": "string(12)",
+    "sourceLogoId": "string(12)",
+    "published": "number",
+    "source": "string(13)",
+    "urgency": "number",
+    "link": "string(172)",
+    "relatedSymbols": "array(4)",
+    "storyPath": "string(107)"
+   }
+  },
+  {
+   "name": "ideas page NASDAQ:AAPL",
+   "url": "https://www.tradingview.com/symbols/NASDAQ-AAPL/ideas/",
+   "status": 200,
+   "type": "text/html; charset=utf-8",
+   "bytes": 446321,
+   "ms": 275,
+   "html": {
+    "ideaLinks": 120,
+    "hasInitialState": true
+   }
+  },
+  {
+   "name": "ideas component-data NASDAQ:AAPL",
+   "url": "https://www.tradingview.com/symbols/NASDAQ-AAPL/ideas/?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 50765,
+   "ms": 113,
+   "shape": {
+    "context": {
+     "request_context": {
+      "user": {
+       "object": 8
+      },
+      "locale": "string(2)",
+      "platform": "string(3)",
+      "path": "string(27)",
+      "language_iso": "string(2)"
+     }
+    },
+    "markets_meta": {
+     "stocks": {
+      "current": {
+       "object": 9
+      }
+     }
+    },
+    "data": {
+     "ideas": {
+      "data": {
+       "object": 3
+      },
+      "params": {
+       "object": 3
+      }
+     }
+    },
+    "meta": {
+     "tabs": {
+      "array": 2,
+      "item": {
+       "object": 5
+      }
+     },
+     "tab_title": "string(22)",
+     "tab_description": "string(174)"
+    },
+    "seo": {
+     "page_title_suffix": "string(0)",
+     "show_hreflang_tags": "boolean",
+     "additional_meta": {
+      "open_graph": {
+       "object": 9
+      },
+      "twitter": {
+       "object": 6
+      }
+     },
+     "micro_markup": {
+      "data": {
+       "array": 0
+      },
+      "raw_data": {
+       "array": 0
+      }
+     },
+     "canonical": {
+      "url": "string(54)",
+      "is_canonical": "boolean"
+     },
+     "page_title": "string(49)",
+     "meta_description": "string(160)"
+    }
+   }
+  },
+  {
+   "name": "scanner symbol NASDAQ:AAPL",
+   "url": "https://scanner.tradingview.com/symbol?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 432,
+   "ms": 139,
+   "shape": {
+    "beta_1_year": "number",
+    "description": "string(10)",
+    "dividends_yield_current": "number",
+    "earnings_per_share_basic_ttm": "number",
+    "earnings_release_next_date": "number",
+    "industry": "string(28)",
+    "market_cap_basic": "number",
+    "net_income_ttm": "number",
+    "number_of_employees": "number",
+    "price_earnings_ttm": "number",
+    "sector": "string(21)",
+    "total_revenue_ttm": "number",
+    "type": "string(5)"
+   }
+  },
+  {
+   "name": "scanner scan by ticker NASDAQ:AAPL",
+   "url": "https://scanner.tradingview.com/global/scan",
+   "status": 200,
+   "type": "application/json; charset=utf-8",
+   "bytes": 242,
+   "ms": 13,
+   "shape": {
+    "totalCount": "number",
+    "data": {
+     "array": 1,
+     "item": {
+      "s": "string(11)",
+      "d": {
+       "array": 13
+      }
+     }
+    }
+   },
+   "nonNull": [
+    "description",
+    "type",
+    "sector",
+    "industry",
+    "market_cap_basic",
+    "price_earnings_ttm",
+    "earnings_per_share_basic_ttm",
+    "total_revenue_ttm",
+    "net_income_ttm",
+    "dividends_yield_current",
+    "beta_1_year",
+    "earnings_release_next_date",
+    "number_of_employees"
+   ]
+  },
+  {
+   "name": "financials page NASDAQ:AAPL",
+   "url": "https://www.tradingview.com/symbols/NASDAQ-AAPL/financials-overview/",
+   "status": 200,
+   "type": "text/html; charset=utf-8",
+   "bytes": 242676,
+   "ms": 240,
+   "html": {
+    "title": true,
+    "mentionsRevenue": true
+   }
+  },
+  {
+   "name": "news v2 headlines AMEX:SOXL",
+   "url": "https://news-headlines.tradingview.com/v2/headlines?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 97213,
+   "ms": 70,
+   "shape": {
+    "items": {
+     "array": 91,
+     "item": {
+      "id": "string(24)",
+      "title": "string(79)",
+      "provider": "string(8)",
+      "sourceLogoId": "string(8)",
+      "published": "number",
+      "source": "string(8)",
+      "urgency": "number",
+      "relatedSymbols": {
+       "array": 9
+      },
+      "storyPath": "string(108)"
+     }
+    }
+   },
+   "items": {
+    "count": 91,
+    "providers": [
+     "benzinga",
+     "market-watch",
+     "zacks",
+     "etfcom",
+     "gurufocus"
+    ],
+    "newest": "2026-11-10T12:57:00.000Z",
+    "oldest": "2023-07-10T15:36:00.000Z"
+   }
+  },
+  {
+   "name": "news-flow AMEX:SOXL",
+   "url": "https://news-mediator.tradingview.com/news-flow/v2/news?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 101370,
+   "ms": 91,
+   "shape": {
+    "items": {
+     "array": 91,
+     "item": {
+      "paywall": "boolean",
+      "id": "string(24)",
+      "title": "string(79)",
+      "published": "number",
+      "urgency": "number",
+      "relatedSymbols": {
+       "array": 9
+      },
+      "storyPath": "string(108)",
+      "provider": {
+       "object": 4
+      }
+     }
+    }
+   },
+   "items": {
+    "count": 91,
+    "providers": [
+     "Benzinga",
+     "MarketWatch",
+     "Zacks",
+     "etf.com",
+     "GuruFocus"
+    ],
+    "newest": "2026-11-10T12:57:00.000Z",
+    "oldest": "2023-07-10T15:36:00.000Z"
+   }
+  },
+  {
+   "name": "news story AMEX:SOXL",
+   "url": "https://news-headlines.tradingview.com/v2/story?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 5078,
+   "ms": 43,
+   "shape": {
+    "sourceUrl": "string(25)",
+    "shortDescription": "string(299)",
+    "astDescription": {
+     "type": "string(4)",
+     "children": {
+      "array": 10,
+      "item": {
+       "object": 2
+      }
+     }
+    },
+    "language": "string(2)",
+    "tags": {
+     "array": 2,
+     "item": {
+      "title": "string(8)",
+      "args": {
+       "array": 1
+      }
+     }
+    },
+    "id": "string(24)",
+    "title": "string(79)",
+    "provider": "string(8)",
+    "sourceLogoId": "string(8)",
+    "published": "number",
+    "source": "string(8)",
+    "urgency": "number",
+    "relatedSymbols": {
+     "array": 9,
+     "item": {
+      "symbol": "string(11)",
+      "logoid": "string(7)",
+      "logo": {
+       "object": 2
+      }
+     }
+    },
+    "storyPath": "string(108)"
+   },
+   "storyFields": {
+    "sourceUrl": "string(25)",
+    "shortDescription": "string(299)",
+    "astDescription": "object",
+    "language": "string(2)",
+    "tags": "array(2)",
+    "id": "string(24)",
+    "title": "string(79)",
+    "provider": "string(8)",
+    "sourceLogoId": "string(8)",
+    "published": "number",
+    "source": "string(8)",
+    "urgency": "number",
+    "relatedSymbols": "array(9)",
+    "storyPath": "string(108)"
+   }
+  },
+  {
+   "name": "ideas page AMEX:SOXL",
+   "url": "https://www.tradingview.com/symbols/AMEX-SOXL/ideas/",
+   "status": 200,
+   "type": "text/html; charset=utf-8",
+   "bytes": 430683,
+   "ms": 210,
+   "html": {
+    "ideaLinks": 120,
+    "hasInitialState": true
+   }
+  },
+  {
+   "name": "ideas component-data AMEX:SOXL",
+   "url": "https://www.tradingview.com/symbols/AMEX-SOXL/ideas/?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 56746,
+   "ms": 111,
+   "shape": {
+    "context": {
+     "request_context": {
+      "user": {
+       "object": 8
+      },
+      "locale": "string(2)",
+      "platform": "string(3)",
+      "path": "string(25)",
+      "language_iso": "string(2)"
+     }
+    },
+    "markets_meta": {
+     "stocks": {
+      "current": {
+       "object": 9
+      }
+     }
+    },
+    "data": {
+     "ideas": {
+      "data": {
+       "object": 3
+      },
+      "params": {
+       "object": 3
+      }
+     }
+    },
+    "meta": {
+     "tabs": {
+      "array": 2,
+      "item": {
+       "object": 5
+      }
+     },
+     "tab_title": "string(22)",
+     "tab_description": "string(174)"
+    },
+    "seo": {
+     "page_title_suffix": "string(0)",
+     "show_hreflang_tags": "boolean",
+     "additional_meta": {
+      "open_graph": {
+       "object": 9
+      },
+      "twitter": {
+       "object": 6
+      }
+     },
+     "micro_markup": {
+      "data": {
+       "array": 0
+      },
+      "raw_data": {
+       "array": 0
+      }
+     },
+     "canonical": {
+      "url": "string(52)",
+      "is_canonical": "boolean"
+     },
+     "page_title": "string(78)",
+     "meta_description": "string(191)"
+    }
+   }
+  },
+  {
+   "name": "scanner symbol AMEX:SOXL",
+   "url": "https://scanner.tradingview.com/symbol?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 389,
+   "ms": 79,
+   "shape": {
+    "beta_1_year": "number",
+    "description": "string(40)",
+    "dividends_yield_current": "null",
+    "earnings_per_share_basic_ttm": "null",
+    "earnings_release_next_date": "null",
+    "industry": "string(30)",
+    "market_cap_basic": "null",
+    "net_income_ttm": "null",
+    "number_of_employees": "null",
+    "price_earnings_ttm": "null",
+    "sector": "string(13)",
+    "total_revenue_ttm": "null",
+    "type": "string(4)"
+   }
+  },
+  {
+   "name": "scanner scan by ticker AMEX:SOXL",
+   "url": "https://scanner.tradingview.com/global/scan",
+   "status": 200,
+   "type": "application/json; charset=utf-8",
+   "bytes": 197,
+   "ms": 33,
+   "shape": {
+    "totalCount": "number",
+    "data": {
+     "array": 1,
+     "item": {
+      "s": "string(9)",
+      "d": {
+       "array": 13
+      }
+     }
+    }
+   },
+   "nonNull": [
+    "description",
+    "type",
+    "sector",
+    "industry",
+    "beta_1_year"
+   ]
+  },
+  {
+   "name": "financials page AMEX:SOXL",
+   "url": "https://www.tradingview.com/symbols/AMEX-SOXL/financials-overview/",
+   "status": 404,
+   "type": "text/html; charset=utf-8",
+   "bytes": 155876,
+   "ms": 143,
+   "html": {
+    "title": true,
+    "mentionsRevenue": false
+   }
+  },
+  {
+   "name": "news v2 headlines HKEX:7709",
+   "url": "https://news-headlines.tradingview.com/v2/headlines?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 1588,
+   "ms": 64,
+   "shape": {
+    "items": {
+     "array": 2,
+     "item": {
+      "id": "string(39)",
+      "title": "string(87)",
+      "provider": "string(7)",
+      "sourceLogoId": "string(7)",
+      "published": "number",
+      "source": "string(7)",
+      "urgency": "number",
+      "permission": "string(8)",
+      "relatedSymbols": {
+       "array": 3
+      },
+      "storyPath": "string(130)"
+     }
+    }
+   },
+   "items": {
+    "count": 2,
+    "providers": [
+     "reuters"
+    ],
+    "newest": "2026-07-24T10:47:50.000Z",
+    "oldest": "2026-05-07T22:00:00.000Z"
+   }
+  },
+  {
+   "name": "news-flow HKEX:7709",
+   "url": "https://news-mediator.tradingview.com/news-flow/v2/news?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 1618,
+   "ms": 66,
+   "shape": {
+    "items": {
+     "array": 2,
+     "item": {
+      "paywall": "boolean",
+      "id": "string(39)",
+      "title": "string(87)",
+      "published": "number",
+      "urgency": "number",
+      "permission": "string(8)",
+      "relatedSymbols": {
+       "array": 3
+      },
+      "storyPath": "string(130)",
+      "provider": {
+       "object": 3
+      }
+     }
+    }
+   },
+   "items": {
+    "count": 2,
+    "providers": [
+     "Reuters"
+    ],
+    "newest": "2026-07-24T10:47:50.000Z",
+    "oldest": "2026-05-07T22:00:00.000Z"
+   }
+  },
+  {
+   "name": "news story HKEX:7709",
+   "url": "https://news-headlines.tradingview.com/v2/story?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 4033,
+   "ms": 40,
+   "shape": {
+    "shortDescription": "string(288)",
+    "astDescription": {
+     "type": "string(4)",
+     "children": {
+      "array": 2,
+      "item": {
+       "object": 2
+      }
+     }
+    },
+    "language": "string(2)",
+    "tags": {
+     "array": 2,
+     "item": {
+      "title": "string(4)",
+      "args": {
+       "array": 1
+      }
+     }
+    },
+    "copyright": "string(101)",
+    "id": "string(39)",
+    "title": "string(87)",
+    "provider": "string(7)",
+    "sourceLogoId": "string(7)",
+    "published": "number",
+    "source": "string(7)",
+    "urgency": "number",
+    "permission": "string(8)",
+    "relatedSymbols": {
+     "array": 3,
+     "item": {
+      "symbol": "string(10)",
+      "logoid": "string(7)",
+      "logo": {
+       "object": 2
+      }
+     }
+    },
+    "storyPath": "string(130)"
+   },
+   "storyFields": {
+    "shortDescription": "string(288)",
+    "astDescription": "object",
+    "language": "string(2)",
+    "tags": "array(2)",
+    "copyright": "string(101)",
+    "id": "string(39)",
+    "title": "string(87)",
+    "provider": "string(7)",
+    "sourceLogoId": "string(7)",
+    "published": "number",
+    "source": "string(7)",
+    "urgency": "number",
+    "permission": "string(8)",
+    "relatedSymbols": "array(3)",
+    "storyPath": "string(130)"
+   }
+  },
+  {
+   "name": "ideas page HKEX:7709",
+   "url": "https://www.tradingview.com/symbols/HKEX-7709/ideas/",
+   "status": 301,
+   "type": "text/html; charset=utf-8",
+   "bytes": 0,
+   "ms": 155,
+   "location": "/symbols/HKEX-7709/",
+   "html": {
+    "ideaLinks": 0,
+    "hasInitialState": false
+   }
+  },
+  {
+   "name": "ideas component-data HKEX:7709",
+   "url": "https://www.tradingview.com/symbols/HKEX-7709/ideas/?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 3284,
+   "ms": 90,
+   "shape": {
+    "context": {
+     "request_context": {
+      "user": {
+       "object": 8
+      },
+      "locale": "string(2)",
+      "platform": "string(3)",
+      "path": "string(25)",
+      "language_iso": "string(2)"
+     }
+    },
+    "markets_meta": {
+     "stocks": {
+      "current": {
+       "object": 9
+      }
+     }
+    },
+    "data": {
+     "ideas": {
+      "data": {
+       "object": 2
+      },
+      "params": {
+       "object": 3
+      }
+     }
+    },
+    "meta": {
+     "tabs": {
+      "array": 2,
+      "item": {
+       "object": 5
+      }
+     },
+     "tab_title": "string(22)",
+     "tab_description": "string(174)"
+    },
+    "seo": {
+     "page_title_suffix": "string(0)",
+     "show_hreflang_tags": "boolean",
+     "additional_meta": {
+      "open_graph": {
+       "object": 9
+      },
+      "twitter": {
+       "object": 6
+      }
+     },
+     "micro_markup": {
+      "data": {
+       "array": 0
+      },
+      "raw_data": {
+       "array": 0
+      }
+     },
+     "canonical": {
+      "url": "string(52)",
+      "is_canonical": "boolean"
+     },
+     "page_title": "string(88)",
+     "meta_description": "string(201)"
+    }
+   }
+  },
+  {
+   "name": "scanner symbol HKEX:7709",
+   "url": "https://scanner.tradingview.com/symbol?…",
+   "status": 200,
+   "type": "application/json",
+   "bytes": 404,
+   "ms": 40,
+   "shape": {
+    "beta_1_year": "number",
+    "description": "string(50)",
+    "dividends_yield_current": "null",
+    "earnings_per_share_basic_ttm": "null",
+    "earnings_release_next_date": "null",
+    "industry": "string(30)",
+    "market_cap_basic": "null",
+    "net_income_ttm": "null",
+    "number_of_employees": "null",
+    "price_earnings_ttm": "null",
+    "sector": "string(13)",
+    "total_revenue_ttm": "null",
+    "type": "string(4)"
+   }
+  },
+  {
+   "name": "scanner scan by ticker HKEX:7709",
+   "url": "https://scanner.tradingview.com/global/scan",
+   "status": 200,
+   "type": "application/json; charset=utf-8",
+   "bytes": 212,
+   "ms": 11,
+   "shape": {
+    "totalCount": "number",
+    "data": {
+     "array": 1,
+     "item": {
+      "s": "string(9)",
+      "d": {
+       "array": 13
+      }
+     }
+    }
+   },
+   "nonNull": [
+    "description",
+    "type",
+    "sector",
+    "industry",
+    "beta_1_year"
+   ]
+  },
+  {
+   "name": "financials page HKEX:7709",
+   "url": "https://www.tradingview.com/symbols/HKEX-7709/financials-overview/",
+   "status": 404,
+   "type": "text/html; charset=utf-8",
+   "bytes": 155875,
+   "ms": 140,
+   "html": {
+    "title": true,
+    "mentionsRevenue": false
+   }
+  }
+ ]
+}
