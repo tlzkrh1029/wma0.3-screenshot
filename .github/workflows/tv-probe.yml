@@ -1,0 +1,37 @@
+name: Probe TradingView extra endpoints (temporary)
+
+# One-off check on a temporary branch, not for merging: do TradingView's news, ideas and fundamentals endpoints
+# answer anonymous requests from a GitHub runner? Writes status codes and data shapes (no text content) to the
+# tv-probe-results branch.
+on:
+  push:
+    branches: ['claude/tv-probe']
+    paths:
+      - 'scripts/probe-tv-extra.mjs'
+      - '.github/workflows/tv-probe.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Probe (anonymous)
+        run: node scripts/probe-tv-extra.mjs
+      - name: Push the result to tv-probe-results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd probe-out
+          git init -q -b tv-probe-results
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "TradingView extra endpoint probe (run ${GITHUB_RUN_ID})"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:tv-probe-results
