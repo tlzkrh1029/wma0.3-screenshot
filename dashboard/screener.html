@@ -7,7 +7,7 @@
    screener (table or tiles), market signal board, and coin detail. */
 :root {
   --bg: #f4f6f8; --surface: #ffffff; --sunken: #eef1f4; --fg: #141922; --muted: #5b6574; --faint: #737c8a;
-  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00; --ml-hist: #8a4fd1; --ml-add: #0f8f74; --hl: #f2b300;
+  --line: #dfe3e8; --accent: #2f5bd3; --accent-soft: #e6ecfb; --warn-bg: #fff6db; --warn-fg: #7a5a00; --ml-hist: #8a4fd1; --ml-add: #0f8f74; --hl: #f2b300; --asof: #11802f;
   --zu2: #0f7b3b; --zu1: #86d39a; --zo1: #f0c11b; --zo2: #b4161b;
   --tint-u: #d4eedb; --mid: #eceae6; --tint-o: #f6ecc4;
   --ramp-lo: #86b6ef; --ramp-hi: #0a2a57;
@@ -19,7 +19,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
-    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --ml-add: #45d1ad; --hl: #ffc93c;
+    --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --ml-add: #45d1ad; --hl: #ffc93c; --asof: #2fd046;
     --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
     --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
     --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
@@ -29,7 +29,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0e1116; --surface: #151a21; --sunken: #1b2129; --fg: #e5e8ee; --muted: #9aa3b1; --faint: #6c7584;
-  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --ml-add: #45d1ad; --hl: #ffc93c;
+  --line: #262e39; --accent: #7d9cf5; --accent-soft: #1e2840; --warn-bg: #33290d; --warn-fg: #f2cf6b; --ml-hist: #b591f5; --ml-add: #45d1ad; --hl: #ffc93c; --asof: #2fd046;
   --zu2: #3ddc84; --zu1: #2f7a4d; --zo1: #e0b318; --zo2: #ff5a52;
   --tint-u: #1c3427; --mid: #2a2f37; --tint-o: #3a3218;
   --ramp-lo: #1f4f8f; --ramp-hi: #dbe9fd;
@@ -50,6 +50,7 @@ input { font: inherit; color: inherit; }
 .appbar-in { max-width: 2200px; margin: 0 auto; padding-inline: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; min-height: 52px; }
 .brand { font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
 .brand small { font-family: var(--font-mono); font-weight: 500; font-size: 11px; color: var(--muted); margin-left: 8px; }
+.brand small time { color: var(--asof); font-weight: 600; }
 .tabs { display: flex; gap: 2px; flex-wrap: wrap; }
 .tabs a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: 14px; padding: 14px 12px 12px; border-bottom: 2px solid transparent; white-space: nowrap; }
 .tabs a[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
@@ -1685,7 +1686,9 @@ document.addEventListener('keydown', (e) => {
 const rerender = () => { readColors(); if (!READY) return; if (state.screen === 'screener') renderScreener(); else if (state.screen === 'board') renderBoard(); else renderCoin(); };
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rerender);
 new MutationObserver(rerender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-document.getElementById('asof').textContent = `TradingView ${new Date(DATA.fetchedAt).toISOString().slice(0, 10)} · 종목 ${COINS.length}`;
+{ // the fetch time, to the second, in the green the RRG page uses for its date
+  const t = el('time', null, `${new Date(DATA.fetchedAt).toISOString().slice(0, 19).replace('T', ' ')} UTC`); t.dateTime = DATA.fetchedAt;
+  document.getElementById('asof').replaceChildren('TradingView ', t, ` · 종목 ${COINS.length}`); }
 // the universe leaves out stablecoins and security tokens; say how many
 if (DATA.excluded) document.getElementById('exclNote').textContent = ` 종목 목록에서는 스테이블코인 ${DATA.excluded.stablecoin}종과 증권형 토큰 ${DATA.excluded.security}종을 뺐습니다.`;
 {
