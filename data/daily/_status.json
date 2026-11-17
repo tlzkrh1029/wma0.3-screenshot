@@ -1,13 +1,17 @@
 {
- "fetchedAt": "2026-11-16T06:40:33.901Z",
+ "fetchedAt": "2026-11-17T08:01:40.861Z",
  "mode": "recent",
  "loggedIn": false,
  "total": 1125,
- "ok": 1124,
+ "ok": 1123,
  "full": 0,
  "removed": 0,
  "pruneRefused": 0,
  "failed": [
+  {
+   "id": "CRYPTOCAP:STAT",
+   "error": "symbol_error: [\"sds_sym_1\",\"invalid symbol\"]"
+  },
   {
    "id": "CRYPTOCAP:DA",
    "error": "symbol_error: [\"sds_sym_1\",\"invalid symbol\"]"
