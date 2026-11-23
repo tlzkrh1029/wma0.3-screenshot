@@ -1,10 +1,10 @@
 {
- "fetchedAt": "2026-11-22T07:00:18.892Z",
- "mode": "full",
+ "fetchedAt": "2026-11-23T07:46:50.030Z",
+ "mode": "recent",
  "loggedIn": false,
  "total": 1125,
  "ok": 1123,
- "full": 1123,
+ "full": 0,
  "removed": 0,
  "pruneRefused": 0,
  "failed": [
