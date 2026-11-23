@@ -17,6 +17,10 @@ on:
         description: Standard resolutions, comma-separated (at most 8), e.g. 1D,240,180,120,60
         required: true
         default: '1D,240,180,120,60'
+      session:
+        description: regular, or extended to add pre-market and after-hours bars (US stocks and ETFs)
+        required: false
+        default: 'regular'
       name:
         description: Result file name (letters, digits, . _ -)
         required: true
@@ -54,6 +58,7 @@ jobs:
         env:
           TV_SYMBOLS: ${{ inputs.symbols || 'UNISWAP:SPXWETH_52C77B.USD' }}
           TV_TFS: ${{ inputs.tfs || '1D,240,180,120,60' }}
+          TV_SESSION: ${{ inputs.session || 'regular' }}
           REQ_NAME: ${{ inputs.name || 'push-test' }}
         run: |
           case "$REQ_NAME" in

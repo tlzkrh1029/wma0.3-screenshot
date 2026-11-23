@@ -7,6 +7,8 @@
 //   TV_TFS      comma-separated standard resolutions, at most 8 (e.g. 1D,240,180,120,60). Anonymous requests
 //               get standard resolutions only; custom ones (6h = 360, 8h = 480, 12h = 720, 2D, ...) fail with
 //               custom_resolution, so build those from smaller bars.
+//   TV_SESSION  regular (default) or extended; extended adds pre-market and after-hours bars for tickers that
+//               have them (US stocks and ETFs)
 //   OUT         output file (default out/tv-ohlcv.json)
 //
 // Output: { fetchedAt, loggedIn: false, symbols, tfs, meta: { [symbol]: {...} },
@@ -27,6 +29,7 @@ if (process.env.TV_SESSIONID || process.env.TV_SESSIONID_SIGN) {
 const list = (s) => (s || '').split(',').map((x) => x.trim()).filter(Boolean);
 const SYMBOLS = list(process.env.TV_SYMBOLS);
 const TFS = list(process.env.TV_TFS || '1D');
+const SESSION = process.env.TV_SESSION || 'regular';
 const OUT = process.env.OUT || path.join('out', 'tv-ohlcv.json');
 const MAX_SYMBOLS = 5, MAX_TFS = 8, CHUNK = 5000, MAX_ROUNDS = 12;
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
@@ -37,6 +40,7 @@ if (SYMBOLS.length > MAX_SYMBOLS) bad(`at most ${MAX_SYMBOLS} tickers per run`);
 if (TFS.length > MAX_TFS) bad(`at most ${MAX_TFS} timeframes per run`);
 for (const s of SYMBOLS) if (!/^[A-Z0-9_]+:[A-Za-z0-9_.!&-]+$/.test(s)) bad(`not a ticker: ${s}`);
 for (const tf of TFS) if (!/^\d+[SDWM]?$/.test(tf)) bad(`not a resolution: ${tf}`);
+if (!['regular', 'extended'].includes(SESSION)) bad(`not a session: ${SESSION}`);
 
 // ---- wire format: "~m~<len>~m~<payload>", heartbeats are "~h~<n>" payloads ----
 const frame = (payload) => `~m~${payload.length}~m~${payload}`;
@@ -117,13 +121,13 @@ function fetchSeries(client, symbol, tf) {
     client.listeners.add(onMsg);
     client.send('chart_create_session', [cs, '']);
     client.send('switch_timezone', [cs, 'Etc/UTC']);
-    client.send('resolve_symbol', [cs, 'sds_sym_1', '=' + JSON.stringify({ symbol, adjustment: 'splits' })]);
+    client.send('resolve_symbol', [cs, 'sds_sym_1', '=' + JSON.stringify(SESSION === 'extended' ? { symbol, adjustment: 'splits', session: 'extended' } : { symbol, adjustment: 'splits' })]);
     client.send('create_series', [cs, 'sds_1', 's1', 'sds_sym_1', tf, CHUNK, '']);
   });
 }
 
 const iso = (t) => new Date(t * 1000).toISOString().slice(0, 16).replace('T', ' ');
-const out = { fetchedAt: new Date().toISOString(), loggedIn: false, symbols: SYMBOLS, tfs: TFS, meta: {}, series: {}, errors: {} };
+const out = { fetchedAt: new Date().toISOString(), loggedIn: false, session: SESSION, symbols: SYMBOLS, tfs: TFS, meta: {}, series: {}, errors: {} };
 let ok = 0, client = null;
 for (const symbol of SYMBOLS) {
   out.series[symbol] = {};
