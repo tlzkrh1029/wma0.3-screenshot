@@ -1,13 +1,17 @@
 {
- "fetchedAt": "2026-11-25T08:43:35.823Z",
+ "fetchedAt": "2026-11-26T08:28:28.271Z",
  "mode": "recent",
  "loggedIn": false,
  "total": 1125,
- "ok": 1123,
+ "ok": 1122,
  "full": 0,
  "removed": 0,
  "pruneRefused": 0,
  "failed": [
+  {
+   "id": "CRYPTOCAP:ICX",
+   "error": "symbol_error: [\"sds_sym_1\",\"invalid symbol\"]"
+  },
   {
    "id": "CRYPTOCAP:STAT",
    "error": "symbol_error: [\"sds_sym_1\",\"invalid symbol\"]"
